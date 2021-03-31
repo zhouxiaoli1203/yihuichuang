@@ -31,6 +31,12 @@ export default new Router({
           // component: () => import('./../views/index/index.vue'),
           component: resolve => (require(['./../views/news/details.vue'], resolve)),
         },
+        {
+          path: '/print',
+          name: 'print',
+          // component: () => import('./../views/index/index.vue'),
+          component: resolve => (require(['./../views/print/print_home.vue'], resolve)),
+        },
       ]
     }
 

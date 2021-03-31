@@ -13,3 +13,25 @@
 img{
     object-fit: cover;
 }
+.fl{
+  float:left;
+}
+.rt{
+  float:right;
+}
+.t_a_c{
+  text-align: center;
+}
+.t_a_l{
+  text-align: left;
+}
+.t_a_r{
+  text-align: right;
+}
+.clearfix{
+  clear: both;
+  overflow: hidden;
+}
+.cursor_p{
+  cursor: pointer;
+}
