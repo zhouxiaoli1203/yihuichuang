@@ -1,18 +1,9 @@
 <template>
-  <div id="index">
+  <div id="index" class="main">
     <div class="center">
       <!-- 轮播图 -->
       <section class="bannerBox">
-        <div class="nav">
-
-          <ul>
-            <li>
-              <p>广告物料</p>
-              <i class="el-icon-arrow-right"></i>
-            </li>
-          </ul>
-
-        </div>
+        <BannerNav></BannerNav>
         <div class="block banner">
           <div class="searchBox">
             <div class="input">
@@ -249,12 +240,21 @@
         </template>
 
       </section>
-      
     </div>
+    <!-- <div class="commonIcon">
+      <ul>
+        <li>
+          <div class="icon">
+            <img :src="" alt="">
+            <p>服务热线</p>
+          </div>
+        </li>
+      </ul>
+    </div> -->
   </div>
 </template>
 <script>
-// import  banner from '../../components/banner'
+import BannerNav from '../../components/bannerNav'
 export default {
     name: 'index',
     data() {
@@ -268,8 +268,9 @@ export default {
         buyIcon2: require('../../assets/img/index/buyIcon2.png'),
         banner: require('../../assets/img/index/banner.jpg'),
 
-        activeName: 'first',
+        // banner: require('../../assets/img/index/banner.jpg'),
 
+        activeName: 'first',
         isCollapse: true,
         input: '',
         searchList:false,
@@ -471,7 +472,7 @@ export default {
       };
     },
     components: {
-      // banner,
+      BannerNav,
     },
     computed: {
       activeIndex: function(){
@@ -488,8 +489,16 @@ export default {
 
       handleClick(tab, event) {  // 新闻中心
         console.log(tab, event);
+      },
+
+      navMouseOver: function(index) {
+        console.log(index)
+        this.navActive = index
+      },
+      navMouseLeave: function(index) {
+         console.log(index+'1')
+        this.navActive = -1
       }
-    
     }
 
   }
@@ -497,7 +506,6 @@ export default {
 <style lang="less" scoped>
   #index{
     background: #f6f6f6;
-    padding-top: 24px;
     padding-bottom: 248px;
   }
 
@@ -522,14 +530,6 @@ export default {
     
     .el-carousel__item:nth-child(2n+1) {
       background-color: #d3dce6;
-    }
-
-
-
-    .nav{
-      width: 190px;
-      height: 100%;
-      background: #666;
     }
 
     .banner{

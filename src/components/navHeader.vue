@@ -52,6 +52,16 @@ export default {
 
 
 <style lang="less" scoped >
+
+    .navHeader{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 111;
+      background: #fff;
+      
+    }
     .headerCenter{
         display: flex;
         align-items: center;
