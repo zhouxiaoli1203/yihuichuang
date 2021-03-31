@@ -28,12 +28,11 @@ menu, nav, output, ruby, section, summary,
 time, mark, audio, video, input, button, textarea,select{
     margin: 0;
     padding: 0;
-    font-size: 12px;
     font-family: "微软雅黑";
     font-weight: normal;
-    color: #666;
     border: none;
     vertical-align: baseline;
+    font-size: 14px;
 }
  
 body{ line-height: 1; }
@@ -42,7 +41,6 @@ input,button,textarea,select,input:focus,textarea:focus{ background:none; outlin
 textarea{ resize: none; overflow: auto;}
 select{ border: none; }
 a,button{ cursor: pointer; }
-a{ text-decorattion: none; blr:expression(this.onFocus=this.blur());}
 blockquote, q { quotes: none; }
 blockquote:before, blockquote:after, q:before, q:after { content: none; }
  
@@ -82,11 +80,7 @@ sub,sup{ vertical-align: baseline; }
 html,body{ -moz-user-select: -moz-none; -moz-user-select: none; -o-user-select:none; -khtml-user-select:none; -webkit-user-select:none; -ms-user-select:none; user-select:none; }
 */
  
-/* 选中颜色修改 *IE10以下不支持*/
-::selection { background: #FF8888; color: #FFFFFF; }
-::-moz-selection { background: #FF8888; color: #FFFFFF; }
-::-webkit-selection { background: #FF8888; color: #FFFFFF; }
- 
+
  
 /* …………………………………………^_^………………………………………… 自定义样式 …………………………………………^_^………………………………………… */
  

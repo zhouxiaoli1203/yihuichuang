@@ -1,0 +1,11 @@
+.center{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.titH1{
+    font-size: 38px;
+    color: #333;
+    text-align: center;
+    margin: 80px 0;
+}
