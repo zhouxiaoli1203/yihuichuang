@@ -73,7 +73,7 @@ export default {
   .print-items{
     .items{
       width:1382px;
-      margin:0 auto;
+      margin:0 auto 68px;
       display: flex;
       flex-direction:column;
       .items-li{
@@ -97,7 +97,6 @@ export default {
         }
         .items-lunbo{
           width: 100%;
-          padding: 0 91px;
           border: 1px solid;
         .carousel-item{
           display:flex;
@@ -109,8 +108,19 @@ export default {
             border-radius: 8px;
           }
         }
-        
-        
+        .el-carousel--horizontal {
+          padding: 0 91px;
+          width: 100%;
+      }
+      /deep/.el-carousel__arrow--left{
+        left: -91px;
+      }
+      /deep/.el-carousel__arrow--right{
+        right: -91px;
+      }
+      /deep/.el-carousel__indicators--horizontal{
+        display: none;
+      }  
           
         }
       }
