@@ -4,6 +4,12 @@
       <!-- 轮播图 -->
       <section class="bannerBox">
         <div class="nav">
+          <ul>
+            <li>
+              <p>广告物料</p>
+              <i class="el-icon-arrow-right"></i>
+            </li>
+          </ul>
         </div>
         <div class="block banner">
           <div class="searchBox">
