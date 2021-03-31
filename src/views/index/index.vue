@@ -4,12 +4,14 @@
       <!-- 轮播图 -->
       <section class="bannerBox">
         <div class="nav">
+
           <ul>
             <li>
               <p>广告物料</p>
               <i class="el-icon-arrow-right"></i>
             </li>
           </ul>
+
         </div>
         <div class="block banner">
           <div class="searchBox">
@@ -197,7 +199,6 @@
       <!-- 新闻中心 -->
       <section class="newsBox">
         <h1 class="titH1">新闻中心</h1>
-
         <template>
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="行业动态" name="first">
@@ -502,7 +503,7 @@ export default {
 
   // 轮播图
   .bannerBox{
-    
+
     display: flex;
     align-items: center;
     height: 500px;
