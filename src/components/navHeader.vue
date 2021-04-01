@@ -6,8 +6,8 @@
             </div>
             <!-- router -->
             <el-menu :default-active="activeIndex" active-text-color="#4E9F5B" class="el-menu-demo" mode="horizontal" @select="handleSelect"  theme="dark"  router>
-                <el-menu-item index="index">首页</el-menu-item>
-                <el-menu-item index="print">在线印刷</el-menu-item>
+                <el-menu-item index="/index">首页</el-menu-item>
+                <el-menu-item index="/print">在线印刷</el-menu-item>
                 <el-menu-item index="">设计模板</el-menu-item>
                 <el-menu-item index="">定制服务</el-menu-item>
                 <el-menu-item index="">服务保障</el-menu-item>
@@ -35,19 +35,22 @@ export default {
       logo: require('../assets/img/common/logo.png'),
       cart: require('../assets/img/common/cart.png'),
       head: require('../assets/img/common/head.png'),
-      activeIndex:'index'
+      activeIndex:'/index'
     }
+  },
+  created(){
+    this.activeIndex = this.$store.state.currentIndex;
   },
   methods: {
     handleSelect(index) {
       this.activeIndex = index;
       console.log(index+'11111111')
-      window.sessionStorage.setItem('navName', index)
+      this.$store.state.currentIndex = index;
     },
   },
   watch: {
     $route() {
-      this.handleSelect(this.activeIndex)
+      // this.handleSelect(this.activeIndex)
     }
   }
 }

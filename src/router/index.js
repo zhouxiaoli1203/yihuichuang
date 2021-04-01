@@ -35,6 +35,7 @@ export default new Router({
           path: '/print',
           // component: () => import('./../views/print/print_home.vue'),
           component: resolve => (require(['./../views/print/print_home.vue'], resolve)),
+          
         },
         {
           path: '/print/more',
