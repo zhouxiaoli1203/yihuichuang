@@ -2,16 +2,16 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import './assets/css/base.css';
 import './assets/css/common.css';
-// import './assets/css/commonStlye.css';
+import './assets/css/commonStlye.less';
 import Vue from 'vue'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
+// import MVUI from './myCmpns/index';
 import 'element-ui/lib/theme-chalk/index.css';
 import store from './store'   //导入store
 // import './assets/css/element-variables.scss'
 // import './assets/css/element-variables.scss';
-
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 
