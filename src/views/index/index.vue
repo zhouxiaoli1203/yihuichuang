@@ -463,9 +463,11 @@ export default {
     components: {
       BannerNav,
     },
-    computed: {
-      activeIndex: function(){
-        return this.$route.path.replace('/', '');
+    created(){
+      let indexHome = this.$store.state.indexHome;
+      if(indexHome){
+        this.$store.state.indexHome = ''
+        window.location.reload();
       }
     },
     methods: {

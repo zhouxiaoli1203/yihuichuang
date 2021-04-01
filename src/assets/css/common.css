@@ -60,3 +60,47 @@ img{
 .bgray{
   background: #FAFBFF;
 }
+
+
+/* 面包屑 */
+.crumbs{
+  margin-bottom: 24px;
+}
+
+.crumbs{
+  display: flex;
+  align-items: center;
+}
+
+.crumbs span{
+  margin-right: 8px;
+  cursor: pointer;
+  color: #666;
+}
+
+.crumbs span:last-child{
+  color: #333;
+}
+
+/* 新闻中心/关于我们/帮助支持公用样式 */
+.publicCenter{
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 57px;
+}
+.publicCenter .contList {
+  width: 976px;
+  height: 923px;
+  background: #FFFFFF;
+}
+
+.publicCenter .contList .paging{
+  position: absolute;
+  left: 50%;
+  bottom: 49px;
+  transform: translate(-50%,0);
+}
+
+
+
+
