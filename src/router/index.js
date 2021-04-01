@@ -33,13 +33,26 @@ export default new Router({
         },
         {
           path: '/print',
-          name: 'print',
-          component: () => import('./../views/print/print_home.vue'),
-          // component: resolve => (require(['./../views/print/print_home.vue'], resolve)),
+          // component: () => import('./../views/print/print_home.vue'),
+          component: resolve => (require(['./../views/print/print_home.vue'], resolve)),
         },
+        {
+          path: '/print/more',
+          name: 'more',
+          // component: () => import('./../views/print/print_home.vue'),
+          component: resolve => (require(['./../views/print/print_more.vue'], resolve)),
+        },
+        {
+          path: '/print/detial',
+          name: 'pdetial',
+          // component: () => import('./../views/print/print_home.vue'),
+          component: resolve => (require(['./../views/print/print_detial.vue'], resolve)),
+        },
+       
       ]
     }
 
   ]
+  
   
 })

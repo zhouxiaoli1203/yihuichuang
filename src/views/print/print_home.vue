@@ -1,5 +1,5 @@
 <template>
-  <div class='print-online'>
+  <div class='print-online main bgray'>
     <div class="banner center">
       <div class="column"></div>
       <div class="lunbo">
@@ -15,13 +15,20 @@
         <li class="items-li" v-for="(x,index) in items">
             <div class="items-header">
               <div class="items-header-t fl">{{x.title}}</div>
-              <div class="items-header-m fr">更多</div>
+              <!-- <div class="items-header-m fr cursor_p" @click="gotoMore(x)">更多</div> -->
+              <div class="items-header-m fr cursor_p"><router-link to="/print/more">更多</router-link></div>
             </div>
             <div class="items-lunbo">
               <el-carousel arrow="always" :autoplay="false" height="400px">
                 <el-carousel-item v-for="item in 6" :key="item">
-                  <ul class="carousel-item">
-                    <li></li>
+                  <ul class="card-style">
+                    <li>
+                      <div class="image"></div>
+                      <div class="title">海报印刷</div>
+                      <div class="number">
+                        <span>34元</span>/<span>100张</span>
+                      </div>
+                    </li>
                     <li></li>
                     <li></li>
                   </ul>
@@ -31,6 +38,7 @@
         </li>
       </ul>
     </div>
+  <router-view></router-view>
   </div>
 </template>
 
@@ -51,7 +59,11 @@ export default {
   components: {},
   created(){},
   mounted(){},
-  methods: {}
+  methods: {
+    gotoMore:function(data){
+      
+    }
+  }
 }
 </script>
 <style lang='less' scoped>
@@ -98,29 +110,51 @@ export default {
         .items-lunbo{
           width: 100%;
           border: 1px solid;
-        .carousel-item{
-          display:flex;
-          justify-content: space-between;
-          li{
-            width: 368px;
-            height: 400px;
-            background: #D8D8D8;
-            border-radius: 8px;
+          .card-style{
+            display:flex;
+            justify-content: space-between;
+            >li{
+              width: 368px;
+              height: 400px;
+              background: #D8D8D8;
+              border-radius: 8px;
+              .image{
+                width: 190px;
+                height: 204px;
+                margin:47px auto 32px;
+                border: 1px solid #666;
+              }
+              .title{
+                text-align: center;
+                font-size: 16px;
+                color:#333333;
+                margin-bottom: 32px;
+              }
+              .number{
+                text-align: center;
+                font-size: 16px;
+                color:#333333;
+              }
+            }
           }
-        }
         .el-carousel--horizontal {
           padding: 0 91px;
           width: 100%;
-      }
-      /deep/.el-carousel__arrow--left{
-        left: -91px;
-      }
-      /deep/.el-carousel__arrow--right{
-        right: -91px;
-      }
-      /deep/.el-carousel__indicators--horizontal{
-        display: none;
-      }  
+        }
+        /deep/.el-carousel__arrow--left{
+          left: -91px;
+        }
+        /deep/.el-carousel__arrow--right{
+          right: -91px;
+        }
+        /deep/.el-carousel__indicators--horizontal{
+          display: none;
+        } 
+        // /deep/.el-carousel__arrow{
+        //   width: 44px;
+        //   height: 44px;
+        //   background-color: #fff;
+        // } 
           
         }
       }
