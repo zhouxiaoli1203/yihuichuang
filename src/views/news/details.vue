@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main">
     新闻列表3详情
   </div>
 </template>

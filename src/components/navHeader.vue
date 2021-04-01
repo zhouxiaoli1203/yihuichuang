@@ -30,22 +30,25 @@
 <script>
 export default {
   name: 'navHeader',
-  computed: {
-    activeIndex: function(){
-      return this.$route.path.replace('/', '');
-    }
-  },
   data () {
     return {
       logo: require('../assets/img/common/logo.png'),
       cart: require('../assets/img/common/cart.png'),
-      head: require('../assets/img/common/head.png')
+      head: require('../assets/img/common/head.png'),
+      activeIndex:'index'
     }
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+    handleSelect(index) {
+      this.activeIndex = index;
+      console.log(index+'11111111')
+      window.sessionStorage.setItem('navName', index)
     },
+  },
+  watch: {
+    $route() {
+      this.handleSelect(this.activeIndex)
+    }
   }
 }
 </script>

@@ -241,20 +241,11 @@
 
       </section>
     </div>
-    <!-- <div class="commonIcon">
-      <ul>
-        <li>
-          <div class="icon">
-            <img :src="" alt="">
-            <p>服务热线</p>
-          </div>
-        </li>
-      </ul>
-    </div> -->
   </div>
 </template>
 <script>
 import BannerNav from '../../components/bannerNav'
+
 export default {
     name: 'index',
     data() {
@@ -267,8 +258,6 @@ export default {
         buyIcon1: require('../../assets/img/index/buyIcon1.png'),
         buyIcon2: require('../../assets/img/index/buyIcon2.png'),
         banner: require('../../assets/img/index/banner.jpg'),
-
-        // banner: require('../../assets/img/index/banner.jpg'),
 
         activeName: 'first',
         isCollapse: true,
@@ -490,15 +479,6 @@ export default {
       handleClick(tab, event) {  // 新闻中心
         console.log(tab, event);
       },
-
-      navMouseOver: function(index) {
-        console.log(index)
-        this.navActive = index
-      },
-      navMouseLeave: function(index) {
-         console.log(index+'1')
-        this.navActive = -1
-      }
     }
 
   }
@@ -508,6 +488,7 @@ export default {
     background: #f6f6f6;
     padding-bottom: 248px;
   }
+
 
   // 轮播图
   .bannerBox{
@@ -641,6 +622,7 @@ export default {
           color: #333330;
           margin-top: 16px;
         }
+        
       }
     }
   }
