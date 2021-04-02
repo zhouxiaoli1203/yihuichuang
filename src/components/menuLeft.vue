@@ -9,9 +9,9 @@
                 class="el-menu-vertical-demo"
                 background-color="#fff"
                 text-color="#333"
-                active-text-color="#fff">
+                active-text-color="#fff" router>
                 <template v-for="(item, index) in commonList">
-                    <el-menu-item :index="item.tit">
+                    <el-menu-item :index="item.url">
                     <span slot="title">{{item.tit}}</span>
                     </el-menu-item>   
                 </template>
@@ -31,6 +31,9 @@ export default {
             activeIndex:'',
             commonList:[]
         }
+    },
+    created(){
+        this.activeIndex = this.$store.state.menuLeft;
     },
     mounted(){
         let navName = this.$store.state.publicHome;
@@ -94,42 +97,51 @@ export default {
             ]
         }
         if(navName=='/user'){
-            this.activeIndex='个人资料'
+            this.activeIndex='/user'
             this.commonList= [
                 {
                     tit:'个人资料',
-                    index:0
+                    index:0,
+                    url:'/user'
                 },
                 {
                     tit:'订单管理',
-                    index:1
+                    index:1,
+                    url:'/user/userOrder'
                 },
                 {
                     tit:'收货地址',
-                    index:2
+                    index:2,
+                    url:'/user/userAddress'
                 },
                 {
                     tit:'发票管理',
-                    index:3
+                    index:3,
+                    url:'/user/userInvoice'
                 },
                 {
                     tit:'文件打印',
-                    index:4
+                    index:4,
+                    url:'/user/userFile'
                 },
                 {
                     tit:'证件照',
-                    index:5
+                    index:5,
+                    url:'/user/userPhoto'
                 },
                 {
                     tit:'余额管理',
-                    index:6
+                    index:6,
+                    url:'/user/userBalance'
                 }
             ]
         }
     },
     methods: {
-        handleSelect(key, keyPath) {
+        handleSelect(key) {
+            console.log(key)
             this.activeIndex=key
+            this.$store.state.menuLeft = key; //导航高亮
         }
     }
 

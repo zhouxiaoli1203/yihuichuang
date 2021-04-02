@@ -21,7 +21,7 @@
                                 </p>
                             </div>
                         </div>
-                        <i class="el-icon-edit-outline"></i>
+                        <i class="el-icon-edit-outline" @click="userPublic = true"></i>
                     </div>
                     <div class="btn">
                         <span>充值</span>
@@ -46,15 +46,64 @@
     </section>
 
     <!-- 修改资料弹框 -->
-    <section class="modifyBox">
+    <section class="modifyBox"  v-show="userPublic" >
+        <i class="el-icon-close"></i>
         <div class="tabNav">
-            <el-tabs tab-position="left" type="border-card" style="height: 521px;">
-                <el-tab-pane label="用户管理">个人资料</el-tab-pane>
-                <el-tab-pane label="配置管理">头像</el-tab-pane>
-                <el-tab-pane label="角色管理">手机号</el-tab-pane>
+            <el-tabs tab-position="left" type="border-card" style="height: 100%;">
+                <el-tab-pane label="个人资料">
+                    <div class="editInput">
+                        <h4>编辑用户名称</h4>
+                        <div class="input">
+                            <input type="text" placeholder="请输入用户名称">
+                        </div>
+                    </div>
+                    <div class="btn">
+                        <span  @click="userClose">取消</span>
+                        <span>确定</span>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="头像">
+                    <div class="upHead">
+                        <div class="img">
+                            <img width="100%" :src="dialogImageUrl" alt="">
+                        </div>
+                        <el-upload
+                            class="upload-demo "
+                            :show-file-list="false"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :on-change="handleChange"
+                            :file-list="fileList">
+                            <el-button size="small" type="primary">上传头像</el-button>
+                        </el-upload>
+                    </div>
+                    <div class="btn">
+                        <span>取消</span>
+                        <span>确定</span>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="手机号">
+                    <div class="editInput">
+                        <h4>修改手机号</h4>
+                        <div class="input">
+                            <input type="text" placeholder="请输入原手机号">
+                        </div>
+                        <div class="input">
+                            <input type="text" placeholder="请输入新手机号">
+                        </div>
+                        <div class="input">
+                            <input type="text" placeholder="请输入验证码">
+                            <span>短信验证码</span>
+                        </div>
+                    </div>
+                    <div class="btn">
+                        <span>取消</span>
+                        <span>确定</span>
+                    </div>
+                </el-tab-pane>
             </el-tabs>
         </div>
     </section>
+    <div class="mask" v-show="userPublic" @click="userClose"></div>
   </div>
 </template>
 
@@ -67,20 +116,34 @@
     },
     data () {
       return {
-          moneyIcon: require('../../assets/img/user/moneyIcon.png'),
+        moneyIcon: require('../../assets/img/user/moneyIcon.png'),
+        dialogImageUrl: '',
+        dialogVisible: false,
+        userPublic: false,
       }
     },
     methods: {
-      gotoMore(){
-        // this.$router.push("/news/details" + e.id+"/"+e.paperName);
-        this.$router.push("/news/detail");
-      },
-       // 点击首页
-      pathIndex(){
-        this.$store.state.currentIndex = '/index';
-        this.$store.state.indexHome = '/index';
-        this.$router.push("/index");
-      },
+        gotoMore(){
+            this.$router.push("/news/detail");
+        },
+        // 点击首页
+        pathIndex(){
+            this.$store.state.currentIndex = '/index';
+            this.$store.state.indexHome = '/index';
+            this.$router.push("/index");
+        },
+
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePictureCardPreview(file) {
+            this.dialogImageUrl = file.url;
+            // this.dialogVisible = true;
+        },
+        userClose(){
+            this.userPublic=false
+        },
+
     }
   }
 </script>
@@ -195,9 +258,119 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 570px;
-    height: 521px;
+    width: 30%;
+    // height: 521px;
+    height: 50%;
     background: #FFFFFF;
     border-radius: 8px;
+    overflow: hidden;
+    min-height: 400px;
+    min-width: 450px;
+    z-index: 11;
+
+    .tabNav{
+        height: 100%;
+    }
+
+    .el-icon-close{
+        width: 82%;
+        height: 40px;
+        background: #F9F7F7;
+        text-align: right;
+        line-height: 40px;
+        font-size: 24px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding-right: 24px;
+    }
+
+    .editInput{
+        h4{
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input{
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+
+            input{
+                flex: 1;
+                height: 34px;
+                background: #FFFFFF;
+                border-radius: 4px;
+                border: 1px solid #979797;
+                text-indent: 8px;
+               
+            }
+            span{
+                width: 88px;
+                height: 34px;
+                background: #4E9F5B;
+                border-radius:4px;
+                color: #fff;
+                margin-left: 5px;
+                line-height: 34px;
+                text-align: center;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .btn{
+        position: absolute;
+        bottom: 15px;
+        left: 0;
+        right: 0;
+        text-align: center;
+
+        span{
+            width: 84px;
+            height: 34px;
+            background: #4E9F5B;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            line-height: 34px;
+        }
+        span:first-child{
+            background: #DBDBDB;
+            margin-right: 48px;
+        }
+
+         span:last-child{
+            background: #4E9F5B;
+        }
+    }
+
+    .upHead{
+        .img{
+            width: 100%;
+            height: 188px;
+            background: #F5F6FA;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            img{
+                width: 130px;
+                height: 130px;
+                border: 1px solid #fff;
+                border-radius: 50%;
+            }
+        }
+    }
   }
+
+   .mask{
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
 </style>

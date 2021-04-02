@@ -117,5 +117,37 @@ img{
   color: #333;
 }
 
+.modifyBox .el-tabs--left .el-tabs__header.is-left{
+  width: 18%;
+  margin-right: 0;
+}
+.modifyBox .el-tabs--left .el-tabs__item.is-left{
+  text-align: center;
+}
+.modifyBox .el-tabs__item{
+  padding: 0;
+}
+.modifyBox .el-tabs--border-card>.el-tabs__content{
+  width: 80%;
+  padding: 72px 32px 32px;
+  position: relative;
+  height: 100%;
+}
+
+.modifyBox .upload-demo {
+  text-align: center;
+}
+
+.modifyBox .el-button--primary{
+  background-color: #4E9F5B;
+  border-color: #4E9F5B;
+  width: 224px;
+  margin-top: 32px;
+}
+.modifyBox .el-button--primary:hover{
+  background-color: #4E9F5B;
+  border-color: #4E9F5B;
+}
+
 
 
