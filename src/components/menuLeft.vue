@@ -33,7 +33,7 @@ export default {
         }
     },
     mounted(){
-        let navName = this.$store.state.currentIndex;
+        let navName = this.$store.state.publicHome;
         if(navName=='/news'){
             this.activeIndex='行业动态'
             this.commonList= [
@@ -90,6 +90,39 @@ export default {
                 {
                     tit:'线下店分布',
                     index:3
+                }
+            ]
+        }
+        if(navName=='/user'){
+            this.activeIndex='个人资料'
+            this.commonList= [
+                {
+                    tit:'个人资料',
+                    index:0
+                },
+                {
+                    tit:'订单管理',
+                    index:1
+                },
+                {
+                    tit:'收货地址',
+                    index:2
+                },
+                {
+                    tit:'发票管理',
+                    index:3
+                },
+                {
+                    tit:'文件打印',
+                    index:4
+                },
+                {
+                    tit:'证件照',
+                    index:5
+                },
+                {
+                    tit:'余额管理',
+                    index:6
                 }
             ]
         }

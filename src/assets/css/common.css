@@ -101,6 +101,21 @@ img{
   transform: translate(-50%,0);
 }
 
+/* 个人中心修改资料标签页样式 */
+.modifyBox .el-tabs--border-card>.el-tabs__header{
+  background: #dffde4;
+}
+.modifyBox .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+  color: #fff;
+  background-color: #4E9F5B;
+}
+
+.modifyBox .el-tabs--border-card>.el-tabs__header .el-tabs__item{
+  color: #333;
+}
+.modifyBox .el-tabs--border-card>.el-tabs__header .el-tabs__item:not(.is-disabled):hover{
+  color: #333;
+}
 
 
 
