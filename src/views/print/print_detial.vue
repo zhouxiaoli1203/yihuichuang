@@ -5,11 +5,8 @@
         <span class="cursor_p" @click="goBack()">在线印刷</span><span class="current">&nbsp;/&nbsp;商品详情</span>
       </div>
       <div class="print-detail-operate">
-        <div class="operate-left">
-        </div>
-        <div class="operate-right">
-          <img src="" alt="">
-        </div>
+
+        
       </div>
       <div class="print-detail-info">
         <div class="fl relation">
@@ -67,18 +64,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .print-detail-operate{
-  display: flex;
-  justify-content: space-between;
-  .operate-left{
-    width: 707px;
-    
-  }
-  .operate-right{
-    width: 456px;
-    height: 559px;
-    background: #333333;
-    border-radius: 8px;
-  }
+  
 }
 .print-detail-info{
   margin:58px auto 0;

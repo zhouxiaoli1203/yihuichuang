@@ -40,6 +40,7 @@ export default {
   },
   created(){
     this.activeIndex = this.$store.state.currentIndex;
+    this.$post("post",this.baseUrl+"/oa/opi",{id:1}).then();
   },
   methods: {
     handleSelect(index) {
