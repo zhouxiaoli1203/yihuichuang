@@ -1,3 +1,4 @@
+
 export function validateRequire(val) {
   if (val || val === 0 || val === '0') {
     return true
@@ -40,4 +41,5 @@ export function validateStringLen(val, len) {
   } else {
     return false
   }
+
 }

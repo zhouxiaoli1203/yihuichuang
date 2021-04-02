@@ -1,3 +1,4 @@
+
 const filters = {
     // 空值
     isEmpty(val) {
@@ -42,4 +43,5 @@ export default (Vue) => {
     Object.keys(filters).forEach(key => {
         Vue.filter(key, filters[key])
     })
+
 }

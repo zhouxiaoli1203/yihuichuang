@@ -1,3 +1,4 @@
+
 <template>
   <div class='operate-part center'>
     <div class="operate-left">
@@ -60,3 +61,4 @@ export default {
   }
 }
 </style>
+

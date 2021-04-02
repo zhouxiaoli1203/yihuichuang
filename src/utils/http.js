@@ -1,8 +1,9 @@
+
 /**axios封装
  * 请求拦截、相应拦截、错误统一处理
  */
 import axios from 'axios';
-// import { Toast } from 'vant';
+import { Toast } from 'vant';
 // import { message } from 'ant-design-vue'
 import {message} from 'element-ui';
 import Vue from 'vue';
@@ -44,7 +45,7 @@ if (process.env.NODE_ENV == 'development') {
 }
 
 let token_invalid = false;
-// yhcmessage = isApp || isWechat ? Toast : "错误";
+yhcmessage = isApp || isWechat ? Toast : "错误";
 // yhcmessage = isApp || isWechat ? Toast : message.error;
 // 请求超时时间
 axios.defaults.timeout = 15000;
@@ -130,4 +131,5 @@ export function yhcReq(methods, url, params, yhc_f_a, needCatch) {/*  */
         })
     });
 }
+
 export const baseUrl = window.location.protocol + '//' + window.location.host

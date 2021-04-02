@@ -13,7 +13,6 @@ import './assets/css/common.css';
 import './assets/css/commonStlye.less';
 import 'element-ui/lib/theme-chalk/index.css';
 
-
 //全局公用函数
 import Fns from './utils/common'
 Object.keys(Fns).forEach(key => {
