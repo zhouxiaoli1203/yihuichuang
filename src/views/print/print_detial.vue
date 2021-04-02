@@ -5,8 +5,12 @@
         <span class="cursor_p" @click="goBack()">在线印刷</span><span class="current">&nbsp;/&nbsp;商品详情</span>
       </div>
       <div class="print-detail-operate">
-
-        
+        <div class="operate-left">
+               <myComponent  :title=title  :addFormData=addFormData > </myComponent>
+        </div>
+        <div class="operate-right">
+        <img src="" alt="">
+      </div>
       </div>
       <div class="print-detail-info">
         <div class="fl relation">
@@ -36,6 +40,7 @@
 </template>
 
 <script>
+import myComponent from "@/components/operatePart"
 export default {
   name: 'pdetial',
   data(){
@@ -45,11 +50,17 @@ export default {
       editableTabs:[
         {name:"detail",title:"产品详情",content:"11111111111"},
         {name:"server",title:"售后服务",content:"22222222222"},
-      ]
+      ],
+      title:"测试动态组件",
+      show:true,
+      addFormData:[]
     }
   },
-  components: {},
-  created(){},
+  components: {myComponent},
+  created(){
+    this.addFormData = JSON.parse(this.$route.query.data).formData;
+    console.log(this.addFormData);
+  },
   mounted(){},
   methods: {
     goBack:function(){
@@ -64,7 +75,7 @@ export default {
 </script>
 <style lang='less' scoped>
 .print-detail-operate{
-  
+    
 }
 .print-detail-info{
   margin:58px auto 0;
