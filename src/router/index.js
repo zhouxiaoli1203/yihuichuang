@@ -30,9 +30,8 @@ export default new Router({
         },
         {
           path: '/print',
-          // component: () => import('./../views/print/print_home.vue'),
-          component: resolve => (require(['@/views/print/ceshi.vue'], resolve)),
-
+          name:"print",
+          component: () => import('./../views/print/print_home.vue'),
         },
         {
           path: '/print/more',
@@ -107,13 +106,6 @@ export default new Router({
        
       ],
     },
-    {
-      path: '/dynamicIndex',
-      // name: 'pdetial',
-      // component: () => import('./../views/print/print_home.vue'),
-      component: resolve => (require(['@/views/print/print_detial.vue'], resolve)),
-    },
-
   ],
   scrollBehavior(to, from, saveTop){
     if (saveTop) {

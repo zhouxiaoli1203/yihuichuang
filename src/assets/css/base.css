@@ -33,10 +33,9 @@ time, mark, audio, video, input, button, textarea,select{
     border: none;
     vertical-align: baseline;
     font-size: 14px;
-    font-family: PingFangSC-Regular, PingFang SC;
     box-sizing: border-box;
 }
- 
+
 body{ line-height: 1; }
 ul,ol{ list-style: none; }
 input,button,textarea,select,input:focus,textarea:focus{ background:none; outline:none; }

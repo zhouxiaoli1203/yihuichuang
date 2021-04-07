@@ -9,6 +9,7 @@
     color:#999 ;    
   }
 }
+// 产品详情页--相关产品--card样式
 .card-style{
   display:flex;
   justify-content: space-between;
@@ -37,4 +38,125 @@
       color:#333333;
     }
   }
+}
+// form表单内的radio CheckBox input label 等样式
+.el-form-item{
+    margin-bottom:24px;
+  
+    .el-form-item__content{
+        line-height: 34px !important;
+    }
+    .el-input__inner,.el-cascader{
+        height: 34px !important;
+        line-height: 34px !important;
+    }
+    .el-checkbox{
+        margin-right: 20px !important;
+        .el-checkbox__label{
+            padding-left: 6px;
+        }
+    }
+    .el-form-item__label{
+        width: 100px;
+        text-align: left;
+        padding-right:16px;
+        line-height: 34px !important;
+    }
+
+    .el-input-number{
+        width: 110px;
+        height: 34px;
+        line-height: 34px !important;
+    }
+    .el-input-number__decrease, .el-input-number__increase{
+        width: 33px;
+        height: 32px;
+    }
+    .el-button--primary {
+        background: #4E9F5B;
+        color:#fff;
+        border-color: #4E9F5B;
+        width: 110px;
+        float: left;
+    }
+    .el-button--primary:hover,.el-button--primary:active{
+        background: #4E9F5B;
+        border-color: #4E9F5B;
+    }
+    .el-upload{
+        float: left;
+    }
+    .el-upload-list{
+        float: left;
+        margin-left: 20px;
+        width: 364px;
+        display: flex;
+        flex-wrap:wrap;
+        li{
+            display: inline-block;
+            margin-right: 8px;
+            width: 115px;
+            height: 34px;
+            background-color: rgba(102,102,102,0.1);
+            border-radius: 4px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            &:last-child{
+                margin-right: 0;
+            }
+            
+        }
+        .el-icon-document{
+            display: none;
+        }
+        .el-upload-list__item-name{
+            line-height: 34px;
+        }
+        .el-upload-list__item-status-label{
+            line-height: 34px;
+        }
+        .el-upload-list__item .el-icon-close{
+            top: 10px;
+        }
+    }
+}
+// 自己写的tabs切换
+.tabs-box{
+    display: flex;
+    .tab-plane{
+        font-size:16px;
+        color:#999;
+        padding: 4px 0;
+        margin-right: 8px;
+        &.active{
+            color:#4E9F5B;
+            border-bottom: 2px solid #4E9F5B;
+        }
+    }
+}
+// 确定、取消按钮box
+.btn-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 20px;
+    .btn{
+        width: inherit;
+        height: 34px;
+        line-height: 20px;
+        padding: 7px 24px;
+        text-align: center;
+        font-size: 14px;
+        border-radius: 4px;
+        color:#fff;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .cancel{
+        background: #DBDBDB;
+        margin-right: 24px;
+    }
+    .sure{
+        background: #4E9F5B;
+    }
 }
