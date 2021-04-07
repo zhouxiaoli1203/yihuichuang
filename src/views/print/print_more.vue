@@ -73,4 +73,10 @@ export default {
   }
 
 }
+.card-style{
+ 
+  li{
+    margin-bottom: 48px;
+  }
+}
 </style>

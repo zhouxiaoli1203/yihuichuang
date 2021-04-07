@@ -8,10 +8,10 @@ import store from './store/store'
 import { yhcReq,baseUrl } from './utils/http'
 
 // 样式
+import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/base.css';
 import './assets/css/common.css';
 import './assets/css/commonStlye.less';
-import 'element-ui/lib/theme-chalk/index.css';
 
 //全局公用函数
 import Fns from './utils/common'

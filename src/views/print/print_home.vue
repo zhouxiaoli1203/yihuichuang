@@ -14,7 +14,7 @@
     </div>
     <div class="print-items">
       <ul class="items">
-        <li class="items-li" v-for="(x,index) in items">
+        <li class="items-li center" v-for="(x,index) in items">
             <div class="items-header">
               <div class="items-header-t fl">{{x.title}}</div>
               <div class="items-header-m fr cursor_p" @click="gotoMore(x)">更多</div>
@@ -24,7 +24,7 @@
               <el-carousel arrow="always" :autoplay="false" height="400px">
                 <el-carousel-item v-for="item in 6" :key="item">
                   <ul class="card-style">
-                    <li>
+                    <li class="cursor" @click="goDetail()">
                       <div class="image"></div>
                       <div class="title">海报印刷</div>
                       <div class="number">
@@ -72,6 +72,13 @@ export default {
         query:{           //路由传参时push和query搭配使用 ，作用时传递参数
         }
       })
+    },
+    goDetail:function(){
+      this.$router.push({  //核心语句
+        path:'/print/detial',   //跳转的路径
+        query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+        }
+      })
     }
   }
 }
@@ -94,14 +101,12 @@ export default {
   }
   .print-items{
     .items{
-      width:1382px;
       margin:0 auto 68px;
       display: flex;
       flex-direction:column;
       .items-li{
-        width: 100%;
         .items-header{
-          padding:30px 91px 25px;
+          padding:30px 0px 25px;
           height: 88px;
           vertical-align: bottom;
           .items-header-t{
@@ -121,23 +126,11 @@ export default {
           width: 100%;
           border: 1px solid;
         .el-carousel--horizontal {
-          padding: 0 91px;
           width: 100%;
-        }
-        /deep/.el-carousel__arrow--left{
-          left: -91px;
-        }
-        /deep/.el-carousel__arrow--right{
-          right: -91px;
         }
         /deep/.el-carousel__indicators--horizontal{
           display: none;
         } 
-        // /deep/.el-carousel__arrow{
-        //   width: 44px;
-        //   height: 44px;
-        //   background-color: #fff;
-        // } 
           
         }
       }

@@ -34,6 +34,9 @@ export default {
   overflow: hidden;
   margin-bottom: 22px;
   background-color: rgba(78,159,91,0.1);
+  .form-label{
+      width: 100px;
+  }
   ul {
     // clear: both;
     // overflow: hidden;

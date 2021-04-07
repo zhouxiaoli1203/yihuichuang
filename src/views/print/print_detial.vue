@@ -38,7 +38,7 @@
               </el-upload>
             </el-form-item>
             <el-form-item label="没有满意模板">
-                <div class="btn green">设计定制</div>
+                <el-button size="small" type="success">设计定制</el-button>
             </el-form-item>
           </el-form>
           <!-- 在线估价弹框 -->
@@ -199,16 +199,6 @@ export default {
     height: -webkit-fill-available;
   }
 
-  /deep/.el-tabs--border-card {
-    border: none;
-    .el-tabs__item {
-      height: 44px;
-      border-top: 3px solid transparent;
-    }
-    .el-tabs__item.is-active {
-      color: #4e9f5b;
-      border-top-color: #4e9f5b;
-    }
-  }
+
 }
 </style>

@@ -9,7 +9,7 @@
 
       <el-form-item label="写真"
                     class="xiezhen">
-                    
+
         <el-select class="form-contrl"
                    placeholder="户外写真"
                    v-model="params.outer">
@@ -29,20 +29,20 @@
       </el-form-item>
       <el-form-item label="材料"
                     class="cailiao">
-                    <el-col :span="14">
+        <el-col :span="14">
 
-        <el-select class="form-contrl width100"
-                   placeholder="选择材料"
-                   v-model="params.mate">
-          <el-option v-for="i in outer"
-                     :label="i.name"
-                     :value="i.value"
-                     :key="i.value"></el-option>
-        </el-select>
-                    </el-col>
+          <el-select class="form-contrl width100"
+                     placeholder="选择材料"
+                     v-model="params.mate">
+            <el-option v-for="i in outer"
+                       :label="i.name"
+                       :value="i.value"
+                       :key="i.value"></el-option>
+          </el-select>
+        </el-col>
       </el-form-item>
       <el-form-item label="尺寸(米)"
-                    class="rules mg-none">
+                    class="rules">
         <el-col :span="6">
           <el-input v-model="params.rule"
                     placeholder="长边"></el-input>
@@ -74,7 +74,8 @@
                          :min="1"
                          :max="10"></el-input-number>
       </el-form-item>
-      <el-form-item label="工艺" class="mg-none">
+      <el-form-item label="工艺"
+                    class="mg-none">
         <el-checkbox-group v-model="params.type">
           <el-checkbox label="覆亮膜"
                        name="type"></el-checkbox>
@@ -109,7 +110,7 @@ export default {
         typeNum: 1,
         type: '',
       },
-      
+
       innerValue: '',
       outerValue: '',
       inner: [
@@ -134,8 +135,8 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    handleChange: function () {}
-  }
+    handleChange: function () {},
+  },
 }
 </script>
 <style lang='less' scoped>
@@ -151,7 +152,6 @@ export default {
     }
   }
   .cailiao {
-   
   }
 }
 </style>
