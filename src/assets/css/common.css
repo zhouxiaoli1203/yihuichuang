@@ -63,8 +63,12 @@ img{
 
 
 /* 面包屑 */
-.crumbs{
+
+.crumbsHeader{
   margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+
 }
 
 .crumbs{
@@ -149,5 +153,34 @@ img{
   border-color: #4E9F5B;
 }
 
+
+/* 个人中心 打印文件 多选 */
+.checkboxBox .el-checkbox__label{
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.checkboxBox .el-checkbox__input.is-checked+.el-checkbox__label{
+  color: #333333;
+}
+
+.checkboxBox label.is-checked{
+  background: rgba(78, 159, 91, 0.1);
+}
+
+.checkboxBox .el-checkbox__inner{
+  width: 16px;
+  height: 16px;
+}
+.checkboxBox .el-checkbox__inner::after{
+  height: 8px;
+  left: 5px;
+}
+.checkboxBox .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+  background-color: #4E9F5B;
+  border-color:#4E9F5B;
+}
 
 

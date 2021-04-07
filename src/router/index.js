@@ -69,6 +69,41 @@ export default new Router({
           name: 'userOrder',
           component: () => import('@/views/user/userOrder.vue'),
         },
+        {
+          path: '/user/userAddress',
+          name: 'userAddress',
+          component: () => import('@/views/user/userAddress.vue'),
+        },
+        {
+          path: '/user/userInvoice',
+          name: 'userInvoice',
+          component: () => import('@/views/user/userInvoice.vue'),
+        },
+        {
+          path: '/user/userFile',
+          name: 'userFile',
+          component: () => import('@/views/user/userFile.vue'),
+        },
+        {
+          path: '/user/userPicture',
+          name: 'userPicture',
+          component: () => import('@/views/user/userPicture.vue'),
+        },
+        {
+          path: '/user/userFiledown',
+          name: 'userFiledown',
+          component: () => import('@/views/user/userFiledown.vue'),
+        },
+        {
+          path: '/user/userPhoto',
+          name: 'userPhoto',
+          component: () => import('@/views/user/userPhoto.vue'),
+        },
+        {
+          path: '/user/userBalance',
+          name: 'userBalance',
+          component: () => import('@/views/user/userBalance.vue'),
+        },
        
       ],
     },

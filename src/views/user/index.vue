@@ -1,11 +1,15 @@
 <template>
   <div class="main connonBg">
     <section class="center">
-        <div class="crumbs">
-            <span @click="pathIndex()">首页 / </span>
-            <!-- <span @click="pathNews()">帮助支持 /</span> -->
-            <span>个人资料</span>
+        <div class="crumbsHeader">
+            <div class="crumbs">
+                <span @click="pathIndex()">首页 / </span>
+                <!-- <span @click="pathNews()">帮助支持 /</span> -->
+                <span>个人资料</span>
+            </div>
         </div>
+
+
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">

@@ -28,12 +28,13 @@ export default {
   name: 'menuLeft',
     data(){
         return{
-            activeIndex:'',
+            activeIndex:'/user',
             commonList:[]
         }
     },
     created(){
         this.activeIndex = this.$store.state.menuLeft;
+        console.log(this.$store.state.menuLeft)
     },
     mounted(){
         let navName = this.$store.state.publicHome;
@@ -96,8 +97,9 @@ export default {
                 }
             ]
         }
+
         if(navName=='/user'){
-            this.activeIndex='/user'
+            // this.activeIndex='/user'
             this.commonList= [
                 {
                     tit:'个人资料',

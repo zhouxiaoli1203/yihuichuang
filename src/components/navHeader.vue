@@ -17,11 +17,11 @@
             </el-menu>
             <div class="hraderInfo">
                 <div class="cart cursor_p"><img :src="cart" alt=""></div>
-                <div class="head cursor_p" @click="userLnk">
+                <!-- <div class="head cursor_p" @click="userLnk">
                   <img :src="head" alt="">
                   <p>在线证件照制作</p>
-                </div>
-                <!-- <p class="login cursor_p"  @click="dialogTableVisible = true">登录/注册</p> -->
+                </div> -->
+                <p class="login cursor_p"  @click="dialogTableVisible = true">登录/注册</p>
             </div>
       </div>
       <!-- 登陆 -->
@@ -77,7 +77,7 @@
 
                   <div class="input codeBox">
                     <input type="text" v-model="smsCheckForm.code" placeholder="验证码">
-                    <span class="cursor_p code">获取验证码</span>
+                    <span class="cursor_p code" @click="smsSend">获取验证码</span>
                   </div>
 
                   <div class="input">
@@ -182,7 +182,29 @@ export default {
   },
   created(){
     this.activeIndex = this.$store.state.currentIndex;
-    this.$post("post",this.baseUrl+"/oa/opi",{id:1}).then();
+    // this.$post({
+    //   method:"post",
+    //   url:this.baseUrl+"/user/reg",
+    //   processData:false,
+    //   contentType:false,
+    //   data:{
+    //     phone:17752560527,
+    //     password:123456,
+    //   }
+    // }).then(res => {
+    //   console.log(res+'111')
+    // });
+
+    this.$post("post",this.baseUrl+"user/reg",
+      {
+        phone:17752560527,
+        password:123456,
+      }
+    ).then(res => {
+      console.log(res+'111')
+    });
+
+
   },
   methods: {
     handleSelect(index) {
@@ -211,6 +233,15 @@ export default {
       this.$store.state.currentIndex = '';
       this.$store.state.publicHome = '/user'
       this.$router.push("/user");
+    },
+    // 获取短信验证码
+    smsSend(){
+      this.$post("post",this.baseUrl+"sms/send",{
+        phone:17752560527,
+        template:123456,
+      }).then(res => {
+        console.log(res+'111')
+      });
     }
   },
 }
