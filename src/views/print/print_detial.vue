@@ -8,7 +8,7 @@
       <div class="print-detail-operate">
         <div class="operate-left">
             <!-- 每个页面的属性 -->
-          <myComponent></myComponent>
+          <myComponent :type="2"></myComponent>
           <!-- 上传文件按钮 -->
           <el-form class="bgGreen_">
             <el-form-item label="我有文件">
@@ -19,7 +19,7 @@
                          :on-remove="handleRemove"
                          :file-list="fileList"
                          :auto-upload="false">
-                <el-button slot="trigger"
+                <el-button class="yhc_btn" slot="trigger"
                            size="small"
                            type="primary">上传稿件</el-button>
               </el-upload>
@@ -32,13 +32,13 @@
                          :on-remove="handleRemove"
                          :file-list="fileList"
                          :auto-upload="false">
-                <el-button slot="trigger"
+                <el-button class="yhc_btn" slot="trigger"
                            size="small"
                            type="primary">挑选模版设计</el-button>
               </el-upload>
             </el-form-item>
             <el-form-item label="没有满意模板">
-                <el-button size="small" type="success">设计定制</el-button>
+                <el-button class="yhc_btn" size="small" type="success">设计定制</el-button>
             </el-form-item>
           </el-form>
           <!-- 在线估价弹框 -->
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import myComponent from '@/views/print/materiel/photo_dtl'
+import myComponent from '@/views/print/materiel/armband_dtl'
 
 import Price from '@/components/pricePop'
 export default {

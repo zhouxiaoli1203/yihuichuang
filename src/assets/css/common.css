@@ -83,7 +83,7 @@ img{
     margin-bottom: 24px;
 }
 .mg-none{
-    margin: none;
+    margin: 0 !important;
 }
 .commontMenuItem .el-menu-item.is-active{
   background-color: #4E9F5B !important;
@@ -178,12 +178,13 @@ img{
     color:#fff;
 }
 .bgGreen{
-    padding: 16px 16px 0px 16px;
+    padding: 16px;
     background: #E5EDE7;
     border-radius: 4px;
+    
 }
 .bgGreen_{
-    padding: 0 16px;
+    padding: 16px 16px 0;
 }
 .attr-operate h3.title{
     font-size: 22px;
