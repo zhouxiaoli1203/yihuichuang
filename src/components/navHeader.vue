@@ -158,6 +158,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'navHeader',
   data () {
@@ -182,17 +183,23 @@ export default {
   },
   created(){
     this.activeIndex = this.$store.state.currentIndex;
-    this.$post("post",this.baseUrl+"user/reg",
-      {
-        phone:17752560527,
-        password:123456,
-      }
-    ).then(res => {
-      console.log(res+'111')
-    });
+
+    let data =  {
+              phone:17752560527,
+              password:123456,
+            }
 
 
-
+  axios({
+      method:"post",
+      url:this.baseUrl+"user/reg",
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'}, //加上这个
+      processData:false,
+      contentType:false,
+      data,
+  }).then((res)=>{
+    console.log(res)
+  });
 
 
   },

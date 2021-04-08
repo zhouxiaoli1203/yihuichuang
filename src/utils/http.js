@@ -59,7 +59,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 // 请求拦截器
 axios.interceptors.request.use(
     config => {
-        config.headers.token = localStorage.getItem('show_token');
+        // config.headers.token = localStorage.getItem('show_token');
         config.yhc_f_a = config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         delete config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         if (config.method == 'post') {
