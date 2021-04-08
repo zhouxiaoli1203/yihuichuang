@@ -24,7 +24,7 @@
               <el-carousel arrow="always" :autoplay="false" height="400px">
                 <el-carousel-item v-for="item in 6" :key="item">
                   <ul class="card-style">
-                    <li class="cursor" @click="goDetail()">
+                    <li class="cursor" @click="goDetail(x)">
                       <div class="image"></div>
                       <div class="title">海报印刷</div>
                       <div class="number">
@@ -50,8 +50,8 @@ export default {
   data(){
     return {
       items:[
-        {title:"广告物料",arr:12},
-        {title:"企业定制",arr:16},
+        {title:"广告物料",arr:12,id:"1"},
+        {title:"企业定制",arr:16,id:"2"},
         {title:"标识标牌店招"},
         {title:"常用印刷品"},
         {title:"其他印刷"},
@@ -73,10 +73,11 @@ export default {
         }
       })
     },
-    goDetail:function(){
+    goDetail:function(x){
       this.$router.push({  //核心语句
         path:'/print/detial',   //跳转的路径
         query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+            type:x.id
         }
       })
     }

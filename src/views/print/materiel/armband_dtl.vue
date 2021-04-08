@@ -12,7 +12,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择款式"
                      v-model="params.rule">
-            <el-option v-for="i in types"
+            <el-option v-for="i in cnst.armband_types"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -26,7 +26,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.rule">
-            <el-option v-for="i in rules"
+            <el-option v-for="i in cnst.armband_rules"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -40,7 +40,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in materials"
+            <el-option v-for="i in cnst.armband_materials"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -93,15 +93,6 @@ export default {
         type: '',
         color:''
       },
-      materials:[
-          {name:'绒布款',value:"1"},
-      ],
-      types:[
-          {name:'袖章',value:"1"},
-      ],
-      rules:[
-          {name:'20cm*14cm',value:"1"},
-      ],
 
     }
   },

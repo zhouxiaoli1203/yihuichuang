@@ -12,7 +12,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in materials"
+            <el-option v-for="i in cnst.ribbon_materials"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -26,7 +26,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.rule">
-            <el-option v-for="i in rules"
+            <el-option v-for="i in cnst.ribbon_rules"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -72,20 +72,12 @@ export default {
         typeNum: 1,
         type: '',
       },
-      materials:[
-          {name:'缎面绶带',value:"1"},
-          {name:'发泡绶带',value:"2"},
-          {name:'高档发泡锦旗',value:"3"},
-          {name:'高档镀金锦旗',value:"4"},
-      ],
-      rules:[
-          {name:'1.8*0.13米',value:"1"},
-      ],
 
     }
   },
   components: { Server },
-  created() {},
+  created() {
+  },
   mounted() {},
   methods: {
     handleChange: function () {},

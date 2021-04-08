@@ -12,7 +12,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in materials"
+            <el-option v-for="i in cnst.paint_materials"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -53,7 +53,7 @@
       <el-form-item label="工艺"
                     class="mg-none">
         <el-checkbox-group v-model="params.type">
-          <el-checkbox v-for="x in types" :label="x.name" :value="x.value"
+          <el-checkbox v-for="x in cnst.paint_types" :label="x.name" :value="x.value"
                        name="type" :key="x.value"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
@@ -77,19 +77,6 @@ export default {
         typeNum: 1,
         type: '',
       },
-      materials:[
-          {name:'喷绘布',value:"1"},
-          {name:'刀刮布',value:"2"},
-      ],
-      types:[
-          {name:'正常留白',value:"1"},
-          {name:'减净边',value:"2"},
-          {name:'净边打扣',value:"3"},
-          {name:'留白打扣',value:"4"},
-          {name:'净边穿绳打扣',value:"5"},
-          {name:'留白穿绳打扣',value:"6"},
-          {name:'模切',value:"7"},
-      ]
 
     }
   },

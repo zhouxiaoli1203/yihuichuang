@@ -15,6 +15,7 @@ import './assets/css/commonStlye.less';
 
 //全局公用函数
 import Fns from './utils/common'
+import CONSTANT from './utils/constant'
 Object.keys(Fns).forEach(key => {
     Vue.prototype[key] = Fns[key]
 })
@@ -26,7 +27,15 @@ Vue.use(ElementUI);
 Vue.config.productionTip = false
 
 Vue.prototype.$post = yhcReq;
+Vue.prototype.cnst = CONSTANT;
 Vue.prototype.baseUrl = baseUrl;
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+    if (to.query.token) {
+        localStorage.setItem("yhc_token", to.query.token);
+    }
+    next();
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -6,26 +6,14 @@
       <h3 class="title">高清广告海报户内(外)写真KT板/PVC板</h3>
       <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
       <Server></Server>
-
-      <el-form-item label="写真"
-                    class="xiezhen">
-
-        <el-select class="form-contrl"
-                   placeholder="户外写真"
-                   v-model="params.outer">
-          <el-option v-for="i in outer"
-                     :label="i.name"
-                     :value="i.value"
-                     :key="i.value"></el-option>
-        </el-select>
-        <el-select class="form-contrl"
-                   placeholder="户内写真"
-                   v-model="params.inner">
-          <el-option v-for="i in inner"
-                     :label="i.name"
-                     :value="i.value"
-                     :key="i.value"></el-option>
-        </el-select>
+      <el-form-item label="产品"
+                    class="chanpin">
+        <el-col :span="14" class="yhc-attr-btns">
+          <div class="btn"
+               :class='{"active":currentVal == b.value}'
+               v-for="b in btns"
+               @click="changeBtn(b)">{{b.name}}</div>
+        </el-col>
       </el-form-item>
       <el-form-item label="材料"
                     class="cailiao">
@@ -34,7 +22,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in outer"
+            <el-option v-for="i in materials"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -101,7 +89,8 @@ export default {
   data() {
     return {
       activeName: '',
-
+      currentVal: 1,
+      materials: this.cnst.photo_ot_xiezhen,
       params: {
         inner: '',
         outer: '',
@@ -113,21 +102,9 @@ export default {
 
       innerValue: '',
       outerValue: '',
-      inner: [
-        { name: '户内背胶', value: '1' },
-        { name: '户内高光相纸', value: '2' },
-        { name: '户内海报(不带胶)', value: '3' },
-        { name: '户内背喷灯片', value: '4' },
-        { name: '户内写真布', value: '5' },
-        { name: '户内银背', value: '6' },
-        { name: '户内PVC硬片', value: '7' },
-      ],
-      outer: [
-        { name: '户外背胶', value: '1' },
-        { name: '白胶车贴', value: '2' },
-        { name: '黑胶车贴', value: '3' },
-        { name: '户外单透贴', value: '4' },
-        { name: '户外相纸', value: '5' },
+      btns: [
+        { name: '户外写真', value: '1' },
+        { name: '户内写真', value: '2' },
       ],
     }
   },
@@ -136,6 +113,11 @@ export default {
   mounted() {},
   methods: {
     handleChange: function () {},
+    changeBtn: function (n) {
+      this.currentVal = n.value;
+      this.materials =
+        n.value == 1 ? this.cnst.photo_ot_xiezhen : this.cnst.photo_in_xiezhen
+    },
   },
 }
 </script>
@@ -146,12 +128,10 @@ export default {
     //   width: 627px;
     width: 100%;
   }
-  .xiezhen {
-    .form-contrl {
-      width: 166px;
-    }
-  }
-  .cailiao {
+  .yhc-attr-btns{
+      .btn{
+          width: 160px;
+      }
   }
 }
 </style>

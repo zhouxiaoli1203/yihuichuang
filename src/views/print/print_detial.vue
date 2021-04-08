@@ -8,7 +8,9 @@
       <div class="print-detail-operate">
         <div class="operate-left">
             <!-- 每个页面的属性 -->
-          <myComponent :type="2"></myComponent>
+          <Armband v-if="detailType == 1"></Armband>
+          <Banner v-if="detailType == 2"></Banner>
+          <Ribbon></Ribbon>
           <!-- 上传文件按钮 -->
           <el-form class="bgGreen_">
             <el-form-item label="我有文件">
@@ -79,13 +81,16 @@
 </template>
 
 <script>
-import myComponent from '@/views/print/materiel/armband_dtl'
+import  Armband from '@/views/print/materiel/armband_dtl'
+import  Banner from '@/views/print/materiel/banner_dtl'
+import  Ribbon from '@/views/print/comnPrint/danye_dtl'
 
 import Price from '@/components/pricePop'
 export default {
   name: 'pdetial',
   data() {
     return {
+        detailType:"",
       relItems: Array(4),
       editableTabsValue: 'detail',
       editableTabs: [
@@ -108,8 +113,9 @@ export default {
       ],
     }
   },
-  components: { myComponent, Price },
+  components: { Armband,Banner,Ribbon, Price },
   created() {
+      this.detailType = this.$route.query.type;
   },
   mounted() {},
   methods: {

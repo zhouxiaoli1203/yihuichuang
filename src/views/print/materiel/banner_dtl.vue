@@ -9,10 +9,10 @@
       <el-form-item v-if="type != 1"
                     label="产品"
                     class="chanpin">
-        <el-col :span="15">
+        <el-col :span="15" class="yhc-attr-btns">
           <div class="btn"
-               ng-class='{"active":currentVal == b.value}'
-               v-for="b in btns"
+               :class='{"active":currentVal == b.value}'
+               v-for="b in cnst.banner_btns"
                @click="changeBtn(b)">{{b.name}}</div>
         </el-col>
       </el-form-item>
@@ -24,7 +24,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in materials"
+            <el-option v-for="i in cnst.banner_materials"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -38,7 +38,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
                      v-model="params.mate">
-            <el-option v-for="i in rules_zhanjia"
+            <el-option v-for="i in cnst.banner_rules_zhanjia"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -68,7 +68,7 @@
             <el-select class="form-contrl width100"
                        placeholder="选择尺寸"
                        v-model="params.mate">
-              <el-option v-for="i in rules_jinqi"
+              <el-option v-for="i in cnst.banner_rules_jinqi"
                          :label="i.name"
                          :value="i.value"
                          :key="i.value"></el-option>
@@ -98,7 +98,7 @@
         <el-form-item label="工艺"
                       class="mg-none">
           <el-checkbox-group v-model="params.type">
-            <el-checkbox v-for="x in types"
+            <el-checkbox v-for="x in cnst.banner_types"
                          :label="x.name"
                          :value="x.value"
                          name="type"
@@ -118,11 +118,11 @@
         <el-form-item v-if="currentVal == 1 || currentVal == 2 "
                       label="工艺"
                       class="caiseType mg-none">
-          <div v-for="x in types_caise">
+          <div v-for="x in cnst.banner_types_caise">
             <el-checkbox :label="x.name"
                          :value="x.value"
                          name="type"
-                         :key="x.value">
+                         :key="x.value" v-model="x.model_">
             </el-checkbox>
             <el-select v-if="x.select" v-model="params.drop">
               <el-option v-for="i in x.drops"
@@ -155,45 +155,6 @@ export default {
         radio:2
       },
       currentVal: 1,
-      btns: [
-        { name: '彩色条幅', value: '1' },
-        { name: '红底条幅', value: '2' },
-        { name: '锦旗', value: '3' },
-      ],
-      materials: [
-        { name: '50cm宽彩色条幅', value: '1' },
-        { name: '60cm宽彩色条幅', value: '2' },
-        { name: '70cm宽彩色条幅', value: '3' },
-        { name: '80cm宽彩色条幅', value: '4' },
-        { name: '90cm宽彩色条幅', value: '5' },
-      ],
-      rules_zhanjia: [
-        { name: '1.6*0.6米', value: '1' },
-        { name: '1.8*0.8米', value: '2' },
-        { name: '2*0.8米', value: '3' },
-      ],
-      rules_jinqi: [
-        { name: '0.4*0.6米', value: '1' },
-        { name: '0.6*0.9米', value: '2' },
-        { name: '0.7*1.1米', value: '3' },
-        { name: '0.8*1.2米', value: '4' },
-        { name: '0.9*1.5米', value: '5' },
-      ],
-      types: [
-        { name: '覆亮膜', value: '1' },
-        { name: '覆哑膜', value: '2' },
-        { name: '四角打扣', value: '3' },
-        { name: '高档白杆展架', value: '4' },
-        { name: '门型展架', value: '5' },
-        { name: '配重x展架', value: '6' },
-        { name: '全铝两用x展架', value: '7' },
-      ],
-      types_caise: [
-        { name: '打扣', value: '1', select: true ,drops:[{name:'四角打扣',value:'1'},{name:'每隔2米打一个扣',value:'2'}]},
-        { name: '缝吊耳', value: '2', select: true ,drops:[{name:'缝吊耳',value:'1'},{name:'四角缝吊耳',value:'2'}]},
-        { name: '缝筒', value: '3' },
-        { name: '裁净边', value: '4' },
-      ],
     }
   },
   props: ['type'],
@@ -205,7 +166,7 @@ export default {
   methods: {
     handleChange: function () {},
     changeBtn: function (n) {
-      this.currentVal = n.value
+      this.currentVal = n.value;
     },
   },
 }
@@ -220,22 +181,22 @@ export default {
         width: 344px;
       }
     }
-    .chanpin {
-      .el-col {
-        display: flex;
-        justify-content: space-between;
-        .btn {
-          background: #fff;
-          border: 1px solid #c8cbd6;
-          &:hover,
-          &.active {
-            color: #476dff;
-            background: #ebf0ff;
-            border: 1px solid #3c63ff;
-          }
-        }
-      }
-    }
+    // .chanpin {
+    //   .el-col {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     .btn {
+    //       background: #fff;
+    //       border: 1px solid #c8cbd6;
+    //       &:hover,
+    //       &.active {
+    //         color: #476dff;
+    //         background: #ebf0ff;
+    //         border: 1px solid #3c63ff;
+    //       }
+    //     }
+    //   }
+    // }
     .rules_two {
       .el-col-6 {
         width: 148px;

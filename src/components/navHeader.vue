@@ -190,16 +190,20 @@ export default {
             }
 
 
-  axios({
-      method:"post",
-      url:this.baseUrl+"user/reg",
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}, //加上这个
-      processData:false,
-      contentType:false,
-      data,
-  }).then((res)=>{
-    console.log(res)
-  });
+//   axios({
+//       method:"post",
+//       url:this.baseUrl+"user/reg",
+//       headers: {'Content-Type': 'application/x-www-form-urlencoded'}, //加上这个
+//       processData:false,
+//       contentType:false,
+//       data,
+//   }).then((res)=>{
+//     console.log(res)
+//   });
+  this.$post("post",this.baseUrl+"user/reg",data)
+  .then((res)=>{
+      console.log(res);
+  })
 
 
   },

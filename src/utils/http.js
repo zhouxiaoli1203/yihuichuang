@@ -5,13 +5,12 @@
 import axios from 'axios';
 import { Toast } from 'vant';
 // import { message } from 'ant-design-vue'
-import {message} from 'element-ui';
+import {Message} from 'element-ui';
 import Vue from 'vue';
 // import * as appRouter  from '../pages/app/router.js'
 // import * as adminRouter  from '../pages/admin/router.js'
 let url = window.location.href
 let isApp, isWechat, yhcmessage;
-
 // 错误拦截并上报，但是ajax请求promise异步异常无法捕获
 Vue.config.errorHandler = function(err, vm, info) {
     console.error(err)
@@ -31,35 +30,33 @@ Vue.config.errorHandler = function(err, vm, info) {
 
 // 环境的切换
 if (process.env.NODE_ENV == 'development') {
-    axios.defaults.baseURL = 'https://test.yizhiniao.com/';
+    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
     // isApp = /app.html/.test(url)
     // isWechat = /weChat.html/.test(url)
 } else if (process.env.NODE_ENV == 'debug') {
     axios.defaults.baseURL = '';
 } else if (process.env.NODE_ENV == 'production') {
-    axios.defaults.baseURL = 'https://www.yizhiniao.com/';
+    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
 } else if (process.env.NODE_ENV == 'testing') {
     // isApp = /show_app/.test(url)
     // isWechat = /show_h5/.test(url)
-    axios.defaults.baseURL = 'https://test.yizhiniao.com/';
+    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
 }
 
 let token_invalid = false;
-yhcmessage = isApp || isWechat ? Toast : "错误";
-// yhcmessage = isApp || isWechat ? Toast : message.error;
+// yhcmessage = isApp || isWechat ? Toast : "错误";
+yhcmessage = isApp || isWechat ? Toast : Message.error;
 // 请求超时时间
 axios.defaults.timeout = 15000;
 
 // post请求头
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-
-
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 
 // 请求拦截器
 axios.interceptors.request.use(
     config => {
-        // config.headers.token = localStorage.getItem('show_token');
+        // config.headers.token = localStorage.getItem('yhc_token');
         config.yhc_f_a = config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         delete config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         if (config.method == 'post') {
@@ -74,17 +71,17 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
-        if (response.data.status == 200 || (response.config.yhc_f_a && response.config.yhc_f_a.indexOf(response.data.status) != -1)) {
+        if (response.data.code == 1 || (response.config.yhc_f_a && response.config.yhc_f_a.indexOf(response.data.code) != -1)) {
             token_invalid = false;
             return Promise.resolve(response);
         } else {
-            yhcmessage(response.data.message);
-            if (response.data.status == '20001') {
-                if (!token_invalid) {
-                    localStorage.removeItem('show_token');
-                }
-                token_invalid = true;
-            }
+            yhcmessage(response.data.info);
+            // if (response.data.code == '20001') {
+            //     if (!token_invalid) {
+            //         localStorage.removeItem('yhc_token');
+            //     }
+            //     token_invalid = true;
+            // }
             return Promise.reject(response);
         }
     },
@@ -136,4 +133,4 @@ export function yhcReq(methods, url, params, yhc_f_a, needCatch) {/*  */
 }
 
 // export const baseUrl = window.location.protocol + '//' + window.location.host
-export const baseUrl = 'https://api.yihuichuang.com/'
+export const baseUrl = 'https://api.yihuichuang.com/index.php/'
