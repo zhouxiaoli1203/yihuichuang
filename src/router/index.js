@@ -103,6 +103,11 @@ export default new Router({
           name: 'userBalance',
           component: () => import('@/views/user/userBalance.vue'),
         },
+        {
+          path: '/unique',  //定制服务
+          name: 'unique',
+          component: () => import('@/views/unique/index.vue'),
+        },
        
       ],
     },

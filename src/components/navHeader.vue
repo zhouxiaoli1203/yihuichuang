@@ -9,7 +9,7 @@
                 <el-menu-item index="/index">首页</el-menu-item>
                 <el-menu-item index="/print">在线印刷</el-menu-item>
                 <el-menu-item index="">设计模板</el-menu-item>
-                <el-menu-item index="">定制服务</el-menu-item>
+                <el-menu-item index="/unique">定制服务</el-menu-item>
                 <el-menu-item index="/service">服务保障</el-menu-item>
                 <el-menu-item index="/news">新闻中心</el-menu-item>
                 <el-menu-item index="/help">帮助支持</el-menu-item>
@@ -17,11 +17,11 @@
             </el-menu>
             <div class="hraderInfo">
                 <div class="cart cursor_p"><img :src="cart" alt=""></div>
-                <!-- <div class="head cursor_p" @click="userLnk">
+                <div class="head cursor_p" @click="userLnk">
                   <img :src="head" alt="">
                   <p>在线证件照制作</p>
-                </div> -->
-                <p class="login cursor_p"  @click="dialogTableVisible = true">登录/注册</p>
+                </div>
+                <!-- <p class="login cursor_p"  @click="dialogTableVisible = true">登录/注册</p> -->
             </div>
       </div>
       <!-- 登陆 -->
@@ -58,7 +58,7 @@
 
                   <p class="cursor_p" @click="loginTypeClick(3)">忘记密码？</p>
                 </div>
-                <div class="btn">
+                <div class="btns">
                   <button>登录</button>
                 </div>
               </div>
@@ -88,7 +88,7 @@
                       <input type="password" v-model="smsCheckForm.password" placeholder="确认密码">
                   </div>
                 </form>
-                <div class="btn">
+                <div class="btns">
                   <button>登录</button>
                 </div>
               </div>
@@ -119,10 +119,10 @@
                   </div>
                 </form>
 
-                <div class="btn" @click="btnReset(1)" v-if="resetClick == 0">
+                <div class="btns" @click="btnReset(1)" v-if="resetClick == 0">
                   <button>下一步</button>
                 </div>
-                <div class="btn" @click="btnResetrue" v-else>
+                <div class="btns" @click="btnResetrue" v-else>
                   <button>确定</button>
                 </div>
               </div>
@@ -182,19 +182,6 @@ export default {
   },
   created(){
     this.activeIndex = this.$store.state.currentIndex;
-    // this.$post({
-    //   method:"post",
-    //   url:this.baseUrl+"/user/reg",
-    //   processData:false,
-    //   contentType:false,
-    //   data:{
-    //     phone:17752560527,
-    //     password:123456,
-    //   }
-    // }).then(res => {
-    //   console.log(res+'111')
-    // });
-
     this.$post("post",this.baseUrl+"user/reg",
       {
         phone:17752560527,
@@ -203,6 +190,9 @@ export default {
     ).then(res => {
       console.log(res+'111')
     });
+
+
+
 
 
   },
@@ -308,14 +298,6 @@ export default {
         }
     }
 
-    .mask{
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-    }
     .loginBoxPorp{
       position: fixed;
       top: 50%;
@@ -323,7 +305,7 @@ export default {
       transform: translate(-50%,-50%);
       width: 750px;
       height: 530px;
-      z-index: 1;
+      z-index: 113;
 
       .img{
         position: absolute;
@@ -420,7 +402,7 @@ export default {
           }
         }
 
-        .btn{
+        .btns{
           margin-top: 32px;
           width: 342px;
           height: 44px;
@@ -452,7 +434,7 @@ export default {
       }
 
       .resetCol{
-        .btn{
+        .btns{
           margin-top: 170px;
         }
       }

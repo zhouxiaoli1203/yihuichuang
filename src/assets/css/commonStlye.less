@@ -195,3 +195,161 @@
         background: #4E9F5B;
     }
 }
+
+/* 面包屑 */
+
+.crumbsHeader{
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+  
+  }
+  
+  .crumbs{
+    display: flex;
+    align-items: center;
+  }
+  
+  .crumbs span{
+    margin-right: 8px;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .crumbs span:last-child{
+    color: #333;
+  }
+
+  /* 新闻中心/关于我们/帮助支持公用样式 */
+.publicCenter{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 57px;
+  }
+  .publicCenter .contList {
+    width: 976px;
+    height: 923px;
+    background: #FFFFFF;
+  }
+  
+  .publicCenter .contList .paging{
+    position: absolute;
+    left: 50%;
+    bottom: 49px;
+    transform: translate(-50%,0);
+  }
+  
+  /* 个人中心修改资料标签页样式 */
+  .modifyBox .el-tabs--border-card>.el-tabs__header{
+    background: #dffde4;
+  }
+  .modifyBox .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+    color: #fff;
+    background-color: #4E9F5B;
+  }
+  
+  .modifyBox .el-tabs--border-card>.el-tabs__header .el-tabs__item{
+    color: #333;
+  }
+  .modifyBox .el-tabs--border-card>.el-tabs__header .el-tabs__item:not(.is-disabled):hover{
+    color: #333;
+  }
+
+  .modifyBox .el-tabs--left .el-tabs__header.is-left{
+    width: 18%;
+    margin-right: 0;
+  }
+  .modifyBox .el-tabs--left .el-tabs__item.is-left{
+    text-align: center;
+  }
+  .modifyBox .el-tabs__item{
+    padding: 0;
+  }
+  .modifyBox .el-tabs--border-card>.el-tabs__content{
+    width: 80%;
+    padding: 72px 32px 32px;
+    position: relative;
+    height: 100%;
+  }
+  
+  .modifyBox .upload-demo {
+    text-align: center;
+  }
+  
+  .modifyBox .el-button--primary{
+    background-color: #4E9F5B;
+    border-color: #4E9F5B;
+    width: 224px;
+    margin-top: 32px;
+  }
+  .modifyBox .el-button--primary:hover{
+    background-color: #4E9F5B;
+    border-color: #4E9F5B;
+  }
+  
+  
+  /* 个人中心 打印文件 多选 */
+  .checkboxBox .el-checkbox__label{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: space-between;
+  }
+  
+  .checkboxBox .el-checkbox__input.is-checked+.el-checkbox__label{
+    color: #333333;
+  }
+  
+  .checkboxBox label.is-checked{
+    background: rgba(78, 159, 91, 0.1);
+  }
+  
+  .checkboxBox .el-checkbox__inner{
+    width: 16px;
+    height: 16px;
+  }
+  .checkboxBox .el-checkbox__inner::after{
+    height: 8px;
+    left: 5px;
+  }
+  .checkboxBox .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background-color: #4E9F5B;
+    border-color:#4E9F5B;
+  }
+
+// 定制服务
+.introBox{
+    .el-radio.is-bordered{
+        width: 100%;
+        text-align: center;
+        height: 47px;
+        background: #FFFFFF;
+        border-radius: 4px;
+        // border: 1px solid #4E9F5B;
+        padding: 0;
+        line-height: 47px;
+    }
+
+    .el-radio.is-bordered.is-checked{
+        border-color: #4E9F5B;
+    }
+    .el-radio__input.is-checked .el-radio__inner{
+        border-color: #4E9F5B;
+        background: #4E9F5B;
+    }
+    .el-radio__inner{
+        border-radius: 0;
+    }
+
+    .el-radio__label{
+        width: 100px;
+        display: inline-block;
+        text-align: left;
+    }
+    .el-radio__input.is-checked+.el-radio__label{
+        color: #333333;
+    }
+}
+
+  
+  

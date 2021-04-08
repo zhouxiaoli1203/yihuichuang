@@ -54,7 +54,7 @@
                       <td>1000.00</td>
                       <td>快递</td>
                       <td>15285422552112521</td>
-                      <td class="btn">
+                      <td class="btns">
                         <span>取消订单</span>
                         <span>再来一单</span>
                       </td>
@@ -81,7 +81,7 @@
                       <td>1000.00</td>
                       <td>快递</td>
                       <td>15285422552112521</td>
-                      <td class="btn">
+                      <td class="btns">
                         <span>取消订单</span>
                         <span>再来一单</span>
                       </td>
@@ -166,7 +166,7 @@
         font-size: 16px;
       }
     }
-    .btn{
+    .btns{
       span{
         cursor: pointer;
         display: inline-block;

@@ -20,7 +20,7 @@
                   </div>
                   <div class="btnBox">
                     <h3>&nbsp</h3>
-                    <div class="btn">
+                    <div class="btns">
                       <span>上传文件</span>
                     </div>
                   </div>
@@ -57,7 +57,7 @@
                   </div>
                   <div class="btnBox">
                     <h3>底色选择</h3>
-                    <ul class="btn">
+                    <ul class="btns">
                       <li class="white"></li>
                       <li class="red"></li>
                       <li class="blue"></li>
@@ -180,13 +180,13 @@
     }
   }
 
-  .btn{
+  .btns{
     height: 113px;
     background: #F5F6FA;
     border-radius: 10px;
   }
   .photolf{
-    .btn{
+    .btns{
       width: 335px;
       display: flex;
       align-items: center;
@@ -206,7 +206,7 @@
   }
 
   .photorg{
-    .btn{
+    .btns{
       width: 557px;
       display: flex;
       align-items: center;

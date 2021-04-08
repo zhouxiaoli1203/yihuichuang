@@ -27,7 +27,7 @@
                         </div>
                         <i class="el-icon-edit-outline" @click="userPublic = true"></i>
                     </div>
-                    <div class="btn">
+                    <div class="btns">
                         <span>充值</span>
                         <span>消费</span>
                     </div>
@@ -61,7 +61,7 @@
                             <input type="text" placeholder="请输入用户名称">
                         </div>
                     </div>
-                    <div class="btn">
+                    <div class="btns">
                         <span  @click="userClose">取消</span>
                         <span>确定</span>
                     </div>
@@ -71,16 +71,18 @@
                         <div class="img">
                             <img width="100%" :src="dialogImageUrl" alt="">
                         </div>
+                        <!-- :on-change="handleChange" -->
+                        <!-- :file-list="fileList" -->
                         <el-upload
                             class="upload-demo "
                             :show-file-list="false"
                             action="https://jsonplaceholder.typicode.com/posts/"
-                            :on-change="handleChange"
-                            :file-list="fileList">
+                            
+                            >
                             <el-button size="small" type="primary">上传头像</el-button>
                         </el-upload>
                     </div>
-                    <div class="btn">
+                    <div class="btns">
                         <span>取消</span>
                         <span>确定</span>
                     </div>
@@ -99,7 +101,7 @@
                             <span>短信验证码</span>
                         </div>
                     </div>
-                    <div class="btn">
+                    <div class="btns">
                         <span>取消</span>
                         <span>确定</span>
                     </div>
@@ -193,7 +195,7 @@
             cursor: pointer;
         }
         }
-        .btn{
+        .btns{
             margin-top: 20px;
 
             span{
@@ -323,7 +325,7 @@
         }
     }
 
-    .btn{
+    .btns{
         position: absolute;
         bottom: 15px;
         left: 0;

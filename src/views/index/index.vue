@@ -181,7 +181,7 @@
             <img :src="banner" alt="">
           </li>
         </ul>
-        <div class="btn">
+        <div class="btns">
           <button>立即体验</button>
         </div>
       </section>
@@ -764,7 +764,7 @@ export default {
       }
     }
 
-    .btn{
+    .btns{
       text-align: center;
       margin-top: 35px;
       button{

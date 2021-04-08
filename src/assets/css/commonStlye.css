@@ -1,0 +1,263 @@
+.print-more-title {
+  margin-bottom: 24px;
+}
+.print-more-title span.current {
+  display: inline-block;
+  color: #333333;
+  font-size: 14px;
+}
+.print-more-title span.cursor_p {
+  color: #999;
+}
+.card-style {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.card-style li {
+  width: 368px;
+  height: 400px;
+  background: #D8D8D8;
+  border-radius: 8px;
+  margin-bottom: 48px;
+}
+.card-style li .image {
+  width: 190px;
+  height: 204px;
+  margin: 47px auto 32px;
+  border: 1px solid #666;
+}
+.card-style li .title {
+  text-align: center;
+  font-size: 16px;
+  color: #333333;
+  margin-bottom: 32px;
+}
+.card-style li .number {
+  text-align: center;
+  font-size: 16px;
+  color: #333333;
+}
+.el-form-item {
+  margin-bottom: 24px;
+}
+.el-form-item .el-form-item__content {
+  line-height: 34px !important;
+}
+.el-form-item .el-input__inner,
+.el-form-item .el-cascader {
+  height: 34px !important;
+  line-height: 34px !important;
+}
+.el-form-item .el-checkbox {
+  margin-right: 20px !important;
+}
+.el-form-item .el-checkbox .el-checkbox__label {
+  padding-left: 6px;
+}
+.el-form-item .el-form-item__label {
+  width: 100px;
+  text-align: left;
+  padding-right: 16px;
+  line-height: 34px !important;
+}
+.el-form-item .el-input-number {
+  width: 110px;
+  height: 34px;
+  line-height: 34px !important;
+}
+.el-form-item .el-input-number__decrease,
+.el-form-item .el-input-number__increase {
+  width: 33px;
+  height: 32px;
+}
+.el-form-item .el-button--primary {
+  background: #4E9F5B;
+  color: #fff;
+  border-color: #4E9F5B;
+  width: 110px;
+  float: left;
+}
+.el-form-item .el-button--primary:hover,
+.el-form-item .el-button--primary:active {
+  background: #4E9F5B;
+  border-color: #4E9F5B;
+}
+.el-form-item .el-upload {
+  float: left;
+}
+.el-form-item .el-upload-list {
+  float: left;
+  margin-left: 20px;
+  width: 364px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.el-form-item .el-upload-list li {
+  display: inline-block;
+  margin-right: 8px;
+  width: 115px;
+  height: 34px;
+  background-color: rgba(102, 102, 102, 0.1);
+  border-radius: 4px;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.el-form-item .el-upload-list li:last-child {
+  margin-right: 0;
+}
+.el-form-item .el-upload-list .el-icon-document {
+  display: none;
+}
+.el-form-item .el-upload-list .el-upload-list__item-name {
+  line-height: 34px;
+}
+.el-form-item .el-upload-list .el-upload-list__item-status-label {
+  line-height: 34px;
+}
+.el-form-item .el-upload-list .el-upload-list__item .el-icon-close {
+  top: 10px;
+}
+.tabs-box {
+  display: flex;
+}
+.tabs-box .tab-plane {
+  font-size: 16px;
+  color: #999;
+  padding: 4px 0;
+  margin-right: 8px;
+}
+.tabs-box .tab-plane.active {
+  color: #4E9F5B;
+  border-bottom: 2px solid #4E9F5B;
+}
+.btn-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+.btn-box .btn {
+  width: inherit;
+  height: 34px;
+  line-height: 20px;
+  padding: 7px 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-box .cancel {
+  background: #DBDBDB;
+  margin-right: 24px;
+}
+.btn-box .sure {
+  background: #4E9F5B;
+}
+/* 面包屑 */
+.crumbsHeader {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+}
+.crumbs {
+  display: flex;
+  align-items: center;
+}
+.crumbs span {
+  margin-right: 8px;
+  cursor: pointer;
+  color: #666;
+}
+.crumbs span:last-child {
+  color: #333;
+}
+/* 新闻中心/关于我们/帮助支持公用样式 */
+.publicCenter {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 57px;
+}
+.publicCenter .contList {
+  width: 976px;
+  height: 923px;
+  background: #FFFFFF;
+}
+.publicCenter .contList .paging {
+  position: absolute;
+  left: 50%;
+  bottom: 49px;
+  transform: translate(-50%, 0);
+}
+/* 个人中心修改资料标签页样式 */
+.modifyBox .el-tabs--border-card > .el-tabs__header {
+  background: #dffde4;
+}
+.modifyBox .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
+  color: #fff;
+  background-color: #4E9F5B;
+}
+.modifyBox .el-tabs--border-card > .el-tabs__header .el-tabs__item {
+  color: #333;
+}
+.modifyBox .el-tabs--border-card > .el-tabs__header .el-tabs__item:not(.is-disabled):hover {
+  color: #333;
+}
+.modifyBox .el-tabs--left .el-tabs__header.is-left {
+  width: 18%;
+  margin-right: 0;
+}
+.modifyBox .el-tabs--left .el-tabs__item.is-left {
+  text-align: center;
+}
+.modifyBox .el-tabs__item {
+  padding: 0;
+}
+.modifyBox .el-tabs--border-card > .el-tabs__content {
+  width: 80%;
+  padding: 72px 32px 32px;
+  position: relative;
+  height: 100%;
+}
+.modifyBox .upload-demo {
+  text-align: center;
+}
+.modifyBox .el-button--primary {
+  background-color: #4E9F5B;
+  border-color: #4E9F5B;
+  width: 224px;
+  margin-top: 32px;
+}
+.modifyBox .el-button--primary:hover {
+  background-color: #4E9F5B;
+  border-color: #4E9F5B;
+}
+/* 个人中心 打印文件 多选 */
+.checkboxBox .el-checkbox__label {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: space-between;
+}
+.checkboxBox .el-checkbox__input.is-checked + .el-checkbox__label {
+  color: #333333;
+}
+.checkboxBox label.is-checked {
+  background: rgba(78, 159, 91, 0.1);
+}
+.checkboxBox .el-checkbox__inner {
+  width: 16px;
+  height: 16px;
+}
+.checkboxBox .el-checkbox__inner::after {
+  height: 8px;
+  left: 5px;
+}
+.checkboxBox .el-checkbox__input.is-checked .el-checkbox__inner,
+.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #4E9F5B;
+  border-color: #4E9F5B;
+}
+
+

@@ -40,7 +40,7 @@
                     <p>投诉建议</p>
                     <textarea id="" cols="30" rows="10" v-model="complaintInput"></textarea>
                     </div>
-                    <div class="btn">
+                    <div class="btns">
                     <button>提交</button>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ export default {
     z-index: 1;
     right: 105px;
     transform: translate(0,-50%);
-    z-index: 111;
+    z-index: 99;
     top: 50%;
 
     ul{
@@ -280,7 +280,7 @@ export default {
         }
       }
 
-      .btn{
+      .btns{
         text-align: right;
 
         button{

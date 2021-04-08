@@ -54,6 +54,8 @@ axios.defaults.timeout = 15000;
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 
+
+
 // 请求拦截器
 axios.interceptors.request.use(
     config => {
@@ -134,4 +136,4 @@ export function yhcReq(methods, url, params, yhc_f_a, needCatch) {/*  */
 }
 
 // export const baseUrl = window.location.protocol + '//' + window.location.host
-export const baseUrl = 'https://api.yihuichuang.com/index.php/'
+export const baseUrl = 'https://api.yihuichuang.com/'
