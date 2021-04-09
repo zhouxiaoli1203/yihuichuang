@@ -359,6 +359,7 @@
   }
 }
 
+
 .yhc-attr-btns {
   display: flex;
   justify-content: space-between;
@@ -366,7 +367,6 @@
   .btn {
     background: #fff;
     border: 1px solid #c8cbd6;
-
     &:hover,
     &.active {
       color: #476dff;
@@ -527,7 +527,6 @@
   .el-radio__input.is-checked .el-radio__inner {
     border-color: #4E9F5B;
     background: #4E9F5B;
-  }
 
   .el-radio__inner {
     border-radius: 0;
@@ -543,45 +542,6 @@
     color: #333333;
   }
 }
-
-
-// 弹框公用样式
-.publicPorp{
-  // padding: 24px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  // background: #FFFFFF;
-  border-radius: 8px;
-  z-index: 113;
-
-  .btnBox{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    span{
-      width: 85px;
-      height: 34px;
-      border-radius: 4px;
-      color: #fff;
-      text-align: center;
-      line-height: 34px;
-      cursor: pointer;
-    }
-    span:first-child{
-      background: #DBDBDB;
-      margin-right: 24px;
-    }
-    span:last-child{
-      background: #4E9F5B;
-    }
-    
-  }
-
-}
-
 
 // 弹框公用样式
 .publicPorp{
@@ -632,3 +592,19 @@
       line-height: 44px !important;
   }
 }
+
+  .el-radio__inner {
+    border-radius: 0;
+  }
+
+  .el-radio__label {
+    width: 100px;
+    display: inline-block;
+    text-align: left;
+  }
+
+  .el-radio__input.is-checked+.el-radio__label {
+    color: #333333;
+  }
+}
+

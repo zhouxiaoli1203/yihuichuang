@@ -1,3 +1,4 @@
+
 <template>
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
@@ -139,3 +140,4 @@ export default {
 
 }
 </style>
+
