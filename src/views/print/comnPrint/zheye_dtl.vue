@@ -90,7 +90,7 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="工艺"
-                    class="caiseType mg-none">
+                    class="gongyiType mg-none">
 
         <div v-for="(x,index) in cnst.zheye_types_gongyi">
           <el-checkbox :label="x.name"
@@ -99,14 +99,14 @@
                        :key="x.value"
                        v-model="x.model_">
           </el-checkbox>
-          <el-select v-show="index==0"
+          <el-select class="mini" v-show="index==0"
                      v-model="x.drop">
             <el-option v-for="i in cnst.zheyes"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
           </el-select>
-          <el-select v-show="index!=0"
+          <el-select class="mini" v-show="index!=0"
                      v-model="x.drop">
             <el-option v-for="i in cnst.modelTypes"
                        :label="i.name"
@@ -191,29 +191,6 @@ export default {
     .rules_two {
       .el-col-6 {
         width: 148px;
-      }
-    }
-    /deep/.caiseType .el-form-item__content {
-      display: flex;
-      justify-content: start;
-      flex-wrap: wrap;
-      margin-right: 20px;
-      > div {
-        margin-right: 20px;
-      }
-      .el-checkbox {
-        margin-right: 3px !important;
-      }
-      .el-select {
-        width: 72px;
-        input {
-          height: 24px !important;
-          line-height: 24px !important;
-        }
-        .el-select__caret {
-          height: 24px !important;
-          line-height: 24px !important;
-        }
       }
     }
   }

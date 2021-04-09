@@ -8,8 +8,6 @@
                 <span>个人资料</span>
             </div>
         </div>
-
-
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
@@ -149,7 +147,6 @@
         userClose(){
             this.userPublic=false
         },
-
     }
   }
 </script>

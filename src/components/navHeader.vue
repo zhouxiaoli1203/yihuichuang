@@ -571,6 +571,7 @@ export default {
           }
         })
         that.resultArr.push(result) 
+
       }
     }
 

@@ -77,19 +77,19 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="工艺"
-                    class="caiseType mg-none">
+                    class="gongyiType mg-none">
 
         <el-checkbox label="折页"
                      v-model="params.model_">
         </el-checkbox>
-        <el-select v-model="params.drop" @change="changeTypes(params.drop)">
+        <el-select class="mini" v-model="params.drop" @change="changeTypes(params.drop)">
           <el-option v-for="i in cnst.danye_drop1"
                      :label="i.name"
                      :value="i.name"
                      :key="i.name"
                      ></el-option>
         </el-select>
-        <el-select v-model="params.drop2">
+        <el-select class="mini" v-model="params.drop2">
           <el-option v-for="i in typelist"
                      :label="i.name"
                      :value="i.value"
@@ -101,8 +101,7 @@
 <el-dialog
   title="全部类型显示"
   :visible.sync="dialogVisible"
-  width="290px"
-  :before-close="handleClose">
+  width="290px" class="yhc-el-dialog">
   <ul class="dialog-type-style">
       <li v-for="x in cnst.danye_all_drops">{{x.name}}</li>
   </ul>
@@ -176,50 +175,7 @@ export default {
         width: 148px;
       }
     }
-    /deep/.caiseType .el-form-item__content {
-      display: flex;
-      justify-content: start;
-      margin-right: 20px;
-      > div {
-        margin-right: 20px;
-      }
-      .el-checkbox {
-        margin-right: 3px !important;
-      }
-      .el-select {
-        width: 72px;
-        input {
-          height: 24px !important;
-          line-height: 24px !important;
-        }
-        .el-select__caret {
-          height: 24px !important;
-          line-height: 24px !important;
-        }
-      }
-    }
   }
 
-  .dialog-type-style{
-      display: flex;
-      flex-wrap: wrap;
-      .el-dialog__header{
-          padding: 10px 15px 10px;
-      }
-      .el-dialog__headerbtn{
-          top: 10px;
-      }
-      .el-dialog__body {
-        padding: 0px 15px 20px;
-      }
-      li{
-          padding:2px ;
-         background: #E5EDE7;
-          text-align: center;
-          color:#4E9F5B;
-          margin-right: 10px;
-          margin-top: 10px;
-      }
-  }
 }
 </style>
