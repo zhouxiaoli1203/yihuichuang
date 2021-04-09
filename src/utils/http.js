@@ -133,4 +133,4 @@ export function yhcReq(methods, url, params, yhc_f_a, needCatch) {/*  */
 }
 
 // export const baseUrl = window.location.protocol + '//' + window.location.host
-export const baseUrl = 'https://api.yihuichuang.com/index.php/'
+export const baseUrl = 'https://api.yihuichuang.com/'

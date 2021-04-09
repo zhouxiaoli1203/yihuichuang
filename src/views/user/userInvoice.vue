@@ -8,11 +8,9 @@
               <span>发票管理</span>
           </div>
           <div class="operateBox">
-            <span class="add">开发票</span>
+            <span class="add" @click="BillingPorp = true">开发票</span>
           </div>
         </div>
-
-        <!-- <div>时间</div> -->
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
@@ -50,6 +48,45 @@
             </div>
         </div>
     </section>
+
+    <section class="publicPorp BillingPorp"  v-show="BillingPorp">
+      <el-form ref="form" :model="form" label-width="100px">
+        <el-form-item label="开具类型">
+          <el-radio-group v-model="form.resource">
+            <el-radio label="增值税普通发票"></el-radio>
+            <el-radio label="增值税专用发票"></el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="发票抬头">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="税务登记证号">
+          <el-input v-model="form.name" placeholder="请输入税务登记账号"></el-input>
+        </el-form-item>
+        <el-form-item label="开户银行名称">
+          <el-input v-model="form.name" placeholder="请输入开户银行名称"></el-input>
+        </el-form-item>
+        <el-form-item label="基本开户账号">
+          <el-input v-model="form.name" placeholder="请输入基本开户账号"></el-input>
+        </el-form-item>
+        <el-form-item label="注册场所地址">
+          <el-input v-model="form.name" placeholder="请输入注册场所地址"></el-input>
+        </el-form-item>
+        <el-form-item label="注册手机号码">
+          <el-input v-model="form.name" placeholder="请输入注册手机号码"></el-input>
+        </el-form-item>
+        <el-form-item label="开票金额">
+          <el-input v-model="form.name" placeholder="请输入注册开票金额"></el-input>
+        </el-form-item>
+        <div class="btnBox">
+          <span @click="closePorp">取消</span>
+          <span  @click="onSubmit">提交</span>
+        </div>
+
+
+      </el-form>
+    </section>
+    <div class="mask" v-show="BillingPorp" @click="closePorp"></div>
   </div>
 </template>
 
@@ -63,9 +100,26 @@
     data () {
       return {     
         notice: require('../../assets/img/user/notice.png'), 
+        BillingPorp:false,
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        }
       }
     },
     methods: {
+      onSubmit() {
+        console.log('submit!');
+      },
+      closePorp() { //关闭弹框
+        this.BillingPorp=false;
+      },
     }
   }
 </script>
@@ -115,5 +169,9 @@
       }
     }
   }
+}
+
+.BillingPorp{
+  width: 471px;
 }
 </style>

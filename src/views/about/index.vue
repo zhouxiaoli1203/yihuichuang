@@ -4,10 +4,11 @@
       <img :src="banner1" alt="">
     </div>
     <section class="center">
-        <div class="crumbs">
-            <span @click="pathIndex()">首页 / </span>
-            <!-- <span @click="pathNews()">帮助支持 /</span> -->
-            <span>关于我们</span>
+        <div class="crumbsHeader">
+          <div class="crumbs">
+              <span @click="pathIndex()">首页 / </span>
+              <span>关于我们</span>
+          </div>
         </div>
         <div class="publicCenter">
             <MenuLeft></MenuLeft>

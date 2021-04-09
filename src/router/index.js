@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
+
+// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 
 Vue.use(Router)
 
@@ -22,6 +28,11 @@ export default new Router({
           path: '/news',
           name: 'news',
           component: () => import('@/views/news/index.vue'),
+        },
+        {
+          path: '/news/newsCustom',
+          name: 'newsCustom',
+          component: () => import('@/views/news/newsCustom.vue'),
         },
         {
           path: '/news/detail',
@@ -49,9 +60,29 @@ export default new Router({
           component: () => import('@/views/help/index.vue'),
         },
         {
+          path: '/help/helpProblem',
+          name: 'helpProblem',
+          component: () => import('@/views/help/helpProblem.vue'),
+        },
+        {
+          path: '/help/helpExpress',
+          name: 'helpExpress',
+          component: () => import('@/views/help/helpExpress.vue'),
+        },
+        {
           path: '/about',
           name: 'about',
           component: () => import('@/views/about/index.vue'),
+        },
+        {
+          path: '/about/aboutContact',
+          name: 'aboutContact',
+          component: () => import('@/views/about/aboutContact.vue'),
+        },
+        {
+          path: '/about/aboutOffline',
+          name: 'aboutOffline',
+          component: () => import('@/views/about/aboutOffline.vue'),
         },
         {
           path: '/service',

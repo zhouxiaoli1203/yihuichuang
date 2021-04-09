@@ -19,7 +19,6 @@
   height: 400px;
   background: #D8D8D8;
   border-radius: 8px;
-  margin-bottom: 48px;
 }
 .card-style li .image {
   width: 190px;
@@ -71,17 +70,12 @@
   width: 33px;
   height: 32px;
 }
-.el-form-item .el-button--primary {
-  background: #4E9F5B;
-  color: #fff;
-  border-color: #4E9F5B;
-  width: 110px;
-  float: left;
+.el-form-item .el-color-picker {
+  height: 34px;
 }
-.el-form-item .el-button--primary:hover,
-.el-form-item .el-button--primary:active {
-  background: #4E9F5B;
-  border-color: #4E9F5B;
+.el-form-item .el-color-picker .el-color-picker__trigger {
+  width: 34px;
+  height: 34px;
 }
 .el-form-item .el-upload {
   float: left;
@@ -101,7 +95,6 @@
   background-color: rgba(102, 102, 102, 0.1);
   border-radius: 4px;
   margin-top: 0;
-  margin-bottom: 10px;
 }
 .el-form-item .el-upload-list li:last-child {
   margin-right: 0;
@@ -117,6 +110,30 @@
 }
 .el-form-item .el-upload-list .el-upload-list__item .el-icon-close {
   top: 10px;
+}
+.el-tabs--border-card {
+  border: none;
+}
+.el-tabs--border-card .el-tabs__item {
+  height: 44px;
+  border-top: 3px solid transparent !important;
+}
+.el-tabs--border-card .el-tabs__item.is-active {
+  color: #4e9f5b !important;
+  border-top: 3px solid #4e9f5b !important;
+}
+.el-button.yhc_btn {
+  background: #4E9F5B;
+  color: #fff;
+  border-color: #4E9F5B;
+  min-width: 110px;
+}
+.el-button.yhc_btn.is-active,
+.el-button.yhc_btn:active,
+.el-button.yhc_btn:hover,
+.el-button.yhc_btn:focus {
+  background: #4e9f5b;
+  border-color: #4e9f5b;
 }
 .tabs-box {
   display: flex;
@@ -154,6 +171,20 @@
 }
 .btn-box .sure {
   background: #4E9F5B;
+}
+.yhc-attr-btns {
+  display: flex;
+  justify-content: space-between;
+}
+.yhc-attr-btns .btn {
+  background: #fff;
+  border: 1px solid #c8cbd6;
+}
+.yhc-attr-btns .btn:hover,
+.yhc-attr-btns .btn.active {
+  color: #476dff;
+  background: #ebf0ff;
+  border: 1px solid #3c63ff;
 }
 /* 面包屑 */
 .crumbsHeader {
@@ -259,5 +290,67 @@
   background-color: #4E9F5B;
   border-color: #4E9F5B;
 }
-
-
+.introBox .el-radio.is-bordered {
+  width: 100%;
+  text-align: center;
+  height: 47px;
+  background: #FFFFFF;
+  border-radius: 4px;
+  padding: 0;
+  line-height: 47px;
+}
+.introBox .el-radio.is-bordered.is-checked {
+  border-color: #4E9F5B;
+}
+.introBox .el-radio__input.is-checked .el-radio__inner {
+  border-color: #4E9F5B;
+  background: #4E9F5B;
+}
+.introBox .el-radio__inner {
+  border-radius: 0;
+}
+.introBox .el-radio__label {
+  width: 100px;
+  display: inline-block;
+  text-align: left;
+}
+.introBox .el-radio__input.is-checked + .el-radio__label {
+  color: #333333;
+}
+.publicPorp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  z-index: 113;
+}
+.publicPorp .btnBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.publicPorp .btnBox span {
+  width: 85px;
+  height: 34px;
+  border-radius: 4px;
+  color: #fff;
+  text-align: center;
+  line-height: 34px;
+  cursor: pointer;
+}
+.publicPorp .btnBox span:first-child {
+  background: #DBDBDB;
+  margin-right: 24px;
+}
+.publicPorp .btnBox span:last-child {
+  background: #4E9F5B;
+}
+.loginBoxPorp .el-form-item .el-form-item__content {
+  width: 100%;
+}
+.loginBoxPorp .el-form-item .el-input__inner,
+.loginBoxPorp .el-form-item .el-cascader {
+  height: 44px !important;
+  line-height: 44px !important;
+}

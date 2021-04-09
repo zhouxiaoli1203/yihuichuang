@@ -110,7 +110,6 @@
           <span  @click="submitForm('ruleForm')">保存</span>
         </div>
       </el-form>
-
     </section>
     <div class="mask" v-show="addAreaBox" @click="closePorp"></div>
   </div>

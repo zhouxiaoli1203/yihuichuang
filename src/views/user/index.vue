@@ -50,7 +50,7 @@
     </section>
 
     <!-- 修改资料弹框 -->
-    <section class="modifyBox"  v-show="userPublic" >
+    <section class="modifyBox publicPorp"  v-show="userPublic" >
         <i class="el-icon-close"></i>
         <div class="tabNav">
             <el-tabs tab-position="left" type="border-card" style="height: 100%;">
@@ -260,19 +260,13 @@
   }
 
   .modifyBox{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
     width: 30%;
     // height: 521px;
     height: 50%;
     background: #FFFFFF;
-    border-radius: 8px;
     overflow: hidden;
     min-height: 400px;
     min-width: 450px;
-    z-index: 11;
 
     .tabNav{
         height: 100%;
@@ -370,13 +364,4 @@
         }
     }
   }
-
-   .mask{
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-    }
 </style>

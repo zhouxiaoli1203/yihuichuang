@@ -184,7 +184,7 @@ const CONSTANT = {
     ],
 };
 const URL = {
-    login:"XXX/XX/"
+    login:"user/infoGet"
 };
 
 

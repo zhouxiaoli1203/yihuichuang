@@ -431,5 +431,56 @@
     }
 }
 
+
+// 弹框公用样式
+.publicPorp{
+  // padding: 24px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  // background: #FFFFFF;
+  border-radius: 8px;
+  z-index: 113;
+
+  .btnBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span{
+      width: 85px;
+      height: 34px;
+      border-radius: 4px;
+      color: #fff;
+      text-align: center;
+      line-height: 34px;
+      cursor: pointer;
+    }
+    span:first-child{
+      background: #DBDBDB;
+      margin-right: 24px;
+    }
+    span:last-child{
+      background: #4E9F5B;
+    }
+    
+  }
+
+}
+
+
+// 登录 、注册 、重置密码
+
+.loginBoxPorp{
+  .el-form-item .el-form-item__content{
+    width: 100%;
+  }
+  .el-form-item .el-input__inner, .el-form-item .el-cascader {
+      height: 44px !important;
+      line-height: 44px !important;
+  }
+}
+
   
   

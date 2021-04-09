@@ -28,78 +28,74 @@ export default {
   name: 'menuLeft',
     data(){
         return{
-            activeIndex:'/user',
-            commonList:[]
+            activeIndex:'',
+            commonList:[],
         }
     },
     created(){
-        this.activeIndex = this.$store.state.menuLeft;
-        console.log(this.$store.state.menuLeft)
-    },
-    mounted(){
         let navName = this.$store.state.publicHome;
+        console.log(navName)
+        let name = this.$store.state.menuLeft;
         if(navName=='/news'){
-            this.activeIndex='行业动态'
+            this.activeIndex = name?name:'/news'
             this.commonList= [
                 {
                     tit:'行业动态',
-                    index:0
+                    url:'/news'
                 },
                 {
                     tit:'客户动态',
-                    index:1
+                    url:'/news/newsCustom'
                 },
                 {
-                    tit:'公司动态111',
-                    index:2
+                    tit:'公司动态',
                 }
             ]
         }
         if(navName=='/help'){
-            this.activeIndex='法律声明'
+            this.activeIndex = name?name:'/help'
             this.commonList= [
                 {
                     tit:'法律声明',
-                    index:0
+                    url:'/help'
                 },
                 {
                     tit:'常见问题',
-                    index:1
+                    url:'/help/helpProblem'
                 },
                 {
                     tit:'物流说明',
-                    index:2
+                    url:'/help/helpExpress'
                 },
                 {
                     tit:'退款说明',
-                    index:3
                 }
             ]
         }
         if(navName=='/about'){
-            this.activeIndex='关于我们'
+            this.activeIndex = name?name:'/about'
             this.commonList= [
                 {
                     tit:'关于我们',
-                    index:0
+                    url:'/about'
                 },
                 {
                     tit:'用户协议',
-                    index:1
+                    url:'/about1',
                 },
                 {
                     tit:'联系我们',
-                    index:2
+                    url:'/about/aboutContact'
                 },
                 {
                     tit:'线下店分布',
-                    index:3
+                    url:'/about/aboutOffline'
                 }
             ]
         }
 
         if(navName=='/user'){
-            // this.activeIndex='/user'
+            this.activeIndex = name?name:'/user'
             this.commonList= [
                 {
                     tit:'个人资料',
@@ -138,6 +134,9 @@ export default {
                 }
             ]
         }
+    },
+    mounted(){
+    
     },
     methods: {
         handleSelect(key) {

@@ -4,11 +4,14 @@
       <img :src="banner1" alt="">
     </div>
     <section class="center">
-      <div class="crumbs">
-          <span @click="pathIndex()">首页 / </span>
-          <span @click="pathNews()">行业动态 / </span>
-          <span>新闻详情</span>
-      </div>
+       <div class="crumbsHeader">
+            <div class="crumbs">
+              <span @click="pathIndex()">首页 / </span>
+              <span @click="pathNews()">{{crumbsName}} / </span>
+              <span>新闻详情</span>
+          </div>
+        </div>
+
       <div class="publicCenter">
         <MenuLeft></MenuLeft>
         <div class="contList">
@@ -33,10 +36,11 @@
     data(){
       return {
         banner1: require('../../assets/img/news/banner1.jpg'),
+        crumbsName:''
       }
     },
     mounted(){
-
+      this.crumbsName = this.$route.query.name
     },
     methods: {
       // 点击首页
@@ -46,7 +50,8 @@
         this.$router.push("/index");
       },
       pathNews(){
-        this.$router.push("/news");
+        // this.$router.push("/news");
+        this.$router.go(-1)
       }
     }
   }
