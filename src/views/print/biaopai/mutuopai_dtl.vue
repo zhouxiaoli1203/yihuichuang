@@ -2,18 +2,18 @@
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">铜版彩色印刷宣传单页 颜色清晰质感更好</h3>
+      <h3 class="title">普通发光字（一米以下）</h3>
       <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
       <Server></Server>
 
       <el-form-item label="材料"
                     class="cailiao">
-        <el-col :span="15">
+        <el-col :span="7">
 
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in cnst.danye_materials"
+            <el-option v-for="i in cnst.paiziMates"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -22,34 +22,15 @@
       </el-form-item>
       <el-form-item label="尺寸(毫米)"
                     class="rules">
-        <el-col :span="15"
-                v-if="!zidingyi">
+        <el-col :span="7">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
                      v-model="params.mate">
-            <el-option v-for="i in cnst.danye_rules"
+            <el-option v-for="i in cnst.paiziRules"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
           </el-select>
-        </el-col>
-        <div v-if="zidingyi" class="rules_two">
-          <el-col :span="6">
-            <el-input v-model="params.rule"
-                      placeholder="长边"></el-input>
-          </el-col>
-          <el-col class="t_a_c"
-                  :span="2">×</el-col>
-          <el-col :span="6">
-            <el-input v-model="params.rule"
-                      placeholder="短边"></el-input>
-          </el-col>
-        </div>
-        <el-col :span="2">
-          <el-checkbox class="zidingyi" label="自定义"
-                       v-model="zidingyi"
-                       border>
-          </el-checkbox>
         </el-col>
       </el-form-item>
       <el-form-item label="数量"
@@ -63,49 +44,27 @@
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
-                    class="typeNum"
-                    :class='{"mg-none":type != 1 && currentVal == 3}'>
+                    class="typeNum">
         <el-input-number v-model="params.typeNum"
                          @change="handleChange"
                          :min="1"
                          :max="10"></el-input-number>
       </el-form-item>
-      <el-form-item label="印面">
-        <el-radio-group v-model="params.radio">
-          <el-radio label="1">双面</el-radio>
-          <el-radio label="2">单面</el-radio>
-        </el-radio-group>
-      </el-form-item>
       <el-form-item label="工艺"
                     class="gongyiType mg-none">
 
-        <el-checkbox label="折页"
+        <el-checkbox label="款式"
                      v-model="params.model_">
         </el-checkbox>
         <el-select class="mini" v-model="params.drop" @change="changeTypes(params.drop)">
-          <el-option v-for="i in cnst.danye_drop1"
+          <el-option v-for="i in cnst.paiziType"
                      :label="i.name"
                      :value="i.name"
                      :key="i.name"
                      ></el-option>
         </el-select>
-        <el-select class="mini" v-model="params.drop2">
-          <el-option v-for="i in typelist"
-                     :label="i.name"
-                     :value="i.value"
-                     :key="i.value"></el-option>
-        </el-select>
-        <span class="lineh34 main-click" @click="dialogVisible = true">查看类型</span>
       </el-form-item>
   </el-form>
-<el-dialog
-  title="全部类型显示"
-  :visible.sync="dialogVisible"
-  width="290px" class="yhc-el-dialog">
-  <ul class="dialog-type-style">
-      <li v-for="x in cnst.danye_all_drops">{{x.name}}</li>
-  </ul>
-</el-dialog>
   </div>
 </template>
 
@@ -176,6 +135,7 @@ export default {
       }
     }
   }
+
 
 }
 </style>

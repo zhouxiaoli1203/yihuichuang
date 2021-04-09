@@ -117,14 +117,14 @@
         </el-form-item>
         <el-form-item v-if="currentVal == 1 || currentVal == 2 "
                       label="工艺"
-                      class="caiseType mg-none">
+                      class="gongyiType mg-none">
           <div v-for="x in cnst.banner_types_caise">
             <el-checkbox :label="x.name"
                          :value="x.value"
                          name="type"
                          :key="x.value" v-model="x.model_">
             </el-checkbox>
-            <el-select v-if="x.select" v-model="params.drop">
+            <el-select class="mini" v-if="x.select" v-model="params.drop">
               <el-option v-for="i in x.drops"
                          :label="i.name"
                          :value="i.value"
@@ -181,49 +181,13 @@ export default {
         width: 344px;
       }
     }
-    // .chanpin {
-    //   .el-col {
-    //     display: flex;
-    //     justify-content: space-between;
-    //     .btn {
-    //       background: #fff;
-    //       border: 1px solid #c8cbd6;
-    //       &:hover,
-    //       &.active {
-    //         color: #476dff;
-    //         background: #ebf0ff;
-    //         border: 1px solid #3c63ff;
-    //       }
-    //     }
-    //   }
-    // }
+
     .rules_two {
       .el-col-6 {
         width: 148px;
       }
     }
-    /deep/.caiseType .el-form-item__content {
-      display: flex;
-      justify-content: start;
-      margin-right: 20px;
-      > div {
-        margin-right: 20px;
-      }
-      .el-checkbox {
-        margin-right: 3px !important;
-      }
-      .el-select {
-        width: 72px;
-        input {
-          height: 24px !important;
-          line-height: 24px !important;
-        }
-        .el-select__caret {
-          height: 24px !important;
-          line-height: 24px !important;
-        }
-      }
-    }
+
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">铜版彩色印刷宣传单页 颜色清晰质感更好</h3>
+      <h3 class="title">菜单定制印刷，A5/A4/A3一次性勾选菜单设计制作</h3>
       <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
       <Server></Server>
 
@@ -13,7 +13,7 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in cnst.danye_materials"
+            <el-option v-for="i in cnst.caidanMates"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -22,34 +22,25 @@
       </el-form-item>
       <el-form-item label="尺寸(毫米)"
                     class="rules">
-        <el-col :span="15"
-                v-if="!zidingyi">
+                    <span slot="label">
+          <span class="span-box displayFl">
+            <span> 尺寸(毫米) </span>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="设计注意事项：1.为避免内容切掉重要内容距成品边至少要3mm（不含出血）2.如文件做出血，四周出血各2毫米，例:成品210*285mm含出血214*289mm" placement="top">
+              <div class="yhc-tips">!</div>
+            </el-tooltip>
+          </span>
+        </span>
+        <el-col :span="15">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
                      v-model="params.mate">
-            <el-option v-for="i in cnst.danye_rules"
+            <el-option v-for="i in cnst.caidan_rules"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
           </el-select>
-        </el-col>
-        <div v-if="zidingyi" class="rules_two">
-          <el-col :span="6">
-            <el-input v-model="params.rule"
-                      placeholder="长边"></el-input>
-          </el-col>
-          <el-col class="t_a_c"
-                  :span="2">×</el-col>
-          <el-col :span="6">
-            <el-input v-model="params.rule"
-                      placeholder="短边"></el-input>
-          </el-col>
-        </div>
-        <el-col :span="2">
-          <el-checkbox class="zidingyi" label="自定义"
-                       v-model="zidingyi"
-                       border>
-          </el-checkbox>
         </el-col>
       </el-form-item>
       <el-form-item label="数量"
@@ -63,18 +54,14 @@
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
-                    class="typeNum"
-                    :class='{"mg-none":type != 1 && currentVal == 3}'>
+                    class="typeNum">
         <el-input-number v-model="params.typeNum"
                          @change="handleChange"
                          :min="1"
                          :max="10"></el-input-number>
       </el-form-item>
       <el-form-item label="印面">
-        <el-radio-group v-model="params.radio">
-          <el-radio label="1">双面</el-radio>
-          <el-radio label="2">单面</el-radio>
-        </el-radio-group>
+        <span>单面</span>
       </el-form-item>
       <el-form-item label="工艺"
                     class="gongyiType mg-none">
@@ -83,7 +70,7 @@
                      v-model="params.model_">
         </el-checkbox>
         <el-select class="mini" v-model="params.drop" @change="changeTypes(params.drop)">
-          <el-option v-for="i in cnst.danye_drop1"
+          <el-option v-for="i in cnst.danye_drop1.filter((v)=>{return v.value<6})"
                      :label="i.name"
                      :value="i.name"
                      :key="i.name"
@@ -176,6 +163,7 @@ export default {
       }
     }
   }
+
 
 }
 </style>
