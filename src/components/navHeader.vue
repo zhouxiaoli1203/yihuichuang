@@ -200,7 +200,7 @@ export default {
 //   }).then((res)=>{
 //     console.log(res)
 //   });
-  this.$post("post",this.baseUrl+"user/reg",data)
+  this.$post("post",this.baseUrl+this.URL.login,data)
   .then((res)=>{
       console.log(res);
   })

@@ -117,16 +117,75 @@ const CONSTANT = {
         {name:"风琴四折再对折",value:"9"},
     ],
     danye_drop1:[
-        {name:"2",drops:[{name:"对折",value:"1"}]},
-        {name:"3",drops:[{name:"风琴折",value:"2"},{name:"包心折",value:"3"}]},
-        {name:"4",drops:[{name:"风琴折",value:"2"},{name:"对折再对折",value:"4"},{name:"十字折",value:"5"},{name:"宝塔折",value:"6"}]},
-        {name:"5",drops:[{name:"风琴折",value:"2"},{name:"宝塔折",value:"6"}]},
-        {name:"6",drops:[{name:"风琴折",value:"2"},{name:"宝塔折",value:"6"},{name:"风琴三折再对折",value:"7"}]},
-        {name:"7",drops:[{name:"风琴折",value:"2"}]},
-        {name:"8",drops:[{name:"混合折",value:"8"},{name:"风琴四折再对折",value:"9"}]},
+        {name:"2",value:"2",drops:[{name:"对折",value:"1"}]},
+        {name:"3",value:"3",drops:[{name:"风琴折",value:"2"},{name:"包心折",value:"3"}]},
+        {name:"4",value:"4",drops:[{name:"风琴折",value:"2"},{name:"对折再对折",value:"4"},{name:"十字折",value:"5"},{name:"宝塔折",value:"6"}]},
+        {name:"5",value:"5",drops:[{name:"风琴折",value:"2"},{name:"宝塔折",value:"6"}]},
+        {name:"6",value:"6",drops:[{name:"风琴折",value:"2"},{name:"宝塔折",value:"6"},{name:"风琴三折再对折",value:"7"}]},
+        {name:"7",value:"7",drops:[{name:"风琴折",value:"2"}]},
+        {name:"8",value:"8",drops:[{name:"混合折",value:"8"},{name:"风琴四折再对折",value:"9"}]},
     ],
-    
+    zheye_materials:[
+        { name: '128g铜版纸', value: '1' },
+        { name: '157g铜版纸', value: '21' },
+        { name: '200g铜版纸', value: '3' },
+        { name: '250g铜版纸', value: '4' },
+        { name: '300g铜版纸', value: '5' },
+    ],
+    zheye_rules:[
+        { name: '210*285', value: '1' },
+        { name: '210*140', value: '2' },
+        { name: '420*285', value: '3' },
+    ],
+    zheye_types_gongyi: [
+        { name: '折页', value: '1'},
+        { name: 'A4单面覆膜', value: '2'},
+        { name: 'A3单面覆膜', value: '3' },
+        { name: 'A4双面覆膜', value: '4' },
+        { name: 'A3双面覆膜', value: '5' },
+    ],
+    zheyes:[
+        { name: '对折页', value: '1'},
+        { name: '三折页', value: '2'},
+    ],
+    modelTypes:[
+        { name: '光膜', value: '1'},
+        { name: '哑膜', value: '2'},
+    ],
+    buganjiao_materials:[
+        { name: '普通不干胶', value: '1'},
+        { name: '加胶不干胶', value: '2'},
+    ],
+    buganjiao_rules:[
+        { name: '90*54', value: '1'},
+        { name: '90*50', value: '2'},
+        { name: '160*54', value: '3'},
+        { name: '180*54', value: '4'},
+        { name: '182*54', value: '5'},
+    ],
+    buganjiao_gongyi:[
+        { name: '直角切成片', value: '1'},
+        { name: '模切', value: '2'},
+        { name: '压点线', value: '3'},
+        { name: '覆亮膜', value: '4'},
+        { name: '覆哑膜', value: '5'},
+        { name: '防晒油墨', value: '6'},
+        { name: '拼咬口', value: '7'},
+        { name: '拼大张', value: '8'},
+    ],
+    buganjiao_moqie:[
+        {name:'圆形',value:'1'},
+        {name:'直角',value:'2'},
+        {name:'圆角',value:'3'},
+        {name:'椭圆',value:'4'},
+        {name:'其他',value:'5'},
+        {name:'10度圆角',value:'6'},
+        {name:'15度圆角',value:'7'},
+    ],
+};
+const URL = {
+    login:"XXX/XX/"
 };
 
 
-export default CONSTANT;
+export {CONSTANT,URL};

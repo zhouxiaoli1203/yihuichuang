@@ -70,6 +70,12 @@ img{
 .weight500{
     font-weight: 500;
 }
+.mt5{
+    margin-top: 5px;
+}
+.mr10{
+    margin-right: 10px;
+}
 .mt15{
     margin-top: 15px;
 }
@@ -161,7 +167,16 @@ img{
 .main-red{
     color:#FF2626;
 }
-
+.main-click{
+    color: #409EFF;
+    cursor: pointer;
+}
+.lineh34{
+    line-height: 34px;
+}
+.displayFl{
+    display:flex;
+}
 /* 弹框遮罩层 */
 .mask{
   position: fixed;

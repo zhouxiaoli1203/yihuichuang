@@ -65,7 +65,7 @@
             </li>
           </ul>
         </div>
-        <div class="fr infos">
+        <div class="fr infos yhc-el-tabs">
           <el-tabs type="border-card"
                    v-model="editableTabsValue">
             <el-tab-pane :key="item.name"
@@ -83,7 +83,7 @@
 <script>
 import  Armband from '@/views/print/materiel/armband_dtl'
 import  Banner from '@/views/print/materiel/banner_dtl'
-import  Ribbon from '@/views/print/comnPrint/danye_dtl'
+import  Ribbon from '@/views/print/comnPrint/zheye_dtl'
 
 import Price from '@/components/pricePop'
 export default {

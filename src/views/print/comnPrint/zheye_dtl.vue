@@ -2,7 +2,7 @@
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">铜版彩色印刷宣传单页 颜色清晰质感更好</h3>
+      <h3 class="title">彩色三折页 风琴折 包心折 双面彩页印刷</h3>
       <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
       <Server></Server>
 
@@ -13,27 +13,39 @@
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in cnst.danye_materials"
+            <el-option v-for="i in cnst.zheye_materials"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="尺寸(毫米)"
+      <el-form-item label=""
                     class="rules">
+        <span slot="label">
+          <span class="span-box displayFl">
+            <span> 尺寸(毫米) </span>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="尺寸加大不加价，升级为标准16开210*285，8开420*285"
+                        placement="top">
+              <div class="yhc-tips">!</div>
+            </el-tooltip>
+          </span>
+        </span>
         <el-col :span="15"
                 v-if="!zidingyi">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
                      v-model="params.mate">
-            <el-option v-for="i in cnst.danye_rules"
+            <el-option v-for="i in cnst.zheye_rules"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
-        <div v-if="zidingyi" class="rules_two">
+        <div v-if="zidingyi"
+             class="rules_two">
           <el-col :span="6">
             <el-input v-model="params.rule"
                       placeholder="长边"></el-input>
@@ -46,7 +58,8 @@
           </el-col>
         </div>
         <el-col :span="2">
-          <el-checkbox class="zidingyi" label="自定义"
+          <el-checkbox class="zidingyi"
+                       label="自定义"
                        v-model="zidingyi"
                        border>
           </el-checkbox>
@@ -79,34 +92,37 @@
       <el-form-item label="工艺"
                     class="caiseType mg-none">
 
-        <el-checkbox label="折页"
-                     v-model="params.model_">
-        </el-checkbox>
-        <el-select v-model="params.drop" @change="changeTypes(params.drop)">
-          <el-option v-for="i in cnst.danye_drop1"
-                     :label="i.name"
-                     :value="i.name"
-                     :key="i.name"
-                     ></el-option>
-        </el-select>
-        <el-select v-model="params.drop2">
-          <el-option v-for="i in typelist"
-                     :label="i.name"
-                     :value="i.value"
-                     :key="i.value"></el-option>
-        </el-select>
-        <span class="lineh34 main-click" @click="dialogVisible = true">查看类型</span>
+        <div v-for="(x,index) in cnst.zheye_types_gongyi">
+          <el-checkbox :label="x.name"
+                       :value="x.value"
+                       name="type"
+                       :key="x.value"
+                       v-model="x.model_">
+          </el-checkbox>
+          <el-select v-show="index==0"
+                     v-model="x.drop">
+            <el-option v-for="i in cnst.zheyes"
+                       :label="i.name"
+                       :value="i.value"
+                       :key="i.value"></el-option>
+          </el-select>
+          <el-select v-show="index!=0"
+                     v-model="x.drop">
+            <el-option v-for="i in cnst.modelTypes"
+                       :label="i.name"
+                       :value="i.value"
+                       :key="i.value"></el-option>
+          </el-select>
+        </div>
       </el-form-item>
-  </el-form>
-<el-dialog
-  title="全部类型显示"
-  :visible.sync="dialogVisible"
-  width="290px"
-  :before-close="handleClose">
-  <ul class="dialog-type-style">
-      <li v-for="x in cnst.danye_all_drops">{{x.name}}</li>
-  </ul>
-</el-dialog>
+    </el-form>
+    <el-dialog title="全部类型显示"
+               :visible.sync="dialogVisible"
+               width="290px">
+      <ul class="dialog-type-style">
+        <li v-for="x in cnst.danye_all_drops">{{x.name}}</li>
+      </ul>
+    </el-dialog>
   </div>
 </template>
 
@@ -116,7 +132,7 @@ export default {
   name: 'photo-detail',
   data() {
     return {
-        dialogVisible:false,
+      dialogVisible: false,
       zidingyi: false,
       typelist: [],
       activeName: '',
@@ -127,7 +143,7 @@ export default {
         typeNum: 1,
         type: '',
         drop: '',
-        drop2:"",
+        drop2: '',
         radio: 2,
         model_: false,
       },
@@ -136,7 +152,9 @@ export default {
   },
   props: ['type'],
   components: { Server },
-  created() {},
+  created() {
+    this.cnst.zheye_types_gongyi.map((v, i) => {})
+  },
   mounted() {
     console.log(this.type)
   },
@@ -146,12 +164,11 @@ export default {
       this.currentVal = n.value
     },
     changeTypes: function (x) {
-      this.typelist = this.cnst.danye_drop1.filter( (item,i) =>{
-       return item.name == x;
-      })[0].drops;
-      console.log(this.typelist);
+      this.typelist = this.cnst.danye_drop1.filter((item, i) => {
+        return item.name == x
+      })[0].drops
+      console.log(this.typelist)
     },
-    
   },
 }
 </script>
@@ -165,11 +182,11 @@ export default {
         width: 344px;
       }
     }
-    .rules{
-        .zidingyi{
-            margin-top: 1px;
-            margin-left: 10px;
-        }
+    .rules {
+      .zidingyi {
+        margin-top: 1px;
+        margin-left: 10px;
+      }
     }
     .rules_two {
       .el-col-6 {
@@ -179,6 +196,7 @@ export default {
     /deep/.caiseType .el-form-item__content {
       display: flex;
       justify-content: start;
+      flex-wrap: wrap;
       margin-right: 20px;
       > div {
         margin-right: 20px;
@@ -200,26 +218,26 @@ export default {
     }
   }
 
-  .dialog-type-style{
-      display: flex;
-      flex-wrap: wrap;
-      .el-dialog__header{
-          padding: 10px 15px 10px;
-      }
-      .el-dialog__headerbtn{
-          top: 10px;
-      }
-      .el-dialog__body {
-        padding: 0px 15px 20px;
-      }
-      li{
-          padding:2px ;
-         background: #E5EDE7;
-          text-align: center;
-          color:#4E9F5B;
-          margin-right: 10px;
-          margin-top: 10px;
-      }
+  .dialog-type-style {
+    display: flex;
+    flex-wrap: wrap;
+    .el-dialog__header {
+      padding: 10px 15px 10px;
+    }
+    .el-dialog__headerbtn {
+      top: 10px;
+    }
+    .el-dialog__body {
+      padding: 0px 15px 20px;
+    }
+    li {
+      padding: 2px;
+      background: #e5ede7;
+      text-align: center;
+      color: #4e9f5b;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
   }
 }
 </style>

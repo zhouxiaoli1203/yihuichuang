@@ -47,6 +47,9 @@
     .el-form-item__content{
         line-height: 34px !important;
     }
+    .el-input__icon{
+        line-height: 34px;
+    }
     // input 层级选择器
     .el-input__inner,.el-cascader{
         height: 34px !important;
@@ -58,6 +61,14 @@
         .el-checkbox__label{
             padding-left: 6px;
         }
+    }
+    .el-checkbox.is-bordered{
+        height: 32px;
+        padding: 6px 10px 6px 10px;
+        border: 1px solid #ccc;
+    }
+    .el-checkbox.is-bordered.is-checked {
+        border-color: #409EFF;
     }
     // label
     .el-form-item__label{
@@ -133,8 +144,63 @@
         }
     }
 }
+//工艺中特殊处理的select input checkbox
+.gongyiType .el-form-item__content {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    margin-right: 20px;
+    > div {
+      margin-right: 20px;
+    }
+    .el-checkbox {
+      margin-right: 3px !important;
+    }
+    .el-select.mini {
+      width: 72px;
+      &.width78{
+          width: 78px;
+      }
+      input {
+        height: 24px !important;
+        line-height: 24px !important;
+        font-size: 12px;
+      }
+      .el-select__caret {
+        height: 24px !important;
+        line-height: 24px !important;
+      }
+    }
+  }
+  .yhc-el-input{
+      .el-input.mini{
+        height: 24px !important;
+        line-height: 24px !important;
+        font-size: 12px;
+        input{
+            width: 78px;
+            height: 24px !important;
+            line-height: 24px !important;
+            font-size: 12px;
+        }
+      }
+
+  }
+  .yhc-tips{
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+    text-align: center;
+    border-radius: 50%;
+    background: #D81E06;
+    color: #fff;
+    margin-top: 10px;
+    margin-right: 5px;
+    font-size: 10px;
+    cursor: pointer;
+  }
 // 带有顶部线条的tab
-.el-tabs--border-card {
+.yhc-el-tabs .el-tabs--border-card {
     border: none;
     .el-tabs__item {
       height: 44px;
@@ -155,6 +221,7 @@
     background: #4e9f5b;
     border-color: #4e9f5b;
   }
+
 // 自己写的tabs切换
 .tabs-box{
     display: flex;
