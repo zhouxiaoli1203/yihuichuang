@@ -70,6 +70,12 @@ img{
 .weight500{
     font-weight: 500;
 }
+.ml5{
+    margin-left: 5px;
+}
+.ml10{
+    margin-left: 10px;
+}
 .mt5{
     margin-top: 5px;
 }
@@ -104,7 +110,8 @@ img{
 
 
 .btn{
-    width: 110px;
+    /* width: 110px; */
+    width: initial;
     height: 34px;
     line-height: 20px;
     border-radius: 4px;
@@ -112,6 +119,17 @@ img{
     font-size: 14px;
     text-align: center;
     cursor: pointer;
+    
+}
+.btn .mark{
+    margin-right: 2px;
+    display: inline-block;
+    font-size: 14px;
+}
+.btn.add{
+    color: #476dff;
+    background: #ebf0ff;
+    border: 1px solid #3c63ff;
 }
 .green{
     background: #4E9F5B;
@@ -176,6 +194,9 @@ img{
 }
 .displayFl{
     display:flex;
+}
+.displayIB{
+    display: inline-block;
 }
 /* 弹框遮罩层 */
 .mask{

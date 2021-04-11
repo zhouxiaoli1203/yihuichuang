@@ -83,7 +83,7 @@
 <script>
 import  Armband from '@/views/print/materiel/armband_dtl'
 import  Banner from '@/views/print/materiel/banner_dtl'
-import  Ribbon from '@/views/print/biaopai/mutuopai_dtl'
+import  Ribbon from '@/views/print/company/xuanchuance_dtl'
 
 import Price from '@/components/pricePop'
 export default {

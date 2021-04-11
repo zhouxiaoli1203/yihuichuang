@@ -297,7 +297,38 @@ const CONSTANT = {
     paiziType:[
         {name:'直边',value:'1'},
         {name:'花边',value:'2'},
-    ]
+    ],
+    xuanchuan_btns:[
+        {name:'骑马钉',value:'1'},
+        {name:'无线胶装',value:'2'},
+    ],
+    xuanchuan_mates:[
+        {name:'铜版纸105克',value:'1'},
+        {name:'铜版纸128克',value:'2'},
+        {name:'铜版纸200克',value:'3'},
+        {name:'铜版纸250克',value:'4'},
+        {name:'铜版纸300克',value:'5'},
+        {name:'双胶纸70克',value:'6'},
+        {name:'双胶纸80克',value:'7'},
+        {name:'双胶纸100克',value:'8'},
+        {name:'双胶纸120克',value:'9'},
+        {name:'道林双胶纸80克',value:'10'},
+    ],
+    xuanchuan_mates_jiaozhuang:[
+        {name:'铜版纸200克',value:'3'},
+        {name:'铜版纸250克',value:'4'},
+        {name:'铜版纸300克',value:'5'},
+    ],
+    xuanchuan_rules:[
+        {name:'大度16开285*210',value:'1'},
+        {name:'正度16开260*185',value:'2'},
+        {name:'大度32开210*140',value:'3'},
+        {name:'正度32开185*130',value:'4'},
+        {name:'大度8开420*285',value:'5'},
+        {name:'正度8开370*260',value:'6'},
+        {name:'竖版A4规格297*210',value:'7'},
+    ],
+
 };
 const URL = {
     login:"user/infoGet"

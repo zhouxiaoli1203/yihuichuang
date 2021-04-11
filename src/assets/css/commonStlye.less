@@ -213,7 +213,25 @@
     }
   }
 }
-
+.yhc-el{
+    .el-select,.el-input{
+        height: 34px !important;
+      line-height: 34px !important;
+    }
+    .el-input__icon {
+        line-height: 34px;
+      }
+    
+      // input 层级选择器
+      .el-input__inner,
+      .el-cascader {
+        height: 34px !important;
+        line-height: 34px !important;
+      }
+      .el-radio{
+          margin-right:12px;
+      }
+}
 .yhc-el-input {
   .el-input.mini {
     height: 24px !important;
@@ -358,8 +376,27 @@
     background: #4E9F5B;
   }
 }
-
-
+//加减按钮图标
+.add-minus-box{
+    display: flex;
+    >span{
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        line-height: 18px;
+        text-align: center;
+        background: #CBCFE3;
+        border-radius: 50%;
+        font-size: 23px;
+        font-weight: 500;
+        color: #fff;
+        cursor: pointer;
+        &:first-child{
+            margin-right: 5px;
+        }
+    }
+}
+// 属性表单中可切换的按钮
 .yhc-attr-btns {
   display: flex;
   justify-content: space-between;
@@ -375,7 +412,20 @@
     }
   }
 }
-
+// 带有背景色的表头
+.ych-title-head{
+    height: 40px;
+    line-height: 40px;
+   background: rgba(78, 159, 91, 0.1);
+   margin-top: 24px;
+    .title{
+        padding: 9px 24px;
+        font-size: 16px;
+        color:#fff;
+        text-align: center;
+        background: #4E9F5B;
+    }
+}
 /* 面包屑 */
 
 .crumbsHeader {
