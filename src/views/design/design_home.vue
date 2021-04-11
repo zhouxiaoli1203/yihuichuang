@@ -39,7 +39,7 @@
                    alt=""></i></li>
         </ul>
         <ul class="displayFl design-content-item">
-          <li v-for="x in 12">
+          <li v-for="x in 12" @click="openCkt">
             <img src=""
                  alt="">
             <h5>{{x.title}}</h5>
@@ -56,6 +56,14 @@
 </template>
 
 <script>
+import CktDesign from "@chuangkit/chuangkit-design"
+var option = {
+    "data-access": "",
+    "data-exp": "",
+    "sign": "",
+    "signType": ""
+};
+var cktDesign = new CktDesign(option)
 export default {
   name: 'design',
   data() {
@@ -108,9 +116,15 @@ export default {
     }
   },
   components: {},
-  created() {},
+  created() {
+      console.log(cktDesign);
+  },
   mounted() {},
-  methods: {},
+  methods: {
+      openCkt:function(){
+          cktDesign.open();
+      }
+  },
 }
 </script>
 <style lang='less' scoped>

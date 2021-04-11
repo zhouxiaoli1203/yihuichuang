@@ -19,6 +19,8 @@ import {CONSTANT,URL} from './utils/constant'
 Object.keys(Fns).forEach(key => {
     Vue.prototype[key] = Fns[key]
 })
+
+
 //全局的filter
 import filters from './utils/filters'
 filters(Vue)
