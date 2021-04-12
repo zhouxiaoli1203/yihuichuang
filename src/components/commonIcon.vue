@@ -147,15 +147,14 @@ export default {
   .commonIcon{
     position: fixed;
     z-index: 1;
-    right: 105px;
+    right: 30px;
     transform: translate(0,-50%);
     z-index: 99;
     top: 50%;
 
     ul{
         background: #fff;
-        border-radius: 50px;
-        padding: 10px 0;
+        border-radius: 10px;
 
         li{
             position: relative;
@@ -168,15 +167,19 @@ export default {
         li:last-child{
             cursor: pointer;
         }
+
+        .active:first-child{
+          border-radius: 10px 10px 0 0;
+        }
     }
 
     .icon{
       text-align: center;
-      width: 76px;
+      width: 60px;
       padding: 10px 0;
       img{
-        width: 34px;
-        height: 34px;
+        width: 28px;
+        height: 28x;
         margin-bottom: 8px;
       }
 
@@ -188,7 +191,7 @@ export default {
 
     .cont{
       position: absolute;
-      right: 76px;
+      right: 60px;
       top: 0;
     }
 

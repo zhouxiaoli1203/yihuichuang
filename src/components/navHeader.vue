@@ -12,13 +12,16 @@
                 <el-menu-item index="/service">服务保障</el-menu-item>
                 <el-menu-item index="/news">新闻中心</el-menu-item>
                 <el-menu-item index="/help">帮助支持</el-menu-item>
-                <el-menu-item index="/about">关于我们{{token}}</el-menu-item>
+                <el-menu-item index="/about">关于我们</el-menu-item>
             </el-menu>
             <div class="hraderInfo">
                 <div class="cart cursor_p"><img :src="cart" alt=""></div>
                 <div class="head cursor_p" @click="userLnk" v-if="token!=''">
-                  <img :src="face" alt="">
-                  <p>在线证件照制作</p>
+                  <div class="imgp">
+                    <img :src="face" alt="">
+                     <p>在线证件照制作</p>
+                  </div>
+                  <span>名字</span>
                 </div>
                 <p class="login cursor_p"  @click="dialogTableVisible = true" v-else>登录/注册</p>
             </div>
@@ -641,12 +644,15 @@ export default {
         .hraderInfo{
             display: flex;
             align-items: center;
-           
-
-            
+                       
             .head{
-              position: relative;
-               margin-left: 100px;
+            
+              margin-left: 100px;
+              display: flex;
+              align-items: center;
+              .imgp{
+                position: relative;
+              }
               img{
                 width: 32px;
                 height: 32px;
@@ -658,12 +664,19 @@ export default {
                 background: #FFDE33;
                 border-radius: 50px;
                 color: #333;
-                top: -10px;
+                top: -14px;
                 right: -80px;
                 width: 96px;
                 text-align: center;
                 height: 26px;
                 line-height: 26px;
+              }
+
+              span{
+                display: inline-block;
+                color: #666;
+                font-size: 12px;
+                margin-left: 5px;
               }
             }
 

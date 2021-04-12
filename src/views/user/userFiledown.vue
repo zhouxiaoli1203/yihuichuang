@@ -101,6 +101,7 @@
       },
       // checkbox选中 --- 当绑定值变化时触发的事件
       handleCheckedCitiesChange(value) {
+        console.log(value)
         let checkedCount = value.length;   //选中值的长度
         this.checkAll = checkedCount === this.flileList.length;  //如果选中值的长度和源数据的长度一样，返回true，就表示你已经选中了全部checkbox，那么就把true赋值给this.checkAll
       },

@@ -25,6 +25,11 @@ export default new Router({
           component: () => import('@/views/index/index.vue'),
         },
         {
+          path: '/index/indexSearch',
+          name: 'indexSearch',
+          component: () => import('@/views/index/indexSearch.vue'),
+        },
+        {
           path: '/news',
           name: 'news',
           component: () => import('@/views/news/index.vue'),
