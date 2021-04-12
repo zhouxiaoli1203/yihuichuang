@@ -401,15 +401,15 @@
 .introBox .el-radio__input.is-checked .el-radio__inner .el-radio__inner {
   border-radius: 0;
 }
-.introBox .el-radio__input.is-checked .el-radio__inner .el-radio__label {
+.introBox .el-radio__label {
   width: 100px;
   display: inline-block;
   text-align: left;
 }
-.introBox .el-radio__input.is-checked .el-radio__inner .el-radio__input.is-checked + .el-radio__label {
+.introBox .el-radio__input.is-checked + .el-radio__label {
   color: #333333;
 }
-.introBox .publicPorp {
+.publicPorp {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -417,12 +417,12 @@
   border-radius: 8px;
   z-index: 113;
 }
-.introBox .publicPorp .btnBox {
+.publicPorp .btnBox {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.introBox .publicPorp .btnBox span {
+.publicPorp .btnBox span {
   width: 85px;
   height: 34px;
   border-radius: 4px;
@@ -431,29 +431,29 @@
   line-height: 34px;
   cursor: pointer;
 }
-.introBox .publicPorp .btnBox span:first-child {
+.publicPorp .btnBox span:first-child {
   background: #DBDBDB;
   margin-right: 24px;
 }
-.introBox .publicPorp .btnBox span:last-child {
+.publicPorp .btnBox span:last-child {
   background: #4E9F5B;
 }
-.introBox .loginBoxPorp .el-form-item .el-form-item__content {
+.loginBoxPorp .el-form-item .el-form-item__content {
   width: 100%;
 }
-.introBox .loginBoxPorp .el-form-item .el-input__inner,
-.introBox .loginBoxPorp .el-form-item .el-cascader {
+.loginBoxPorp .el-form-item .el-input__inner,
+.loginBoxPorp .el-form-item .el-cascader {
   height: 44px !important;
   line-height: 44px !important;
 }
-.introBox .el-radio__inner {
+.el-radio__inner {
   border-radius: 0;
 }
-.introBox .el-radio__label {
+.el-radio__label {
   width: 100px;
   display: inline-block;
   text-align: left;
 }
-.introBox .el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked + .el-radio__label {
   color: #333333;
 }

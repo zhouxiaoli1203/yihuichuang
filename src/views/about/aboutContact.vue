@@ -48,7 +48,6 @@
        // 点击首页
       pathIndex(){
         this.$store.state.currentIndex = '/index';
-        this.$store.state.indexHome = '/index';
         this.$router.push("/index");
       },
     }

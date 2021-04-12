@@ -4,7 +4,6 @@
         <div class="crumbsHeader">
             <div class="crumbs">
                 <span @click="pathIndex()">首页 / </span>
-                <!-- <span @click="pathNews()">帮助支持 /</span> -->
                 <span>个人资料</span>
             </div>
         </div>
@@ -14,12 +13,12 @@
                 <section class="headBox">
                     <div class="head">
                         <div class="infoBox">
-                            <img src="" alt="">
+                            <img :src="face" alt="">
                             <div class="info">
-                                <p>努力的阿发</p>
+                                <p>{{nickname?nickname:'努力的阿发111'}}</p>
                                 <p class="tel">
                                     <i class="el-icon-mobile-phone"></i>
-                                    <span>18233211211</span>
+                                    <span>{{phone?phone:'xxxxxxxxxx'}}</span>
                                 </p>
                             </div>
                         </div>
@@ -38,8 +37,8 @@
                             <span>余额</span>
                         </div>
                         <p>
-                            <span>￥</span>
-                            <span>323.00</span>
+                            <span v-if="info!='' && info.balance!=0">￥</span>
+                            <span>{{info?info.balance:'0'}}</span>
                         </p>
                     </div>
                 </section>
@@ -49,20 +48,31 @@
 
     <!-- 修改资料弹框 -->
     <section class="modifyBox publicPorp"  v-show="userPublic" >
-        <i class="el-icon-close"></i>
+        <i class="el-icon-close" @click="userClose"></i>
         <div class="tabNav">
             <el-tabs tab-position="left" type="border-card" style="height: 100%;">
                 <el-tab-pane label="个人资料">
                     <div class="editInput">
                         <h4>编辑用户名称</h4>
-                        <div class="input">
-                            <input type="text" placeholder="请输入用户名称">
-                        </div>
-                    </div>
-                    <div class="btns">
-                        <span  @click="userClose">取消</span>
-                        <span>确定</span>
-                    </div>
+                    </div> 
+    
+                    <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm">
+                        <el-form-item
+                            prop="nickname"
+                            :rules="[
+                                { required: true, message: '用户名称不能为空'},
+                            ]"
+                        >
+                         <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入用户名称"></el-input>
+                        </el-form-item>
+                        <el-form-item class="btns">
+                            <button  @click="userClose" class="spanBtn">取消</button>
+                            <button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</button>                           
+                        </el-form-item>
+                    </el-form>
+
+
+
                 </el-tab-pane>
                 <el-tab-pane label="头像">
                     <div class="upHead">
@@ -81,28 +91,40 @@
                         </el-upload>
                     </div>
                     <div class="btns">
-                        <span>取消</span>
+                        <span @click="userClose">取消</span>
                         <span>确定</span>
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="手机号">
                     <div class="editInput">
                         <h4>修改手机号</h4>
-                        <div class="input">
-                            <input type="text" placeholder="请输入原手机号">
-                        </div>
-                        <div class="input">
-                            <input type="text" placeholder="请输入新手机号">
-                        </div>
-                        <div class="input">
-                            <input type="text" placeholder="请输入验证码">
-                            <span>短信验证码</span>
-                        </div>
                     </div>
-                    <div class="btns">
-                        <span>取消</span>
-                        <span>确定</span>
-                    </div>
+
+                    <el-form :model="phoneModifyForm" :rules="phoneModifyRules" ref="phoneModifyForm" class="editInput">
+                        <el-form-item  prop="oldPhone" key="oldPhone">
+                            <el-input v-model="phoneModifyForm.oldPhone" placeholder="请输入原手机号"></el-input>
+                        </el-form-item>
+                        <el-form-item  prop="newPhone" key="newPhone">
+                            <el-input v-model="phoneModifyForm.newPhone" placeholder="请输入新手机号"></el-input>
+                        </el-form-item>
+                        <el-form-item  prop="code" class="input codeBox" key="wjCode">
+                            <el-row type="flex" class=""justify="space-between">
+                            <el-col :span="14">
+                                <el-input v-model="phoneModifyForm.code" placeholder="请输入验证码"></el-input>
+                            </el-col>
+                            <el-col :span="10">
+                                <!-- sendMsg('phoneModifyForm') -->
+                                <span class="cursor_p code"  @click="sendMsg('phoneModifyForm')" v-if="timeSend==60">获取验证码</span>
+                                <span class="cursor_p code" v-else>倒计时：{{timeSend}}</span>
+                            </el-col>
+                            </el-row>
+                        </el-form-item>
+
+                         <el-form-item class="btns">
+                            <button  @click="userClose" class="spanBtn">取消</button>
+                            <button  class="spanBtn" type="primary" @click="phoneModifySubmit('phoneModifyForm')">确定</button>                           
+                        </el-form-item>
+                    </el-form>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -119,21 +141,85 @@
       MenuLeft,
     },
     data () {
+        var validatePass = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入原手机号'));
+            } else {
+                if (this.phoneModifyForm.newPhone !== '') {
+                this.$refs.phoneModifyForm.validateField('newPhone');
+                }
+                callback();
+            }
+        };
+        var validatePass2 = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入新手机号'));
+            } else if (value == this.phoneModifyForm.oldPhone) {
+                callback(new Error('两次输入的手机号一致!'));
+            } else {
+                callback();
+            }
+        };
+            
       return {
         moneyIcon: require('../../assets/img/user/moneyIcon.png'),
         dialogImageUrl: '',
         dialogVisible: false,
         userPublic: false,
+        info:'',
+        nickname:'',
+        phone:'',
+        face:'',
+        nicknameForm: {
+          nickname: ''
+        },
+        phoneModifyForm:{
+            oldPhone:'',
+            newPhone:'',
+            code:'',
+        },
+        phoneModifyRules: {
+            oldPhone: [
+                { validator: validatePass, trigger: 'blur' },
+                { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' },
+            ],
+            newPhone: [
+                { validator: validatePass2, trigger: 'blur' },
+                { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' },
+            ],
+            code: [
+                { required: true, message: '请输入验证码', trigger: 'blur' },
+            ],
+        
+        },
+        timeSend:60
       }
     },
+    created(){
+        let token  = this.$store.state.token;
+        this.userInfoGet(token)
+    },
+
     methods: {
+        // 获取验证码倒计时
+        timeSendNumber() {
+            this.timer = setInterval(()=>{
+                this.timeSend--
+                if(this.timeSend===0){
+                this.timeSend=60
+                clearInterval(this.timer)
+                }
+                console.log(this.timeSend)
+            },1000)
+        },
+
+
         gotoMore(){
             this.$router.push("/news/detail");
         },
         // 点击首页
         pathIndex(){
             this.$store.state.currentIndex = '/index';
-            this.$store.state.indexHome = '/index';
             this.$router.push("/index");
         },
 
@@ -145,8 +231,130 @@
             // this.dialogVisible = true;
         },
         userClose(){
+            console.log(1211)
             this.userPublic=false
         },
+
+        // 获取个人信息
+        userInfoGet(token) {
+            this.$post("post",this.baseUrl+'user/infoGet',{
+                token,
+            })
+            .then((res)=>{
+                let data = res.data
+                if(data.code==1){
+                    this.info = data.data
+                    this.nickname = data.data.nickname
+                    this.face = data.data.face
+                    this.phone = data.data.phone
+                }else{
+                    this.$message({
+                        message:data.info,
+                        type: 'warning'
+                    });
+                }
+            })
+        },
+
+        // 修改昵称
+        nicknameSubmit(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.$post("post",this.baseUrl+"user/infoModify",{
+                        token:this.token,
+                        face:this.face,
+                        nickname:this.nicknameForm.nickname
+                    })
+                    .then((res)=>{
+                        let data = res.data
+                        if(data.code==1){
+                            this.nickname = data.data.nickname
+                            this.face = data.data.face
+                            this.$message({
+                                message:data.info,
+                                type: 'success'
+                            });
+                            this.$refs[formName].resetFields();
+                        }else{
+                            this.$message({
+                                message:data.info,
+                                type: 'warning'
+                            });
+                        }
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+
+        // 修改图片
+
+        // 获取验证码
+        sendMsg(formName) {     
+            this.$refs[formName].validateField('oldPhone',(phoneError) => {
+                if(!phoneError){
+                    this.$refs[formName].validateField('newPhone',(Errors) => {
+                        if(!Errors){
+                             this.timeSendNumber()
+                              this.$post("post",this.baseUrl+"sms/send",{
+                                phone:this.phoneModifyForm.newPhone,
+                                template:'bgxx',
+                            })
+                            .then((res)=>{
+                                let data = res.data
+                                if(data.code==1){
+                                    this.sms_token = data.data.sms_token
+                                }else{
+                                this.$message({
+                                    message:data.info,
+                                    type: 'warning'
+                                });
+                                }
+                            })
+                        }
+                    })
+
+
+                }
+            })
+        },
+
+ 
+        // 修改手机号
+        phoneModifySubmit(formName) {
+            console.log(formName)
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.$post("post",this.baseUrl+"user/phoneModify",{
+                        token:this.token,
+                        face:this.face,
+                        nickname:this.nicknameForm.nickname
+                    })
+                    .then((res)=>{
+                        let data = res.data
+                        if(data.code==1){
+                            this.nickname = data.data.nickname
+                            this.face = data.data.face
+                            this.$message({
+                                message:data.info,
+                                type: 'success'
+                            });
+                            this.$refs[formName].resetFields();
+                        }else{
+                            this.$message({
+                                message:data.info,
+                                type: 'warning'
+                            });
+                        }
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },        
     }
   }
 </script>
@@ -266,7 +474,11 @@
     min-width: 450px;
 
     .tabNav{
-        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
     }
 
     .el-icon-close{
@@ -280,6 +492,7 @@
         top: 0;
         right: 0;
         padding-right: 24px;
+        z-index: 11;
     }
 
     .editInput{
@@ -289,21 +502,21 @@
         }
 
         .input{
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
+            // display: flex;
+            // align-items: center;
+            // margin-bottom: 16px;
 
-            input{
-                flex: 1;
-                height: 34px;
-                background: #FFFFFF;
-                border-radius: 4px;
-                border: 1px solid #979797;
-                text-indent: 8px;
+            // input{
+            //     flex: 1;
+            //     height: 34px;
+            //     background: #FFFFFF;
+            //     border-radius: 4px;
+            //     border: 1px solid #979797;
+            //     text-indent: 8px;
                
-            }
+            // }
             span{
-                width: 88px;
+                // width: 88px;
                 height: 34px;
                 background: #4E9F5B;
                 border-radius:4px;
@@ -312,6 +525,7 @@
                 line-height: 34px;
                 text-align: center;
                 cursor: pointer;
+                display: block;
             }
         }
     }
@@ -323,7 +537,7 @@
         right: 0;
         text-align: center;
 
-        span{
+        .spanBtn{
             width: 84px;
             height: 34px;
             background: #4E9F5B;
@@ -333,12 +547,12 @@
             display: inline-block;
             line-height: 34px;
         }
-        span:first-child{
+        .spanBtn:first-child{
             background: #DBDBDB;
             margin-right: 48px;
         }
 
-         span:last-child{
+        .spanBtn:last-child{
             background: #4E9F5B;
         }
     }

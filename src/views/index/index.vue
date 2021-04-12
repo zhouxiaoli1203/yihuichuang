@@ -49,8 +49,8 @@
             </div>
           </div>
           <el-carousel height="500px">
-            <el-carousel-item v-for="item in 4" :key="item">
-              <h3 class="small">{{ item }}</h3>
+            <el-carousel-item v-for="(item,index) in bannerList" :key="index">
+              <img :src="item.img" alt="" class="barimg">
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -259,6 +259,17 @@ export default {
         buyIcon2: require('../../assets/img/index/buyIcon2.png'),
         banner: require('../../assets/img/index/banner.jpg'),
 
+        bannerList:[
+          {
+            img: require('../../assets/img/index/banner.jpg'),
+          
+          },
+          {
+            img:require('../../assets/img/index/banner2.jpg'),
+         
+          }
+        ],
+        
         activeName: 'first',
         isCollapse: true,
         input: '',
@@ -464,11 +475,6 @@ export default {
       BannerNav,
     },
     created(){
-      let indexHome = this.$store.state.indexHome;
-      if(indexHome){
-        this.$store.state.indexHome = ''
-        window.location.reload();
-      }
     },
     methods: {
       searchFocus(){ //搜索
@@ -481,6 +487,7 @@ export default {
       handleClick(tab, event) {  // 新闻中心
         console.log(tab, event);
       },
+
     }
 
   }
@@ -499,21 +506,15 @@ export default {
     align-items: center;
     height: 500px;
 
-    .el-carousel__item h3 {
-      color: #475669;
-      font-size: 14px;
-      opacity: 0.75;
-      line-height: 150px;
-      margin: 0;
-    }
+ 
 
-    .el-carousel__item:nth-child(2n) {
-      background-color: #99a9bf;
+    .el-carousel__item{
+      img{
+        width: 100%;
+        height: 100%;
+      }
     }
     
-    .el-carousel__item:nth-child(2n+1) {
-      background-color: #d3dce6;
-    }
 
     .banner{
       width: 1010px;

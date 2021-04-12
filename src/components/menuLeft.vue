@@ -4,17 +4,22 @@
             <el-row class="tac">
             <el-col>
                 <el-menu
-                :default-active="activeIndex"
+                :default-active="activeIndexs"
                 @select="handleSelect"
                 class="el-menu-vertical-demo"
                 background-color="#fff"
                 text-color="#333"
                 active-text-color="#fff" router>
-                <template v-for="(item, index) in commonList">
-                    <el-menu-item :index="item.url">
-                    <span slot="title">{{item.tit}}</span>
-                    </el-menu-item>   
-                </template>
+                    <template v-for="(item, index) in commonList">
+                        <el-menu-item :index="item.url" v-if="item.tit!='退出登录'">
+                        <span slot="title">{{item.tit}}</span>
+                        </el-menu-item>
+
+                        <el-menu-item v-else @click="logout">
+                            <span slot="title">{{item.tit}}</span>
+                        </el-menu-item>
+                            
+                    </template>
                 </el-menu>
             </el-col>
             </el-row>
@@ -28,16 +33,15 @@ export default {
   name: 'menuLeft',
     data(){
         return{
-            activeIndex:'',
+            activeIndexs:'',
             commonList:[],
         }
     },
     created(){
         let navName = this.$store.state.publicHome;
-        console.log(navName)
         let name = this.$store.state.menuLeft;
         if(navName=='/news'){
-            this.activeIndex = name?name:'/news'
+            this.activeIndexs = name?name:'/news'
             this.commonList= [
                 {
                     tit:'行业动态',
@@ -53,7 +57,7 @@ export default {
             ]
         }
         if(navName=='/help'){
-            this.activeIndex = name?name:'/help'
+            this.activeIndexs = name?name:'/help'
             this.commonList= [
                 {
                     tit:'法律声明',
@@ -73,7 +77,7 @@ export default {
             ]
         }
         if(navName=='/about'){
-            this.activeIndex = name?name:'/about'
+            this.activeIndexs = name?name:'/about'
             this.commonList= [
                 {
                     tit:'关于我们',
@@ -95,7 +99,7 @@ export default {
         }
 
         if(navName=='/user'){
-            this.activeIndex = name?name:'/user'
+            this.activeIndexs = name?name:'/user'
             this.commonList= [
                 {
                     tit:'个人资料',
@@ -131,21 +135,90 @@ export default {
                     tit:'余额管理',
                     index:6,
                     url:'/user/userBalance'
+                },
+                {
+                    tit:'退出登录',
+                    index:7,
+                    url:'logout'
                 }
             ]
         }
     },
     mounted(){
-    
+        let hrefs = this.$route.path
+        let hrefUrls = hrefs.split('_')[0];
+        // console.log(hrefUrls)
+        // this.activeIndexs = '/' + hrefUrls
+        // this.$store.state.menuLeft = '/' + hrefUrls
+
+
+        let href = window.location.href
+        this.activeIndex = href.split('/#')[1]
+
+        let s =  href.split('/#')[1]
+        console.log(s.split('/')[2])
+        // this.$store.state.currentIndex = href.split('/#')[1]
+
+
+
     },
     methods: {
         handleSelect(key) {
-            console.log(key)
-            this.activeIndex=key
-            this.$store.state.menuLeft = key; //导航高亮
-        }
-    }
+            // console.log(key)
+            let navName = this.$store.state.publicHome;
+            let val =  this.$store.state.menuLeft
+            if(navName=='/user'){
+                if(key==null){
+                    if(val==''){
+                        this.activeIndexs =  '/user'
+                    }else{
+                        this.activeIndexs =  this.$store.state.menuLeft
+                    }
+                }else{
+                    this.activeIndexs=key
+                    this.$store.state.menuLeft = key; //导航高亮
+                }
+            }else{
+                this.activeIndexs=key
+                this.$store.state.menuLeft = key; //导航高亮
+            }
+           
+        },
+        logout(){
+            this.$confirm('确定要退出登录吗?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {  
+                    this.$message({
+                        type: 'success',
+                        message: '退出登录成功!'
+                    });
+                    this.$post("post",this.baseUrl+'user/logout',{
+                        token:this.token,
+                    })
+                    this.$store.state.token = '';
+                    this.$store.state.currentIndex="/index",
+                    this.$router.replace('/');
+                }).catch(() => {      
+            });
+        },
+        // getPath () {  //解决浏览器后退导航高亮问题
+        //     // this.activeIndexs = this.$route.path
+        //     // this.$store.state.menuLeft = this.$route.path
 
+        //     let href = this.$route.path
+        //     let hrefUrl =  href.split('/')[1]
+        //     // this.activeIndexs = '/'+ hrefUrl
+        //     // this.$store.state.currentIndex = '/'+ hrefUrl
+        //     // this.$store.state.publicHome = '/'+ hrefUrl
+        //     console.log(hrefUrl)
+
+        // }
+    },
+    watch: {
+        // '$route': 'getPath'  //监听浏览器后退导航高亮问题
+    }
   
 }
 </script>

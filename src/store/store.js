@@ -7,10 +7,9 @@ export default new Vuex.Store({
     //所有的数据都放在state中
     state:{
       currentIndex:"/index",
-      indexHome:'',
       publicHome:'',
       menuLeft:'',
-      token:''
+      token:'125'
     },
 
     //操作数据，唯一的通道是mutations/*配置全局函数*/

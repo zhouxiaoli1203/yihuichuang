@@ -12,11 +12,11 @@
                 <el-menu-item index="/service">服务保障</el-menu-item>
                 <el-menu-item index="/news">新闻中心</el-menu-item>
                 <el-menu-item index="/help">帮助支持</el-menu-item>
-                <el-menu-item index="/about">关于我们</el-menu-item>
+                <el-menu-item index="/about">关于我们{{token}}</el-menu-item>
             </el-menu>
             <div class="hraderInfo">
                 <div class="cart cursor_p"><img :src="cart" alt=""></div>
-                <div class="head cursor_p" @click="userLnk" v-if="face!=''">
+                <div class="head cursor_p" @click="userLnk" v-if="token!=''">
                   <img :src="face" alt="">
                   <p>在线证件照制作</p>
                 </div>
@@ -316,6 +316,13 @@ export default {
   },
   created(){
     this.activeIndex = this.$store.state.currentIndex;
+    this.token = this.$store.state.token;
+  },
+  mounted () {
+    // let href = window.location.href
+    // this.activeIndex = href.split('/#')[1]
+    // console.log(href.split('/#')[1])
+    // this.$store.state.currentIndex = href.split('/#')[1]
   },
   methods: {
     // 获取验证码倒计时
@@ -573,10 +580,35 @@ export default {
         that.resultArr.push(result) 
 
       }
+    },
+    getPath () {  //解决浏览器后退导航高亮问题
+      let href = this.$route.path
+      let hrefUrl =  href.split('/')[1]
+      console.log(111+'导航')
+      this.activeIndex = '/'+ hrefUrl
+      this.$store.state.currentIndex = '/'+ hrefUrl
+      this.$store.state.publicHome = '/'+ hrefUrl
     }
 
     
   },
+  computed: {
+    aState: function () {
+      return this.$store.state.token
+    },
+    activeState: function () {
+      return this.$store.state.currentIndex
+    }
+  },
+  watch: {
+    'aState': function (newVal) { //监听token
+      this.token = newVal
+    },
+    'activeState': function (newVal) { //监听导航
+      this.activeIndex = newVal
+    },
+    '$route': 'getPath'  //监听浏览器后退导航高亮问题
+  }
 }
 </script>
 
