@@ -404,6 +404,15 @@
   background-color: #4E9F5B;
   border-color: #4E9F5B;
 }
+.modifyBox .el-tab-pane {
+  height: 100%;
+}
+.userPicturePorp .el-tabs--border-card > .el-tabs__content {
+  width: 80%;
+  padding: 56px 32px 32px;
+  position: relative;
+  height: 100%;
+}
 /* 个人中心 打印文件 多选 */
 .checkboxBox .el-checkbox__label {
   display: flex;
@@ -494,16 +503,40 @@
   height: 44px !important;
   line-height: 44px !important;
 }
-.el-radio__inner {
-  border-radius: 0;
+.daohang {
+  margin: 24px 0;
 }
-.el-radio__label {
-  width: 100px;
-  display: inline-block;
+.table-box {
+  width: 100%;
+}
+.table-box th,
+.table-box td {
   text-align: left;
+  color: #333;
+  font-weight: normal;
+  padding: 13px;
+  background-color: #fff;
+  border-bottom: 1px solid #ebeef5;
 }
-.el-radio__input.is-checked + .el-radio__label {
-  color: #333333;
+.tip-badge {
+  padding: 10px;
+  display: inline-block;
+  position: relative;
+}
+.tip-badge i.badge {
+  position: absolute;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  color: #fff;
+  background: #f56c6c;
+  border-radius: 50%;
+  right: 0px;
+  top: 1px;
+  font-style: initial;
+  font-size: 14px;
 }
 .el-menu,
 .el-menu.el-menu--horizontal {

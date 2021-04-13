@@ -38,8 +38,7 @@
             </div>
           </div>  
         </div>
-
-        <!-- <div>时间</div> -->
+        
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
@@ -215,6 +214,7 @@
     td{
       height: 35px;
       text-align: center;
+      max-width: 300px;
     }
 
     .goodImg{
@@ -261,7 +261,7 @@
   align-items: center;
   background: #fff;
   border: none;
-  border-radius:8px;
+  border-radius:5px;
   overflow: hidden;
 
   .inputInner{
