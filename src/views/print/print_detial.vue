@@ -44,7 +44,7 @@
             </el-form-item>
           </el-form>
           <!-- 在线估价弹框 -->
-          <Price></Price>
+          <Price ></Price>
 
         </div>
         <div class="operate-right">
@@ -77,6 +77,7 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 

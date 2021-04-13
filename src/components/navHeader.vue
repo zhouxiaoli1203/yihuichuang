@@ -591,9 +591,11 @@ export default {
       this.activeIndex = '/'+ hrefUrl
       this.$store.state.currentIndex = '/'+ hrefUrl
       this.$store.state.publicHome = '/'+ hrefUrl
+    },
+    //购物车列表跳转
+    goCart:function(){
+        this.$router.push("/cart");
     }
-
-    
   },
   computed: {
     aState: function () {

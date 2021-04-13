@@ -105,6 +105,11 @@ export default new Router({
           component: () => import('@/views/user/index.vue'),
         },
         {
+          path: '/cart',
+          name: 'cart',
+          component: () => import('@/views/cart.vue'),
+        },
+        {
           path: '/user/userOrder',
           name: 'userOrder',
           component: () => import('@/views/user/userOrder.vue'),

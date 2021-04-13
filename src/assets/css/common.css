@@ -34,13 +34,13 @@ img{
 }
 
 .t_a_c{
-  text-align: center;
+  text-align: center !important;
 }
 .t_a_l{
-  text-align: left;
+  text-align: left !important;
 }
 .t_a_r{
-  text-align: right;
+  text-align: right !important;
 }
 .clearfix{
   clear: both;
@@ -76,11 +76,18 @@ img{
 .ml10{
     margin-left: 10px;
 }
+
+.mr10{
+    margin-right: 10px;
+}
+.mr15{
+    margin-right: 15px;
+}
 .mt5{
     margin-top: 5px;
 }
-.mr10{
-    margin-right: 10px;
+.mt10{
+    margin-top: 10px;
 }
 .mt15{
     margin-top: 15px;
@@ -189,6 +196,10 @@ img{
     color: #409EFF;
     cursor: pointer;
 }
+.main-gray{
+    color:#999999;
+    display: inline-block;
+}
 .lineh34{
     line-height: 34px;
 }
@@ -198,6 +209,7 @@ img{
 .displayIB{
     display: inline-block;
 }
+
 /* 弹框遮罩层 */
 .mask{
   position: fixed;
@@ -207,6 +219,12 @@ img{
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 112;
+}
+.mask .mask-content{
+    margin: 0 auto;
+    position:absolute;
+    left:50%;
+    top:50%;
 }
 
 
