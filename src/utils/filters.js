@@ -1,4 +1,5 @@
-
+import Vue from 'vue'
+import Fns from './common'
 const filters = {
     // 空值
     isEmpty(val) {
@@ -38,6 +39,10 @@ const filters = {
         }
         return value;
     },
+    formatDate_(time,type){
+        var date = new Date(time);
+        return Fns.formatDate(date, type);
+    }
 }
 export default (Vue) => {
     Object.keys(filters).forEach(key => {

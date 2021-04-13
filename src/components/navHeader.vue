@@ -15,7 +15,7 @@
                 <el-menu-item index="/about">关于我们</el-menu-item>
             </el-menu>
             <div class="hraderInfo">
-                <div class="cart cursor_p"><img :src="cart" alt=""></div>
+                <div class="cart cursor_p" @click="goCart"><img :src="cart" alt=""></div>
                 <div class="head cursor_p" @click="userLnk" v-if="token!=''">
                   <div class="imgp">
                     <img :src="face" alt="">

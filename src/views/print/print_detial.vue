@@ -10,7 +10,9 @@
             <!-- 每个页面的属性 -->
           <!-- <Armband v-if="detailType == 1"></Armband>
           <Banner v-if="detailType == 2"></Banner> -->
-          <Ribbon></Ribbon>
+          <component v-bind:is="xuanchuance" title="高清"></component>
+
+          <!-- <Ribbon></Ribbon> -->
           <!-- 上传文件按钮 -->
           <el-form class="bgGreen_">
             <el-form-item label="我有文件">
@@ -91,6 +93,7 @@ export default {
   name: 'pdetial',
   data() {
     return {
+        xuanchuance:Ribbon,
         detailType:"",
       relItems: Array(4),
       editableTabsValue: 'detail',
@@ -112,11 +115,20 @@ export default {
             'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
         },
       ],
+      arr:[
+          {cmpt:Armband,id:1},
+          {cmpt:Banner,id:2},
+          {cmpt:Ribbon,id:3},
+      ],
     }
   },
   components: { Armband,Banner,Ribbon, Price },
   created() {
       this.detailType = this.$route.query.type;
+      this.xuanchuance = this.arr.filter((v)=>{
+          return this.detailType == v.id;
+      })[0].cmpt;
+
   },
   mounted() {},
   methods: {
@@ -129,7 +141,7 @@ export default {
         },
       })
     },
-        handleRemove(file, fileList) {
+    handleRemove(file, fileList) {
       console.log(file, fileList)
     },
     handlePreview(file) {

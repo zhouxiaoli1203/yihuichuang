@@ -59,18 +59,19 @@
 
 <script>
 import CktDesign from '@chuangkit/chuangkit-design'
-
-var cktDesign
+import Fns from '@/utils/common'
+var option = {
+    'data-access': '0d68eeb82eaf46aa9206718d7e7fdc2a',
+    'data-exp': Fns.formatDate(new Date(),"yyyy-MM-dd hh:mm:ss"),
+    sign: '',
+    signType: '1A2AA5E996990C2DCB3E9F8E7BCD8144',
+}
+var design = new CktDesign(option);
+console.log(Fns);
 export default {
   name: 'design',
   data() {
     return {
-      option: {
-        'data-access': '',
-        'data-exp': '',
-        sign: '',
-        signType: '',
-      },
       searchList: [
         {
           title: '分类',
@@ -120,12 +121,12 @@ export default {
   },
   components: {},
   created() {
-    cktDesign = new CktDesign(this.option)
   },
   mounted() {},
   methods: {
     openCkt: function () {
-      cktDesign.openPcIframe()
+        console.log(design );
+      design .open()
     },
   },
 }

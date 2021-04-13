@@ -2,7 +2,7 @@
   <div class='attr-operate paint-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">高清户外喷绘布pp纸车贴</h3>
+      <h3 class="title">{{title}}</h3>
       <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
       <Server></Server>
             <el-form-item label="款式"
@@ -96,6 +96,7 @@ export default {
 
     }
   },
+  props:["title"],
   components: { Server },
   created() {},
   mounted() {},

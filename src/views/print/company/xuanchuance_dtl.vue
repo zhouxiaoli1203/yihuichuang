@@ -234,7 +234,7 @@
 <script>
 import Server from '@/components/servertip'
 export default {
-  name: 'photo-detail',
+  name: 'xuanchuance',
   data() {
     return {
       dialogVisible: false,
