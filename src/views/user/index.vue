@@ -25,8 +25,8 @@
                         <i class="el-icon-edit-outline" @click="userPublic = true"></i>
                     </div>
                     <div class="btns">
-                        <span>充值</span>
-                        <span>消费</span>
+                        <span  @click="RechargeClick">充值</span>
+                        <span  @click="recordBoxClick">消费</span>
                     </div>
                 </section>
                 <section class="assets">
@@ -130,15 +130,25 @@
         </div>
     </section>
     <div class="mask" v-show="userPublic" @click="userClose"></div>
+
+     <!-- 充值 -->
+    <rechargePorp :chongzhiPorp="chongzhiPorp" @changeShow="showAddOrUpdate"></rechargePorp>
+    <!-- 消费记录 -->
+    <consumePorp :xiaofeiPorp="xiaofeiPorp" @xiaofeiShow="xiaofeiUpdate"></consumePorp>
+
   </div>
 </template>
 
 <script>
-  import MenuLeft from '../../components/menuLeft'
-  export default {
+import MenuLeft from '../../components/menuLeft'
+import rechargePorp from '../../components/recharge'
+import consumePorp from '../../components/consume'
+export default {
     name: 'user',
     components: {
-      MenuLeft,
+        MenuLeft,
+        rechargePorp,
+        consumePorp
     },
     data () {
         var validatePass = (rule, value, callback) => {
@@ -160,40 +170,41 @@
                 callback();
             }
         };
+        return {
+            moneyIcon: require('../../assets/img/user/moneyIcon.png'),
+            dialogImageUrl: '',
+            dialogVisible: false,
+            userPublic: false,
+            info:'',
+            nickname:'',
+            phone:'',
+            face:'',
+            nicknameForm: {
+                nickname: ''
+            },
+            phoneModifyForm:{
+                oldPhone:'',
+                newPhone:'',
+                code:'',
+            },
+            phoneModifyRules: {
+                oldPhone: [
+                    { validator: validatePass, trigger: 'blur' },
+                    { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' },
+                ],
+                newPhone: [
+                    { validator: validatePass2, trigger: 'blur' },
+                    { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' },
+                ],
+                code: [
+                    { required: true, message: '请输入验证码', trigger: 'blur' },
+                ],
             
-      return {
-        moneyIcon: require('../../assets/img/user/moneyIcon.png'),
-        dialogImageUrl: '',
-        dialogVisible: false,
-        userPublic: false,
-        info:'',
-        nickname:'',
-        phone:'',
-        face:'',
-        nicknameForm: {
-          nickname: ''
-        },
-        phoneModifyForm:{
-            oldPhone:'',
-            newPhone:'',
-            code:'',
-        },
-        phoneModifyRules: {
-            oldPhone: [
-                { validator: validatePass, trigger: 'blur' },
-                { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' },
-            ],
-            newPhone: [
-                { validator: validatePass2, trigger: 'blur' },
-                { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' },
-            ],
-            code: [
-                { required: true, message: '请输入验证码', trigger: 'blur' },
-            ],
-        
-        },
-        timeSend:60
-      }
+            },
+            timeSend:60,
+            xiaofeiPorp:false,
+            chongzhiPorp:false
+        }
     },
     created(){
         let token  = this.$store.state.token;
@@ -201,6 +212,31 @@
     },
 
     methods: {
+        // 充值
+        RechargeClick(){
+            this.chongzhiPorp=true
+        },
+        // 监听 子组件弹窗关闭后触发，有子组件调用
+        showAddOrUpdate(data){
+            if(data === 'false'){
+                this.chongzhiPorp = false
+            }else{
+                this.chongzhiPorp = true
+            }
+        },
+        // 消费
+        recordBoxClick(){
+            this.xiaofeiPorp = true
+        },
+
+        xiaofeiUpdate(data){
+            if(data === 'false'){
+                this.xiaofeiPorp = false
+            }else{
+                this.xiaofeiPorp = true
+            }
+        },
+
         // 获取验证码倒计时
         timeSendNumber() {
             this.timer = setInterval(()=>{
@@ -297,8 +333,8 @@
                 if(!phoneError){
                     this.$refs[formName].validateField('newPhone',(Errors) => {
                         if(!Errors){
-                             this.timeSendNumber()
-                              this.$post("post",this.baseUrl+"sms/send",{
+                                this.timeSendNumber()
+                                this.$post("post",this.baseUrl+"sms/send",{
                                 phone:this.phoneModifyForm.newPhone,
                                 template:'bgxx',
                             })
@@ -321,7 +357,7 @@
             })
         },
 
- 
+
         // 修改手机号
         phoneModifySubmit(formName) {
             console.log(formName)
@@ -356,7 +392,7 @@
             });
         },        
     }
-  }
+}
 </script>
 
 

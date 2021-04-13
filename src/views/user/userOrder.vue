@@ -3,10 +3,40 @@
     <section class="center">
         <div class="crumbsHeader">
           <div class="crumbs">
-                <span @click="pathIndex()">首页 / </span>
-                <!-- <span @click="pathNews()">帮助支持 /</span> -->
-                <span>订单管理</span>
+            <span @click="pathIndex()">首页 / </span>
+            <!-- <span @click="pathNews()">帮助支持 /</span> -->
+            <span>订单管理</span>
+          </div>
+          <div class="operateBox">
+            <div class="xuanZe">
+                <div class="state">
+                    <el-select v-model="value" placeholder="全部状态">
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                      </el-option>
+                    </el-select>
+                </div>
+                <div class="block">
+                  <el-date-picker
+                    v-model="dataTime"
+                    type="daterange"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :default-time="['00:00:00', '23:59:59']">
+                  </el-date-picker>
+                </div>
             </div>
+            <div class="input">
+              <div class="inputInner">
+                  <i class="el-icon-search"></i>
+                  <input type="text" v-model="searchValue" placeholder="请输入内容"  @keyup.enter="searchBtn($event)">
+              </div>
+              <el-button type="primary" @click="searchBtn">搜索</el-button>
+            </div>
+          </div>  
         </div>
 
         <!-- <div>时间</div> -->
@@ -110,16 +140,62 @@
       MenuLeft,
     },
     data () {
-      return {      
+      return {     
+        options: [
+          {
+            value: '选项1',
+            label: '制作中'
+          }, 
+          {
+            value: '选项2',
+            label: '已支付'
+          }, 
+          {
+            value: '选项3',
+            label: '已退款'
+          }, 
+          {
+            value: '选项4',
+            label: '已提货'
+          }
+        ],
+        searchValue: '' ,
+        dataTime:'',
+        value:''
       }
     },
     methods: {
+      // 点击搜索
+      searchBtn(e){
+        let val = this.searchValue
+        if(val=='') return 
+      },
     }
   }
 </script>
 
 
 <style lang="less" scoped>
+.crumbsHeader{
+  justify-content: space-between;
+
+  .operateBox{
+    width: 976px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .xuanZe{
+      display: flex;
+      align-items: center;
+
+      .state{
+        margin-right: 16px;
+        width: 120px;
+      }
+    }
+  }
+}
 .contList{
   padding: 24px;
   position: relative;
@@ -179,4 +255,38 @@
     }
   }
 }
+
+.input{
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: none;
+  border-radius:8px;
+  overflow: hidden;
+
+  .inputInner{
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding-left: 20px;
+    input{
+      flex: 1;
+      height: 100%;
+      margin-left: 8px;
+    }
+  }
+}
+
+
+.el-button{
+  border-radius: 0;
+  width: 56px;
+  padding: 12px 0;
+}
+
+ .el-button--primary{
+    background-color: #4E9F5B;
+    border-color: #4E9F5B;
+  }
+
 </style>

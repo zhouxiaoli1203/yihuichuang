@@ -1,5 +1,5 @@
 <template>
-  <div id="index" class="main">
+  <div id="index" class="main bgray">
     <div class="center">
       <!-- 轮播图 -->
       <section class="bannerBox">
@@ -146,14 +146,14 @@
 
 
       <!-- 新闻中心 -->
-      <section class="newsBox">
+      <section class="newsBox eleNwsBox">
         <h1 class="titH1">新闻中心</h1>
         <template>
-          <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tabs v-model="activeName" @tab-click="handleClick" :before-leave="moreState">
             <el-tab-pane label="行业动态" name="first">
               <div class="newInfo">
                 <div class="top">
-                  <img :src="banner" alt="">
+                  <img src="" alt="">
                   <div class="info">
                     <h3>将已知的事物陌生化，更是一种创造</h3>
                     <span>2020-02-22</span>
@@ -163,7 +163,7 @@
                 </div>
                 <ul class="bot">
                   <li>
-                    <img :src="banner" alt="">
+                    <img src="" alt="">
                     <div class="info">
                       <h3>将已知的事物陌生化，更是一种创造</h3>
                       <p>机他装斯次何领设该思因院事华采无面车法关比复色处装红人物知生厂称联公维它手其身群政期指想每得被此立标生层口断果比中外安场油支很外半心象天再把与格火。越别住难表上清切看回市研离以只新按此自事车入着况计物本</p>
@@ -172,7 +172,7 @@
                     </div>
                   </li>
                    <li>
-                    <img :src="banner" alt="">
+                    <img src="" alt="">
                     <div class="info">
                       <h3>将已知的事物陌生化，更是一种创造</h3>
                       <p>机他装斯次何领设该思因院事华采无面车法关比复色处装红人物知生厂称联公维它手其身群政期指想每得被此立标生层口断果比中外安场油支很外半心象天再把与格火。越别住难表上清切看回市研离以只新按此自事车入着况计物本</p>
@@ -181,7 +181,7 @@
                     </div>
                   </li>
                    <li>
-                    <img :src="banner" alt="">
+                    <img src="" alt="">
                     <div class="info">
                       <h3>将已知的事物陌生化，更是一种创造</h3>
                       <p>机他装斯次何领设该思因院事华采无面车法关比复色处装红人物知生厂称联公维它手其身群政期指想每得被此立标生层口断果比中外安场油支很外半心象天再把与格火。越别住难表上清切看回市研离以只新按此自事车入着况计物本</p>
@@ -194,6 +194,10 @@
             </el-tab-pane>
             <el-tab-pane label="客户动态" name="second">客户动态</el-tab-pane>
             <el-tab-pane label="公搜动态" name="third">公搜动态</el-tab-pane>
+                <el-tab-pane name="more" class="more-btn">
+                  <span slot="label">查看更多</span>
+                  <!-- <span slot="label"><router-link to="/news">更多+</router-link></span> -->
+                </el-tab-pane>
           </el-tabs>
         </template>
 
@@ -230,6 +234,7 @@ export default {
           }
         ],
         activeName: 'first',
+        name: "HomeNewsList",
       };
     },
     components: {
@@ -243,6 +248,17 @@ export default {
       handleClick(tab, event) {  // 新闻中心
         console.log(tab, event);
       },
+      moreState(tab){
+        if(tab == 'more'){
+          this.$store.state.currentIndex = '/news';
+          this.$store.state.publicHome = '/news'
+          this.$router.push("/news");
+          this.$store.state.menuLeft = ''
+          return false;
+        }
+      }
+    
+  
 
     }
 
@@ -250,7 +266,6 @@ export default {
 </script>
 <style lang="less" scoped>
   #index{
-    background: #f6f6f6;
     padding-bottom: 248px;
   }
 
@@ -533,6 +548,11 @@ export default {
       }
     }
   }
+
+
+.newsBox.el-tabs__item.is-top:last-child{
+  color: #ff4949;
+}
 
 
 

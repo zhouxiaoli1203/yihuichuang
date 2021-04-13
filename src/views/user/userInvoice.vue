@@ -82,8 +82,6 @@
           <span @click="closePorp">取消</span>
           <span  @click="onSubmit">提交</span>
         </div>
-
-
       </el-form>
     </section>
     <div class="mask" v-show="BillingPorp" @click="closePorp"></div>
@@ -110,7 +108,8 @@
           type: [],
           resource: '',
           desc: ''
-        }
+        },
+        
       }
     },
     methods: {
@@ -173,5 +172,7 @@
 
 .BillingPorp{
   width: 471px;
+  background: #fff;
+  padding: 24px
 }
 </style>

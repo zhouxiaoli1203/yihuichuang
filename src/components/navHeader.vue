@@ -604,7 +604,10 @@ export default {
     },
     activeState: function () {
       return this.$store.state.currentIndex
-    }
+    },
+    // publicHome: function () {
+    //     return this.$store.state.publicHome //监听左侧导航
+    // }
   },
   watch: {
     'aState': function (newVal) { //监听token
@@ -613,6 +616,9 @@ export default {
     'activeState': function (newVal) { //监听导航
       this.activeIndex = newVal
     },
+    // 'publicHome': function (newVal) { //监听左侧导航
+    //     console.log(newVal)
+    // },
     '$route': 'getPath'  //监听浏览器后退导航高亮问题
   }
 }

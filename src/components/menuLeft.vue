@@ -35,131 +35,17 @@ export default {
         return{
             activeIndexs:'',
             commonList:[],
+            navName:'',
+            name:'',
+
         }
     },
     created(){
         let navName = this.$store.state.publicHome;
         let name = this.$store.state.menuLeft;
-        if(navName=='/news'){
-            this.activeIndexs = name?name:'/news'
-            this.commonList= [
-                {
-                    tit:'行业动态',
-                    url:'/news'
-                },
-                {
-                    tit:'客户动态',
-                    url:'/news/newsCustom'
-                },
-                {
-                    tit:'公司动态',
-                }
-            ]
-        }
-        if(navName=='/help'){
-            this.activeIndexs = name?name:'/help'
-            this.commonList= [
-                {
-                    tit:'法律声明',
-                    url:'/help'
-                },
-                {
-                    tit:'常见问题',
-                    url:'/help/helpProblem'
-                },
-                {
-                    tit:'物流说明',
-                    url:'/help/helpExpress'
-                },
-                {
-                    tit:'退款说明',
-                }
-            ]
-        }
-        if(navName=='/about'){
-            this.activeIndexs = name?name:'/about'
-            this.commonList= [
-                {
-                    tit:'关于我们',
-                    url:'/about'
-                },
-                {
-                    tit:'用户协议',
-                    url:'/about1',
-                },
-                {
-                    tit:'联系我们',
-                    url:'/about/aboutContact'
-                },
-                {
-                    tit:'线下店分布',
-                    url:'/about/aboutOffline'
-                }
-            ]
-        }
-
-        if(navName=='/user'){
-            this.activeIndexs = name?name:'/user'
-            this.commonList= [
-                {
-                    tit:'个人资料',
-                    index:0,
-                    url:'/user'
-                },
-                {
-                    tit:'订单管理',
-                    index:1,
-                    url:'/user/userOrder'
-                },
-                {
-                    tit:'收货地址',
-                    index:2,
-                    url:'/user/userAddress'
-                },
-                {
-                    tit:'发票管理',
-                    index:3,
-                    url:'/user/userInvoice'
-                },
-                {
-                    tit:'文件打印',
-                    index:4,
-                    url:'/user/userFile'
-                },
-                {
-                    tit:'证件照',
-                    index:5,
-                    url:'/user/userPhoto'
-                },
-                {
-                    tit:'余额管理',
-                    index:6,
-                    url:'/user/userBalance'
-                },
-                {
-                    tit:'退出登录',
-                    index:7,
-                    url:'logout'
-                }
-            ]
-        }
+        this.leftNav(navName,name)
     },
     mounted(){
-        let hrefs = this.$route.path
-        let hrefUrls = hrefs.split('_')[0];
-        // console.log(hrefUrls)
-        // this.activeIndexs = '/' + hrefUrls
-        // this.$store.state.menuLeft = '/' + hrefUrls
-
-
-        let href = window.location.href
-        this.activeIndex = href.split('/#')[1]
-
-        let s =  href.split('/#')[1]
-        console.log(s.split('/')[2])
-        // this.$store.state.currentIndex = href.split('/#')[1]
-
-
 
     },
     methods: {
@@ -203,6 +89,116 @@ export default {
                 }).catch(() => {      
             });
         },
+
+        // 给导航赋值
+        leftNav(navName,name){
+            if(navName=='/news'){
+                this.activeIndexs = name?name:'/news'
+                this.commonList= [
+                    {
+                        tit:'行业动态',
+                        url:'/news'
+                    },
+                    {
+                        tit:'客户动态',
+                        url:'/news/newsCustom'
+                    },
+                    {
+                        tit:'公司动态',
+                        url:'/news/frc'
+                    }
+                ]
+            }
+            if(navName=='/help'){
+                this.activeIndexs = name?name:'/help'
+                this.commonList= [
+                    {
+                        tit:'法律声明',
+                        url:'/help'
+                    },
+                    {
+                        tit:'常见问题',
+                        url:'/help/helpProblem'
+                    },
+                    {
+                        tit:'物流说明',
+                        url:'/help/helpExpress'
+                    },
+                    {
+                        tit:'退款说明',
+                    }
+                ]
+            }
+            if(navName=='/about'){
+                this.activeIndexs = name?name:'/about'
+                this.commonList= [
+                    {
+                        tit:'关于我们',
+                        url:'/about'
+                    },
+                    {
+                        tit:'用户协议',
+                        url:'/about1',
+                    },
+                    {
+                        tit:'联系我们',
+                        url:'/about/aboutContact'
+                    },
+                    {
+                        tit:'线下店分布',
+                        url:'/about/aboutOffline'
+                    }
+                ]
+            }
+
+            if(navName=='/user'){
+                this.activeIndexs = name?name:'/user'
+                this.commonList= [
+                    {
+                        tit:'个人资料',
+                        index:0,
+                        url:'/user'
+                    },
+                    {
+                        tit:'订单管理',
+                        index:1,
+                        url:'/user/userOrder'
+                    },
+                    {
+                        tit:'收货地址',
+                        index:2,
+                        url:'/user/userAddress'
+                    },
+                    {
+                        tit:'发票管理',
+                        index:3,
+                        url:'/user/userInvoice'
+                    },
+                    {
+                        tit:'文件打印',
+                        index:4,
+                        url:'/user/userFile'
+                    },
+                    {
+                        tit:'证件照',
+                        index:5,
+                        url:'/user/userPhoto'
+                    },
+                    {
+                        tit:'余额管理',
+                        index:6,
+                        url:'/user/userBalance'
+                    },
+                    {
+                        tit:'退出登录',
+                        index:7,
+                        url:'logout'
+                    }
+                ]
+            }
+        }
+
+
         // getPath () {  //解决浏览器后退导航高亮问题
         //     // this.activeIndexs = this.$route.path
         //     // this.$store.state.menuLeft = this.$route.path
@@ -225,7 +221,6 @@ export default {
 
 
 <style lang="less" scoped>
-
   .newNav{
     width: 200px;
     height: 923px;

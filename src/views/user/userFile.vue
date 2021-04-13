@@ -28,6 +28,14 @@
                   <p>文件</p>
                 </li>
               </ul>
+
+              <!-- 储存空间 -->
+              <div class="Storage">
+                <p>32G/100G</p>
+                <div class="pro">
+                  <el-progress :percentage="32" :show-text="false"></el-progress>
+                </div>
+              </div>
             </div>
         </div>
     </section>
@@ -48,6 +56,9 @@
       }
     },
     methods: {
+      format(percentage) {
+        return percentage === 100 ? '满' : `${percentage}%`;
+      }
     }
   }
 </script>
@@ -57,6 +68,7 @@
 
 .contList{
   padding: 24px;
+  position: relative;
 
   ul{
     display: flex;
@@ -94,6 +106,26 @@
       }
       
       
+    }
+  }
+
+  .Storage{
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+
+    p{
+      text-align: right;
+      color: #999;
+      margin-bottom: 8px;
+    }
+
+    .pro{
+      width: 136px;
+      background: #F8F9FF;
+      border-radius: 4px;
+      line-height: 34px;
+      padding: 14px 6px;
     }
   }
 }

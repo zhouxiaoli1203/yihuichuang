@@ -16,7 +16,7 @@
                     <div class="assetsBg">
                         <div class="tit">
                             <span>总资产</span>
-                            <img :src="bill" alt="">
+                            <img :src="bill" alt="" @click="billClick">
                         </div>
                         <p>
                             <span>￥</span>
@@ -28,10 +28,10 @@
                         </div>
                     </div>
                 </section>
-                <section class="billBox">
+                <section class="billBox" v-show="billPorp">
                     <div class="tit">
                         <h4>账单记录</h4>
-                        <img :src="close" alt="" >
+                        <img :src="close" alt="" @click="billClose">
                     </div>
                     <table border = "1" class="tableBox"  width="100%">
                         <tbody>
@@ -62,198 +62,68 @@
     </section>
 
     <!-- 充值 -->
-    <section class="modifyBox"  v-show="Recharge" >
-        <div class="chargingtop">
-             <div class="tit">
-                <h3>充值</h3>
-                <i class="el-icon-close"  @click="userClose"></i>
-            </div>
-            <div class="infoBox">
-                <img src="" alt="">
-                <div class="info">
-                    <p>努力的阿发</p>
-                    <span>当前余额：222.00</span>
-                </div>
-            </div>
-        </div>
-        <div class="chargingMod">
-            <h2>充值金额</h2>
-            <ul>
-                <li class="active">
-                    <p>￥<span>180.00</span></p>
-                    <p>原价：<span>￥</span>200</p>
-                    <span class="lab">优惠价</span>
-                </li>
-                <li>
-                    <p>￥<span>180.00</span></p>
-                    <p>原价：<span>￥</span>200</p>
-                    <span class="lab">优惠价</span>
-                </li>
-                <li>
-                    <p>￥<span>180.00</span></p>
-                    <p>原价：<span>￥</span>200</p>
-                    <span class="lab">优惠价</span>
-                </li>
-            </ul>
-        </div>
-        <div class="zhifuCode">
-            <ul>
-                <li class="active">
-                    <img :src="Alipay" alt="">
-                    <p>支付宝</p>
-                </li>
-                <li>
-                    <img :src="weChat" alt="">
-                    <p>微信</p>
-                </li>
-            </ul>
-            <div class="codeBox">
-                <img src="" alt="">
-                <div class="info">
-                   <div class="tp">
-                        <div>
-                            <span>￥</span>
-                            <span>180.00</span>
-                        </div>
-                        <p>已经优惠20.00元</p>
-                   </div>
-                   <div class="bt">
-                       <p>支持使用支付宝、微信付款方式</p>
-                        <router-link :to="{path:'/user/userPicture'}"  class="link">《易慧创服务协议》</router-link>
-                   </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <rechargePorp :chongzhiPorp="chongzhiPorp" @changeShow="showAddOrUpdate"></rechargePorp>
     <!-- 消费记录 -->
-    <div class="recordBox" v-show="recordBox">
-        <div class="tp">
-            <h2>消费记录</h2>
-
-            <img :src="close" alt="" @click="userClose">
-
-        </div>
-        <ul>
-            <li>
-                <div class="infoBox">
-                    <img src="" alt="">
-                    <div class="info">
-                        <p>购买******商品消费余额***元</p>
-                        <span>2021-02-11</span>
-                    </div>
-                </div>
-                <div class="money">
-                    <p>2021-02-11</p>
-                    <span>成功</span>
-                </div>
-            </li>
-             <li>
-                <div class="infoBox">
-                    <img src="" alt="">
-                    <div class="info">
-                        <p>购买******商品消费余额***元</p>
-                        <span>2021-02-11</span>
-                    </div>
-                </div>
-                <div class="money">
-                    <p>2021-02-11</p>
-                    <span>成功</span>
-                </div>
-            </li>
-             <li>
-                <div class="infoBox">
-                    <img src="" alt="">
-                    <div class="info">
-                        <p>购买******商品消费余额***元</p>
-                        <span>2021-02-11</span>
-                    </div>
-                </div>
-                <div class="money">
-                    <p>2021-02-11</p>
-                    <span>成功</span>
-                </div>
-            </li>
-             <li>
-                <div class="infoBox">
-                    <img src="" alt="">
-                    <div class="info">
-                        <p>购买******商品消费余额***元</p>
-                        <span>2021-02-11</span>
-                    </div>
-                </div>
-                <div class="money">
-                    <p>2021-02-11</p>
-                    <span>成功</span>
-                </div>
-            </li> <li>
-                <div class="infoBox">
-                    <img src="" alt="">
-                    <div class="info">
-                        <p>购买******商品消费余额***元</p>
-                        <span>2021-02-11</span>
-                    </div>
-                </div>
-                <div class="money">
-                    <p>2021-02-11</p>
-                    <span>成功</span>
-                </div>
-            </li>
-            
-            <li>
-                <div class="infoBox">
-                    <img src="" alt="">
-                    <div class="info">
-                        <p>购买******商品消费余额***元</p>
-                        <span>2021-02-11</span>
-                    </div>
-                </div>
-                <div class="money">
-                    <p>2021-02-11</p>
-                    <span>成功</span>
-                </div>
-            </li>
-        </ul>
-         <div class="paging">
-            <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="1000">
-            </el-pagination>
-        </div>
-    </div>
-    <div class="mask" v-show="userPublic" @click="userClose"></div>
+    <consumePorp :xiaofeiPorp="xiaofeiPorp" @xiaofeiShow="xiaofeiUpdate"></consumePorp>
+    
   </div>
 </template>
 
 <script>
-  import MenuLeft from '../../components/menuLeft'
+import MenuLeft from '../../components/menuLeft'
+import rechargePorp from '../../components/recharge'
+import consumePorp from '../../components/consume'
   export default {
     name: 'user',
     components: {
       MenuLeft,
+      rechargePorp,
+      consumePorp
     },
     data () {
       return {
         bill: require('../../assets/img/user/bill.png'),
         close: require('../../assets/img/user/close.png'),
-        Alipay: require('../../assets/img/user/Alipay.png'),
-        weChat: require('../../assets/img/user/weChat.png'),
-        userPublic: false,
-        recordBox:false,
-        Recharge:false
+        xiaofeiPorp:false,
+        chongzhiPorp:false,
+        billPorp:false,
       }
     },
     methods: {
         // 充值
         RechargeClick(){
-            this.userPublic=true
-            this.Recharge=true
+            this.chongzhiPorp=true
+        },
+        // 监听 子组件弹窗关闭后触发，有子组件调用
+        showAddOrUpdate(data){
+            if(data === 'false'){
+                this.chongzhiPorp = false
+            }else{
+                this.chongzhiPorp = true
+            }
         },
         // 消费
         recordBoxClick(){
-            this.userPublic=true
-            this.recordBox=true
+            this.xiaofeiPorp = true
         },
+
+        // 点击账单
+        billClick(){
+            this.billPorp = true
+        },
+        billClose(){
+            this.billPorp = false
+        },
+
+        xiaofeiUpdate(data){
+            if(data === 'false'){
+                this.xiaofeiPorp = false
+            }else{
+                this.xiaofeiPorp = true
+            }
+        },
+
+
         gotoMore(){
             this.$router.push("/news/detail");
         },
@@ -302,6 +172,7 @@
                   img{
                       width: 32px;
                       height: 32px;
+                      cursor: pointer;
                   }
 
                   span{
@@ -357,6 +228,7 @@
           img{
               width: 32px;
               height: 32px;
+              cursor: pointer;
           }
           h4{
               color: #666;
@@ -373,283 +245,5 @@
       }
   }
 
-  .modifyBox{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 35%;
-    background: #FFFFFF;
-    border-radius: 8px;
-    overflow: hidden;
-    min-height: 400px;
-    min-width: 570px;
-    z-index: 11;
-
-    .chargingtop{
-        height: 108px;
-        background: linear-gradient(132deg, #86CD94 0%, #4E9F5B 100%);
-        border-radius: 8px 8px 0px 0px;
-        padding: 16px;
-        
-        .tit{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            
-            h3{
-                font-size: 16px;
-                color: #333;
-            }
-            i{
-                font-size: 24px;
-                color: #fff;
-                cursor: pointer;
-            }
-
-        }
-
-        .infoBox{
-            display: flex;
-            align-items: center;
-            margin-top: 13px;
-            img{
-                width: 36px;
-                height: 36px;
-                border: 1px solid #FFFFFF;
-                border-radius: 50%;
-                margin-right: 10px;
-            }
-
-            .info{
-                color: #fff;
-                p{
-                    margin-bottom: 5px;
-                }
-            }
-        }
-    }
-
-    .chargingMod{
-        padding: 16px;
-
-        h2{
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 24px;
-        }
-        ul{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            li{
-                width: 30%;
-                border-radius: 8px;
-                border: 1px solid #D3D3D3;
-                text-align: center;
-                position: relative;
-                padding: 6% 0;
-                cursor: pointer;
-
-                .lab{
-                    position: absolute;
-                    width: 62px;
-                    height: 28px;
-                    background: #FFAC48;
-                    border-radius: 0px 8px 0px 15px;
-                    color: #fff;
-                    top: 0;
-                    right: 0;
-                    text-align: center;
-                    line-height: 28px;
-                }
-
-                p:first-child{
-                    color: #FF2828;
-                    margin-bottom: 17px;
-                    span{
-                        font-size: 24px;
-                    }
-                }
-                p:nth-child(2){
-                   text-decoration: line-through;
-                   color: #333;
-                }
-            }
-            .active{
-                background: rgba(78, 159, 91, 0.08);
-                border: 1px solid #4E9F5B;
-            }
-        }
-    }
-
-    .zhifuCode{
-        border-radius: 8px;
-        border: 1px solid #CBCFE3;
-        margin: 16px;
-        display: flex;
-        align-items: center;
-        height: 206px;
-        overflow: hidden;
-        ul{
-            width: 121px;
-            background: #F6F6F6;
-            height: 100%;
-        }
-        li{
-            display: flex;
-            align-items: center;
-            height: 44px;
-            justify-content: center;
-            cursor: pointer;
-            
-            img{
-                width: 17px;
-                height: 17px;
-            }
-            p{
-                width: 50px;
-                text-align: left;
-                margin-left: 15px;
-            }
-        }
-        .active{
-            background: #fff;
-            border: 1px solid rgba(78, 159, 91, 0.41);
-        }
-
-        .codeBox{
-            display: flex;
-            align-items: center;
-            margin-left: 41px;
-            img{
-                width: 111px;
-                height: 111px;
-                margin-right: 16px;
-            }
-        }
-        .tp{
-            display: flex;
-            align-items: center;
-            div{
-                margin-right: 8px;
-                color: #FF2D2D;
-                span:first-child{
-                    font-size: 16px;
-                }
-                span:last-child{
-                    font-size: 24px;
-                    margin-left: -5px;
-                    display: inline-block;
-                }
-            }
-
-            p{
-                color: #DF8F2D;
-            }
-        }
-        .bt{
-            p{
-                color: #333;
-                margin-top: 8px;
-                margin-bottom: 31px;
-            }
-
-            .link{
-                color: #999999;
-            }
-        }
-    }
-
   
-   
-    
-  }
-
-  .recordBox{
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        width: 550px;
-        background: #FFFFFF;
-        border-radius: 8px;
-        z-index: 11;
-        padding: 16px;
-        min-height: 570px;
-
-        .tp{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #F5F6FA;
-            padding-bottom: 16px;
-            h2{
-                font-size: 16px;
-            }
-            img{
-                width: 24px;
-                height: 24px;
-                cursor: pointer;
-            }
-        }
-        ul{
-            li{
-                display: flex;
-                align-items: center;
-                padding: 13px 0;
-                border-bottom: 1px solid #F5F6FA;
-
-                .infoBox{
-                    flex: 1;
-                    margin-right: 16px;
-                    display: flex;
-                    align-items: center;
-
-                    img{
-                        width: 42px;
-                        height: 42px;
-                        border-radius: 50%;
-                        margin-right: 16px;
-                    }
-
-                    p{
-                        font-size: 16px;
-                        color: #333;
-                        margin-bottom: 18px;
-                    }
-                    span{
-                        color: #999999;
-                    }
-                }
-                .money{
-                    text-align: right;
-                    p{
-                        font-size: 16px;
-                        color: #333;
-                        margin-bottom: 18px;
-                    }
-                    span{
-                        color: #999999;
-                    }
-                }
-            }
-        }
-
-        .paging{
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%,0);
-            bottom: 16px;
-        }
-  }
-
-   .mask{
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-    }
 </style>
