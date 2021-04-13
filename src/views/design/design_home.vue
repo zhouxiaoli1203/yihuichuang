@@ -6,7 +6,9 @@
           <li class="design-tab-li"
               v-for="(x,index) in searchList">
             <div class="search-head">
-              <img :src='"@/assets/img/design/head_icon"+(index+1)+".png"' width="18px" height="18px">
+              <img :src='"@/assets/img/design/head_icon"+(index+1)+".png"'
+                   width="18px"
+                   height="18px">
               <span :style='{color:x.value==1?"#8C8CBC":x.value==2?"#FD5392":"#2334E0"}'>{{x.title}}</span>
             </div>
             <ul class="search-item">
@@ -39,16 +41,16 @@
                    alt=""></i></li>
         </ul>
         <ul class="displayFl design-content-item">
-          <li v-for="x in 12" @click="openCkt">
+          <li v-for="x in 12"
+              @click="openCkt">
             <img src=""
                  alt="">
             <h5>{{x.title}}</h5>
           </li>
         </ul>
-        <el-pagination
-            background
-            layout="prev, pager, next"
-            :total="12">
+        <el-pagination background
+                       layout="prev, pager, next"
+                       :total="12">
         </el-pagination>
       </div>
     </div>
@@ -56,18 +58,19 @@
 </template>
 
 <script>
-import CktDesign from "@chuangkit/chuangkit-design"
-var option = {
-    "data-access": "",
-    "data-exp": "",
-    "sign": "",
-    "signType": ""
-};
-var cktDesign = new CktDesign(option)
+import CktDesign from '@chuangkit/chuangkit-design'
+
+var cktDesign
 export default {
   name: 'design',
   data() {
     return {
+      option: {
+        'data-access': '',
+        'data-exp': '',
+        sign: '',
+        signType: '',
+      },
       searchList: [
         {
           title: '分类',
@@ -117,13 +120,13 @@ export default {
   },
   components: {},
   created() {
-      console.log(cktDesign);
+    cktDesign = new CktDesign(this.option)
   },
   mounted() {},
   methods: {
-      openCkt:function(){
-          cktDesign.open();
-      }
+    openCkt: function () {
+      cktDesign.openPcIframe()
+    },
   },
 }
 </script>
@@ -185,8 +188,8 @@ export default {
       }
     }
   }
-  .el-pagination{
-      margin-top: 64px;
+  .el-pagination {
+    margin-top: 64px;
     padding-bottom: 104px;
     text-align: center;
   }

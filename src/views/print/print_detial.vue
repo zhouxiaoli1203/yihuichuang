@@ -8,8 +8,8 @@
       <div class="print-detail-operate">
         <div class="operate-left">
             <!-- 每个页面的属性 -->
-          <Armband v-if="detailType == 1"></Armband>
-          <Banner v-if="detailType == 2"></Banner>
+          <!-- <Armband v-if="detailType == 1"></Armband>
+          <Banner v-if="detailType == 2"></Banner> -->
           <Ribbon></Ribbon>
           <!-- 上传文件按钮 -->
           <el-form class="bgGreen_">

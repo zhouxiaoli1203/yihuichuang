@@ -320,6 +320,7 @@ export default {
   created(){
     this.activeIndex = this.$store.state.currentIndex;
     this.token = this.$store.state.token;
+    console.log(this.token);
   },
   mounted () {
     // let href = window.location.href
