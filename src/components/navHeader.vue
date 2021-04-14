@@ -4,7 +4,7 @@
             <div class="img cursor_p">
                 <img :src="logo" alt="">
             </div>
-            <el-menu :default-active="activeIndex" active-text-color="#4E9F5B" class="el-menu-demo" mode="horizontal" @select="handleSelect"  theme="dark"  router>
+            <el-menu :default-active="activeIndex" active-text-color="#4E9F5B" class="el-menu-demo navUl" mode="horizontal" @select="handleSelect"  theme="dark"  router>
                 <el-menu-item index="/index">首页</el-menu-item>
                 <el-menu-item index="/print">在线印刷</el-menu-item>
                 <el-menu-item index="/design">设计模板</el-menu-item>
@@ -12,10 +12,14 @@
                 <el-menu-item index="/service">服务保障</el-menu-item>
                 <el-menu-item index="/news">新闻中心</el-menu-item>
                 <el-menu-item index="/help">帮助支持</el-menu-item>
+                <el-menu-item index="/join">合作加盟</el-menu-item>
                 <el-menu-item index="/about">关于我们</el-menu-item>
             </el-menu>
             <div class="hraderInfo">
-                <div class="cart cursor_p" @click="goCart"><img :src="cart" alt=""></div>
+                <div class="cart cursor_p" @click="goCart">
+                  <img :src="cart" alt="">
+                  <span>99</span>
+                </div>
                 <div class="head cursor_p" @click="userLnk" v-if="token!=''">
                   <div class="imgp">
                     <img :src="face" alt="">
@@ -381,7 +385,7 @@ export default {
       }
       this.$refs[typeForm].validateField('phone', (phoneError) => {
         if(!phoneError){
-          this.$post("post",this.baseUrl+"sms/send",{
+          this.$post("post",this.baseUrl+"Sms/send",{
           phone:phoneNum,
           template,
           })
@@ -415,11 +419,11 @@ export default {
             }
           }else{
             data = {
-              phone:this.userLoginForm.phone,
+              code:this.userLoginForm.code,
               sms_token:this.sms_token
             }
           }
-          this.$post("post",this.baseUrl+"user/login",data)
+          this.$post("post",this.baseUrl+"User/login",data)
           .then((res)=>{
             let data = res.data
             if(data.code==1){
@@ -642,7 +646,7 @@ export default {
         justify-content: space-between;
 
         .img{
-            margin-right: 50px;
+            margin-right: 30px;
         }
 
         .el-menu-demo{
@@ -653,10 +657,29 @@ export default {
         .hraderInfo{
             display: flex;
             align-items: center;
+
+            .cart{
+              position: relative;
+
+              span{
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background: #FF2C2C;
+                border: 1px solid #FFFFFF;
+                text-align: center;
+                line-height: 19px;
+                display: inline-block;
+                color: #fff;
+                font-size: 12px;
+                border-radius: 50%;
+                top: -3px;
+                right: -3px;
+              }
+            }
                        
             .head{
-            
-              margin-left: 100px;
+              margin: 0 52px;
               display: flex;
               align-items: center;
               .imgp{

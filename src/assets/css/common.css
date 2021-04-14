@@ -16,7 +16,7 @@
 
 /* 背景颜色 */
 .connonBg{ 
-  background: #f6f6f6;
+    background: #FAFBFF;
 }
 
 
@@ -225,6 +225,19 @@ img{
     position:absolute;
     left:50%;
     top:50%;
+}
+
+/* 头部导航 */
+
+.headerCenter .el-menu-item{
+    padding: 0 15px;
+}
+
+.headerCenter .navUl .el-menu-item:first-child{
+    padding-left: 0;
+}
+.headerCenter .navUl .el-menu-item:last-child{
+    padding-right: 0;
 }
 
 

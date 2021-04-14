@@ -755,5 +755,61 @@
 
 }
 
+.editBox{
+  padding: 0;
+  .el-dropdown-menu__item:not(.is-disabled):hover{
+    background-color: #4E9F5B;
+    color: #fff;
+  }
+}
+.editBox[x-placement^=bottom] .popper__arrow{
+  top: -7px;
+}
+.editBox[x-placement^=bottom]{
+  margin-top: 7px;
+}
+
+// 单选样式
+
+.radioPublic{
+  .el-radio__inner{
+    width: 18px;
+    height: 18px;
+    border: 1px solid #979797;
+  }
+  .el-radio__inner::after{
+    width: 6px;
+    height: 6px;
+    background: #4E9F5B;
+  }
+  .el-radio__input.is-checked .el-radio__inner{
+    border-color: #4E9F5B;
+    background: none;
+  }
+  .el-radio__input.is-checked+.el-radio__label{
+    color: #333;
+  }
+}
+
+
+// 合作加盟
+.workUL{
+  .el-collapse-item__header{
+    height: 100%;
+    line-height: normal;
+  }
+  .el-collapse-item__arrow{
+      display: none;
+  }
+
+  .el-collapse-item__content{
+      padding-bottom: 0;
+  }
+}
+
+
+
+
+
 
 

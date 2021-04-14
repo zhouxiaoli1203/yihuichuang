@@ -154,6 +154,12 @@ export default new Router({
           name: 'unique',
           component: () => import('@/views/unique/index.vue'),
         },
+        {
+          path: '/join',  //合作加盟
+          name: 'join',
+          component: () => import('@/views/join/index.vue'),
+        },
+       
        
       ],
     },

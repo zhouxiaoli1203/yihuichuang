@@ -23,7 +23,7 @@
                     <div class="downBox">
                       <el-dropdown trigger="click"  @command="(command)=>{handleCommand(command,1)}">
                         <i class="el-icon-arrow-down el-icon-caret-bottom"></i>
-                        <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-menu slot="dropdown" class="editBox">
                           <el-dropdown-item command="编辑">编辑</el-dropdown-item>
                           <el-dropdown-item command="删除">删除</el-dropdown-item>
                           <el-dropdown-item command="打印">打印</el-dropdown-item>
@@ -41,7 +41,7 @@
                     <div class="downBox">
                       <el-dropdown trigger="click" @command="handleCommand(e,2)">
                         <i class="el-icon-arrow-down el-icon-caret-bottom"></i>
-                        <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-menu slot="dropdown"  class="editBox">
                           <el-dropdown-item command="编辑">编辑</el-dropdown-item>
                           <el-dropdown-item command="删除">删除</el-dropdown-item>
                           <el-dropdown-item command="打印">打印</el-dropdown-item>
@@ -68,7 +68,7 @@
         </div>
     </section>
 
-     <!-- 编辑图片弹框 -->
+    <!-- 编辑图片弹框 -->
     <section class="modifyBox publicPorp userPicturePorp"  v-show="userPublic" >
       <i class="el-icon-close" @click="userClose"></i>
       <div class="tabNav">
@@ -85,7 +85,7 @@
                             { required: true, message: '照片名称不能为空'},
                         ]"
                       >
-                        <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入照片名称"></el-input>
+                        <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入照片名称" maxlength="9" show-word-limit></el-input>
                       </el-form-item>
                       <el-form-item class="btns">
                           <button  @click="userClose" class="spanBtn">取消</button>
@@ -120,8 +120,10 @@
 
               </el-tab-pane>
               <el-tab-pane label="下载" name="下载">
-                  <div class="editInput">
-                      <h4>修改手机号</h4>
+                  <img src="" alt="" class="phoneLook xiazai"> 
+                  <div class="btns">
+                    <button  @click="userClose" class="spanBtn">取消</button>
+                    <button  class="spanBtn" type="primary" >确定</button> 
                   </div>
               </el-tab-pane>
           </el-tabs>
@@ -350,7 +352,7 @@
 
     .btns{
         position: absolute;
-        bottom: 13px;
+        bottom: 15px;
         left: 0;
         right: 0;
         text-align: center;
@@ -399,6 +401,10 @@
       height: 65%;
       border-radius: 8px;
       max-height:239px;
+    }
+
+    .xiazai{
+      height:239px;
     }
   }
 

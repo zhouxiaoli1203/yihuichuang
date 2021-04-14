@@ -52,7 +52,7 @@
     <section class="publicPorp BillingPorp"  v-show="BillingPorp">
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="开具类型">
-          <el-radio-group v-model="form.resource">
+          <el-radio-group v-model="form.resource" class="radioPublic">
             <el-radio label="增值税普通发票"></el-radio>
             <el-radio label="增值税专用发票"></el-radio>
           </el-radio-group>
