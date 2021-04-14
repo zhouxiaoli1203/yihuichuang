@@ -6,7 +6,6 @@ import router from './router'
 import ElementUI from 'element-ui'
 import store from './store/store'
 import { yhcReq,baseUrl } from './utils/http'
-
 // 样式
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/base.css';
@@ -20,11 +19,9 @@ Object.keys(Fns).forEach(key => {
     Vue.prototype[key] = Fns[key]
 })
 
-
 //全局的filter
 import filters from './utils/filters'
 filters(Vue)
-
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 

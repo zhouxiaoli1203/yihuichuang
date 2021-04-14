@@ -59,15 +59,10 @@
 
 <script>
 import CktDesign from '@chuangkit/chuangkit-design'
-import Fns from '@/utils/common'
-var option = {
-    'data-access': '0d68eeb82eaf46aa9206718d7e7fdc2a',
-    'data-exp': Fns.formatDate(new Date(),"yyyy-MM-dd hh:mm:ss"),
-    sign: '',
-    signType: '1A2AA5E996990C2DCB3E9F8E7BCD8144',
-}
-var design = new CktDesign(option);
-console.log(Fns);
+import {scts} from '@/utils/secret'
+
+var design = new CktDesign(scts.getKey());
+
 export default {
   name: 'design',
   data() {
@@ -125,7 +120,7 @@ export default {
   mounted() {},
   methods: {
     openCkt: function () {
-        console.log(design );
+        // console.log(design );
       design .open()
     },
   },

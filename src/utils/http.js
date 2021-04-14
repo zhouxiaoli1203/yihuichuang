@@ -3,12 +3,8 @@
  * 请求拦截、相应拦截、错误统一处理
  */
 import axios from 'axios';
-import { Toast } from 'vant';
-// import { message } from 'ant-design-vue'
 import {Message} from 'element-ui';
 import Vue from 'vue';
-// import * as appRouter  from '../pages/app/router.js'
-// import * as adminRouter  from '../pages/admin/router.js'
 let url = window.location.href
 let isApp, isWechat, yhcmessage;
 // 错误拦截并上报，但是ajax请求promise异步异常无法捕获
@@ -45,7 +41,7 @@ if (process.env.NODE_ENV == 'development') {
 
 let token_invalid = false;
 // yhcmessage = isApp || isWechat ? Toast : "错误";
-yhcmessage = isApp || isWechat ? Toast : Message.error;
+yhcmessage = Message.error;
 // 请求超时时间
 axios.defaults.timeout = 15000;
 
@@ -120,14 +116,14 @@ export function yhcReq(methods, url, params, yhc_f_a, needCatch) {/*  */
     */
     // 需要同时处理特殊code和catch错误时，yhc_f_a和needCatch都传
     return new Promise((resolve, reject) => {
-        params.yhc_f_a = typeof yhc_f_a === 'string' ? yhc_f_a : '';
+        // params.yhc_f_a = typeof yhc_f_a === 'string' ? yhc_f_a : '';
         const r = methods == 'post' ? axios.post(url, params) : axios.get(url, { params: params });
         r.then(res => {
             resolve(res.data);
         }).catch(err => {
             console.log(`%c【Status Code:${err.data.status}, Message:${err.data.message}${err.config&&err.config.url?', Request URL:'+err.config.url:''}】`, 'color: #ee0a24;font-size: 12px;font-weight: 400;');
             //业务代码需要catch 主要避免Uncaught (in promise)的错误报错
-            (needCatch || (typeof yhc_f_a === 'boolean' && yhc_f_a)) && reject(err);
+            // (needCatch || (typeof yhc_f_a === 'boolean' && yhc_f_a)) && reject(err);
         })
     });
 }

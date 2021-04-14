@@ -42,7 +42,8 @@ const filters = {
     formatDate_(time,type){
         var date = new Date(time);
         return Fns.formatDate(date, type);
-    }
+    },
+    
 }
 export default (Vue) => {
     Object.keys(filters).forEach(key => {

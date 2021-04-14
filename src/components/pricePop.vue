@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-btns">
+  <div class="detail-btns" v-clickoutside = "handleClose">
     <div class="assess-btn">
       <div class="btn orange assess"
            @click="checkpop = !checkpop ">在线评估</div>
@@ -112,6 +112,7 @@
 
 <script>
 import { regionData } from 'element-china-area-data'
+
 export default {
   name: 'pricePop',
   data() {
@@ -177,8 +178,31 @@ export default {
 　　　　　　this.dialogVisible = false;
 　　　　}
         
+    },
+    handleClose:function(){
+        this.checkpop = false;
     }
   },
+  directives:{
+        clickoutside:{
+            bind:function(el,binding,vnode){
+                function documentHandler(e){
+                    if(el.contains(e.target)){
+                        return false;
+                    }
+                    if(binding.expression){
+                        binding.value(e)
+                    }
+                }
+                el._vueClickOutside_ = documentHandler;
+                document.addEventListener('click',documentHandler);
+            },
+            unbind:function(el,binding){
+                document.removeEventListener('click',el._vueClickOutside_);
+                delete el._vueClickOutside_;
+            }
+        }
+    }
 }
 </script>
 <style lang='less' scoped>

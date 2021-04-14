@@ -28,7 +28,13 @@ const Fns = {
     },
     padLeftZero: function (str) {
         return ('00' + str).substr(str.length);
+    },
+    formatDate_addDay:function(AddDayCount){
+        var dd = new Date();
+        dd.setDate(dd.getDate() + AddDayCount); //获取AddDayCount天后的日期
+        return dd.getTime();
     }
+    
 
 }
 
