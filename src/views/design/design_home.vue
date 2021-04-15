@@ -116,6 +116,12 @@ export default {
   },
   components: {},
   created() {
+      this.confirm_pop("确定要删除吗").then(res=>{
+         this.$message({
+                type: 'success',
+                message: '删除成功!'
+            });
+      })
   },
   mounted() {},
   methods: {

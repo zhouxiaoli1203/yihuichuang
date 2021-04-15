@@ -1,8 +1,7 @@
 <template>
-  <div class="detail-btns" v-clickoutside = "handleClose">
-    <div class="assess-btn">
-      <div class="btn orange assess"
-           @click="checkpop = !checkpop ">在线评估</div>
+  <div class="detail-btns" >
+    <div class="assess-btn" v-clickoutside = "handleClose">
+      <div class="btn orange assess" @click="checkpop = !checkpop " >在线评估</div>
       <div class="assess-pop"
            v-show="checkpop">
         <div class="title">订单详情</div>

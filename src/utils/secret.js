@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Fns from '@/utils/common'
+import secret from '@/utils/jquery.md5'
 import { yhcReq,baseUrl } from '@/utils/http'
-var secret = require('@/utils/jquery.md5');
+
 var obj = {
     "app_id": "0d68eeb82eaf46aa9206718d7e7fdc2a",// 企业唯一密钥ID
     "user_flag": "1A2AA5E996990C2DCB3E9F8E7BCD8144",// 企业唯一密钥
@@ -50,16 +51,5 @@ window.chuangkitComplete = function(res){
       alert(res.msg+"现在应该跳转到第三方购买页");
       location.href='https://ckt.cn';
     }
-    // let p= scts.getKey({
-    //     appId:"0d68eeb82eaf46aa9206718d7e7fdc2a",
-    //     designId:res.designId,
-    //     fileType:3,
-    //     noticeUrl:"",
-    //     sign:"",
-    //     signType:"1A2AA5E996990C2DCB3E9F8E7BCD8144"
-    // });
-    // yhcReq("post","https://openapi.chuangkit.com/api/getSourceImage.do",p).then((res)=>{
-    //      console.log(res);
-    // })
 }
-export {scts} ;
+export {scts} 

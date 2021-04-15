@@ -10,7 +10,7 @@
             <!-- 每个页面的属性 -->
           <!-- <Armband v-if="detailType == 1"></Armband>
           <Banner v-if="detailType == 2"></Banner> -->
-          <component v-bind:is="xuanchuance" title="高清"></component>
+          <component v-bind:is="xuanchuance" title="高清" v-bind:type="2"></component>
 
           <!-- <Ribbon></Ribbon> -->
           <!-- 上传文件按钮 -->

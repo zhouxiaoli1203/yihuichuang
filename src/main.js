@@ -14,21 +14,21 @@ import './assets/css/commonStlye.less';
 
 //全局公用函数
 import Fns from './utils/common'
-import Directives from './utils/directives'
-import {CONSTANT,URL} from './utils/constant'
 Object.keys(Fns).forEach(key => {
     Vue.prototype[key] = Fns[key]
 })
-
+import Directives from './utils/directives'
+import {CONSTANT} from './utils/constant'
 //全局的filter
 import filters from './utils/filters'
+
 filters(Vue)
+
 Vue.use(ElementUI,Directives);
 Vue.config.productionTip = false
 
 Vue.prototype.$post = yhcReq;
 Vue.prototype.cnst = CONSTANT;
-Vue.prototype.URL = URL;
 Vue.prototype.baseUrl = baseUrl;
 // 全局路由守卫
 router.beforeEach((to, from, next) => {

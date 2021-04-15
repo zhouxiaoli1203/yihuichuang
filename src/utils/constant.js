@@ -330,9 +330,6 @@ const CONSTANT = {
     ],
 
 };
-const URL = {
-    login:"user/infoGet"
-};
 
 
-export {CONSTANT,URL};
+export {CONSTANT};
