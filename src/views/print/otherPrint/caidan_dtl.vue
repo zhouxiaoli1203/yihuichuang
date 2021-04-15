@@ -92,6 +92,7 @@
   <ul class="dialog-type-style">
       <li v-for="x in cnst.danye_all_drops">{{x.name}}</li>
   </ul>
+  
 </el-dialog>
   </div>
 </template>
