@@ -3,26 +3,27 @@
  * 请求拦截、相应拦截、错误统一处理
  */
 import axios from 'axios';
+import qs from 'qs';
 import {Message} from 'element-ui';
 import Vue from 'vue';
 let url = window.location.href
 let isApp, isWechat, yhcmessage;
 // 错误拦截并上报，但是ajax请求promise异步异常无法捕获
-Vue.config.errorHandler = function(err, vm, info) {
-    console.error(err)
+// Vue.config.errorHandler = function(err, vm, info) {
+//     console.error(err)
 
-    let stack = err.stack;
-    if (stack && stack.length > 500) {
-        stack = stack.substr(0, 500);
-    }
-    let jsLog = {
-        stack: stack,
-        url: window.location.href
-    };
-    jsLog.userAgent = navigator.userAgent;
+//     let stack = err.stack;
+//     if (stack && stack.length > 500) {
+//         stack = stack.substr(0, 500);
+//     }
+//     let jsLog = {
+//         stack: stack,
+//         url: window.location.href
+//     };
+//     jsLog.userAgent = navigator.userAgent;
 
-    yhcReq("post", "api/oa/commitJsException", jsLog);
-};
+//     yhcReq("post", "api/oa/commitJsException", jsLog);
+// };
 
 // 环境的切换
 if (process.env.NODE_ENV == 'development') {
@@ -53,10 +54,10 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 axios.interceptors.request.use(
     config => {
         // config.headers.token = localStorage.getItem('yhc_token');
-        config.yhc_f_a = config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
-        delete config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
+        // config.yhc_f_a = config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
+        // delete config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         if (config.method == 'post') {
-            config.data = JSON.stringify(config.data);
+            config.data = qs.stringify(config.data);
         }
         return config;
     },
@@ -64,11 +65,11 @@ axios.interceptors.request.use(
         return Promise.error(error);
     });
 
-// 响应拦截器
+// // 响应拦截器
 axios.interceptors.response.use(
     response => {
         if (response.data.code == 1 || (response.config.yhc_f_a && response.config.yhc_f_a.indexOf(response.data.code) != -1)) {
-            token_invalid = false;
+            // token_invalid = false;
             return Promise.resolve(response);
         } else {
             yhcmessage(response.data.info);
@@ -117,7 +118,7 @@ export function yhcReq(methods, url, params, yhc_f_a, needCatch) {/*  */
     // 需要同时处理特殊code和catch错误时，yhc_f_a和needCatch都传
     return new Promise((resolve, reject) => {
         // params.yhc_f_a = typeof yhc_f_a === 'string' ? yhc_f_a : '';
-        const r = methods == 'post' ? axios.post(url, params) : axios.get(url, { params: params });
+        const r = methods == 'post' ? axios.post(url,params) : axios.get(url, { params: params });
         r.then(res => {
             resolve(res.data);
         }).catch(err => {

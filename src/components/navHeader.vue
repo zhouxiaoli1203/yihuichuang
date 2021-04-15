@@ -184,6 +184,7 @@
 </template>
 
 <script>
+var secret = require('@/utils/jquery.md5');
 export default {
   name: 'navHeader',
   data () {
@@ -423,6 +424,7 @@ export default {
               sms_token:this.sms_token
             }
           }
+
           this.$post("post",this.baseUrl+"User/login",data)
           .then((res)=>{
             let data = res.data

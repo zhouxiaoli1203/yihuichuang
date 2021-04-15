@@ -1,5 +1,6 @@
-const Directives = {
-    clickoutside:{
+import Vue from 'vue'
+export default () => {
+    Vue.directive('clickoutside', {
         bind:function(el,binding,vnode){
             function documentHandler(e){
                 if(el.contains(e.target)){
@@ -16,6 +17,5 @@ const Directives = {
             document.removeEventListener('click',el._vueClickOutside_);
             delete el._vueClickOutside_;
         }
-    },
+    })
 }
-export default Directives
