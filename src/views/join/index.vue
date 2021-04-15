@@ -4,9 +4,9 @@
       <img :src="banner1" alt="">
     </div>
     <section class="center joinCenter">
-        <!-- 哪些人适合加盟易慧创 -->
+        <!-- 哪些人适合加盟易绘创 -->
         <section class="whoJoinSection">
-            <h1 class="titH1">加盟易慧创能做那些事？</h1>
+            <h1 class="titH1">哪些人适合加盟易绘创</h1>
             <div class="whoJoin">
                 <ul class="ul1">
                     <li>有门店却不知道做什么生意</li>
@@ -25,9 +25,9 @@
                 </ul>
             </div>
         </section>
-        <!-- 加盟易慧创能做那些事？ -->
+        <!-- 加盟易绘创能做那些事？ -->
         <section>
-            <h1 class="titH1">加盟易慧创能做那些事？</h1>
+            <h1 class="titH1">加盟易绘创能做那些事？</h1>
             <ul class="workUL">
                 <template v-for="item in workList">
                     <li :class="item.index == activeName?'cont active':'cont'" @click="workClick(item.index)">
@@ -38,9 +38,9 @@
                 </template>
             </ul>
         </section>
-        <!-- 为什么要加盟易慧创 -->
+        <!-- 为什么要加盟易绘创 -->
         <section class="wyhJoin">
-            <h1 class="titH1">为什么要加盟易慧创</h1>
+            <h1 class="titH1">为什么要加盟易绘创</h1>
             <div class="ulBox">
                  <ul>
                     <li v-for="item in brandList">
@@ -57,7 +57,7 @@
         </section>
         <!-- 加盟流程 -->
         <section class="pathBox">
-            <h1 class="titH1">加盟流程</h1>
+            <h1 class="titH1">加盟易绘创的流程</h1>
             <ul class="path1">
                 <li>
                     <div class="info">
@@ -125,7 +125,7 @@
         </section>
         <!--  -->
         <section class="advantageBox">
-            <h1 class="titH1">加盟流程</h1>
+            <h1 class="titH1">关于易绘创</h1>
             <ul>
                 <li v-for="item in advantageList">
                     <img :src="item.img" alt="">

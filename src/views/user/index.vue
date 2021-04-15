@@ -15,10 +15,10 @@
                         <div class="infoBox">
                             <img :src="face" alt="">
                             <div class="info">
-                                <p>{{nickname?nickname:'努力的阿发111'}}</p>
+                                <p>{{nickname}}</p>
                                 <p class="tel">
                                     <i class="el-icon-mobile-phone"></i>
-                                    <span>{{phone?phone:'xxxxxxxxxx'}}</span>
+                                    <span>{{phone}}</span>
                                 </p>
                             </div>
                         </div>
@@ -37,8 +37,8 @@
                             <span>余额</span>
                         </div>
                         <p>
-                            <span v-if="info!='' && info.balance!=0">￥</span>
-                            <span>{{info?info.balance:'0'}}</span>
+                            <span v-if="info.balance!=0">￥</span>
+                            <span>{{info.balance}}</span>
                         </p>
                     </div>
                 </section>
@@ -77,22 +77,37 @@
                 <el-tab-pane label="头像">
                     <div class="upHead">
                         <div class="img">
-                            <img width="100%" :src="dialogImageUrl" alt="">
+                            <!-- <img width="100%" :src="dialogImageUrl" alt=""> -->
+                             <img width="100%" v-if="imageUrl" :src="imageUrl" class="avatar">
+                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </div>
                         <!-- :on-change="handleChange" -->
                         <!-- :file-list="fileList" -->
-                        <el-upload
+                        <!-- <el-upload
                             class="upload-demo "
                             :show-file-list="false"
                             action="https://jsonplaceholder.typicode.com/posts/"
                             
                             >
                             <el-button size="small" type="primary">上传头像</el-button>
+                        </el-upload> -->
+
+                        <el-upload
+                            class="avatar-uploader"
+                            action="https://api.yihuichuang.com/User/infoUpdate"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                            <el-button size="small" type="primary">上传头像</el-button>
                         </el-upload>
+
+
                     </div>
                     <div class="btns">
-                        <span @click="userClose">取消</span>
-                        <span>确定</span>
+
+                        <button  @click="userClose" class="spanBtn">取消</button>
+                        <button  class="spanBtn" type="primary" @click="modifyFace">确定</button>    
+
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="手机号">
@@ -203,11 +218,14 @@ export default {
             },
             timeSend:60,
             xiaofeiPorp:false,
-            chongzhiPorp:false
+            chongzhiPorp:false,
+            token:'',
+            imageUrl:'',
         }
     },
     created(){
-        let token  = this.$store.state.token;
+        let token  = this.$store.getters.getToken;
+        this.token = token
         this.userInfoGet(token)
     },
 
@@ -245,7 +263,6 @@ export default {
                 this.timeSend=60
                 clearInterval(this.timer)
                 }
-                console.log(this.timeSend)
             },1000)
         },
 
@@ -262,9 +279,14 @@ export default {
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
-        handlePictureCardPreview(file) {
-            this.dialogImageUrl = file.url;
-            // this.dialogVisible = true;
+        handleAvatarSuccess(file) {
+            console.log(file +'111')
+            console.log(file.url+'222')
+            this.imageUrl = file.url;
+        },
+
+        beforeAvatarUpload(e){
+ 
         },
         userClose(){
             console.log(1211)
@@ -273,19 +295,20 @@ export default {
 
         // 获取个人信息
         userInfoGet(token) {
-            this.$post("post",this.baseUrl+'user/infoGet',{
+            this.$post("post",this.baseUrl+'User/infoGet',{
                 token,
             })
             .then((res)=>{
-                let data = res.data
-                if(data.code==1){
-                    this.info = data.data
-                    this.nickname = data.data.nickname
-                    this.face = data.data.face
-                    this.phone = data.data.phone
+                if(res.code==1){
+                    this.info = res.data
+                    this.nickname = res.data.nickname
+                    this.face = res.data.face
+                    this.phone = res.data.phone
+                    this.$store.commit('setUserInfo',res.data)
+
                 }else{
                     this.$message({
-                        message:data.info,
+                        message:res.info,
                         type: 'warning'
                     });
                 }
@@ -296,21 +319,19 @@ export default {
         nicknameSubmit(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$post("post",this.baseUrl+"user/infoModify",{
+                    this.$post("post",this.baseUrl+"User/infoUpdate",{
                         token:this.token,
-                        face:this.face,
                         nickname:this.nicknameForm.nickname
                     })
                     .then((res)=>{
-                        let data = res.data
-                        if(data.code==1){
-                            this.nickname = data.data.nickname
-                            this.face = data.data.face
+                        if(res.code==1){
+                            this.userInfoGet(this.token)
                             this.$message({
-                                message:data.info,
+                                message:res.info,
                                 type: 'success'
                             });
                             this.$refs[formName].resetFields();
+                            this.userPublic = false
                         }else{
                             this.$message({
                                 message:data.info,
@@ -325,7 +346,30 @@ export default {
             });
         },
 
-        // 修改图片
+        // 修改头像
+        modifyFace(){
+            this.$post("post",this.baseUrl+"User/infoUpdate",{
+                token:this.token,
+                face:'',
+            })
+            .then((res)=>{
+                if(res.code==1){
+                    // this.phone = res.data.phone
+                    // this.userInfoGet(this.token)
+                    // this.$message({
+                    //     message:res.info,
+                    //     type: 'success'
+                    // });
+                    // this.$refs[formName].resetFields();
+                    // this.userPublic = false
+                }else{
+                    this.$message({
+                        message:res.info,
+                        type: 'warning'
+                    });
+                }
+            })
+        },
 
         // 获取验证码
         sendMsg(formName) {     
@@ -333,20 +377,23 @@ export default {
                 if(!phoneError){
                     this.$refs[formName].validateField('newPhone',(Errors) => {
                         if(!Errors){
-                                this.timeSendNumber()
-                                this.$post("post",this.baseUrl+"sms/send",{
+                            this.$post("post",this.baseUrl+"Sms/send",{
                                 phone:this.phoneModifyForm.newPhone,
-                                template:'bgxx',
+                                template:'ghsj',
                             })
                             .then((res)=>{
-                                let data = res.data
-                                if(data.code==1){
-                                    this.sms_token = data.data.sms_token
+                                if(res.code==1){
+                                    this.timeSendNumber()
+                                    this.sms_token = res.data.sms_token
+                                    this.$message({
+                                        message:res.info,
+                                        type: 'success'
+                                    });
                                 }else{
-                                this.$message({
-                                    message:data.info,
-                                    type: 'warning'
-                                });
+                                    this.$message({
+                                        message:res.info,
+                                        type: 'warning'
+                                    });
                                 }
                             })
                         }
@@ -360,27 +407,27 @@ export default {
 
         // 修改手机号
         phoneModifySubmit(formName) {
-            console.log(formName)
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$post("post",this.baseUrl+"user/phoneModify",{
+                    this.$post("post",this.baseUrl+"User/infoUpdate",{
                         token:this.token,
-                        face:this.face,
-                        nickname:this.nicknameForm.nickname
+                        phone:this.phoneModifyForm.oldPhone,
+                        code:this.phoneModifyForm.code,
+                        sms_token:this.sms_token
                     })
                     .then((res)=>{
-                        let data = res.data
-                        if(data.code==1){
-                            this.nickname = data.data.nickname
-                            this.face = data.data.face
+                        if(res.code==1){
+                            // this.phone = res.data.phone
+                            this.userInfoGet(this.token)
                             this.$message({
-                                message:data.info,
+                                message:res.info,
                                 type: 'success'
                             });
                             this.$refs[formName].resetFields();
+                            this.userPublic = false
                         }else{
                             this.$message({
-                                message:data.info,
+                                message:res.info,
                                 type: 'warning'
                             });
                         }
@@ -398,7 +445,7 @@ export default {
 
 <style lang="less" scoped>
   .contList {
-      background: #f6f6f6;
+      background: #FAFBFF;
       .headBox{
         background: #fff;
         padding: 24px;

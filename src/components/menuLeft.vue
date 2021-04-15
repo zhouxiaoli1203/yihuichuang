@@ -76,16 +76,24 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
                 }).then(() => {  
+                  
+                    this.$post("post",this.baseUrl+'User/logout',{
+                        token:this.token,
+                    })
+
+                    // 清空token，userId
+                    localStorage.removeItem('token');
+                    this.$store.state.token = '';
+                    localStorage.removeItem('userId');
+                    this.$store.state.userId = '';
+                    localStorage.removeItem('userInfo');
+                    this.$store.state.userInfo = '';                    
+                    this.$store.state.currentIndex="/index",
+                    this.$router.replace('/');
                     this.$message({
                         type: 'success',
                         message: '退出登录成功!'
                     });
-                    this.$post("post",this.baseUrl+'user/logout',{
-                        token:this.token,
-                    })
-                    this.$store.state.token = '';
-                    this.$store.state.currentIndex="/index",
-                    this.$router.replace('/');
                 }).catch(() => {      
             });
         },

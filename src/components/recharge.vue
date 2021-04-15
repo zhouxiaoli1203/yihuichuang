@@ -57,7 +57,7 @@
                     </div>
                     <div class="bt">
                         <p>支持使用支付宝、微信付款方式</p>
-                            <router-link :to="{path:'/user/userPicture'}"  class="link">《易慧创服务协议》</router-link>
+                            <router-link :to="{path:'/user/userPicture'}"  class="link">《易绘创服务协议》</router-link>
                     </div>
                     </div>
                 </div>

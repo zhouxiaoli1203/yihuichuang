@@ -25,7 +25,7 @@
                     <img :src="face" alt="">
                      <p>在线证件照制作</p>
                   </div>
-                  <span>名字</span>
+                  <span>{{nickname}}</span>
                 </div>
                 <p class="login cursor_p"  @click="dialogTableVisible = true" v-else>登录/注册</p>
             </div>
@@ -45,7 +45,7 @@
                 </div>
                 <el-form :model="userLoginForm" :rules="userLoginRules" ref="userLoginForm" class="form">
                   <el-form-item  prop="phone" class="input" key="dlPhone">
-                    <el-input v-model="userLoginForm.phone" placeholder="手机号"></el-input>
+                    <el-input v-model="userLoginForm.phone" placeholder="手机号" maxlength="11"></el-input>
                   </el-form-item>
 
                   <el-form-item  prop="password" class="input"  v-if="modeNum == 1" key="dlpassword">
@@ -84,7 +84,7 @@
                 </div>
                 <el-form :model="userRegForm" :rules="userRegRules" ref="userRegForm" class="form">
                    <el-form-item  prop="phone" class="input"  key="zcPhone">
-                      <el-input v-model="userRegForm.phone" placeholder="手机号"></el-input>
+                      <el-input v-model="userRegForm.phone" placeholder="手机号" maxlength="11"></el-input>
                     </el-form-item>
                     <el-form-item  prop="code" class="input codeBox" key="zcCode">
                       <el-row type="flex" class=""justify="space-between">
@@ -121,7 +121,7 @@
 
                 <el-form :model="userWjForm" :rules="userWjRules" ref="userWjForm" class="form" v-if="resetClick == 0">
                   <el-form-item  prop="phone" class="input" key="wjPhone">
-                    <el-input v-model="userWjForm.phone" placeholder="手机号"></el-input>
+                    <el-input v-model="userWjForm.phone" placeholder="手机号" maxlength="11"></el-input>
                   </el-form-item>
                   <el-form-item  prop="code" class="input codeBox" key="wjCode">
                     <el-row type="flex" class=""justify="space-between">
@@ -129,7 +129,7 @@
                         <el-input v-model="userWjForm.code" placeholder="验证码"></el-input>
                       </el-col>
                       <el-col :span="10">
-                        <span class="cursor_p code"  @click="sendMsg(userLoginForm.phone,'wj')" v-if="timeSend==60">获取验证码</span>
+                        <span class="cursor_p code"  @click="sendMsg(userWjForm.phone,'wj')" v-if="timeSend==60">获取验证码</span>
                         <span class="cursor_p code" v-else>倒计时：{{timeSend}}</span>
                       </el-col>
                     </el-row>
@@ -233,6 +233,7 @@ export default {
       logo: require('../assets/img/common/logo.png'),
       cart: require('../assets/img/common/cart.png'),
       face: require('../assets/img/common/head.png'),
+      nickname:'',
       // face: '', //头像
       loginBg: require('../assets/img/common/loginBg.jpg'),
       loginClose: require('../assets/img/common/loginClose.png'),
@@ -324,8 +325,8 @@ export default {
   },
   created(){
     this.activeIndex = this.$store.state.currentIndex;
-    this.token = this.$store.state.token;
-    console.log(this.token);
+    this.token = this.$store.getters.getToken;
+    this.userinfoFn()
   },
   mounted () {
     // let href = window.location.href
@@ -334,6 +335,13 @@ export default {
     // this.$store.state.currentIndex = href.split('/#')[1]
   },
   methods: {
+    // 获取个人信息
+    userinfoFn(){
+      let userInfo = this.$store.getters.getUserInfo
+      this.face = userInfo.face
+      this.nickname = userInfo.nickname
+    },
+
     // 获取验证码倒计时
     timeSendNumber() {
       this.timer = setInterval(()=>{
@@ -342,22 +350,22 @@ export default {
           this.timeSend=60
           clearInterval(this.timer)
         }
-        console.log(this.timeSend)
       },1000)
     },
 
     // 获取个人信息
     userInfoGet(token) {
-      this.$post("post",this.baseUrl+'user/infoGet',{
+      this.$post("post",this.baseUrl+'User/infoGet',{
         token,
       })
       .then((res)=>{
-        let data = res.data
-        if(data.code==1){
-          this.face = data.data.face
+        if(res.code==1){
+          this.face = res.data.face,
+          this.nickname = res.data.nickname
+          this.$store.commit('setUserInfo',res.data)
         }else{
           this.$message({
-            message:data.info,
+            message:res.info,
             type: 'warning'
           });
         }
@@ -387,18 +395,21 @@ export default {
       this.$refs[typeForm].validateField('phone', (phoneError) => {
         if(!phoneError){
           this.$post("post",this.baseUrl+"Sms/send",{
-          phone:phoneNum,
-          template,
+            phone:phoneNum,
+            template,
           })
           .then((res)=>{
-            console.log(res);
-            let data = res.data
-            if(data.code==1){
+            if(res.code==1){
               this.timeSendNumber()
-              this.sms_token = data.data.sms_token
+              this.sms_token = res.data.sms_token
+              this.$message({
+                message:res.info,
+                type: 'success'
+              });
+              
             }else{
               this.$message({
-                message:data.info,
+                message:res.info,
                 type: 'warning'
               });
             }
@@ -416,7 +427,7 @@ export default {
           if(type==1){
             data = {
               phone:this.userLoginForm.phone,
-              password:this.userLoginForm.password
+              password: secret.md5(this.userLoginForm.password)
             }
           }else{
             data = {
@@ -427,16 +438,16 @@ export default {
 
           this.$post("post",this.baseUrl+"User/login",data)
           .then((res)=>{
-            let data = res.data
-            if(data.code==1){
+            if(res.code==1){
               // 存储token
-              this.$store.state.token = data.data.token
+              this.$store.commit('setToken',res.data.token)
+              this.$store.commit('setUserId',res.data.id)
               this.loginType = -1
               this.dialogTableVisible=false
-              this.userInfoGet(data.data.token) //登录成功获取个人信息
+              this.userInfoGet(res.data.token) //登录成功获取个人信息
             }else{
               this.$message({
-                message:data.info,
+                message:res.info,
                 type: 'warning'
               });
             }
@@ -469,18 +480,18 @@ export default {
           this.loginType = 4
           this.timeShow = 1 //不显示倒计时
           this.resetClick = 0
-          this.$post("post",this.baseUrl+"user/passReset",{
-            phone:this.userWjForm.phone,
-            sms_token:this.sms_token
+          this.$post("post",this.baseUrl+"User/passReset",{
+            password:secret.md5(this.userWjForm.password),
+            sms_token:this.sms_token,
+            code:this.userWjForm.code
           })
           .then((res)=>{
-            let data = res.data
-            if(data.code==1){
+            if(res.code==1){
               this.loginType = 4
               this.timeShow = 1 //不显示倒计时
             }else{
               this.$message({
-                message:data.info,
+                message:res.info,
                 type: 'warning'
               });
             }
@@ -500,23 +511,25 @@ export default {
       this.$refs[userRegForm].validate((valid) => {
         if (valid) {
           let sms_token = this.sms_token
-          let password = this.userRegForm.password
-          this.$post("post",this.baseUrl+"user/reg",{
+          let password = secret.md5(this.userRegForm.password)
+          let code = this.userRegForm.code
+          this.$post("post",this.baseUrl+"User/reg",{
             sms_token,
-            password
+            password,
+            code
           })
           .then((res)=>{
-            let data = res.data
-            if(data.code==1){
+            if(res.code==1){
               // 存储token
-              this.$store.state.token = data.data.token
+              this.$store.state.token = res.data.token
+              this.$store.state.userId = res.data.id
               // 自动登录
               this.loginType = 4
               this.timeShow = 0 //显示倒计时
               this.getCode()
             }else{
               this.$message({
-                message:data.info,
+                message:res.info,
                 type: 'warning'
               });
             }
@@ -536,7 +549,7 @@ export default {
           clearInterval(this.timer)
           this.loginType = -1
           this.dialogTableVisible=false
-          this.userInfoGet(this.$store.state.token) //倒计时结束后获取个人信息
+          this.userInfoGet(this.$store.getters.getToken) //倒计时结束后获取个人信息
         }
       },1000)
     },
@@ -606,10 +619,15 @@ export default {
   },
   computed: {
     aState: function () {
-      return this.$store.state.token
+      // return this.$store.state.token  
+      return this.$store.getters.getToken
     },
     activeState: function () {
       return this.$store.state.currentIndex
+    },
+
+    changGetUserInfo: function () {
+      return this.$store.getters.getUserInfo
     },
     // publicHome: function () {
     //     return this.$store.state.publicHome //监听左侧导航
@@ -622,9 +640,9 @@ export default {
     'activeState': function (newVal) { //监听导航
       this.activeIndex = newVal
     },
-    // 'publicHome': function (newVal) { //监听左侧导航
-    //     console.log(newVal)
-    // },
+    'changGetUserInfo':function(val){
+      this.userinfoFn()
+    },
     '$route': 'getPath'  //监听浏览器后退导航高亮问题
   }
 }
@@ -691,6 +709,8 @@ export default {
                 width: 32px;
                 height: 32px;
                 border-radius: 50%;
+                border: 1px solid #eee;
+                // border: 1px solid #4E9F5B;
               }
               p{
                 position: absolute;

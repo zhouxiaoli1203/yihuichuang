@@ -105,7 +105,7 @@
       <section class="activityBox">
         <div class="activity">
           <h2>盖帽了老baby</h2>
-          <p>有勇气去改变可以改变的事，有胸怀去接受不可改变的事，用智慧去分辨两者的不同</p>
+          <p>有勇气去改变可以改变的事，有胸怀去接受不可改变的事，用智绘去分辨两者的不同</p>
         </div>
         <i class="el-icon-right"></i>
       </section>

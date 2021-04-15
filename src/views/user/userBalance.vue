@@ -147,7 +147,7 @@ import consumePorp from '../../components/consume'
 
 <style lang="less" scoped>
   .contList {
-      background: #f6f6f6;
+      background: #FAFBFF;
       .assets{
           h4{
               color: #666;
