@@ -53,11 +53,15 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 // 请求拦截器
 axios.interceptors.request.use(
     config => {
+        debugger
         // config.headers.token = localStorage.getItem('yhc_token');
         // config.yhc_f_a = config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         // delete config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         if (config.method == 'post') {
-            config.data = qs.stringify(config.data);
+            console.log(config.file)
+            // config.data = config.file =='upload'?config.data:qs.stringify(config.data);
+            // config.data = qs.stringify(config.data);
+            config.data =config.data;
         }
         return config;
     },
@@ -109,7 +113,7 @@ axios.interceptors.response.use(
 /**
  * 请求
  */
-export function yhcReq(methods, url, params, yhc_f_a, needCatch) {/*  */
+export function yhcReq(methods, url, params,file,yhc_f_a, needCatch) {/*  */
     /*
     yhc_f_a分为两种：
     1.特殊状态码 类型为string 例如'205,206';

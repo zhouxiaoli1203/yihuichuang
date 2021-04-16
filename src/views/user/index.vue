@@ -77,37 +77,18 @@
                 <el-tab-pane label="头像">
                     <div class="upHead">
                         <div class="img">
-                            <!-- <img width="100%" :src="dialogImageUrl" alt=""> -->
-                             <img width="100%" v-if="imageUrl" :src="imageUrl" class="avatar">
+                             <img width="100%" v-if="imgResult" :src="imgResult" class="avatar">
                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </div>
-                        <!-- :on-change="handleChange" -->
-                        <!-- :file-list="fileList" -->
-                        <!-- <el-upload
-                            class="upload-demo "
-                            :show-file-list="false"
-                            action="https://jsonplaceholder.typicode.com/posts/"
-                            
-                            >
-                            <el-button size="small" type="primary">上传头像</el-button>
-                        </el-upload> -->
+          
 
-                        <el-upload
-                            class="avatar-uploader"
-                            action="https://api.yihuichuang.com/User/infoUpdate"
-                            :show-file-list="false"
-                            :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload">
+                        <el-upload action='' :on-change="getFile" :limit="5" list-type="picture" :auto-upload="false" name='face'  style="text-align:center"  multiple="multiple" :show-file-list="false" id="inf">
                             <el-button size="small" type="primary">上传头像</el-button>
                         </el-upload>
-
-
                     </div>
                     <div class="btns">
-
                         <button  @click="userClose" class="spanBtn">取消</button>
                         <button  class="spanBtn" type="primary" @click="modifyFace">确定</button>    
-
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="手机号">
@@ -158,6 +139,7 @@
 import MenuLeft from '../../components/menuLeft'
 import rechargePorp from '../../components/recharge'
 import consumePorp from '../../components/consume'
+import $axios from 'axios';
 export default {
     name: 'user',
     components: {
@@ -220,7 +202,9 @@ export default {
             xiaofeiPorp:false,
             chongzhiPorp:false,
             token:'',
-            imageUrl:'',
+            imgResult:'',
+            imgface:'',
+            imgList:[],
         }
     },
     created(){
@@ -230,6 +214,71 @@ export default {
     },
 
     methods: {
+
+        upData(event) {
+            var reader = new FileReader();
+            let fileData = this.$refs.InputFile.files[0];
+            reader.readAsDataURL(fileData);
+            let _this = this;
+            reader.onload = function(e) {
+                //这里的数据可以使本地图片显示到页面
+                _this.addimg = e.srcElement.result;
+            };
+            // 使用formapi打包
+            // let formData = new FormData();
+            // formData.append('file', fileData);
+            console.log(fileData)
+
+            let face =fileData
+            let token = this.token
+        
+            this.axios.post(this.baseUrl+"User/infoUpdate", {
+                token,
+                face
+
+            }).then(function(res) {
+                console.log(res);
+                // _this.addimgtijiao = res.data.path;
+            });
+        },
+
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handleAvatarSuccess(file) {
+   
+        },
+
+        beforeAvatarUpload(e){
+
+        },
+
+        getBase64(file) {
+            return new Promise(function(resolve, reject) {
+                let imgResult = ''
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function() {
+                    imgResult = reader.result;
+                };
+                reader.onerror = function(error) {
+                    reject(error);
+                };
+                reader.onloadend = function() {
+                    resolve(imgResult);
+                };
+            });
+        },
+
+        // 上传头像
+        getFile(file, fileList) {
+            let list = this.imgList
+            let info = file.raw
+            list.push(info)
+            this.getBase64(file.raw).then(res => {
+                this.imgResult = res
+            });
+        },
         // 充值
         RechargeClick(){
             this.chongzhiPorp=true
@@ -276,18 +325,7 @@ export default {
             this.$router.push("/index");
         },
 
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        handleAvatarSuccess(file) {
-            console.log(file +'111')
-            console.log(file.url+'222')
-            this.imageUrl = file.url;
-        },
-
-        beforeAvatarUpload(e){
- 
-        },
+    
         userClose(){
             console.log(1211)
             this.userPublic=false
@@ -347,21 +385,25 @@ export default {
         },
 
         // 修改头像
-        modifyFace(){
-            this.$post("post",this.baseUrl+"User/infoUpdate",{
-                token:this.token,
-                face:'',
+        modifyFace() {
+            let param = new FormData(); // 创建form对象
+            let file = this.imgList // 获取图片数据
+            file.forEach((item,index)=>{
+                param.append("face[]", file[index]); // 通过append向form对象添加数据
             })
+            param.append("token", this.token); // 添加form表单中其他数据
+
+
+            
+            this.$post("post",'https://api.yihuichuang.com/User/infoUpdate',param,'upload')
             .then((res)=>{
                 if(res.code==1){
-                    // this.phone = res.data.phone
-                    // this.userInfoGet(this.token)
-                    // this.$message({
-                    //     message:res.info,
-                    //     type: 'success'
-                    // });
-                    // this.$refs[formName].resetFields();
-                    // this.userPublic = false
+                    this.userInfoGet(this.token)
+                    this.$message({
+                        message:res.info,
+                        type: 'success'
+                    });
+                    this.userPublic = false
                 }else{
                     this.$message({
                         message:res.info,
