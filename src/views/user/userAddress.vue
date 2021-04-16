@@ -30,32 +30,26 @@
                       <th>操作</th>
                       <th></th>
                     </tr>
-                    <tr>
-                      <td>张三三上哪</td>
-                      <td>安徽省  淮北市  相山区  去阳街道</td>
-                      <td>环潭明珠  三期北区  22栋1121</td>
-                      <td>235000</td>
-                      <td>12321212222</td>
-                      <td class="btns">
-                        <span>修改</span>
-                        <span>删除</span>
+                    <tr v-for="item in list">
+                      <td>{{item.name}}</td>
+                      <td>
+                        <p>{{item.prov + item.city + item.dist}}</p>
                       </td>
-                      <td class="default">
+                      <td>
+                        <p>{{item.detail}}</p>
+                      </td>
+                      <td>{{item.postcode}}</td>
+                      <td>{{item.phone}}</td>
+                      <td class="btns">
+                        <span @click="AddrDelete(item.id)">修改</span>
+                        <span @click="AddrDelete(item.id)">删除</span>
+                      </td>
+                      <td class="default" v-if="item.default=='y'">
                         <span>默认地址</span>
                       </td>
+                      <td class="cursor_p" v-else>设为默认地址</td>
                     </tr>
-                    <tr>
-                      <td>张三三上哪</td>
-                      <td>安徽省  淮北市  相山区  去阳街道</td>
-                      <td>环潭明珠  三期北区  22栋1121</td>
-                      <td>235000</td>
-                      <td>12321212222</td>
-                      <td class="btns">
-                        <span>修改</span>
-                        <span>删除</span>
-                      </td>
-                      <td class="cursor_p">设为默认地址</td>
-                    </tr>
+                    
                   </tbody>   
                 </table>
               </div>
@@ -63,7 +57,8 @@
                   <el-pagination
                       background
                       layout="prev, pager, next"
-                      :total="1000">
+                      :page-size="12"
+                      :total="count">
                   </el-pagination>
                 </div>
             </div>
@@ -73,37 +68,38 @@
 
     <section class="addAreaBox publicPorp" v-show="addAreaBox">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="地址信息">
+        <el-form-item label="地址信息" prop="city">
           <el-cascader class="width100"
+                      v-model="ruleForm.city"
                       size="large"
                       :options="options"
                       placeholder="请选择省市区"
                       @change="cityChange">
           </el-cascader>
+
         </el-form-item>
-        <el-form-item label="详细地址" prop="desc">
-          <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+        <el-form-item label="详细地址" prop="detail">
+          <el-input type="textarea" v-model="ruleForm.detail"></el-input>
         </el-form-item>
-        <el-form-item label="邮政编码">
-          <el-input type="input"></el-input>
+        <el-form-item label="邮政编码" prop="postcode">
+          <el-input v-model.number="ruleForm.postcode" maxlength="6"></el-input>
         </el-form-item>
         <el-form-item label="收货姓名" prop="name">
           <el-input type="input" v-model="ruleForm.name"></el-input>
         </el-form-item>
 
-        <el-form-item label="手机号" prop="phone">
-          <el-col :span="12">
-            <el-select placeholder="请选择" @change="changes">
-              <el-option label="中国大陆+86" value="shanghai"></el-option>
-              <el-option label="其他" value="beijing"></el-option>
-            </el-select>
-          </el-col>
-          <el-col class="line" :span="12">
-            <el-input type="input" v-model="ruleForm.phone"></el-input>
-          </el-col>
+        <el-form-item  prop="phone" label="手机号" >
+          <el-row type="flex" class=""justify="space-between">
+            <el-col :span="10">
+              <el-input type="input" value="中国大陆+86" readonly></el-input>
+            </el-col>
+            <el-col :span="13">
+              <el-input type="input" v-model="ruleForm.phone"></el-input>
+            </el-col>
+          </el-row>
         </el-form-item>
-        <el-form-item label="是否默认" prop="delivery">
-          <el-switch v-model="ruleForm.delivery"></el-switch>
+        <el-form-item  prop="default">
+          <el-checkbox v-model="ruleForm.default">设置为默认收货地址</el-checkbox>
         </el-form-item>
         <div class="btnBox">
           <span @click="closePorp">取消</span>
@@ -117,7 +113,7 @@
 
 <script>
   import MenuLeft from '../../components/menuLeft'
-  import { regionData } from 'element-china-area-data'
+  import { provinceAndCityData, regionData, provinceAndCityDataPlus, regionDataPlus, CodeToText, TextToCode } from 'element-china-area-data'
   export default {
     name: 'userAddress',
     components: {
@@ -128,31 +124,87 @@
         notice: require('../../assets/img/user/notice.png'), 
         options: regionData,
         addAreaBox:false,
+        CodeToText,
         ruleForm: {
           name: '',
-          delivery: false,
-          desc: '',
+          default: true, 
+          detail: '',
           phone:'',
+          city:'',
+          postcode:'',
         },
         rules: {
+          city: [
+            { required: true, message: '请选择省市区' }
+          ],
           name: [
             { required: true, message: '请输入收货姓名', trigger: 'blur' },
-            { min: 22, max: 10, message: '长度在 2 到 10 个字符', trigger: 'blur' }
           ],
           phone: [
             { required: true, message: '请输入手机号', trigger: 'blur' }
           ],
-          desc: [
+          detail: [
             { required: true, message: '请填写详细地址', trigger: 'blur' }
+          ],
+          postcode: [
+            { type: 'number', message: '邮编必须为数字', trigger: 'change' },
           ]
-        }
+        },
+        prov:'',
+        city:'',
+        dist:'',
+        token:'',
+        page:1,
+        limit:12,
+        list:[],
+        count:''
       }
+    },
+    created(){
+        let token  = this.$store.getters.getToken;
+        this.token = token
+        this.AddrSelect(token,this.page,this.limit)
     },
     methods: {
       submitForm(formName) { //地址提交
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+             let {prov,city,dist,ruleForm,token} = this
+             let moren = ruleForm.default
+             if(moren==true){
+               moren = 'y'
+             }else{
+               moren = 'n'
+             }
+            let data = {
+              token,
+              prov,
+              city,
+              dist,
+              detail:ruleForm.detail,
+              name:ruleForm.name,
+              phone:ruleForm.phone,
+              postcode:ruleForm.postcode,
+              default:moren
+            }
+            this.$post("post",this.baseUrl+"Addr/insert",data)
+            .then((res)=>{
+              if(res.code==1){
+                this.$message({
+                  message:res.info,
+                  type: 'success'
+                });
+                this.AddrSelect(token,1,12)
+                this.addAreaBox = false                
+              }else{
+                this.$message({
+                  message:res.info,
+                  type: 'warning'
+                });
+              }
+            })
+            
+
           } else {
             console.log('error submit!!');
             return false;
@@ -163,12 +215,35 @@
         this.addAreaBox=false;
       },
       cityChange(val){ //选择收货地址
-        console.log(val)
-      },
-      changes(val){ //选择号码归属地
-        console.log(val)
-      }
+        this.prov = this.CodeToText[val[0]]
+        this.city = this.CodeToText[val[1]]
+        this.dist = this.CodeToText[val[2]]
+      }, 
       
+      // 获取地址列表
+      AddrSelect(token,page,limit){
+        this.$post("post",this.baseUrl+"Addr/select",{
+          token,
+          page,
+          limit
+        })
+          .then((res)=>{
+            if(res.code==1){
+              this.list = res.data.list
+              this.count =  res.data.count
+            }else{
+              this.$message({
+                message:res.info,
+                type: 'warning'
+              });
+            }
+        })
+      },
+
+      // 删除地址
+      AddrDelete(id){
+        
+      }
     }
   }
 </script>
@@ -224,6 +299,15 @@
       height: 45px;
       text-align: center;
       color: #333;
+      max-width: 200px;
+
+      p{
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+      }
+        
     }
 
     .default{

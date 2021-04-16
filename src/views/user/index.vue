@@ -80,9 +80,16 @@
                              <img width="100%" v-if="imgResult" :src="imgResult" class="avatar">
                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </div>
-          
-
-                        <el-upload action='' :on-change="getFile" :limit="5" list-type="picture" :auto-upload="false" name='face'  style="text-align:center"  multiple="multiple" :show-file-list="false" id="inf">
+                        <el-upload action='' 
+                        :limit="1" 
+                        list-type="picture" 
+                        :auto-upload="true" 
+                        name='face'  
+                        style="text-align:center"  
+                        :show-file-list="false" 
+                        :before-upload="beforeAvatarUpload"
+                         accept=".jpg,.jpeg,.png,.gif,.JPG,.JPEG"
+                        >
                             <el-button size="small" type="primary">上传头像</el-button>
                         </el-upload>
                     </div>
@@ -109,7 +116,6 @@
                                 <el-input v-model="phoneModifyForm.code" placeholder="请输入验证码"></el-input>
                             </el-col>
                             <el-col :span="10">
-                                <!-- sendMsg('phoneModifyForm') -->
                                 <span class="cursor_p code"  @click="sendMsg('phoneModifyForm')" v-if="timeSend==60">获取验证码</span>
                                 <span class="cursor_p code" v-else>倒计时：{{timeSend}}</span>
                             </el-col>
@@ -139,7 +145,6 @@
 import MenuLeft from '../../components/menuLeft'
 import rechargePorp from '../../components/recharge'
 import consumePorp from '../../components/consume'
-import $axios from 'axios';
 export default {
     name: 'user',
     components: {
@@ -203,7 +208,6 @@ export default {
             chongzhiPorp:false,
             token:'',
             imgResult:'',
-            imgface:'',
             imgList:[],
         }
     },
@@ -215,43 +219,35 @@ export default {
 
     methods: {
 
-        upData(event) {
-            var reader = new FileReader();
-            let fileData = this.$refs.InputFile.files[0];
-            reader.readAsDataURL(fileData);
-            let _this = this;
-            reader.onload = function(e) {
-                //这里的数据可以使本地图片显示到页面
-                _this.addimg = e.srcElement.result;
-            };
-            // 使用formapi打包
-            // let formData = new FormData();
-            // formData.append('file', fileData);
-            console.log(fileData)
-
-            let face =fileData
-            let token = this.token
-        
-            this.axios.post(this.baseUrl+"User/infoUpdate", {
-                token,
-                face
-
-            }).then(function(res) {
-                console.log(res);
-                // _this.addimgtijiao = res.data.path;
-            });
-        },
-
         handleRemove(file, fileList) {
             console.log(file, fileList);
         },
-        handleAvatarSuccess(file) {
-   
+        // handleAvatarSuccess(file) {
+        //     //  this.imageUrl = URL.createObjectURL(file.raw);
+        //     console.log(file)
+        // },
+
+        beforeAvatarUpload(file) {
+            console.log(file.type)
+            const isJPG = file.type === 'image/jpg';
+            const isJPEG = file.type === 'image/jpeg';
+            const isGIF = file.type === 'image/gif'
+            const isPNG = file.type === 'image/png'
+          
+            
+
+            const isLt2M = file.size / 1024 / 1024 < 5;
+            if (!isJPG  && !isGIF && !isPNG && !isJPEG) {
+                return this.$message.error('上传头像图片只能JPG,PNG,GIF格式!');
+            }
+            if (!isLt2M) {
+                return this.$message.error('上传头像图片大小不能超过 5MB!');
+            }
+            this.getFile(file) 
         },
 
-        beforeAvatarUpload(e){
 
-        },
+
 
         getBase64(file) {
             return new Promise(function(resolve, reject) {
@@ -272,13 +268,16 @@ export default {
 
         // 上传头像
         getFile(file, fileList) {
+            console.log(file)
+            this.imgList = []
             let list = this.imgList
-            let info = file.raw
+            let info = file
             list.push(info)
-            this.getBase64(file.raw).then(res => {
+            this.getBase64(file).then(res => {
                 this.imgResult = res
             });
         },
+
         // 充值
         RechargeClick(){
             this.chongzhiPorp=true
@@ -341,9 +340,9 @@ export default {
                     this.info = res.data
                     this.nickname = res.data.nickname
                     this.face = res.data.face
+                    this.imgResult = res.data.face
                     this.phone = res.data.phone
                     this.$store.commit('setUserInfo',res.data)
-
                 }else{
                     this.$message({
                         message:res.info,
@@ -392,9 +391,6 @@ export default {
                 param.append("face[]", file[index]); // 通过append向form对象添加数据
             })
             param.append("token", this.token); // 添加form表单中其他数据
-
-
-            
             this.$post("post",'https://api.yihuichuang.com/User/infoUpdate',param,'upload')
             .then((res)=>{
                 if(res.code==1){
