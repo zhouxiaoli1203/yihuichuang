@@ -53,14 +53,10 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 // 请求拦截器
 axios.interceptors.request.use(
     config => {
-        debugger
         // config.headers.token = localStorage.getItem('yhc_token');
         // config.yhc_f_a = config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         // delete config[config.method == 'post' ? 'data' : 'params'].yhc_f_a;
         if (config.method == 'post') {
-            console.log(config.file)
-            // config.data = config.file =='upload'?config.data:qs.stringify(config.data);
-            // config.data = qs.stringify(config.data);
             config.data =config.data;
         }
         return config;
@@ -122,7 +118,7 @@ export function yhcReq(methods, url, params,file,yhc_f_a, needCatch) {/*  */
     // 需要同时处理特殊code和catch错误时，yhc_f_a和needCatch都传
     return new Promise((resolve, reject) => {
         // params.yhc_f_a = typeof yhc_f_a === 'string' ? yhc_f_a : '';
-        const r = methods == 'post' ? axios.post(url,params) : axios.get(url, { params: params });
+        const r = methods == 'post' ? axios.post(url,file == "upload"?params:qs.stringify(params)) : axios.get(url, { params: params });
         r.then(res => {
             resolve(res.data);
         }).catch(err => {
