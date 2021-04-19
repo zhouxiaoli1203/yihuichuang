@@ -58,10 +58,7 @@
 </template>
 
 <script>
-import CktDesign from '@chuangkit/chuangkit-design'
-import {scts} from '@/utils/secret'
-
-var design = new CktDesign(scts.getKey());
+import CKT from '@/utils/useCkt'
 
 export default {
   name: 'design',
@@ -116,18 +113,19 @@ export default {
   },
   components: {},
   created() {
-      this.confirm_pop("确定要删除吗").then(res=>{
-         this.$message({
-                type: 'success',
-                message: '删除成功!'
-            });
-      })
+    //   this.confirm_pop("确定要删除吗").then(res=>{
+    //      this.$message({
+    //             type: 'success',
+    //             message: '删除成功!'
+    //         });
+    //   })
   },
   mounted() {},
   methods: {
     openCkt: function () {
-        // console.log(design );
-      design .open()
+      CKT.useCkt({"kind_id":"166"},function(res){
+          console.log(res);
+      });
     },
   },
 }

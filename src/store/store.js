@@ -28,7 +28,6 @@ export default new Vuex.Store({
         state.userId = userId 
         localStorage.setItem('userId',userId) //同步存储token至localStorage
       },
-      
     },
     getters : {
       //获取token方法

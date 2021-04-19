@@ -7,10 +7,12 @@
       </div>
       <div class="print-detail-operate">
         <div class="operate-left">
-            <!-- 每个页面的属性 -->
+          <!-- 每个页面的属性 -->
           <!-- <Armband v-if="detailType == 1"></Armband>
           <Banner v-if="detailType == 2"></Banner> -->
-          <component v-bind:is="xuanchuance" title="高清" v-bind:type="2"></component>
+          <component v-bind:is="xuanchuance"
+                     title="高清"
+                     v-bind:type="2"></component>
 
           <!-- <Ribbon></Ribbon> -->
           <!-- 上传文件按钮 -->
@@ -23,30 +25,35 @@
                          :on-remove="handleRemove"
                          :file-list="fileList"
                          :auto-upload="false">
-                <el-button class="yhc_btn" slot="trigger"
+                <el-button class="yhc_btn"
+                           slot="trigger"
                            size="small"
                            type="primary">上传稿件</el-button>
               </el-upload>
             </el-form-item>
             <el-form-item label="我没文件">
-              <el-upload class="upload-demo"
-                         ref="upload"
-                         action="https://jsonplaceholder.typicode.com/posts/"
-                         :on-preview="handlePreview"
-                         :on-remove="handleRemove"
-                         :file-list="fileList"
-                         :auto-upload="false">
-                <el-button class="yhc_btn" slot="trigger"
-                           size="small"
-                           type="primary">挑选模版设计</el-button>
-              </el-upload>
+              <el-button class="yhc_btn fl"
+                         size="small"
+                         type="success"
+                         @click="openCkt" style="width:110px;">挑选模版设计</el-button>
+              <ul class="el-upload-list el-upload-list--text">
+                <li tabindex="0"
+                    class="el-upload-list__item is-success">
+                  <a class="el-upload-list__item-name"><i class="el-icon-document"></i>food.jpeg
+                  </a>
+                  <label class="el-upload-list__item-status-label"><i class="el-icon-upload-success el-icon-circle-check"></i></label><i class="el-icon-close"></i><i class="el-icon-close-tip">按 delete
+                    键可删除</i>
+                </li>
+              </ul>
             </el-form-item>
             <el-form-item label="没有满意模板">
-                <el-button class="yhc_btn" size="small" type="success">设计定制</el-button>
+              <el-button class="yhc_btn"
+                         size="small"
+                         type="success">设计定制</el-button>
             </el-form-item>
           </el-form>
           <!-- 在线估价弹框 -->
-          <Price ></Price>
+          <Price></Price>
 
         </div>
         <div class="operate-right">
@@ -79,22 +86,27 @@
         </div>
       </div>
     </div>
-    
+
   </div>
 </template>
 
 <script>
-import  Armband from '@/views/print/materiel/armband_dtl'
-import  Banner from '@/views/print/materiel/banner_dtl'
-import  Ribbon from '@/views/print/company/xuanchuance_dtl'
+import Armband from '@/views/print/materiel/armband_dtl'
+import Banner from '@/views/print/materiel/banner_dtl'
+import Paint from '@/views/print/materiel/paint_dtl'
+import Photo from '@/views/print/materiel/photo_dtl'
+import Ribbon from '@/views/print/materiel/ribbon_dtl'
+import Caidan from '@/views/print/otherPrint/caidan_dtl'
+import Xuanchuance from '@/views/print/company/xuanchuance_dtl'
 
 import Price from '@/components/pricePop'
+import CKT from '@/utils/useCkt'
 export default {
   name: 'pdetial',
   data() {
     return {
-        xuanchuance:Ribbon,
-        detailType:"",
+      xuanchuance: Ribbon,
+      detailType: '',
       relItems: Array(4),
       editableTabsValue: 'detail',
       editableTabs: [
@@ -103,7 +115,7 @@ export default {
       ],
       title: '测试动态组件',
       show: true,
-            fileList: [
+      fileList: [
         {
           name: 'food.jpeg',
           url:
@@ -115,22 +127,23 @@ export default {
             'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
         },
       ],
-      arr:[
-          {cmpt:Armband,id:1},
-          {cmpt:Banner,id:2},
-          {cmpt:Ribbon,id:3},
+      arr: [
+        { cmpt: Armband, id: 3 },
+        { cmpt: Banner, id: 2 },
+        { cmpt: Xuanchuance, id: 1 },
       ],
     }
   },
-  components: { Armband,Banner,Ribbon, Price },
+  components: { Armband, Banner, Xuanchuance, Price },
   created() {
-      this.detailType = this.$route.query.type;
-      this.xuanchuance = this.arr.filter((v)=>{
-          return this.detailType == v.id;
-      })[0].cmpt;
-
+    this.detailType = this.$route.query.type
+    this.xuanchuance = this.arr.filter((v) => {
+      return this.detailType == v.id
+    })[0].cmpt
   },
-  mounted() {},
+  mounted() {
+      
+  },
   methods: {
     goBack: function () {
       this.$router.push({
@@ -158,6 +171,11 @@ export default {
       return this.$confirm(`确定移除 ${file.name}？`)
     },
     handleClick: function () {},
+    openCkt: function () {
+      CKT.useCkt({ kind_id: '166' }, function (res) {
+        console.log(res)
+      })
+    },
   },
 }
 </script>
@@ -217,7 +235,5 @@ export default {
     width: 927px;
     height: -webkit-fill-available;
   }
-
-
 }
 </style>

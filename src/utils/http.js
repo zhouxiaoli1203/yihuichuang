@@ -26,19 +26,19 @@ let isApp, isWechat, yhcmessage;
 // };
 
 // 环境的切换
-if (process.env.NODE_ENV == 'development') {
-    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
-    // isApp = /app.html/.test(url)
-    // isWechat = /weChat.html/.test(url)
-} else if (process.env.NODE_ENV == 'debug') {
-    axios.defaults.baseURL = '';
-} else if (process.env.NODE_ENV == 'production') {
-    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
-} else if (process.env.NODE_ENV == 'testing') {
-    // isApp = /show_app/.test(url)
-    // isWechat = /show_h5/.test(url)
-    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
-}
+// if (process.env.NODE_ENV == 'development') {
+//     axios.defaults.baseURL = 'https://api.yihuichuang.com/';
+//     // isApp = /app.html/.test(url)
+//     // isWechat = /weChat.html/.test(url)
+// } else if (process.env.NODE_ENV == 'debug') {
+//     axios.defaults.baseURL = '';
+// } else if (process.env.NODE_ENV == 'production') {
+//     axios.defaults.baseURL = 'https://api.yihuichuang.com/';
+// } else if (process.env.NODE_ENV == 'testing') {
+//     // isApp = /show_app/.test(url)
+//     // isWechat = /show_h5/.test(url)
+//     axios.defaults.baseURL = 'https://api.yihuichuang.com/';
+// }
 
 let token_invalid = false;
 // yhcmessage = isApp || isWechat ? Toast : "错误";
