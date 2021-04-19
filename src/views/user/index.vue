@@ -77,7 +77,13 @@
                 <el-tab-pane label="头像">
                     <div class="upHead">
                         <div class="img">
-                             <img width="100%" v-if="imgResult" :src="imgResult" class="avatar">
+                              <el-image 
+                                v-if="imgResult"
+                                :src="imgResult" 
+                                :preview-src-list="srcList"
+                                class="avatar"
+                                >
+                            </el-image>
                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </div>
                         <el-upload action='' 
@@ -201,7 +207,6 @@ export default {
                 code: [
                     { required: true, message: '请输入验证码', trigger: 'blur' },
                 ],
-            
             },
             timeSend:60,
             xiaofeiPorp:false,
@@ -209,6 +214,7 @@ export default {
             token:'',
             imgResult:'',
             imgList:[],
+            srcList: []
         }
     },
     created(){
@@ -218,24 +224,12 @@ export default {
     },
 
     methods: {
-
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
-        // handleAvatarSuccess(file) {
-        //     //  this.imageUrl = URL.createObjectURL(file.raw);
-        //     console.log(file)
-        // },
-
         beforeAvatarUpload(file) {
             console.log(file.type)
             const isJPG = file.type === 'image/jpg';
             const isJPEG = file.type === 'image/jpeg';
             const isGIF = file.type === 'image/gif'
             const isPNG = file.type === 'image/png'
-          
-            
-
             const isLt2M = file.size / 1024 / 1024 < 5;
             if (!isJPG  && !isGIF && !isPNG && !isJPEG) {
                 return this.$message.error('上传头像图片只能JPG,PNG,GIF格式!');
@@ -245,10 +239,6 @@ export default {
             }
             this.getFile(file) 
         },
-
-
-
-
         getBase64(file) {
             return new Promise(function(resolve, reject) {
                 let imgResult = ''
@@ -268,13 +258,12 @@ export default {
 
         // 上传头像
         getFile(file, fileList) {
-            console.log(file)
             this.imgList = []
-            let list = this.imgList
-            let info = file
-            list.push(info)
+            let {imgList, srcList} = this
+            imgList.push(file)
             this.getBase64(file).then(res => {
                 this.imgResult = res
+                srcList.push(res)
             });
         },
 
@@ -314,7 +303,6 @@ export default {
             },1000)
         },
 
-
         gotoMore(){
             this.$router.push("/news/detail");
         },
@@ -323,7 +311,6 @@ export default {
             this.$store.state.currentIndex = '/index';
             this.$router.push("/index");
         },
-
     
         userClose(){
             console.log(1211)
@@ -332,6 +319,7 @@ export default {
 
         // 获取个人信息
         userInfoGet(token) {
+            let {srcList} = this
             this.$post("post",this.baseUrl+'User/infoGet',{
                 token,
             })
@@ -343,6 +331,7 @@ export default {
                     this.imgResult = res.data.face
                     this.phone = res.data.phone
                     this.$store.commit('setUserInfo',res.data)
+                    srcList.push(res.data.face)
                 }else{
                     this.$message({
                         message:res.info,
@@ -623,21 +612,9 @@ export default {
         }
 
         .input{
-            // display: flex;
-            // align-items: center;
-            // margin-bottom: 16px;
-
-            // input{
-            //     flex: 1;
-            //     height: 34px;
-            //     background: #FFFFFF;
-            //     border-radius: 4px;
-            //     border: 1px solid #979797;
-            //     text-indent: 8px;
-               
-            // }
+        
             span{
-                // width: 88px;
+            
                 height: 34px;
                 background: #4E9F5B;
                 border-radius:4px;
@@ -687,7 +664,7 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
-            img{
+            .avatar{
                 width: 130px;
                 height: 130px;
                 border: 1px solid #fff;

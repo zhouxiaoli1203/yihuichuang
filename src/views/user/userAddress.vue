@@ -8,59 +8,67 @@
               <span>收货地址</span>
           </div>
           <div class="operateBox">
-            <span class="add" @click="addAreaBox = true">添加</span>
+            <template v-if="Number(count)>=20">
+              <span class="add" @click="addNum">添加</span>
+            </template>
+            <template v-else>
+              <span class="add" @click="addAreaBox = true">添加</span>
+            </template>
           </div>
         </div>
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
-              <div class="notice">
-                <img :src="notice" alt="">
-                <p>已保存9条地址，还能保存9条地址</p>
-              </div>
-              <div class="tabBox">
-                <table border = "1" class="tableBox"  width="100%">
-                  <tbody>
-                    <tr>
-                      <th>收货人</th>
-                      <th>所在地区</th>
-                      <th>详细地址</th>
-                      <th>邮编</th>
-                      <th>电话/手机</th>
-                      <th>操作</th>
-                      <th></th>
-                    </tr>
-                    <tr v-for="item in list">
-                      <td>{{item.name}}</td>
-                      <td>
-                        <p>{{item.prov + item.city + item.dist}}</p>
-                      </td>
-                      <td>
-                        <p>{{item.detail}}</p>
-                      </td>
-                      <td>{{item.postcode}}</td>
-                      <td>{{item.phone}}</td>
-                      <td class="btns">
-                        <span @click="AddrDelete(item.id)">修改</span>
-                        <span @click="AddrDelete(item.id)">删除</span>
-                      </td>
-                      <td class="default" v-if="item.default=='y'">
-                        <span>默认地址</span>
-                      </td>
-                      <td class="cursor_p" v-else>设为默认地址</td>
-                    </tr>
-                    
-                  </tbody>   
-                </table>
-              </div>
-              <div class="paging">
-                  <el-pagination
-                      background
-                      layout="prev, pager, next"
-                      :page-size="12"
-                      :total="count">
-                  </el-pagination>
+              <template v-if="list!=''">
+                <div class="notice">
+                  <img :src="notice" alt="">
+                  <p>已保存{{count}}条地址，还能保存{{20-Number(count)}}条地址</p>
                 </div>
+                <div class="tabBox">
+                  <table border = "1" class="tableBox"  width="100%">
+                    <tbody>
+                      <tr>
+                        <th>收货人</th>
+                        <th>所在地区</th>
+                        <th>详细地址</th>
+                        <th>邮编</th>
+                        <th>电话/手机</th>
+                        <th>操作</th>
+                        <th></th>
+                      </tr>
+                      <tr v-for="item in list">
+                        <td>{{item.name}}</td>
+                        <td>
+                          <p>{{item.prov + item.city + item.dist}}</p>
+                        </td>
+                        <td>
+                          <p>{{item.detail}}</p>
+                        </td>
+                        <td>{{item.postcode}}</td>
+                        <td>{{item.phone}}</td>
+                        <td class="btns">
+                          <span @click="AddrUpdate(item.id)">修改</span>
+                          <span @click="AddrDelete(item.id)">删除</span>
+                        </td>
+                        <td class="default" v-if="item.default=='y'">
+                          <span>默认地址</span>
+                        </td>
+                        <td class="cursor_p sheMoren" v-else @click="AddDefault(item.id)">设为默认地址</td>
+                      </tr>
+                      
+                    </tbody>   
+                  </table>
+                </div>
+                <div class="paging">
+                    <el-pagination
+                        background
+                        @current-change="handleCurrentChange"
+                        layout="prev, pager, next"
+                        :page-size="13"
+                        :total="count">
+                    </el-pagination>
+                </div>
+              </template>
             </div>
         </div>
     </section>
@@ -79,22 +87,23 @@
 
         </el-form-item>
         <el-form-item label="详细地址" prop="detail">
-          <el-input type="textarea" v-model="ruleForm.detail"></el-input>
+          <el-input type="textarea" v-model="ruleForm.detail" placeholder="请输入详细地址"></el-input>
         </el-form-item>
         <el-form-item label="邮政编码" prop="postcode">
-          <el-input v-model.number="ruleForm.postcode" maxlength="6"></el-input>
+          <el-input v-model="ruleForm.postcode" maxlength="6" placeholder="请输入邮政编码"></el-input>
         </el-form-item>
         <el-form-item label="收货姓名" prop="name">
-          <el-input type="input" v-model="ruleForm.name"></el-input>
+          <el-input type="input" v-model="ruleForm.name" placeholder="请输入收货姓名"></el-input>
         </el-form-item>
 
-        <el-form-item  prop="phone" label="手机号" >
-          <el-row type="flex" class=""justify="space-between">
-            <el-col :span="10">
-              <el-input type="input" value="中国大陆+86" readonly></el-input>
+        <el-form-item  prop="phone" label="手机号" class="phoneCodeBOX">
+          <el-row type="flex" justify="space-between">
+            <el-col :span="10" class="phoneCode">
+              <!-- <el-input type="input" value="中国大陆+86" readonly></el-input> -->
+              中国大陆+86
             </el-col>
             <el-col :span="13">
-              <el-input type="input" v-model="ruleForm.phone"></el-input>
+              <el-input type="input" v-model="ruleForm.phone" maxlength="13" minlength="11" placeholder="请输入手机号/座机号"></el-input>
             </el-col>
           </el-row>
         </el-form-item>
@@ -120,6 +129,47 @@
       MenuLeft,
     },
     data () {
+      var postcodeRule = (rule,value,callback) => {
+        if(value){
+          console.log(value)
+          let values = value.replace('/(^\s*)|(\s*$)','')  //去除字符串前后空格
+          let num = Number(values)  //将字符串转换为数
+          if(isNaN(num)){  //判断是否是非数字
+            callback(new Error('邮编必须为数字'));
+          }else if(value === ''|| value === null){  //空字符串和null都会被当做数字
+            callback(new Error('邮编必须为数字'));
+          }else{
+            callback();
+          }
+        }else{
+          callback();
+        }
+      };
+      var checkPhone = (rule, value, callback) => {
+	      if (value === '') {
+	        callback(new Error('请输入联系人电话'));
+	      } else {
+	        let regPone = null;
+	        let mobile = /^1(3|4|5|6|7|8|9)\d{9}$/; //最新16手机正则
+	        let tel = /^(0[0-9]{2,3}\-)([2-9][0-9]{4,7})+(\-[0-9]{1,4})?$/; //座机
+	        if (value.charAt(0) == 0) {    // charAt查找第一个字符方法，用来判断输入的是座机还是手机号
+	          regPone = tel;
+            if (!regPone.test(value)) {
+              return callback(
+                new Error("电话错误(座机格式'区号-座机号码')")
+              );
+            }  
+	        } else {          
+	          regPone = mobile;
+            if (!regPone.test(value)) {
+              return callback(
+                new Error("手机号格式不正确")
+              );
+            } 
+	        }
+	        callback();        
+	      }
+	    };
       return {     
         notice: require('../../assets/img/user/notice.png'), 
         options: regionData,
@@ -141,13 +191,13 @@
             { required: true, message: '请输入收货姓名', trigger: 'blur' },
           ],
           phone: [
-            { required: true, message: '请输入手机号', trigger: 'blur' }
+            { required: true, validator: checkPhone, trigger: 'blur' }
           ],
           detail: [
             { required: true, message: '请填写详细地址', trigger: 'blur' }
           ],
           postcode: [
-            { type: 'number', message: '邮编必须为数字', trigger: 'change' },
+            { required: false, validator: postcodeRule, trigger: "blur"}
           ]
         },
         prov:'',
@@ -155,9 +205,11 @@
         dist:'',
         token:'',
         page:1,
-        limit:12,
+        limit:13,
         list:[],
-        count:''
+        count:0,
+        AddModifyid:'',
+        
       }
     },
     created(){
@@ -166,16 +218,16 @@
         this.AddrSelect(token,this.page,this.limit)
     },
     methods: {
-      submitForm(formName) { //地址提交
+      submitForm(formName) { //地址提交及修改
         this.$refs[formName].validate((valid) => {
           if (valid) {
-             let {prov,city,dist,ruleForm,token} = this
-             let moren = ruleForm.default
-             if(moren==true){
+            let {prov,city,dist,ruleForm,token, AddModifyid,page,limit} = this
+            let moren = ruleForm.default
+            if(moren==true){
                moren = 'y'
-             }else{
+            }else{
                moren = 'n'
-             }
+            }
             let data = {
               token,
               prov,
@@ -185,17 +237,27 @@
               name:ruleForm.name,
               phone:ruleForm.phone,
               postcode:ruleForm.postcode,
-              default:moren
+              default:moren,
+              id:AddModifyid
             }
-            this.$post("post",this.baseUrl+"Addr/insert",data)
+            let url = ''
+            if(AddModifyid==''){
+              url = this.baseUrl+"Addr/insert"
+            }else{
+              url = this.baseUrl+"Addr/update"
+            }
+            this.$post("post",url,data)
             .then((res)=>{
               if(res.code==1){
                 this.$message({
                   message:res.info,
                   type: 'success'
                 });
-                this.AddrSelect(token,1,12)
-                this.addAreaBox = false                
+                this.AddrSelect(token,page,limit)
+                this.addAreaBox = false
+                this.AddModifyid = ''
+                this.$refs[formName].resetFields();  
+                this.ruleForm.city = ''              
               }else{
                 this.$message({
                   message:res.info,
@@ -203,8 +265,6 @@
                 });
               }
             })
-            
-
           } else {
             console.log('error submit!!');
             return false;
@@ -213,6 +273,9 @@
       },
       closePorp() { //关闭弹框
         this.addAreaBox=false;
+        this.AddModifyid = '' 
+        this.$refs.ruleForm.resetFields();
+        this.ruleForm.city = ''
       },
       cityChange(val){ //选择收货地址
         this.prov = this.CodeToText[val[0]]
@@ -227,23 +290,119 @@
           page,
           limit
         })
+        .then((res)=>{
+          if(res.code==1){
+            this.list = res.data.list
+            this.count =  res.data.count
+          }else{
+            this.$message({
+              message:res.info,
+              type: 'warning'
+            });
+          }
+        })
+      },
+
+      // 删除地址
+      AddrDelete(id){
+        let {token, page, limit } = this
+        this.confirm_pop("确认删除该条地址？").then(res=>{
+          this.$post("post",this.baseUrl+"Addr/delete",{
+            token,
+            id,
+          })
           .then((res)=>{
             if(res.code==1){
-              this.list = res.data.list
-              this.count =  res.data.count
+              this.AddrSelect(token,page,limit)
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              });
             }else{
               this.$message({
                 message:res.info,
                 type: 'warning'
               });
             }
+          })
         })
       },
 
-      // 删除地址
-      AddrDelete(id){
-        
+      // 获取地址信息
+      AddrUpdate(id){
+        this.AddModifyid = id    
+        this.addAreaBox=true;
+        let {token, page, limit } = this
+        this.$post('post',this.baseUrl+'Addr/get',{
+          token,
+          id
+        })
+        .then((res)=>{
+          let data = res.data
+          if(res.code==1){
+            let prov = TextToCode[data.prov]
+            let provCode = prov.code
+            let city = TextToCode[data.prov] [data.city]
+            let cityCode = city.code
+            let dist = TextToCode[data.prov] [data.city] [data.dist]
+            let distCode = dist.code
+            this.ruleForm={
+              name:data.name,
+              default:data.default=='y'?true:false, 
+              detail: data.detail,
+              phone:data.phone,
+              city:[provCode, cityCode, distCode],
+              postcode:data.postcode,
+            },
+            this.prov = data.prov
+            this.city = data.city
+            this.dist = data.dist
+          }else{
+            this.$message({
+              message:res.info,
+              type:'warning'
+            })
+          }
+        })
+      },
+      // 设为默认地址
+      AddDefault(id){
+        this.confirm_pop("是否设置该条为默认地址？").then(res=>{
+          let {token, page, limit } = this
+          this.$post("post",this.baseUrl+"Addr/update",{
+            token,
+            id,
+            default:'y'
+          })
+          .then((res)=>{
+            if(res.code==1){
+              this.AddrSelect(token,page,limit)
+              this.$message({
+                  type: 'success',
+                  message: '设置成功!'
+              });
+            }else{
+              this.$message({
+                message:res.info,
+                type: 'warning'
+              });
+            }
+          })
+        })
+      },
+      // 点击页数
+      handleCurrentChange(val) {
+          this.page = val
+          let {token,limit} = this
+          this.AddrSelect(token,val,limit)
+      },
+      addNum(){
+        this.$message({
+          message: '只能添加20条地址哦，当前条数等于20条',
+          type: 'warning'
+        });
       }
+
     }
   }
 </script>
@@ -329,11 +488,19 @@
         display: inline-block;
       }
 
+      span:hover{
+        color: #4E9F5B;
+      }
+
       span:last-child{
         margin-left: 4px;
         border-left: 1px solid #666;
         padding-left: 8px;
       }
+    }
+
+    .sheMoren:hover{
+      color: red;
     }
   }
 }
@@ -377,6 +544,16 @@
     }
     
   }
-  
+
+  .phoneCode{
+    border-radius: 4px;
+    border: 1px solid #DCDFE6;
+    text-align: center;
+  }
+
+
+
+
+
 }
 </style>
