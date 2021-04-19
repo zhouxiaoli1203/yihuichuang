@@ -230,15 +230,15 @@ img{
 /* 头部导航 */
 
 .headerCenter .el-menu-item{
-    padding: 0 15px;
+    padding: 0 18px;
 }
 
-.headerCenter .navUl .el-menu-item:first-child{
+/* .headerCenter .navUl .el-menu-item:first-child{
     padding-left: 0;
 }
 .headerCenter .navUl .el-menu-item:last-child{
     padding-right: 0;
-}
+} */
 
 
 

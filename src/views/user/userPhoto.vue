@@ -16,17 +16,27 @@
                 <div class="photolf">
                   <h3>在线制作证件照</h3>
                   <div class="img">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
+                    <div  v-if="imgResult" :class="bgColor">
+                      <el-image 
+                        :src="imgResult" 
+                        :preview-src-list="srcList"
+                        class="avatar"
+                        >
+                      </el-image>
+                    </div>
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </div>
                   <div class="btnBox">
                     <h3>&nbsp</h3>
                       <el-upload
                         class="avatar-uploader btns"
-                        action="https://jsonplaceholder.typicode.com/posts/"
+                        action=""
+                        name='cert' 
                         :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
+                        :before-upload="beforeAvatarUpload"
+                         accept=".jpg,.jpeg,.png,.JPG,.JPEG"
+                        >
                         <span class="span">上传文件</span>
                       </el-upload>
                   </div>
@@ -44,10 +54,10 @@
                     <ul>
                       <li v-for="(item,index) in sizeList" :key="index">
                         <p>{{item.name}}</p>
-                        <p>{{item.widths}}</p>
-                        <p>{{item.size}}</p>
+                        <p>{{item.size}}mm&nbsp&nbsp&nbsp&nbsp{{item.widths}}</p>
+                        <p>{{item.kb}}</p>
                         <p>
-                          <el-radio v-model="radio" :label="item.id" @change="sizeChange(item.id)" class="radioPublic"><br></el-radio>
+                          <el-radio v-model="radio" :label="item.id" @change="sizeChange(item.id,item.size)" class="radioPublic"><br></el-radio>
                         </p>
                       </li>
                     </ul>
@@ -56,7 +66,7 @@
                     <h3>底色选择</h3>
                     <ul class="btns">
                       <template v-for="item in colorList">
-                        <li :class="item.name" @click="colorClick(item.index)">
+                        <li :class="item.name" @click="colorClick(item.index,item.name)">
                           <p v-if="colorIndex==item.index">
                             <i></i>
                           </p>
@@ -69,7 +79,7 @@
               </section>
 
               <div class="operationBtn">
-                <span>下载文件</span>
+                <span @click="downText">下载文件</span>
                 <span>打印文件</span>
               </div>
             </div>
@@ -93,32 +103,38 @@
         sizeList:[
           {
             name:'一寸',
-            widths:'25×35mm   295×413px ',
-            size:'432.26KB',
+            size:'25×35',
+            widths:'295×413px ',
+            kb:'432.26KB',
             id:1
           },
           {
             name:'大一寸',
-            widths:'33×48mm  389×566px ',
-            size:'500.26KB',
+            size:'33×48',
+            widths:'389×566px ',
+            kb:'500.26KB',
             id:2
           }, 
           {
             name:'小二寸',
-            widths:'35×45mm  413×531px ',
-            size:'500.26KB',
+            size:'35×4',
+            widths:'413×531px ',
+            kb:'500.26KB',
             id:3
           },
           {
             name:'二寸',
-            widths:'35×49mm  413×579px ',
-            size:'500.26KB',
+            size:'35×49',
+            widths:'413×579px ',
+            kb:'500.26KB',
             id:4
           },
           {
             name:'大二寸',
-            widths:'35×53mm  413×626px ',
-            size:'600.26KB',
+
+            size:'35×53',
+            widths:'413×626px ',
+            kb:'600.26KB',
             id:5
           }
         ],
@@ -138,32 +154,140 @@
           }
         ],
         colorIndex:-1,
+        token:'',
+        imgResult:'',
+        imgList:[],
+        srcList: [],
+        bgColor:'',
+        size:''
       }
     },
+    created(){
+      this.token = this.$store.getters.getToken;
+    },
     methods: {
-       handleAvatarSuccess(res, file) {
-        console.log(res)
-        console.log(file)
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
       beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+          console.log(file.type)
+          const isJPG = file.type === 'image/jpg';
+          const isJPEG = file.type === 'image/jpeg';
+          const isPNG = file.type === 'image/png'
+          const isLt2M = file.size / 1024 / 1024 < 5;
+          if (!isJPG  && !isPNG && !isJPEG) {
+              return this.$message.error('上传头像图片只能JPG,PNG');
+          }
+          if (!isLt2M) {
+              return this.$message.error('上传头像图片大小不能超过 5MB!');
+          }
+          this.getFile(file) 
+      },
+      getBase64(file) {
+          return new Promise(function(resolve, reject) {
+              let imgResult = ''
+              let reader = new FileReader();
+              reader.readAsDataURL(file);
+              reader.onload = function() {
+                  imgResult = reader.result;
+              };
+              reader.onerror = function(error) {
+                  reject(error);
+              };
+              reader.onloadend = function() {
+                  resolve(imgResult);
+              };
+          });
+      },
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
+      // 上传头像
+      getFile(file, fileList) {
+          let {srcList} = this
+          this.getBase64(file).then(res => {
+              this.imgResult = res
+              srcList.push(res)
+              this.modifyFace(file)
+          });
       },
-      sizeChange(id){
+
+      modifyFace(file) {
+        let param = new FormData(); // 创建form对象
+        param.append("cert", file); 
+        param.append("token", this.token); // 添加form表单中其他数据
+        this.$post("post",this.baseUrl+'Cert/upload',param,'upload')
+        .then((res)=>{
+            if(res.code==1){
+              this.imgResult = res.data.png
+              this.name = res.data.name
+            }else{
+                this.$message({
+                    message:res.info,
+                    type: 'warning'
+                });
+            }
+        })
+      },
+      sizeChange(id,size){
         console.log(id)
+        this.size = size
       },
-      colorClick(index){
+      // 选择颜色
+      colorClick(index,col){
+        console.log(col)
         this.colorIndex = index
+        this.bgColor =col
+      },
+
+      // 下载文件
+      downText(){
+        let {bgColor,size,imgResult} = this
+        if(imgResult==''){
+          this.$message({
+              message:'您还没有上传图片哦!',
+              type: 'warning'
+          });
+          return false
+        }
+        if(bgColor==''){
+          this.$message({
+              message:'请选择底色',
+              type: 'warning'
+          });
+          return false
+        }
+        if(size==''){
+          this.$message({
+              message:'请选择尺寸',
+              type: 'warning'
+          });
+          return false
+        }
+
+        this.CertPrint()
+      },
+
+      // 照片打印
+      CertPrint(){
+        let {token,name,bgColor,size} = this
+        this.$post("post",this.baseUrl+'Cert/print',{
+          token,
+          name,
+          color:bgColor,
+          size
+        })
+        .then((res)=>{
+          if(res.code==1){
+            this.$message({
+                message:res.info,
+                type: 'success'
+            });
+          }else{
+            this.$message({
+                message:res.info,
+                type: 'warning'
+            });
+          }
+        })
+
       }
+
     }
   }
 </script>
@@ -198,10 +322,30 @@
       align-items: center;
       justify-content: center;
 
-      img{
-        width: 209px;
-        height: 228px;
-        border-radius: 10px;
+      .red{
+        background: #FF2525;
+      }
+      .blue{
+        background: #2559FF;
+      }
+      .white{
+        background: #fff;
+      }
+      // position: relative;
+
+      // .avatar{
+      //   width: 209px;
+      //   height: 228px;
+      //   border-radius: 10px;
+      // }
+      .avatar{
+        display: block;
+        // height: 228px;
+        // border-radius: 10px;
+        // position: absolute;
+        // top: 50%;
+        // left: 50%;
+        // transform: translate(-50%,-50%);
       }
 
       i{

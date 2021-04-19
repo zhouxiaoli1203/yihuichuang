@@ -1,4 +1,6 @@
 var qiniu = require('qiniu-js');
+
+import { uploadChunk } from 'qiniu-js/esm/api';
 import Vue from 'vue'
 const Fns = {
     formatDate(date, fmt) {
@@ -176,7 +178,42 @@ beforeUpload(file){
     },
     uptokencover(){
         return this.$post("post",this.baseUrl+"Qiniu/uploadToken",{token:this.$store.state.token});
-    }
+    },
+
+    getBase64(file) {
+        return new Promise(function(resolve, reject) {
+            let imgResult = ''
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function() {
+                imgResult = reader.result;
+            };
+            reader.onerror = function(error) {
+                reject(error);
+            };
+            reader.onloadend = function() {
+                resolve(imgResult);
+            };
+        });
+    },
+
+    // 图片上传 base(64)
+    uploadimg(file){
+        let that = this
+        return new Promise(function(resolve, reject) {
+            that.getBase64(file).then(res => {
+                return res
+                // this.imgResult = res
+                // srcList.push(res)
+
+                // console.log(res)
+            });
+        });
+
+
+    },
+
+
 
 }
 

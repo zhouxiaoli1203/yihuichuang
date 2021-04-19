@@ -665,9 +665,9 @@ export default {
         align-items: center;
         justify-content: space-between;
 
-        .img{
-            margin-right: 30px;
-        }
+        // .img{
+        //     margin-right: 30px;
+        // }
 
         .el-menu-demo{
           margin-right: 50px;
