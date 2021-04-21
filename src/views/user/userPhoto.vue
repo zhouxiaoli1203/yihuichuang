@@ -79,8 +79,7 @@
               </section>
 
               <div class="operationBtn">
-                <span @click="downText">下载文件</span>
-                <span>打印文件</span>
+                <span @click="downText">文件打印或下载</span>
               </div>
             </div>
         </div>
@@ -103,28 +102,28 @@
         sizeList:[
           {
             name:'一寸',
-            size:'25×35',
+            size:'25x35',
             widths:'295×413px ',
             kb:'432.26KB',
             id:1
           },
           {
             name:'大一寸',
-            size:'33×48',
+            size:'33x48',
             widths:'389×566px ',
             kb:'500.26KB',
             id:2
           }, 
           {
             name:'小二寸',
-            size:'35×4',
+            size:'35x45',
             widths:'413×531px ',
             kb:'500.26KB',
             id:3
           },
           {
             name:'二寸',
-            size:'35×49',
+            size:'35x49',
             widths:'413×579px ',
             kb:'500.26KB',
             id:4
@@ -132,7 +131,7 @@
           {
             name:'大二寸',
 
-            size:'35×53',
+            size:'35x53',
             widths:'413×626px ',
             kb:'600.26KB',
             id:5
@@ -153,12 +152,12 @@
             index:3
           }
         ],
-        colorIndex:-1,
+        colorIndex:2,
         token:'',
         imgResult:'',
         imgList:[],
         srcList: [],
-        bgColor:'',
+        bgColor:'red',
         size:''
       }
     },
@@ -237,17 +236,10 @@
 
       // 下载文件
       downText(){
-        let {bgColor,size,imgResult} = this
+        let {size,imgResult} = this
         if(imgResult==''){
           this.$message({
               message:'您还没有上传图片哦!',
-              type: 'warning'
-          });
-          return false
-        }
-        if(bgColor==''){
-          this.$message({
-              message:'请选择底色',
               type: 'warning'
           });
           return false
@@ -266,7 +258,7 @@
       // 照片打印
       CertPrint(){
         let {token,name,bgColor,size} = this
-        this.$post("post",this.baseUrl+'Cert/print',{
+        this.$post("post",this.baseUrl+'Cert/download',{
           token,
           name,
           color:bgColor,
@@ -278,6 +270,10 @@
                 message:res.info,
                 type: 'success'
             });
+            let page = window.open(res.data.pdf);
+            setTimeout(()=>{
+              page.print(); //这一步就是在新窗口调出打印机
+            },500)
           }else{
             this.$message({
                 message:res.info,
@@ -331,21 +327,10 @@
       .white{
         background: #fff;
       }
-      // position: relative;
-
-      // .avatar{
-      //   width: 209px;
-      //   height: 228px;
-      //   border-radius: 10px;
-      // }
       .avatar{
         display: block;
-        // height: 228px;
-        // border-radius: 10px;
-        // position: absolute;
-        // top: 50%;
-        // left: 50%;
-        // transform: translate(-50%,-50%);
+        width: 150px;
+        height: 200px;
       }
 
       i{
@@ -522,7 +507,7 @@
     margin-top: 180px;
 
     span{
-      width: 87px;
+      width: 140px;
       height: 34px;
       background: #4E9F5B;
       border-radius: 4px;
@@ -530,9 +515,6 @@
       text-align: center;
       line-height: 34px;
       cursor: pointer;
-    }
-    span:first-child{
-      margin-right: 88px;
     }
   }
 

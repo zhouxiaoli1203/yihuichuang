@@ -40,7 +40,7 @@ export default new Router({
           component: () => import('@/views/news/newsCustom.vue'),
         },
         {
-          path: '/news/detail',
+          path: '/detail',
           name: 'detail',
           component: () => import('@/views/news/detail.vue'),
         },

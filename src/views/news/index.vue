@@ -72,7 +72,7 @@
         // // this.$router.push("/news/details" + e.id+"/"+e.paperName);
         // this.$router.push("/news/detail");
         this.$router.push({  
-            path: '/news/detail',   
+            path: '/detail',   
             name: 'detail',  
             query: {  
               name: '行业动态',

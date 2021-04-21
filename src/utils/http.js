@@ -122,6 +122,22 @@ export function yhcReq(methods, url, params,file,yhc_f_a, needCatch) {/*  */
         r.then(res => {
             resolve(res.data);
         }).catch(err => {
+            console.log(err)
+            // 登录账号过期
+            let code = err.data.code
+            console.log(code)
+            if(code==-100){
+                // 清空token，userId
+                localStorage.removeItem('token');
+                this.$store.state.token = '';
+                localStorage.removeItem('userId');
+                this.$store.state.userId = '';
+                localStorage.removeItem('userInfo');
+                this.$store.state.userInfo = '';       
+                this.$store.state.currentIndex="/index"
+                this.$router.replace('/');
+            }
+            
             console.log(`%c【Status Code:${err.data.status}, Message:${err.data.message}${err.config&&err.config.url?', Request URL:'+err.config.url:''}】`, 'color: #ee0a24;font-size: 12px;font-weight: 400;');
             //业务代码需要catch 主要避免Uncaught (in promise)的错误报错
             // (needCatch || (typeof yhc_f_a === 'boolean' && yhc_f_a)) && reject(err);

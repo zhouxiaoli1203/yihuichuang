@@ -111,8 +111,8 @@
           <el-checkbox v-model="ruleForm.default">设置为默认收货地址</el-checkbox>
         </el-form-item>
         <div class="btnBox">
-          <span @click="closePorp">取消</span>
-          <span  @click="submitForm('ruleForm')">保存</span>
+          <button @click.prevent="closePorp" class="span">取消</button>
+          <button  @click.prevent="submitForm('ruleForm')" class="span" v-button>保存</button>
         </div>
       </el-form>
     </section>
@@ -137,9 +137,14 @@
           if(isNaN(num)){  //判断是否是非数字
             callback(new Error('邮编必须为数字'));
           }else if(value === ''|| value === null){  //空字符串和null都会被当做数字
-            callback(new Error('邮编必须为数字'));
+            callback(new Error('邮编必须为数字类型'));
           }else{
-            callback();
+            console.log(value.length)
+            if(value.length==6){
+              callback();
+            }else{
+              callback(new Error('邮编必须是6为数'));
+            }
           }
         }else{
           callback();
@@ -526,7 +531,7 @@
     align-items: center;
     justify-content: center;
 
-    span{
+    .span{
       width: 85px;
       height: 34px;
       border-radius: 4px;
@@ -535,11 +540,11 @@
       line-height: 34px;
       cursor: pointer;
     }
-    span:first-child{
+    .span:first-child{
       background: #DBDBDB;
       margin-right: 24px;
     }
-    span:last-child{
+    .span:last-child{
       background: #4E9F5B;
     }
     

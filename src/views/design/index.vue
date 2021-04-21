@@ -72,6 +72,7 @@ export default {
       _this.showPic = true
     },
     qiniuUploadCover(event) {
+      console.log(event)
       /* 新增和编辑时上传图片到七牛都调用此方法，参数要求：
                 新增：paramObj：{key:"tmp_bj_" + Date.parse(new Date()),url:""}
                 编辑：paramObj：_this.getImagekey(_this.oldPicUrl);

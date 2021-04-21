@@ -58,7 +58,7 @@
                         <el-input v-model="userLoginForm.code" placeholder="验证码"></el-input>
                       </el-col>
                       <el-col :span="10">
-                        <span class="cursor_p code"  @click="sendMsg(userLoginForm.phone,'dl')" v-if="timeSend==60">获取验证码</span>
+                        <button class="cursor_p code"  @click.prevent="sendMsg(userLoginForm.phone,'dl')" v-if="timeSend==60" v-button>获取验证码</button>
                         <span class="cursor_p code" v-else>倒计时：{{timeSend}}</span>
                       </el-col>
                     </el-row>
@@ -70,7 +70,7 @@
                     <p class="cursor_p" @click="loginTypeClick(3)">忘记密码？</p>
                   </div>
                   <div class="btns">
-                    <button type="primary" @click="userLoginsub('userLoginForm')">登录</button>
+                    <button type="primary" @click.prevent="userLoginsub('userLoginForm')" v-button>登录</button>
                   </div> 
                 </el-form>
               </div>
@@ -92,7 +92,7 @@
                           <el-input v-model="userRegForm.code" placeholder="验证码"></el-input>
                         </el-col>
                         <el-col :span="10">
-                          <span class="cursor_p code"  @click="sendMsg(userRegForm.phone,'zc')" v-if="timeSend==60">获取验证码</span>
+                          <button class="cursor_p code"  @click.prevent="sendMsg(userRegForm.phone,'zc')" v-if="timeSend==60" v-button>获取验证码</button>
                           <span class="cursor_p code" v-else>倒计时：{{timeSend}}</span>
                         </el-col>
                       </el-row>
@@ -106,7 +106,7 @@
                     </el-form-item>
 
                     <div class="btns">
-                      <button type="primary" @click="userRegsub('userRegForm')">注册并登录</button>
+                      <button type="primary" @click.prevent="userRegsub('userRegForm')" v-button>注册并登录</button>
                     </div>
                 </el-form>
               </div>
@@ -129,14 +129,14 @@
                         <el-input v-model="userWjForm.code" placeholder="验证码"></el-input>
                       </el-col>
                       <el-col :span="10">
-                        <span class="cursor_p code"  @click="sendMsg(userWjForm.phone,'wj')" v-if="timeSend==60">获取验证码</span>
+                        <button class="cursor_p code"  @click.prevent="sendMsg(userWjForm.phone,'wj')" v-if="timeSend==60" v-button>获取验证码</button>
                         <span class="cursor_p code" v-else>倒计时：{{timeSend}}</span>
                       </el-col>
                     </el-row>
                   </el-form-item>
 
                   <div class="btns" v-if="resetClick == 0">
-                    <button type="primary" @click="userwjsub1('userWjForm',1)">下一步</button>
+                    <button type="primary" @click.prevent="userwjsub1('userWjForm',1)" v-button>下一步</button>
                   </div>
                 </el-form>
 
@@ -149,7 +149,7 @@
                   </el-form-item>
 
                   <div class="btns">
-                    <button type="primary" @click="userwjsub2('userWjForm')">确定</button>
+                    <button type="primary" @click.prevent="userwjsub2('userWjForm')" v-button>确定</button>
                   </div>
                 </el-form>
               </div>
@@ -321,6 +321,7 @@ export default {
       token:'',
       timeSend:'60', //验证码倒计时
       timeShow:1, //0显示倒计时，1不显示倒计时
+      timer: null, //首先我在data函数里面进行定义定时器名称：
     }
   },
   created(){
@@ -328,11 +329,10 @@ export default {
     this.token = this.$store.getters.getToken;
     this.userinfoFn()
   },
-  mounted () {
-    // let href = window.location.href
-    // this.activeIndex = href.split('/#')[1]
-    // console.log(href.split('/#')[1])
-    // this.$store.state.currentIndex = href.split('/#')[1]
+  beforeDestroy() {
+    clearInterval(this.timer);        
+    this.timer = null;
+    this.sms_token=''
   },
   methods: {
     // 获取个人信息
@@ -420,6 +420,7 @@ export default {
 
     // 登录
     userLoginsub(userLoginForm){
+      console.log(111)
       this.$refs[userLoginForm].validate((valid) => {
         if (valid) {
           let type = this.modeNum
@@ -435,16 +436,16 @@ export default {
               sms_token:this.sms_token
             }
           }
-
           this.$post("post",this.baseUrl+"User/login",data)
           .then((res)=>{
             if(res.code==1){
               // 存储token
               this.$store.commit('setToken',res.data.token)
               this.$store.commit('setUserId',res.data.id)
-              this.loginType = -1
               this.dialogTableVisible=false
               this.userInfoGet(res.data.token) //登录成功获取个人信息
+              this.$refs[userLoginForm].resetFields();
+              this.sms_token=''
             }else{
               this.$message({
                 message:res.info,
@@ -463,7 +464,20 @@ export default {
     userwjsub1(userWjForm,val){
       this.$refs[userWjForm].validate((valid) => {
         if (valid) {
-          this.resetClick = val
+          this.$post("post",this.baseUrl+"Sms/verify",{
+            sms_token:this.sms_token,
+            code:this.userWjForm.code
+          })
+          .then((res)=>{
+            if(res.code==1){
+              this.resetClick = val
+            }else{
+              this.$message({
+                message:res.info,
+                type: 'warning'
+              });
+            }
+          })
         } else {
           console.log('error submit!!');
           return false;
@@ -477,9 +491,6 @@ export default {
     userwjsub2(userWjForm){
       this.$refs[userWjForm].validate((valid) => {
         if (valid) {
-          this.loginType = 4
-          this.timeShow = 1 //不显示倒计时
-          this.resetClick = 0
           this.$post("post",this.baseUrl+"User/passReset",{
             password:secret.md5(this.userWjForm.password),
             sms_token:this.sms_token,
@@ -487,8 +498,11 @@ export default {
           })
           .then((res)=>{
             if(res.code==1){
+              this.resetClick = 0
               this.loginType = 4
               this.timeShow = 1 //不显示倒计时
+              this.$refs.userWjForm.resetFields();
+              this.sms_token=''
             }else{
               this.$message({
                 message:res.info,
@@ -527,6 +541,8 @@ export default {
               this.loginType = 4
               this.timeShow = 0 //显示倒计时
               this.getCode()
+              this.$refs[userRegForm].resetFields();
+              this.sms_token=''
             }else{
               this.$message({
                 message:res.info,
@@ -547,7 +563,7 @@ export default {
         this.times--
         if(this.times===0){
           clearInterval(this.timer)
-          this.loginType = -1
+          this.loginType = 1
           this.dialogTableVisible=false
           this.userInfoGet(this.$store.getters.getToken) //倒计时结束后获取个人信息
         }
@@ -565,7 +581,8 @@ export default {
       this.dialogTableVisible=false
       this.loginType = 1
       this.resetClick = 0
-      this.clearAllForm()
+      this.clearAllForm();
+      this.sms_token=''
     },
 
     // 密码登录/手机号登录
@@ -577,7 +594,11 @@ export default {
     loginTypeClick(val){
       this.loginType = val
       this.resetClick = 0
+      this.timeSend='60' //验证码倒计时
+      this.timeShow=1 //0显示倒计时，1不显示倒计时
       this.clearAllForm()
+      clearInterval(this.timer);
+      this.timer = null;
     },
 
     userLnk(){ //点击个人中心
@@ -607,10 +628,11 @@ export default {
     getPath () {  //解决浏览器后退导航高亮问题
       let href = this.$route.path
       let hrefUrl =  href.split('/')[1]
-      console.log(111+'导航')
-      this.activeIndex = '/'+ hrefUrl
-      this.$store.state.currentIndex = '/'+ hrefUrl
-      this.$store.state.publicHome = '/'+ hrefUrl
+      if(hrefUrl!='detail'){
+          this.activeIndex = '/'+ hrefUrl
+          this.$store.state.currentIndex = '/'+ hrefUrl
+          this.$store.state.publicHome = '/'+ hrefUrl
+      }
     },
     //购物车列表跳转
     goCart:function(){
@@ -665,9 +687,14 @@ export default {
         align-items: center;
         justify-content: space-between;
 
-        // .img{
-        //     margin-right: 30px;
-        // }
+        .img{
+          width: 95px;
+          height: 28px;
+          img{
+            width: 100%;
+            height: 100%;
+          }
+        }
 
         .el-menu-demo{
           margin-right: 50px;

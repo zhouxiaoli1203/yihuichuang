@@ -7,10 +7,10 @@
                     <i class="el-icon-close"  @click="userClose"></i>
                 </div>
                 <div class="infoBox">
-                    <img src="" alt="">
+                    <img :src="face" alt="">
                     <div class="info">
-                        <p>努力的阿发</p>
-                        <span>当前余额：222.00</span>
+                        <p>{{nickname}}</p>
+                        <span>当前余额：{{money}}</span>
                     </div>
                 </div>
             </div>
@@ -80,20 +80,41 @@ export default {
         return {
             Alipay: require('../assets/img/user/Alipay.png'),
             weChat: require('../assets/img/user/weChat.png'),
-            recharge:false
+            recharge:false,
+            face: require('../assets/img/common/head.png'),
+            nickname:'',
+            money:0
         }
     },
     components: {},
-    created() {},
+    created() {
+        let val = this.$store.getters.getUserInfo
+        this.userinfoFn(val)
+    },
     mounted() {},
     methods: {
         userClose(){ 
             this.$emit('changeShow','false')
-        }
+        },
+        // 获取个人信息
+        userinfoFn(val){
+            let userInfo = val
+            this.face = userInfo.face
+            this.nickname = userInfo.nickname
+            this.money = userInfo.balance
+        },
+    },
+    computed:{
+        headInfo: function () {
+            return this.$store.getters.getUserInfo
+        },
     },
     watch:{
         chongzhiPorp(oldVal,newVal){
             this.recharge = this.chongzhiPorp
+        },
+        headInfo: function (val) {
+           this.userinfoFn(val)
         },
     }
 }

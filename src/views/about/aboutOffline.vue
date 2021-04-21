@@ -38,36 +38,30 @@
 
               </div>
               <div class="offlineBOX">
-                <ul>
-                  <li class="active">
-                    <p>
-                      <img :src="shopIcon" alt="">
-                      <span>店铺名称</span>
-                    </p>
-                    <p>
-                      <img :src="addressIcon" alt="">
-                      <span>山西省晋中市榆次区幸福胡同928号</span>
-                    </p>
-                    <p>
-                      <img :src="telIcon" alt="">
-                      <span>232321212121</span>
-                    </p>
-                  </li>
-                   <li>
-                    <p>
-                      <img :src="shopIcon" alt="">
-                      <span>店铺名称</span>
-                    </p>
-                    <p>
-                      <img :src="addressIcon" alt="">
-                      <span>山西省晋中市榆次区幸福胡同928号</span>
-                    </p>
-                    <p>
-                      <img :src="telIcon" alt="">
-                      <span>232321212121</span>
-                    </p>
-                  </li>
-                </ul>
+                <section class="ulSE">
+                  <ul >
+                    <template  v-for="item in list">
+                      <li :class="listIndex == item.val?'active':''" @click="selectAddress(item.val)">
+                        <div>
+                          <p>
+                            <img :src="shopIcon" alt="">
+                            <span>{{item.name}}</span>
+                          </p>
+                          <p>
+                            <img :src="addressIcon" alt="">
+                            <span>{{item.address}}</span>
+                          </p>
+                          <p>
+                            <img :src="telIcon" alt="">
+                            <span>{{item.tel}}</span>
+                          </p>
+                        </div>
+                      </li>
+                    </template>
+                    <i class='shuxian' :style="'top:'+LITOP"></i>
+                  </ul>
+                  
+                </section>
                 <div class="mapBox"></div>
               </div>
             </div>
@@ -92,7 +86,48 @@
         addressIcon: require('../../assets/img/about/address.png'),
         telIcon: require('../../assets/img/about/tel.png'),
         restaurants: [],
-        state2: ''
+        state2: '',
+        list:[
+          {
+            name:'店铺名称',
+            address:'山西省晋中市榆次区幸福胡同928号',
+            tel:'1258225822',
+            val:0
+          },
+          {
+            name:'店铺名称111111',
+            address:'山西省晋中市榆次区幸福胡同928号',
+            tel:'1258225822',
+            val:1
+          },
+          {
+            name:'店铺名称111111',
+            address:'山西省晋中市榆次区幸福胡同928号',
+            tel:'1258225822',
+            val:2
+          },
+          {
+            name:'店铺名称111111',
+            address:'山西省晋中市榆次区幸福胡同928号',
+            tel:'1258225822',
+            val:3
+          },
+          {
+            name:'店铺名称111111',
+            address:'山西省晋中市榆次区幸福胡同928号',
+            tel:'1258225822',
+            val:4
+          },
+            {
+            name:'店铺名称111111',
+            address:'山西省晋中市榆次区幸福胡同928号',
+            tel:'1258225822',
+            val:5
+          },
+          
+        ],
+        listIndex:0,
+        LITOP:'16px'
       }
     },
     methods: {
@@ -169,7 +204,11 @@
       },
       handleSelect(item) {
         console.log(item);
-      }
+      },
+      selectAddress(val){
+        this.listIndex = val
+        this.LITOP = (val*150+16)+'px'
+      },
     },
     mounted() {
       this.restaurants = this.loadAll();
@@ -185,12 +224,34 @@
       display: flex;
       justify-content: space-between;
       margin-top: 24px;
-      ul{
+
+      .ulSE{
+        position: relative;
         width: 304px;
         height: 768px;
+        overflow: hidden;
         background: #E4EAF5;
         border-radius: 10px;
+
+         i{
+            position: absolute;
+            right: 0;
+            height: 150px;
+            width: 2px;
+            background: #404A78;
+            -webkit-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            border-radius: 3px;
+          }
+      }
+      ul{
         padding: 16px 0;
+        position: absolute;
+        overflow-y: scroll;
+        top:0;
+        bottom:0;   /*相当于height:100%时的高度*/
+        left: 0;
+        right:-17px;  /*图层宽度大于width:100%,滚动条的宽度刚刚好被隐藏 */      
         li{
           width: 286px;
           height: 150px;
@@ -200,10 +261,15 @@
           flex-flow: column; //垂直排列
           justify-content: center;//两端对齐
           padding: 0 13px;
+          cursor: pointer;
           p{
             display: flex;
             align-items: center;
             margin-bottom: 24px;
+              display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
             img{
               width: 22px;
               height: 22px;
@@ -216,9 +282,9 @@
         }
         .active{
           background: #fff;
-          border-right: 2px solid #404A78;
         }
       }
+
       .mapBox{
         width: 608px;
         height: 768px;

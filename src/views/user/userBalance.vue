@@ -19,8 +19,8 @@
                             <img :src="bill" alt="" @click="billClick">
                         </div>
                         <p>
-                            <span>￥</span>
-                            <span>323.00</span>
+                            <span v-if="money!=0">￥</span>
+                            <span>{{money}}</span>
                         </p>
                         <div class="btns">
                             <span  @click="RechargeClick">充值</span>
@@ -87,9 +87,21 @@ import consumePorp from '../../components/consume'
         xiaofeiPorp:false,
         chongzhiPorp:false,
         billPorp:false,
+        money:0,
       }
     },
+    created() {
+        let val = this.$store.getters.getUserInfo
+        this.userinfoFn(val)
+    },
+
     methods: {
+        // 获取个人信息
+        userinfoFn(val){
+            let userInfo = val
+            this.money = userInfo.balance
+        },
+
         // 充值
         RechargeClick(){
             this.chongzhiPorp=true
@@ -140,6 +152,16 @@ import consumePorp from '../../components/consume'
             
         },
 
+    },
+    computed:{
+        headInfo: function () {
+            return this.$store.getters.getUserInfo
+        },
+    },
+    watch:{
+        headInfo: function (val) {
+           this.userinfoFn(val)
+        },
     }
   }
 </script>

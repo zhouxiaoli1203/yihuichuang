@@ -103,180 +103,184 @@
                       <button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</button>                           
                   </el-form-item>
                 </el-form>
-                <div class="wenjianDayin">
+                <div class="wenjianDayin xiazaiSection">
                   <div class="editInput">
                       <h4>文件详情</h4>
                       <p>(共打印{{checkedCities.length}})</p>
                   </div> 
-                  <ul class="wenjianLIst">
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                        <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                  </ul>
+                  <section class="sectionUL">
+                    <ul class="wenjianLIst">
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                          <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>    <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>    <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>    <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>    <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                    </ul>
+                  </section>
                 </div>
   
               </el-tab-pane>
               <el-tab-pane label="下载" name="下载">
                 <div class="wenjianDayin  xiazaiWenjianDayin">
-                  <ul class="wenjianLIst">
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                        <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                  </ul>
+                  <section class="sectionUL">
+                    <ul class="wenjianLIst">
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                          <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>    <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>    <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>    <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>    <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                      <li>
+                        <div class="name">
+                          <img :src="file1" alt="">
+                          <p>梦里花落知多少</p>
+                        </div>
+                        <span>2020-02-02 22:22:22</span>
+                      </li>
+                    </ul>
+                  </section>
                 </div>
                 <div class="btns">
                   <button  @click="userClose" class="spanBtn">取消</button>
@@ -339,7 +343,7 @@
     methods: {
       selectAll() {
         this.flileList.forEach(item=>{  //当全选被选中的时候，循环遍历源数据，把数据的每一项加入到默认选中的数组去
-          this.checkedCities.push(item.val)
+          this.checkedCities.push(item.id)
         })
         this.checkAll = true
       },
@@ -623,7 +627,6 @@
   }
   ul{
     margin-top: 16px;
-    height: 76%;
     overflow-y: scroll;
     li{
       display: flex;
@@ -655,13 +658,42 @@
     }
   }
 }
+.xiazaiSection{
+  .sectionUL{
+    height: 76%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  ul{
+    overflow-y:scroll;
+    position: absolute;  /*不能使用relative和fixed定位*/
+    top:0;
+    bottom:0;   /*相当于height:100%时的高度*/
+    left: 0;
+    right:-17px;  /*图层宽度大于width:100%,滚动条的宽度刚刚好被隐藏 */    
+  }
+}
+
+
 
 .xiazaiWenjianDayin{
   height: 100%;
 
-  ul{
+  .sectionUL{
     margin-top: 0;
     height: 91%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  ul{
+    overflow-y:scroll;
+    position: absolute;  /*不能使用relative和fixed定位*/
+    top:0;
+    bottom:0;   /*相当于height:100%时的高度*/
+    left: 0;
+    right:-17px;  /*图层宽度大于width:100%,滚动条的宽度刚刚好被隐藏 */    
   }
 }
 

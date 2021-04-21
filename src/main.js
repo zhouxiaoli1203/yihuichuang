@@ -6,6 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 import store from './store/store'
 import { yhcReq,baseUrl } from './utils/http'
+import './utils/directive' //阻止按钮同一时间内多次触发
 // 样式
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/base.css';

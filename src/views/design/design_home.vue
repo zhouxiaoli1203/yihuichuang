@@ -73,7 +73,7 @@ export default {
             { name: '全部', id: '0' },
             { name: '广告物料', id: '1' },
             { name: '企业定制', id: '2' },
-            { name: '包装印刷', id: '3' },
+            { name: '常用印刷品', id: '3' },
             { name: '其他印刷', id: '4' },
           ],
         },

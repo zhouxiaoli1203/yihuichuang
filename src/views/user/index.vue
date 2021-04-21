@@ -66,8 +66,8 @@
                          <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入用户名称"></el-input>
                         </el-form-item>
                         <el-form-item class="btns">
-                            <button  @click="userClose" class="spanBtn">取消</button>
-                            <button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</button>                           
+                            <button  @click.prevent="userClose" class="spanBtn">取消</button>
+                            <button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')" v-button>确定</button>                           
                         </el-form-item>
                     </el-form>
 
@@ -86,7 +86,8 @@
                             </el-image>
                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </div>
-                        <el-upload action='' 
+                        <el-upload 
+                        action='' 
                         :limit="1" 
                         list-type="picture" 
                         :auto-upload="true" 
@@ -94,14 +95,14 @@
                         style="text-align:center"  
                         :show-file-list="false" 
                         :before-upload="beforeAvatarUpload"
-                         accept=".jpg,.jpeg,.png,.gif,.JPG,.JPEG"
+                        accept=".jpg,.jpeg,.png,.gif,.JPG,.JPEG"
                         >
                             <el-button size="small" type="primary">上传头像</el-button>
                         </el-upload>
                     </div>
                     <div class="btns">
-                        <button  @click="userClose" class="spanBtn">取消</button>
-                        <button  class="spanBtn" type="primary" @click="modifyFace">确定</button>    
+                        <button  @click.prevent="userClose" class="spanBtn">取消</button>
+                        <button  class="spanBtn" type="primary" @click.prevent="modifyFace" v-button>确定</button>    
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="手机号">
@@ -129,8 +130,8 @@
                         </el-form-item>
 
                          <el-form-item class="btns">
-                            <button  @click="userClose" class="spanBtn">取消</button>
-                            <button  class="spanBtn" type="primary" @click="phoneModifySubmit('phoneModifyForm')">确定</button>                           
+                            <button  @click.prevent="userClose" class="spanBtn">取消</button>
+                            <button  class="spanBtn" type="primary" @click.prevent="phoneModifySubmit('phoneModifyForm')" v-button>确定</button>                           
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -186,7 +187,7 @@ export default {
             info:'',
             nickname:'',
             phone:'',
-            face:'',
+            face:require('../../assets/img/common/head.png'),
             nicknameForm: {
                 nickname: ''
             },
@@ -224,6 +225,37 @@ export default {
     },
 
     methods: {
+
+        // qiniuUploadCover(event) {
+        //     console.log(event)
+       
+        //     /* 新增和编辑时上传图片到七牛都调用此方法，参数要求：
+        //     新增：paramObj：{key:"tmp_bj_" + Date.parse(new Date()),url:""}
+        //     编辑：paramObj：_this.getImagekey(_this.oldPicUrl);
+        //     */
+        //     //console.log(_this.oldPicUrl);debugger
+        //     let _this = this
+        //     var paramObj = _this.getImagekey(_this.oldPicUrl)
+
+            
+        //     paramObj.key = paramObj.key + event.file.uid
+        
+        //     _this.upFiles({ paramObj: paramObj, e: event }, (res) => {
+        //         console.log(res)
+
+        //         // return
+        //             if(_this.form.imgs!=""){
+        //                 customaryImgArr = _this.form.imgs.split(",");
+        //             }
+        //             //2、把当前上传的图片插入数组
+        //             customaryImgArr.push( "http://qrndg83uk.hn-bkt.clouddn.com/"+paramObj.key+"?v="+Date.parse(new Date()));
+        //             keyArr.push(paramObj.key);
+        //             //3、把数组转换成string，给接口保存。
+        //             _this.form.imgs = customaryImgArr.toString();
+        //             console.log(customaryImgArr,111);
+        //             // console.log(_this.form.imgs);
+        //     })
+        // },
         beforeAvatarUpload(file) {
             console.log(file.type)
             const isJPG = file.type === 'image/jpg';
@@ -328,7 +360,7 @@ export default {
                     this.info = res.data
                     this.nickname = res.data.nickname
                     this.face = res.data.face
-                    this.imgResult = res.data.face
+                    // this.imgResult = res.data.face
                     this.phone = res.data.phone
                     this.$store.commit('setUserInfo',res.data)
                     srcList.push(res.data.face)
@@ -376,6 +408,14 @@ export default {
         modifyFace() {
             let param = new FormData(); // 创建form对象
             let file = this.imgList // 获取图片数据
+            console.log(file.length)
+            if(file.length==0){
+                this.$message({
+                    message:'请上传头像',
+                    type: 'warning'
+                });
+                return false
+            }
             file.forEach((item,index)=>{
                 param.append("face[]", file[index]); // 通过append向form对象添加数据
             })
@@ -669,6 +709,11 @@ export default {
                 height: 130px;
                 border: 1px solid #fff;
                 border-radius: 50%;
+            }
+
+            i{
+                font-size: 60px;
+                color: #ddd;
             }
         }
     }

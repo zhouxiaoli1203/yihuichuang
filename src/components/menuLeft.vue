@@ -42,8 +42,27 @@ export default {
     },
     created(){
         let navName = this.$store.state.publicHome;
+        // console.log(navName + '   navName')
+
         let name = this.$store.state.menuLeft;
+
         this.leftNav(navName,name)
+
+        // console.log(name+'  name')
+
+        // let href = this.$route.path
+        // console.log(href +'   href')
+        // let hrefs = href.split('/')[1]
+        // console.log(hrefs +'   hrefs')
+
+        // // this.$store.state.menuLeft = href
+
+        // if(hrefs!='detail'){
+        //     this.leftNav(navName,name)
+        // }else{
+        //     this.leftNav(href,hrefs)
+        // }
+
     },
     mounted(){
 
@@ -87,7 +106,7 @@ export default {
                     localStorage.removeItem('userId');
                     this.$store.state.userId = '';
                     localStorage.removeItem('userInfo');
-                    this.$store.state.userInfo = '';                    
+                    this.$store.state.userInfo = '';       
                     this.$store.state.currentIndex="/index",
                     this.$router.replace('/');
                     this.$message({
@@ -205,23 +224,28 @@ export default {
                 ]
             }
         }
-
-
-        // getPath () {  //解决浏览器后退导航高亮问题
-        //     // this.activeIndexs = this.$route.path
-        //     // this.$store.state.menuLeft = this.$route.path
-
-        //     let href = this.$route.path
-        //     let hrefUrl =  href.split('/')[1]
-        //     // this.activeIndexs = '/'+ hrefUrl
-        //     // this.$store.state.currentIndex = '/'+ hrefUrl
-        //     // this.$store.state.publicHome = '/'+ hrefUrl
-        //     console.log(hrefUrl)
-
-        // }
+    },
+    computed:{
+        meanLeft: function () {
+            // console.log(111)
+            return this.$store.state.menuLeft
+        },
     },
     watch: {
-        // '$route': 'getPath'  //监听浏览器后退导航高亮问题
+        $route(to,from){
+            console.log(to)
+            return
+            if(to.path=='/access/role'){
+                this.activedMenu = "role"
+            }else{
+                this.activedMenu = 'user'
+            }
+        },
+        meanLeft: function (val) {
+            console.log(val +' val')
+        //    this.userinfoFn(val)
+        },
+
     }
   
 }

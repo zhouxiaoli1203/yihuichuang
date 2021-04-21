@@ -87,9 +87,10 @@ beforeUpload(file){
      * 编辑：_this.oldPicUrl 值为修改前的图片url
     */
     getImagekey(url){
+        console.log(url)
         var key="tmp_bj_" + Date.parse(new Date());
         var count="0";
-        if(url!=""){
+        if(url!="" && url!=undefined){
             if(url.indexOf("http://qrndg83uk.hn-bkt.clouddn.com/")>=0){
                 if(url.indexOf("?")>=0){
                     key=url.substring(26).substring(0,url.substring(26).lastIndexOf("?"));
