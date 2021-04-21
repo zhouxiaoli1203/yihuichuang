@@ -16,6 +16,7 @@
   "dependencies": {
     "@chuangkit/chuangkit-design": "^1.0.9",
     "axios": "^0.21.1",
+    "deepmerge": "^1.5.2",
     "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.1",
     "less": "^4.1.1",

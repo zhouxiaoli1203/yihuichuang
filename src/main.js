@@ -7,6 +7,7 @@ import ElementUI from 'element-ui'
 import store from './store/store'
 import { yhcReq,baseUrl } from './utils/http'
 import './utils/directive' //阻止按钮同一时间内多次触发
+import merge from 'deepmerge'
 // 样式
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/base.css';
@@ -31,6 +32,7 @@ Vue.config.productionTip = false
 Vue.prototype.$post = yhcReq;
 Vue.prototype.cnst = CONSTANT;
 Vue.prototype.baseUrl = baseUrl;
+Vue.prototype.merge = merge;
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
     if (to.query.token) {

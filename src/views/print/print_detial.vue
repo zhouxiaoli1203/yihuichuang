@@ -10,32 +10,65 @@
           <!-- 每个页面的属性 -->
           <!-- <Armband v-if="detailType == 1"></Armband>
           <Banner v-if="detailType == 2"></Banner> -->
-          <component v-bind:is="xuanchuance"
+          <component v-bind:is="attrViews"
                      title="高清"
-                     v-bind:type="2"></component>
+                     v-bind:type="2"
+                     @detailChange="attrDetails"></component>
 
           <!-- <Ribbon></Ribbon> -->
           <!-- 上传文件按钮 -->
           <el-form class="bgGreen_">
             <el-form-item label="我有文件">
               <el-upload class="upload-demo"
-                         ref="upload"
-                         action="https://jsonplaceholder.typicode.com/posts/"
+                         action=""
+                         :on-exceed="exceed"
+                         :http-request="qiniuUploadCover"
                          :on-preview="handlePreview"
-                         :on-remove="handleRemove"
-                         :file-list="fileList"
-                         :auto-upload="false">
+                         :on-remove="onRemove"
+                         :before-upload="beforeUpload"
+                         :auto-upload="true"
+                         :limit="3"
+                         :disabled="false"
+                         :file-list="files.fileList"
+                         ref="addEditUpload"
+                         multiple="multiple">
                 <el-button class="yhc_btn"
                            slot="trigger"
                            size="small"
                            type="primary">上传稿件</el-button>
               </el-upload>
+              <el-dialog :visible.sync="files.showPic"
+                         size="tiny"
+                         :append-to-body="true">
+                <img width="100%"
+                     :src="files.showPicUrl"
+                     alt="">
+              </el-dialog>
+              <!-- <el-upload class="upload-demo" action=""
+                   :http-request="qiniuUploadCover"
+                   list-type="picture-card"
+                   :limit="3"
+                   :disabled="false"
+                   :auto-upload="true"
+                   :on-exceed="exceed"
+                   :before-upload="beforeUpload"
+                   :on-remove="onRemove"
+                   :on-preview="handlePictureCardPreview"
+                   ref="addEditUpload"
+                   :file-list="fileList"
+                   multiple="multiple">
+                        <el-button class="yhc_btn"
+                           slot="trigger"
+                           size="small"
+                           type="primary">上传稿件</el-button>
+              </el-upload> -->
             </el-form-item>
             <el-form-item label="我没文件">
               <el-button class="yhc_btn fl"
                          size="small"
                          type="success"
-                         @click="openCkt" style="width:110px;">挑选模版设计</el-button>
+                         @click="openCkt"
+                         style="width:110px;">挑选模版设计</el-button>
               <ul class="el-upload-list el-upload-list--text">
                 <li tabindex="0"
                     class="el-upload-list__item is-success">
@@ -53,7 +86,7 @@
             </el-form-item>
           </el-form>
           <!-- 在线估价弹框 -->
-          <Price></Price>
+          <Price :datas="param"></Price>
 
         </div>
         <div class="operate-right">
@@ -91,21 +124,42 @@
 </template>
 
 <script>
-import Armband from '@/views/print/materiel/armband_dtl'
-import Banner from '@/views/print/materiel/banner_dtl'
-import Paint from '@/views/print/materiel/paint_dtl'
-import Photo from '@/views/print/materiel/photo_dtl'
-import Ribbon from '@/views/print/materiel/ribbon_dtl'
-import Caidan from '@/views/print/otherPrint/caidan_dtl'
-import Xuanchuance from '@/views/print/company/xuanchuance_dtl'
+// 广告物料
+import Armband from '@/views/print/materiel/armband_dtl' //袖章
+import Banner from '@/views/print/materiel/banner_dtl' //条幅
+import Paint from '@/views/print/materiel/paint_dtl' //喷绘
+import Photo from '@/views/print/materiel/photo_dtl' //写真
+import Ribbon from '@/views/print/materiel/ribbon_dtl' //绶带
+// 其他印刷
+import Caidan from '@/views/print/otherPrint/caidan_dtl' //菜单
+// 企业定制
+import Xuanchuance from '@/views/print/company/xuanchuance_dtl' //企业宣传册
+// 常用印刷
+import Buganjiao from '@/views/print/comnPrint/buganjiao_dtl' //不干胶
+import Danye from '@/views/print/comnPrint/danye_dtl' //宣传单页
+import Mingpian from '@/views/print/comnPrint/mingpian_dtl' //名片
+import Zheye from '@/views/print/comnPrint/zheye_dtl' //折页
+// 标牌
+import Mutuopai from '@/views/print/biaopai/mutuopai_dtl' //标识标牌店招-木托授权牌
 
+//以下是公用组件--调取创客贴useCkt--在线估价pricePop
+import { regionData } from 'element-china-area-data'
 import Price from '@/components/pricePop'
 import CKT from '@/utils/useCkt'
 export default {
   name: 'pdetial',
   data() {
     return {
-      xuanchuance: Ribbon,
+      files: {
+        showPic: false,
+        showPicUrl: '',
+        oldPicUrl: '',
+        imgArr: [],
+        keyArr: [],
+        fileList: [],
+      },
+      param: { imgs: [] },
+      attrViews: Ribbon,
       detailType: '',
       relItems: Array(4),
       editableTabsValue: 'detail',
@@ -115,35 +169,36 @@ export default {
       ],
       title: '测试动态组件',
       show: true,
-      fileList: [
-        {
-          name: 'food.jpeg',
-          url:
-            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-        },
-        {
-          name: 'food2.jpeg',
-          url:
-            'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
-        },
-      ],
       arr: [
         { cmpt: Armband, id: 3 },
         { cmpt: Banner, id: 2 },
-        { cmpt: Xuanchuance, id: 1 },
+        { cmpt: Photo, id: 1 },
       ],
     }
   },
-  components: { Armband, Banner, Xuanchuance, Price },
+  components: {
+    Armband,
+    Banner,
+    Paint,
+    Photo,
+    Ribbon,
+    Caidan,
+    Xuanchuance,
+    Buganjiao,
+    Danye,
+    Mingpian,
+    Zheye,
+    Mutuopai,
+    Price,
+  },
   created() {
     this.detailType = this.$route.query.type
-    this.xuanchuance = this.arr.filter((v) => {
+    this.attrViews = this.arr.filter((v) => {
       return this.detailType == v.id
     })[0].cmpt
   },
-  mounted() {
-      
-  },
+  mounted() {},
+  computed: {},
   methods: {
     goBack: function () {
       this.$router.push({
@@ -154,27 +209,75 @@ export default {
         },
       })
     },
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
+    onRemove(file, fileList) {
+      debugger
+      let _this = this
+      // file ： 当前被删除的图片
+      // fileList : 删除后还剩下的图片
+      //console.log(file);console.log(fileList);
+      _this.files.oldPicUrl = file.url //暂存被删掉的旧图片
+
+      //删除一张图片之后的upload控件值
+      var arr = []
+      fileList.forEach(function (ele) {
+        arr.push(ele.url)
+      })
+      _this.param['imgs'] = arr.toString()
     },
     handlePreview(file) {
-      console.log(file)
+        debugger
+      console.log(file, 2222)
+      let _this = this
+      _this.files.showPicUrl = file.url
+      _this.files.showPic = true
     },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      )
+    beforeUpload(file){
+console.log(file);
     },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
+    // handleExceed(files, fileList) {
+    //   this.$message.warning(
+    //     `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+    //       files.length + fileList.length
+    //     } 个文件`
+    //   )
+    // },
+    // beforeRemove(file, fileList) {
+    //   return this.$confirm(`确定移除 ${file.name}？`)
+    // },
+    qiniuUploadCover(event) {
+      /* 新增和编辑时上传图片到七牛都调用此方法，参数要求：
+                新增：paramObj：{key:"tmp_bj_" + Date.parse(new Date()),url:""}
+                编辑：paramObj：_this.getImagekey(_this.oldPicUrl);
+                */
+      let _this = this
+      var paramObj = _this.getImagekey(_this.files.oldPicUrl)
+      paramObj.key = paramObj.key + event.file.uid
+
+      _this.upFiles({ paramObj: paramObj, e: event }, (res) => {
+        if (_this.param.imgs != '') {
+          _this.files.imgArr = _this.param.imgs.split(',')
+        }
+        //2、把当前上传的图片插入数组
+        _this.files.imgArr.push(
+          'http://qrndg83uk.hn-bkt.clouddn.com/' +
+            paramObj.key +
+            '?v=' +
+            Date.parse(new Date())
+        )
+        _this.files.keyArr.push(paramObj.key)
+        //3、把数组转换成string，给接口保存。
+        _this.param.imgs = _this.files.imgArr.toString()
+        console.log(_this.files.imgArr, 111)
+      })
     },
     handleClick: function () {},
     openCkt: function () {
       CKT.useCkt({ kind_id: '166' }, function (res) {
         console.log(res)
       })
+    },
+    attrDetails: function (d, o) {
+      this.param = this.merge(this.param, d)
     },
   },
 }

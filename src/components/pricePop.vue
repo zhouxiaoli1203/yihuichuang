@@ -76,8 +76,8 @@
     </div>
     <div class="buy-btn displayFl">
       <div class="btn orange mr15"
-           @click="dialogVisible = true">立即购买</div>
-      <div class="btn green">加入购物车</div>
+           @click="dialogVisible = true" >立即购买</div>
+      <div class="btn green" @click="addBuy">加入购物车</div>
     </div>
     <div class="mask"
          v-show="dialogVisible" @click="closeDialog($event)">
@@ -156,6 +156,7 @@ export default {
       },
     }
   },
+  props:["datas"],
   components: {},
   created() {},
   mounted() {},
@@ -180,6 +181,9 @@ export default {
     },
     handleClose:function(){
         this.checkpop = false;
+    },
+    addBuy:function(){
+        console.log(this.datas);
     }
   },
   directives:{
