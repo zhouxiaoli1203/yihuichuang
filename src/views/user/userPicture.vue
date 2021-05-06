@@ -193,7 +193,7 @@
       nicknameSubmit(formName) {
         this.$refs[formName].validate((valid) => {
             if (valid) {
-                this.$post("post",this.baseUrl+"user/infoModify",{
+                this.$post("post","user/infoModify",{
                     token:this.token,
                     face:this.face,
                     nickname:this.nicknameForm.nickname

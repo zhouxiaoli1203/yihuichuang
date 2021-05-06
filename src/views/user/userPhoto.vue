@@ -210,7 +210,7 @@
         let param = new FormData(); // 创建form对象
         param.append("cert", file); 
         param.append("token", this.token); // 添加form表单中其他数据
-        this.$post("post",this.baseUrl+'Cert/upload',param,'upload')
+        this.$post("post",'Cert/upload',param,'upload')
         .then((res)=>{
             if(res.code==1){
               this.imgResult = res.data.png
@@ -258,7 +258,7 @@
       // 照片打印
       CertPrint(){
         let {token,name,bgColor,size} = this
-        this.$post("post",this.baseUrl+'Cert/download',{
+        this.$post("post",'Cert/download',{
           token,
           name,
           color:bgColor,

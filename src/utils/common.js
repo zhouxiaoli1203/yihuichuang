@@ -178,7 +178,7 @@ beforeUpload(file){
         });
     },
     uptokencover(){
-        return this.$post("post",this.baseUrl+"Qiniu/uploadToken",{token:this.$store.state.token});
+        return this.$post("post","Qiniu/uploadToken",{token:this.$store.state.token});
     },
 
     getBase64(file) {

@@ -355,7 +355,7 @@ export default {
 
     // 获取个人信息
     userInfoGet(token) {
-      this.$post("post",this.baseUrl+'User/infoGet',{
+      this.$post("post",'User/infoGet',{
         token,
       })
       .then((res)=>{
@@ -394,7 +394,7 @@ export default {
       }
       this.$refs[typeForm].validateField('phone', (phoneError) => {
         if(!phoneError){
-          this.$post("post",this.baseUrl+"Sms/send",{
+          this.$post("post","Sms/send",{
             phone:phoneNum,
             template,
           })
@@ -436,7 +436,7 @@ export default {
               sms_token:this.sms_token
             }
           }
-          this.$post("post",this.baseUrl+"User/login",data)
+          this.$post("post","User/login",data)
           .then((res)=>{
             if(res.code==1){
               // 存储token
@@ -464,7 +464,7 @@ export default {
     userwjsub1(userWjForm,val){
       this.$refs[userWjForm].validate((valid) => {
         if (valid) {
-          this.$post("post",this.baseUrl+"Sms/verify",{
+          this.$post("post","Sms/verify",{
             sms_token:this.sms_token,
             code:this.userWjForm.code
           })
@@ -491,7 +491,7 @@ export default {
     userwjsub2(userWjForm){
       this.$refs[userWjForm].validate((valid) => {
         if (valid) {
-          this.$post("post",this.baseUrl+"User/passReset",{
+          this.$post("post","User/passReset",{
             password:secret.md5(this.userWjForm.password),
             sms_token:this.sms_token,
             code:this.userWjForm.code
@@ -527,7 +527,7 @@ export default {
           let sms_token = this.sms_token
           let password = secret.md5(this.userRegForm.password)
           let code = this.userRegForm.code
-          this.$post("post",this.baseUrl+"User/reg",{
+          this.$post("post","User/reg",{
             sms_token,
             password,
             code

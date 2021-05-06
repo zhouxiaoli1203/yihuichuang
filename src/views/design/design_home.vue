@@ -3,30 +3,65 @@
     <div class="center">
       <div class="design-head">
         <ul class="design-tab">
-          <li class="design-tab-li"
-              v-for="(x,index) in searchList">
+            <!-- 分类 -->
+          <li class="design-tab-li">
             <div class="search-head">
-              <img :src='"@/assets/img/design/head_icon"+(index+1)+".png"'
+              <img src='@/assets/img/design/head_icon1.png'
                    width="18px"
                    height="18px">
-              <span :style='{color:x.value==1?"#8C8CBC":x.value==2?"#FD5392":"#2334E0"}'>{{x.title}}</span>
+              <span style='color:#8C8CBC;'>分类</span>
             </div>
             <ul class="search-item">
-              <li v-for="y in x.items">
-                <span class="name"
-                      v-if="y.name!='more'">{{y.name}}</span>
-                <el-dropdown v-if="y.name=='more'">
-                  <span class="el-dropdown-link">
-                    更多<i class="el-icon-arrow-down el-icon--right"></i>
-                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-circle-check">蚵仔煎</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
+              <li v-for="(y,index_) in cnst.designSearch" @click="changeSearch(y)" >
+                <span class="name" :class="{'active':y.name == search.current}">{{y.name}}</span>
+              </li>
+            </ul>
+          </li>
+          <!-- 用途 -->
+          <li class="design-tab-li">
+            <div class="search-head">
+              <img src='@/assets/img/design/head_icon2.png'
+                   width="18px"
+                   height="18px">
+              <span style='color:#FD5392;'>用途</span>
+            </div>
+            <ul class="search-item" v-if="levelist.length>0">
+              <li v-for="(y,index) in levelist" @click="changeSearch1(y)" v-if="index<=4">
+                <span class="name" :class="{'active':y.name == search.current1}">{{y.name}}</span>
+              </li>
+              <li v-if="(levelist.length-5)>0" v-clickoutside="handleClose_1">
+                  <span @click="checkpop1 = !checkpop1">更多</span>
+                    <div class="dropmore" v-show="checkpop1">
+                        <ul>
+                            <li v-for="(x,index) in levelist" v-if="index>4"  @click="changeSearch1(x)" :class="{'active':x.name == search.current1}">
+                                {{x.name}}
+                            </li>
+                        </ul>
+                        </div>
+              </li>
+            </ul>
+          </li>
+          <!-- 行业 -->
+          <li class="design-tab-li">
+            <div class="search-head">
+              <img src='@/assets/img/design/head_icon3.png'
+                   width="18px"
+                   height="18px">
+              <span style='color:#2334E0;'>行业</span>
+            </div>
+            <ul class="search-item" v-if="leve2list.length>0">
+              <li v-for="(y,index) in leve2list" v-if="index<=4" @click="changeSearch2(y)">
+                <span class="name" :class="{'active':y.name == search.current2}">{{y.name}}</span>
+              </li>
+              <li v-if="(leve2list.length-5)>0" v-clickoutside="handleClose_2">
+                  <span @click="checkpop2 = !checkpop2">更多</span>
+                    <div class="dropmore" v-show="checkpop2">
+                        <ul>
+                            <li v-for="(x,index) in leve2list" v-if="index>4" @click="changeSearch2(x)" :class="{'active':x.name == search.current2}">
+                                {{x.name}}
+                            </li>
+                        </ul>
+                        </div>
               </li>
             </ul>
           </li>
@@ -36,21 +71,26 @@
       <div class="design-content">
         <ul class="clearfix">
           <li v-for="(x,index) in searchBtns"
-              class="fl"
-              :style='{color:x.id==1?"#666666":x.id==2?"#FF3333":"#4E9F5B"}'>{{x.name}}<i><img :src='"@/assets/img/design/search_icon"+(index+1)+".png"'
+              class="fl cursor_p"
+              @click="changeSort(x)"
+              :style='{color:x.id==""?"#666666":x.id=="hot"?"#FF3333":"#4E9F5B"}'>{{x.name}}<i><img :src='"@/assets/img/design/search_icon"+(index+1)+".png"'
                    alt=""></i></li>
         </ul>
         <ul class="displayFl design-content-item">
-          <li v-for="x in 12"
-              @click="openCkt">
-            <img src=""
+          <li v-for="x in templates"
+              @click="openCkt(x)">
+            <img :src="`http:${x.designTemplateImageUrl}`"
                  alt="">
-            <h5>{{x.title}}</h5>
+            <h5 class="mt15 t_a_c">{{x.templateTitle}}</h5>
           </li>
         </ul>
         <el-pagination background
                        layout="prev, pager, next"
-                       :total="12">
+                        :page-size="12"
+                       :current-page="current"
+                       @size-change="handleSizeChange"
+                       @current-change="handleCurrentChange"
+                       :total="total">
         </el-pagination>
       </div>
     </div>
@@ -64,50 +104,25 @@ export default {
   name: 'design',
   data() {
     return {
-      searchList: [
-        {
-          title: '分类',
-          img_: '',
-          value: '1',
-          items: [
-            { name: '全部', id: '0' },
-            { name: '广告物料', id: '1' },
-            { name: '企业定制', id: '2' },
-            { name: '常用印刷品', id: '3' },
-            { name: '其他印刷', id: '4' },
-          ],
-        },
-        {
-          title: '用途',
-          img_: '',
-          value: '2',
-          items: [
-            { name: '全部', id: '0' },
-            { name: '海报', id: '1' },
-            { name: '喷画条幅', id: '2' },
-            { name: '折页', id: '3' },
-            { name: '资料袋', id: '4' },
-            { name: 'more' },
-          ],
-        },
-        {
-          title: '行业',
-          img_: '',
-          value: '3',
-          items: [
-            { name: '全部', id: '0' },
-            { name: '电商淘宝', id: '1' },
-            { name: '教育培训', id: '2' },
-            { name: '公司包装', id: '3' },
-            { name: '餐饮美食', id: '4' },
-            { name: 'more' },
-          ],
-        },
-      ],
+        checkpop1:false,
+        checkpop2:false,
+      levelist:[],
+      leve2list:[],
+      templates:[],
+      current:1,
+      total:0,
+      search:{
+          fl:undefined,
+          yt:undefined,
+          hy:undefined,
+          current:null,
+          current1:null,
+          current2:null,
+          order:undefined,
+      },
       searchBtns: [
-        { name: '综合排序', id: '1' },
-        { name: '热门排序', id: '2' },
-        { name: '最新上传', id: '3' },
+        { name: '热门排序', id: 'hot' },
+        { name: '最新上传', id: 'new' },
       ],
     }
   },
@@ -119,15 +134,104 @@ export default {
     //             message: '删除成功!'
     //         });
     //   })
+    this.geTemplates();
   },
   mounted() {},
   methods: {
-    openCkt: function () {
-      CKT.useCkt({"kind_id":"166"},function(res){
+    openCkt: function (x) {
+        let params={
+            // kind_id:x.designKindId,
+            // template_id:x.designTemplateId
+            "design_id": "5e1ba825-6864-4943-96eb-65600d418ac5"
+            // keywords:x.keywords
+        };
+        let this_ = this;
+     this_.CKT.useCkt(params,function(res){
           console.log(res);
+          this_.$router.push({
+            //核心语句
+            path:'/print/detial',   //跳转的路径
+            query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                type:res.kind,
+                design_id:res["design-id"]
+            }
+        })
       });
     },
+    changeSearch(x){
+        this.search.current = x.name;
+        this.levelist = x.level;
+        if(x.name == "全部"){
+            this.levelist = [];
+        }
+        this.leve2list = [];
+        this.search.fl = x.name;
+        this.search.yt = undefined;
+        this.search.hy = undefined;
+         this.search.current1 = null;
+         this.search.current2 = null;
+        this.geTemplates();
+    },
+    changeSearch1(y){
+         this.search.current1 = y.name;
+        this.checkpop1 = false;
+        this.leve2list = y.level?y.level:[];
+         if(y.name == "全部"){
+            this.leve2list = [];
+        }
+        this.search.yt = y.name == "全部"?undefined: y.name;
+        this.search.hy = undefined;
+        this.search.current2 = null;
+        this.geTemplates();
+    },
+    changeSearch2(y){
+         this.search.current2 = y.name;
+        this.checkpop2 = false;
+        this.search.hy = y.name == "全部"?undefined: y.name;
+        this.geTemplates();
+    },
+    changeSort(x){
+        this.search.order = x.id;
+        this.geTemplates();
+    },
+    geTemplates(){
+        let this_ = this;
+        let params={
+            limit:12,
+            page:this.current,
+            fl:this.search.fl,
+            yt:this.search.yt,
+            hy:this.search.hy,
+            order:this.search.order,
+        };
+         this_
+        .$post('post', 'Ckt/template', params)
+        .then((res) => {
+          if (res.code == 1) {
+            this_.templates = res.data.list;
+            this_.current = res.data.page;
+            this_.total = res.data.count;
+          }
+        })
+    },
+    handleSizeChange(val) {
+      // 当pageSize发生变化后需重新查询列表
+      this.geTemplates()
+    },
+        // currentPage 改变时会触发
+    handleCurrentChange(val) {
+      this.current = val
+      // 当currentPage发生变化后需重新查询列表
+      this.geTemplates()
+    },
+    handleClose_1(){
+        this.checkpop1 = false;
+    },
+    handleClose_2(){
+        this.checkpop2 = false;
+    },
   },
+  
 }
 </script>
 <style lang='less' scoped>
@@ -152,8 +256,41 @@ export default {
           margin-bottom: 20px;
           display: inline-block;
           cursor: pointer;
-          &:hover {
+          padding: 1px 4px;
+          border-radius: 4px;
+          position: relative;
+           span.active,span:hover{
             color: #409eff;
+          }
+          .dropmore{
+              position: absolute;
+              top: 24px;
+              left: -47px;
+              min-width: 130px;
+              overflow: hidden;
+              background: #fff;
+              border-radius: 4px;
+              box-shadow: 0 0 40px 0 #ddd;
+              padding: 15px 0 5px;
+              >ul{
+                  width:100% ;
+                  height: inherit;
+                  max-height: 240px;
+                  display: flex;
+                  flex-direction: column;
+                  overflow: auto;
+                >li{
+                    width: 100%;
+                    height: 24px;
+                    line-height: 24px;
+                    padding: 0 5px;
+                    margin-bottom: 10px;
+                    text-align: center;
+                    &.active,&:hover{
+                        background-color:rgba(219,219,219,0.5);
+                    }
+                }
+              }
           }
         }
       }
@@ -174,7 +311,7 @@ export default {
     }
   }
   .design-content-item {
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     margin-top: 30px;
     li {

@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import store from './store/store'
-import { yhcReq,baseUrl } from './utils/http'
+import { yhcReq } from './utils/http'
 import './utils/directive' //阻止按钮同一时间内多次触发
 import merge from 'deepmerge'
 // 样式
@@ -21,17 +21,19 @@ Object.keys(Fns).forEach(key => {
 })
 import Directives from './utils/directives'
 import {CONSTANT} from './utils/constant'
+import CKT from './utils/useCkt'
 //全局的filter
 import filters from './utils/filters'
 
 filters(Vue)
-
-Vue.use(ElementUI,Directives);
+// console.log(Directives);
+Vue.use(ElementUI);
+Vue.use(Directives);
 Vue.config.productionTip = false
 
 Vue.prototype.$post = yhcReq;
 Vue.prototype.cnst = CONSTANT;
-Vue.prototype.baseUrl = baseUrl;
+Vue.prototype.CKT = CKT;
 Vue.prototype.merge = merge;
 // 全局路由守卫
 router.beforeEach((to, from, next) => {

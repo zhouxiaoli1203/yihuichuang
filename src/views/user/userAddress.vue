@@ -247,9 +247,9 @@
             }
             let url = ''
             if(AddModifyid==''){
-              url = this.baseUrl+"Addr/insert"
+              url = "Addr/insert"
             }else{
-              url = this.baseUrl+"Addr/update"
+              url = "Addr/update"
             }
             this.$post("post",url,data)
             .then((res)=>{
@@ -290,7 +290,7 @@
       
       // 获取地址列表
       AddrSelect(token,page,limit){
-        this.$post("post",this.baseUrl+"Addr/select",{
+        this.$post("post","Addr/select",{
           token,
           page,
           limit
@@ -312,7 +312,7 @@
       AddrDelete(id){
         let {token, page, limit } = this
         this.confirm_pop("确认删除该条地址？").then(res=>{
-          this.$post("post",this.baseUrl+"Addr/delete",{
+          this.$post("post","Addr/delete",{
             token,
             id,
           })
@@ -338,7 +338,7 @@
         this.AddModifyid = id    
         this.addAreaBox=true;
         let {token, page, limit } = this
-        this.$post('post',this.baseUrl+'Addr/get',{
+        this.$post('post','Addr/get',{
           token,
           id
         })
@@ -374,7 +374,7 @@
       AddDefault(id){
         this.confirm_pop("是否设置该条为默认地址？").then(res=>{
           let {token, page, limit } = this
-          this.$post("post",this.baseUrl+"Addr/update",{
+          this.$post("post","Addr/update",{
             token,
             id,
             default:'y'

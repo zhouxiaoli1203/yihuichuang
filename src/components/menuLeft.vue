@@ -96,7 +96,7 @@ export default {
                 type: 'warning'
                 }).then(() => {  
                   
-                    this.$post("post",this.baseUrl+'User/logout',{
+                    this.$post("post",'User/logout',{
                         token:this.token,
                     })
 

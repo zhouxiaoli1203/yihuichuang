@@ -26,19 +26,15 @@ let isApp, isWechat, yhcmessage;
 // };
 
 // 环境的切换
-// if (process.env.NODE_ENV == 'development') {
-//     axios.defaults.baseURL = 'https://api.yihuichuang.com/';
-//     // isApp = /app.html/.test(url)
-//     // isWechat = /weChat.html/.test(url)
-// } else if (process.env.NODE_ENV == 'debug') {
-//     axios.defaults.baseURL = '';
-// } else if (process.env.NODE_ENV == 'production') {
-//     axios.defaults.baseURL = 'https://api.yihuichuang.com/';
-// } else if (process.env.NODE_ENV == 'testing') {
-//     // isApp = /show_app/.test(url)
-//     // isWechat = /show_h5/.test(url)
-//     axios.defaults.baseURL = 'https://api.yihuichuang.com/';
-// }
+if (process.env.NODE_ENV == 'development') {
+    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
+} else if (process.env.NODE_ENV == 'debug') {
+    axios.defaults.baseURL = '';
+} else if (process.env.NODE_ENV == 'production') {
+    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
+} else if (process.env.NODE_ENV == 'testing') {
+    axios.defaults.baseURL = 'https://api.yihuichuang.com/';
+}
 
 let token_invalid = false;
 // yhcmessage = isApp || isWechat ? Toast : "错误";
@@ -146,4 +142,4 @@ export function yhcReq(methods, url, params,file,yhc_f_a, needCatch) {/*  */
 }
 
 // export const baseUrl = window.location.protocol + '//' + window.location.host
-export const baseUrl = 'https://api.yihuichuang.com/'
+// export const baseUrl = 'https://api.yihuichuang.com/'

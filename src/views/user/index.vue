@@ -352,7 +352,7 @@ export default {
         // 获取个人信息
         userInfoGet(token) {
             let {srcList} = this
-            this.$post("post",this.baseUrl+'User/infoGet',{
+            this.$post("post",'User/infoGet',{
                 token,
             })
             .then((res)=>{
@@ -377,7 +377,7 @@ export default {
         nicknameSubmit(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$post("post",this.baseUrl+"User/infoUpdate",{
+                    this.$post("post","User/infoUpdate",{
                         token:this.token,
                         nickname:this.nicknameForm.nickname
                     })
@@ -444,7 +444,7 @@ export default {
                 if(!phoneError){
                     this.$refs[formName].validateField('newPhone',(Errors) => {
                         if(!Errors){
-                            this.$post("post",this.baseUrl+"Sms/send",{
+                            this.$post("post","Sms/send",{
                                 phone:this.phoneModifyForm.newPhone,
                                 template:'ghsj',
                             })
@@ -476,7 +476,7 @@ export default {
         phoneModifySubmit(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$post("post",this.baseUrl+"User/infoUpdate",{
+                    this.$post("post","User/infoUpdate",{
                         token:this.token,
                         phone:this.phoneModifyForm.oldPhone,
                         code:this.phoneModifyForm.code,
