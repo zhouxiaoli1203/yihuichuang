@@ -50,11 +50,11 @@ export default {
   data(){
     return {
       items:[
-        {title:"广告物料",arr:12,id:"1"},
+        {title:"广告物料",arr:12,id:"2"},
         {title:"企业定制",arr:16,id:"2"},
-        {title:"标识标牌店招"},
-        {title:"常用印刷品"},
-        {title:"其他印刷"},
+        {title:"标识标牌店招",arr:12,id:"4"},
+        {title:"常用印刷品",arr:12,id:"5"},
+        {title:"其他印刷",arr:12,id:"6"},
       ],
     }
   },

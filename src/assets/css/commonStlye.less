@@ -178,6 +178,7 @@
 .gongyiType .el-form-item__content {
   display: flex;
   justify-content: start;
+  align-items: center;
   flex-wrap: wrap;
   margin-right: 20px;
 
@@ -188,7 +189,9 @@
   .el-checkbox {
     margin-right: 3px !important;
   }
-
+  .el-radio{
+      margin-right: 5px;
+  }
   .el-select.mini {
     width: 72px;
 
@@ -248,7 +251,12 @@
   }
 
 }
-
+//单选按钮群组
+.yhc-radios{
+    .el-radio{
+        margin-bottom:24px;
+    }
+}
 //   红色警示标
 .yhc-tips {
   width: 12px;
@@ -402,6 +410,7 @@
   justify-content: space-between;
 
   .btn {
+      width: 110px;
     background: #fff;
     border: 1px solid #c8cbd6;
     &:hover,

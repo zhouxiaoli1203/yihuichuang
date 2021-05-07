@@ -54,8 +54,7 @@
       <el-form-item label="工艺"
                     class="gongyiType mg-none">
 
-        <el-checkbox label="款式"
-                     v-model="params.model_">
+        <el-radio name="type" :label="1" v-model="params.model_" >款式</el-radio>
         </el-checkbox>
         <el-select class="mini" v-model="params.drop" @change="changeTypes(params.drop)">
           <el-option v-for="i in cnst.paiziType"

@@ -1,8 +1,10 @@
 <template>
+<!-- 条幅 -->
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">高清户外喷绘布pp纸车贴</h3>
+      <h3 class="title" v-if="type == 1">门型展架广告牌展示牌易拉宝海报</h3>
+      <h3 class="title" v-if="type == 2">横幅定制条幅制作彩色结婚横幅</h3>
       <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
       <Server></Server>
 
@@ -97,13 +99,16 @@
       <div v-if="type == 1">
         <el-form-item label="工艺"
                       class="mg-none">
-          <el-checkbox-group v-model="params.type">
+            <el-radio-group class="yhc-radios" v-model="params.type">
+                <el-radio name="type" v-for="x in cnst.banner_types" :key="x.value" :label="x.value" >{{x.name}}</el-radio>
+            </el-radio-group>
+          <!-- <el-checkbox-group v-model="params.type">
             <el-checkbox v-for="x in cnst.banner_types"
                          :label="x.name"
                          :value="x.value"
                          name="type"
                          :key="x.value"></el-checkbox>
-          </el-checkbox-group>
+          </el-checkbox-group> -->
         </el-form-item>
 
       </div>
@@ -118,12 +123,16 @@
         <el-form-item v-if="currentVal == 1 || currentVal == 2 "
                       label="工艺"
                       class="gongyiType mg-none">
+            <!-- <el-radio-group class="yhc-radios" v-model="params.type">
+                <el-radio name="type" v-for="x in cnst.banner_types" :key="x.value" :label="x.value" >{{x.name}}</el-radio>
+            </el-radio-group> -->
           <div v-for="x in cnst.banner_types_caise">
-            <el-checkbox :label="x.name"
+            <!-- <el-checkbox :label="x.name"
                          :value="x.value"
                          name="type"
                          :key="x.value" v-model="x.model_">
-            </el-checkbox>
+            </el-checkbox> -->
+             <el-radio name="type" :key="x.value" :label="x.value" v-model="params.type" >{{x.name}}</el-radio>
             <el-select class="mini" v-if="x.select" v-model="params.drop">
               <el-option v-for="i in x.drops"
                          :label="i.name"

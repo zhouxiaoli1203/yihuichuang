@@ -141,11 +141,17 @@ export default {
     openCkt: function (x) {
         let params={
             // kind_id:x.designKindId,
-            // template_id:x.designTemplateId
-            "design_id": "5e1ba825-6864-4943-96eb-65600d418ac5"
+            template_id:x.designTemplateId
+            // "design_id": "5e1ba825-6864-4943-96eb-65600d418ac5"
             // keywords:x.keywords
         };
+        
         let this_ = this;
+        this_.$post("post","Ckt/templateClick",{designTemplateId:x.designTemplateId}).then((res)=>{
+            if(res.code == 1){
+
+            }
+        });
      this_.CKT.useCkt(params,function(res){
           console.log(res);
           this_.$router.push({

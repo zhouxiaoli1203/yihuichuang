@@ -173,6 +173,9 @@ export default {
         { cmpt: Armband, id: 3 },
         { cmpt: Banner, id: 2 },
         { cmpt: Photo, id: 1 },
+        { cmpt: Mutuopai, id: 4 },
+        { cmpt: Danye, id: 5 },
+        { cmpt: Caidan, id: 6 },
       ],
     }
   },

@@ -66,9 +66,7 @@
       <el-form-item label="工艺"
                     class="gongyiType mg-none">
 
-        <el-checkbox label="折页"
-                     v-model="params.model_">
-        </el-checkbox>
+        <el-radio name="type" :label="1" v-model="params.model_" >折页</el-radio>
         <el-select class="mini" v-model="params.drop" @change="changeTypes(params.drop)">
           <el-option v-for="i in cnst.danye_drop1.filter((v)=>{return v.value<6})"
                      :label="i.name"
