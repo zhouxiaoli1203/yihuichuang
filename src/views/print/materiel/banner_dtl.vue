@@ -3,12 +3,11 @@
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title" v-if="type == 1">门型展架广告牌展示牌易拉宝海报</h3>
-      <h3 class="title" v-if="type == 2">横幅定制条幅制作彩色结婚横幅</h3>
+      <h3 class="title">横幅定制条幅制作彩色结婚横幅</h3>
       <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
       <Server></Server>
 
-      <el-form-item v-if="type != 1"
+      <el-form-item 
                     label="产品"
                     class="chanpin">
         <el-col :span="15" class="yhc-attr-btns">
@@ -33,21 +32,6 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item v-if="type == 1"
-                    label="尺寸(米)"
-                    class="rules">
-        <el-col :span="15">
-          <el-select class="form-contrl width100"
-                     placeholder="选择尺寸"
-                     v-model="params.mate">
-            <el-option v-for="i in cnst.banner_rules_zhanjia"
-                       :label="i.name"
-                       :value="i.value"
-                       :key="i.value"></el-option>
-          </el-select>
-        </el-col>
-      </el-form-item>
-      <div v-if="type != 1">
 
         <el-form-item v-if="currentVal != 3"
                       label="尺寸(米)"
@@ -77,7 +61,6 @@
             </el-select>
           </el-col>
         </el-form-item>
-      </div>
       <el-form-item label="数量"
                     class="number">
         <el-col :span="2">
@@ -96,23 +79,6 @@
                          :max="10"></el-input-number>
       </el-form-item>
 
-      <div v-if="type == 1">
-        <el-form-item label="工艺"
-                      class="mg-none">
-            <el-radio-group class="yhc-radios" v-model="params.type">
-                <el-radio name="type" v-for="x in cnst.banner_types" :key="x.value" :label="x.value" >{{x.name}}</el-radio>
-            </el-radio-group>
-          <!-- <el-checkbox-group v-model="params.type">
-            <el-checkbox v-for="x in cnst.banner_types"
-                         :label="x.name"
-                         :value="x.value"
-                         name="type"
-                         :key="x.value"></el-checkbox>
-          </el-checkbox-group> -->
-        </el-form-item>
-
-      </div>
-      <div v-if="type != 1">
         <el-form-item v-if="currentVal == 2"
                       label="印色">
           <el-radio-group v-model="params.radio">
@@ -127,12 +93,11 @@
                 <el-radio name="type" v-for="x in cnst.banner_types" :key="x.value" :label="x.value" >{{x.name}}</el-radio>
             </el-radio-group> -->
           <div v-for="x in cnst.banner_types_caise">
-            <!-- <el-checkbox :label="x.name"
+            <el-checkbox :label="x.name"
                          :value="x.value"
                          name="type"
                          :key="x.value" v-model="x.model_">
-            </el-checkbox> -->
-             <el-radio name="type" :key="x.value" :label="x.value" v-model="params.type" >{{x.name}}</el-radio>
+            </el-checkbox>
             <el-select class="mini" v-if="x.select" v-model="params.drop">
               <el-option v-for="i in x.drops"
                          :label="i.name"
@@ -141,7 +106,6 @@
             </el-select>
           </div>
         </el-form-item>
-      </div>
     </el-form>
 
   </div>
@@ -166,11 +130,10 @@ export default {
       currentVal: 1,
     }
   },
-  props: ['type'],
+  props: [],
   components: { Server },
   created() {},
   mounted() {
-    console.log(this.type)
   },
   methods: {
     handleChange: function () {},

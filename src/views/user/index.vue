@@ -233,7 +233,7 @@ export default {
         //     新增：paramObj：{key:"tmp_bj_" + Date.parse(new Date()),url:""}
         //     编辑：paramObj：_this.getImagekey(_this.oldPicUrl);
         //     */
-        //     //console.log(_this.oldPicUrl);debugger
+        //     //console.log(_this.oldPicUrl);
         //     let _this = this
         //     var paramObj = _this.getImagekey(_this.oldPicUrl)
 

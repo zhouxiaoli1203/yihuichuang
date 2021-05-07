@@ -10,10 +10,7 @@
           <!-- 每个页面的属性 -->
           <!-- <Armband v-if="detailType == 1"></Armband>
           <Banner v-if="detailType == 2"></Banner> -->
-          <component v-bind:is="attrViews"
-                     title="高清"
-                     v-bind:type="2"
-                     @detailChange="attrDetails"></component>
+          <component v-bind:is="attrViews" @detailChange="attrDetails"></component>
 
           <!-- <Ribbon></Ribbon> -->
           <!-- 上传文件按钮 -->
@@ -86,7 +83,7 @@
             </el-form-item>
           </el-form>
           <!-- 在线估价弹框 -->
-          <Price :datas="param"></Price>
+          <Price  ></Price>
 
         </div>
         <div class="operate-right">
@@ -126,6 +123,7 @@
 <script>
 // 广告物料
 import Armband from '@/views/print/materiel/armband_dtl' //袖章
+import BannerJia from '@/views/print/materiel/banner_dtl_jia' //条幅--展架
 import Banner from '@/views/print/materiel/banner_dtl' //条幅
 import Paint from '@/views/print/materiel/paint_dtl' //喷绘
 import Photo from '@/views/print/materiel/photo_dtl' //写真
@@ -154,11 +152,10 @@ export default {
         showPic: false,
         showPicUrl: '',
         oldPicUrl: '',
-        imgArr: [],
-        keyArr: [],
-        fileList: [],
+        imgs:'',
+        fileList: []
       },
-      param: { imgs: [] },
+
       attrViews: Ribbon,
       detailType: '',
       relItems: Array(4),
@@ -171,7 +168,7 @@ export default {
       show: true,
       arr: [
         { cmpt: Armband, id: 3 },
-        { cmpt: Banner, id: 2 },
+        { cmpt: BannerJia, id: 2 },
         { cmpt: Photo, id: 1 },
         { cmpt: Mutuopai, id: 4 },
         { cmpt: Danye, id: 5 },
@@ -182,6 +179,7 @@ export default {
   components: {
     Armband,
     Banner,
+    BannerJia,
     Paint,
     Photo,
     Ribbon,
@@ -213,64 +211,32 @@ export default {
       })
     },
     onRemove(file, fileList) {
-      debugger
-      let _this = this
-      // file ： 当前被删除的图片
-      // fileList : 删除后还剩下的图片
-      //console.log(file);console.log(fileList);
-      _this.files.oldPicUrl = file.url //暂存被删掉的旧图片
-
-      //删除一张图片之后的upload控件值
-      var arr = []
-      fileList.forEach(function (ele) {
-        arr.push(ele.url)
-      })
-      _this.param['imgs'] = arr.toString()
+      this.files.fileList = this.files.fileList.filter((i)=>{
+          return i.uid != file.uid;
+      });
     },
     handlePreview(file) {
-        debugger
-      console.log(file, 2222)
       let _this = this
       _this.files.showPicUrl = file.url
       _this.files.showPic = true
     },
     beforeUpload(file){
-console.log(file);
-    },
-    // handleExceed(files, fileList) {
-    //   this.$message.warning(
-    //     `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-    //       files.length + fileList.length
-    //     } 个文件`
-    //   )
-    // },
-    // beforeRemove(file, fileList) {
-    //   return this.$confirm(`确定移除 ${file.name}？`)
-    // },
-    qiniuUploadCover(event) {
-      /* 新增和编辑时上传图片到七牛都调用此方法，参数要求：
-                新增：paramObj：{key:"tmp_bj_" + Date.parse(new Date()),url:""}
-                编辑：paramObj：_this.getImagekey(_this.oldPicUrl);
-                */
-      let _this = this
-      var paramObj = _this.getImagekey(_this.files.oldPicUrl)
-      paramObj.key = paramObj.key + event.file.uid
 
+    },
+    qiniuUploadCover(event) {
+
+      let _this = this
+      var paramObj = _this.getImagekey("")
+      paramObj.key = paramObj.key + event.file.uid
+      paramObj.name = event.file.name;
       _this.upFiles({ paramObj: paramObj, e: event }, (res) => {
-        if (_this.param.imgs != '') {
-          _this.files.imgArr = _this.param.imgs.split(',')
-        }
-        //2、把当前上传的图片插入数组
-        _this.files.imgArr.push(
-          'http://qrndg83uk.hn-bkt.clouddn.com/' +
-            paramObj.key +
-            '?v=' +
-            Date.parse(new Date())
-        )
-        _this.files.keyArr.push(paramObj.key)
-        //3、把数组转换成string，给接口保存。
-        _this.param.imgs = _this.files.imgArr.toString()
-        console.log(_this.files.imgArr, 111)
+           let _this = this;
+          _this.files.fileList.push({
+               name:paramObj.name,
+               uid:event.file.uid,
+               key:res.key,
+               url:"http://qrndg83uk.hn-bkt.clouddn.com/"+res.key+"?v="+Date.parse(new Date())
+           });
       })
     },
     handleClick: function () {},
@@ -280,7 +246,8 @@ console.log(file);
       })
     },
     attrDetails: function (d, o) {
-      this.param = this.merge(this.param, d)
+        // this.param = d;
+        // console.log(this.param);
     },
   },
 }

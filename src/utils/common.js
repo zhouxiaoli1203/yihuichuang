@@ -87,7 +87,6 @@ beforeUpload(file){
      * 编辑：_this.oldPicUrl 值为修改前的图片url
     */
     getImagekey(url){
-        console.log(url)
         var key="tmp_bj_" + Date.parse(new Date());
         var count="0";
         if(url!="" && url!=undefined){
@@ -106,7 +105,6 @@ beforeUpload(file){
     },
     //文件超出个数限制时的钩子
     exceed(files, fileList){
-        console.log(files);
         // console.log(fileList);
         this.$message({
             message: '上传的图片数量超出限制!',

@@ -68,7 +68,7 @@
           </div>
           <div class="btn-box">
             <div class="btn cancel">取消</div>
-            <div class="btn sure">确定</div>
+            <div class="btn sure" @click="calculate">确定</div>
           </div>
 
         </el-form>
@@ -158,7 +158,9 @@ export default {
   },
   props:["datas"],
   components: {},
-  created() {},
+  created() {
+    //   console.log(this.datas);
+  },
   mounted() {},
   methods: {
     changTab: function (n) {
@@ -183,6 +185,9 @@ export default {
         this.checkpop = false;
     },
     addBuy:function(){
+        // console.log(this.datas);
+    },
+    calculate(){
         console.log(this.datas);
     }
   },
