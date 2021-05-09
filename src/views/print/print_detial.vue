@@ -178,12 +178,14 @@ export default {
       title: '测试动态组件',
       show: true,
       arr: [
-        { cmpt: Armband, id: 3 },
-        { cmpt: BannerJia, id: 2 },
-        { cmpt: Photo, id: 1 },
-        { cmpt: Mutuopai, id: 4 },
-        { cmpt: Danye, id: 5 },
-        { cmpt: Caidan, id: 6 },
+        { cmpt: Paint, id: 13 },
+        { cmpt: BannerJia, id: 135 },
+        { cmpt: Danye, id: 148 },
+        { cmpt: Zheye, id: 143 },
+        { cmpt: Mingpian, id: 12 },
+        { cmpt: Buganjiao, id: 181 },
+        { cmpt: Caidan, id: 27 },
+        { cmpt: Xuanchuance, id: 144 },
       ],
     }
   },
@@ -206,9 +208,9 @@ export default {
   created() {
     this.kind = this.$route.query.kind;
     this.getDetails(this.kind);
-    // this.attrViews = this.arr.filter((v) => {
-    //   return this.detailType == v.id
-    // })[0].cmpt
+    this.attrViews = this.arr.filter((v) => {
+      return this.kind == v.id
+    })[0].cmpt
   },
   mounted() {},
   computed: {},
