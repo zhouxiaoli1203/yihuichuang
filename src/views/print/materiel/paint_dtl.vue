@@ -67,6 +67,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+   metaInfo: {
+      title: '易绘创官网-高清室外喷绘布 ',
+      meta: [
+        { name:"keywords",content:'喷绘写真,室外喷绘,易绘创'},
+        { name:"description",content:'室外喷绘布的设计和制作就来易绘创（yihuichuang.com），提供一站式喷绘写真和室外喷绘设计和制作。' },
+      ]
+  },
   data() {
     return {
       activeName: '',

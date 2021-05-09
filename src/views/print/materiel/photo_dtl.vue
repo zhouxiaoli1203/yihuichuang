@@ -83,6 +83,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+   metaInfo: {
+      title: '易绘创官网-广告写真设计|广告写真制作 ',
+      meta: [
+        { name:"keywords",content:'写真,海报,广告板写真,展板写真'},
+        { name:"description",content:'喷绘写真的设计和制作就来易绘创（yihuichuang.com），提供一站式写真、海报设计、广告板写真和展板写真的设计和制作。' },
+      ]
+  },
   data() {
     return {
       currentVal: 1,

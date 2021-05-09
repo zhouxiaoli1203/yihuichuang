@@ -103,6 +103,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+   metaInfo: {
+      title: '易绘创官网-不干胶印刷|不干胶贴制作|在线不干胶标签印刷设计',
+      meta: [
+        { name:"keywords",content:'不干胶印刷,不干胶制作,不干胶标签,不干胶设计,不干胶贴印刷,不干胶贴制作,易绘创'},
+        { name:"description",content:'不干胶制作印刷和不干胶设计就来易绘创（yihuichuang.com），提供一站式不干胶制作、不干胶印刷、不干胶标签设计、不干胶贴纸打印等不干胶印刷设计服务。包含不干胶标签、不干胶贴纸、不干胶标签纸、透明不干胶等产品信息。' },
+      ]
+  },
   data() {
     return {
       dialogVisible: false,

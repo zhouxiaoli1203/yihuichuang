@@ -73,6 +73,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+  metaInfo: {
+      title: '易绘创官网-木托授权牌|定制木托授权牌|木托授权牌加工|木托授权牌制作|木托授权牌设计',
+      meta: [
+        { name:"keywords",content:'木托授权牌,定制木托授权牌,木托授权牌加工,木托授权牌制作,木托授权牌设计,易绘创'},
+        { name:"description",content:'定制木托授权牌就来易绘创（yihuichuang.com），提供一站式木托授权牌报价 ，快速制作加工木托授权牌。' },
+      ]
+  },
   data() {
     return {
         dialogVisible:false,

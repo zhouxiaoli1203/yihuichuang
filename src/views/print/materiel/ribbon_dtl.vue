@@ -62,6 +62,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+   metaInfo: {
+      title: '易绘创官网-绶带|袖标 ',
+      meta: [
+        { name:"keywords",content:'绶带袖标,易绘创'},
+        { name:"description",content:'吊旗广告设计和制作就来易绘创（yihuichuang.com），提供一站式绶带袖标设计和制作。' },
+      ]
+  },
   data() {
     return {
       activeName: '',

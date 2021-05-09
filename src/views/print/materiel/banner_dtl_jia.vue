@@ -69,6 +69,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+   metaInfo: {
+      title: '易绘创官网-展架设计|展架制作在线展架设计|X展架制作|亚力克展架设计|广告X展架定做尺寸|展架价格',
+      meta: [
+        { name:"keywords",content:'展架,X展架制作,X展架设计,X展架定做,易绘创'},
+        { name:"description",content:'展架设计和定制就来易绘创（yihuichuang.com），提供一站式亚力克展架设计、广告展架制作、X展架定做及不锈钢展架的在线印刷服务，满足公司对展架制作设计、定做的需求，并给您一个满意的展架价格。' },
+      ]
+  },
   data() {
     return {
       activeName: '',

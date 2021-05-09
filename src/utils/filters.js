@@ -39,7 +39,7 @@ const filters = {
         }
         return value;
     },
-    formatDate_(time,type){
+    formatDate_YMD(time,type){
         var date = new Date(time);
         return Fns.formatDate(date, type);
     },

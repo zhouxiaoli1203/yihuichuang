@@ -102,6 +102,14 @@ import CKT from '@/utils/useCkt'
 
 export default {
   name: 'design',
+  metaInfo: {
+      title: '易绘创官网广告设计印刷：在线设计|自助设计',
+      meta: [
+        { name:"keywords",content:'名片制作,印刷厂,条幅制作,彩色画册印刷,喷绘,写真,宣传单印刷,名片印刷,特种纸,PVC卡,无碳联单,信纸表格,封套,手提袋,发光字,奖牌,展架,易拉宝, 易绘创广告设计印刷,自助设计,在线设计, 在线ps,海报设计,平面设计,在线图片编辑,在线图片制作,在线图片设计,在线作图,图片编辑器,易绘创'},
+        { name:"description",content:'易绘创（yihuichuang.com）广告设计印刷：能够实现在线自助设计、在线编辑和一键生成。设计有名片、海报、写真、喷绘、贺卡、宣传单、展架、条幅等印刷品图片。' },
+
+      ]
+  },
   data() {
     return {
         checkpop1:false,

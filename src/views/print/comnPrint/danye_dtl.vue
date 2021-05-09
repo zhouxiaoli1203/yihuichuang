@@ -114,6 +114,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+  metaInfo: {
+      title: '易绘创官网-宣传单页|在线宣传单设计|宣传单页制作|DM单页印刷|宣传单模板免费素材',
+      meta: [
+        { name:"keywords",content:'宣传单,宣传单设计,宣传单制作,宣传单印刷,DM单页制作,宣传单素材免费下载,在线宣传单设计,易绘创'},
+        { name:"description",content:'在线宣传单设计、宣传单页制作印刷就来易绘创（yihuichuang.com），在线宣传单模板设计，各式宣传单素材免费下载，让企业轻松实现宣传单页在线印刷的需求，让一站式宣传单、DM单页制作不是梦。' },
+      ]
+  },
   data() {
     return {
         dialogVisible:false,

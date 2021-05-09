@@ -115,6 +115,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+   metaInfo: {
+      title: '易绘创官网-制作横幅|加工条幅 ',
+      meta: [
+        { name:"keywords",content:'横幅,条幅,彩色横幅,彩色条幅,条幅定制,横幅加工,锦旗,易绘创'},
+        { name:"description",content:'横幅条幅设计及制作就来易绘创（yihuichuang.com），提供一站式条幅横幅设计和制作，价格合理。' },
+      ]
+  },
   data() {
     return {
       activeName: '',

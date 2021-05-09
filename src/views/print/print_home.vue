@@ -14,25 +14,116 @@
     </div>
     <div class="print-items">
       <ul class="items">
-        <li class="items-li center" v-for="(x,index) in items">
+        <li class="items-li center" v-show="printList.ggwl">
             <div class="items-header">
-              <div class="items-header-t fl">{{x.title}}</div>
-              <div class="items-header-m fr cursor_p" @click="gotoMore(x)">更多</div>
-              <!-- <div class="items-header-m fr cursor_p" ><router-link to="/print/more">更多</router-link></div> -->
+              <div class="items-header-t fl">广告物料</div>
+              <div class="items-header-m fr cursor_p" @click="gotoMore('ggwl')">更多</div>
             </div>
             <div class="items-lunbo">
               <el-carousel arrow="always" :autoplay="false" height="400px">
-                <el-carousel-item v-for="item in 6" :key="item">
+                <el-carousel-item v-for="(x,index) in printList.ggwl" :key="index">
                   <ul class="card-style">
-                    <li class="cursor" @click="goDetail(x)">
-                      <div class="image"></div>
-                      <div class="title">海报印刷</div>
+                    <li class="cursor" v-for="(item,index_) in x" :key="index_"  @click="goDetail(item)">
+                      <div class="image">
+                          <img :src="item.img" alt="">
+                      </div>
+                      <div class="title">{{item.title}}</div>
                       <div class="number">
-                        <span>34元</span>/<span>100张</span>
+                        <span>{{item.price}}</span>
                       </div>
                     </li>
-                    <li></li>
-                    <li></li>
+                  </ul>
+                </el-carousel-item>
+            </el-carousel>
+            </div>
+        </li>
+          <li class="items-li center" v-show="printList.qydz">
+            <div class="items-header">
+              <div class="items-header-t fl">企业定制</div>
+              <div class="items-header-m fr cursor_p" @click="gotoMore('qydz')">更多</div>
+            </div>
+            <div class="items-lunbo">
+              <el-carousel arrow="always" :autoplay="false" height="400px">
+                <el-carousel-item v-for="(x,index) in printList.qydz":key="index">
+                  <ul class="card-style">
+                    <li class="cursor" v-for="(item,index_) in x" :key="index_" @click="goDetail(item)">
+                      <div class="image">
+                          <img :src="item.img" alt="">
+                      </div>
+                      <div class="title">{{item.title}}</div>
+                      <div class="number">
+                        <span>{{item.price}}</span>
+                      </div>
+                    </li>
+                  </ul>
+                </el-carousel-item>
+            </el-carousel>
+            </div>
+        </li>
+        <li class="items-li center" v-show="printList.bsbpdz">
+            <div class="items-header">
+              <div class="items-header-t fl">标识标牌店招</div>
+              <div class="items-header-m fr cursor_p" @click="gotoMore('bsbpdz')">更多</div>
+            </div>
+            <div class="items-lunbo">
+              <el-carousel arrow="always" :autoplay="false" height="400px">
+                <el-carousel-item v-for="(x,index) in printList.bsbpdz" :key="index">
+                  <ul class="card-style">
+                    <li class="cursor" v-for="(item,index_) in x" :key="index_" @click="goDetail(item)">
+                      <div class="image">
+                          <img :src="item.img" alt="">
+                      </div>
+                      <div class="title">{{item.title}}</div>
+                      <div class="number">
+                        <span>{{item.price}}</span>
+                      </div>
+                    </li>
+                  </ul>
+                </el-carousel-item>
+            </el-carousel>
+            </div>
+        </li>
+        <li class="items-li center" v-show="printList.cyysp">
+            <div class="items-header">
+              <div class="items-header-t fl">常用印刷品</div>
+              <div class="items-header-m fr cursor_p" @click="gotoMore('cyysp')">更多</div>
+            </div>
+            <div class="items-lunbo">
+              <el-carousel arrow="always" :autoplay="false" height="400px">
+                <el-carousel-item v-for="(x,index) in printList.cyysp" :key="index">
+                  <ul class="card-style">
+                    <li class="cursor" v-for="(item,index_) in x" :key="index_" @click="goDetail(item)">
+                      <div class="image">
+                          <img :src="item.img" alt="">
+                      </div>
+                      <div class="title">{{item.title}}</div>
+                      <div class="number">
+                        <span>{{item.price}}</span>
+                      </div>
+                    </li>
+                  </ul>
+                </el-carousel-item>
+            </el-carousel>
+            </div>
+        </li>
+        <li class="items-li center" v-show="printList.qtys">
+            <div class="items-header">
+              <div class="items-header-t fl">其它印刷</div>
+              <div class="items-header-m fr cursor_p" @click="gotoMore('qtys')">更多</div>
+            </div>
+            <div class="items-lunbo">
+              <el-carousel arrow="always" :autoplay="false" height="400px">
+                <el-carousel-item v-for="(x,index) in printList.qtys" :key="index">
+                  <ul class="card-style">
+                    <li class="cursor" v-for="(item,index_) in x" :key="index_" @click="goDetail(item)">
+                      <div class="image">
+                          <img :src="item.img" alt="">
+                      </div>
+                      <div class="title">{{item.title}}</div>
+                      <div class="number">
+                        <span>{{item.price}}</span>
+                      </div>
+                    </li>
                   </ul>
                 </el-carousel-item>
             </el-carousel>
@@ -47,29 +138,58 @@
 import BannerNav from '@/components/bannerNav'
 export default {
   name: 'print',
+  metaInfo: {
+      title: '易绘创官网在线印刷：一站式采购平台',
+      meta: [
+        { name:"keywords",content:'名片制作,印刷厂,条幅制作,彩色画册印刷,喷绘,写真,宣传单印刷,名片印刷,特种纸,PVC卡,无碳联单,信纸表格,封套,手提袋,发光字,奖牌,展架,易拉宝, 易绘创'},
+        { name:"description",content:'易绘创（yihuichuang.com）在线印刷一站式采购平台，能够实现在线评估报价、一键下单印刷品、包邮到家、线下门店自提等服务，满足广大客户对广告物料制作、企业定制、印刷品和标识标牌等宣传品的设计加工需求。' },
+      ]
+  },
   data(){
     return {
-      items:[
-        {title:"广告物料",arr:12,id:"2"},
-        {title:"企业定制",arr:16,id:"2"},
-        {title:"标识标牌店招",arr:12,id:"4"},
-        {title:"常用印刷品",arr:12,id:"5"},
-        {title:"其他印刷",arr:12,id:"6"},
-      ],
+        printList:{
+            ggwl:[],
+            qydz:[],
+            bsbpdz:[],
+            cyysp:[],
+            qtys:[]
+        },
+    //   items:[
+    //     {title:"广告物料",arr:12,id:"2"},
+    //     {title:"企业定制",arr:16,id:"2"},
+    //     {title:"标识标牌店招",arr:12,id:"4"},
+    //     {title:"常用印刷品",arr:12,id:"5"},
+    //     {title:"其他印刷",arr:12,id:"6"},
+    //   ],
     }
   },
   components: {BannerNav},
-  created(){},
+  created(){
+      let this_ = this;
+      this_.$post("post","Zxys/show").then((res)=>{
+          if(res.code == 1){
+             this.printList["ggwl"] = this.getLboArr(res.data.ggwl);
+             this.printList["qydz"] = this.getLboArr(res.data.qydz);
+             this.printList["bsbpdz"] = this.getLboArr(res.data.bsbpdz);
+             this.printList["cyysp"] = this.getLboArr(res.data.cyysp);
+             this.printList["qtys"] = this.getLboArr(res.data.qtys);
+          }
+      });
+  },
   mounted(){},
   methods: {
+    getLboArr(list){
+         var arr= [];
+        for(var i=0;i<list.length;i+=3){
+        arr.push(list.slice(i,i+3));
+        }
+        return arr;
+    },
     gotoMore:function(data){
-      this.$store.state.moredata = {
-        title:data.title,
-        items:Array(data.arr)
-      };
       this.$router.push({  //核心语句
         path:'/print/more',   //跳转的路径
-        query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+        query:{ 
+            type:data          //路由传参时push和query搭配使用 ，作用时传递参数
         }
       })
     },
@@ -77,7 +197,7 @@ export default {
       this.$router.push({  //核心语句
         path:'/print/detial',   //跳转的路径
         query:{           //路由传参时push和query搭配使用 ，作用时传递参数
-            type:x.id
+            kind:x.kind_id
         }
       })
     }

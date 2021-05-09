@@ -8,6 +8,7 @@ import store from './store/store'
 import { yhcReq } from './utils/http'
 import './utils/directive' //阻止按钮同一时间内多次触发
 import merge from 'deepmerge'
+import Meta from 'vue-meta'
 // 样式
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/base.css';
@@ -29,6 +30,7 @@ filters(Vue)
 // console.log(Directives);
 Vue.use(ElementUI);
 Vue.use(Directives);
+Vue.use(Meta);
 Vue.config.productionTip = false
 
 Vue.prototype.$post = yhcReq;
@@ -40,6 +42,21 @@ router.beforeEach((to, from, next) => {
     if (to.query.token) {
         localStorage.setItem("yhc_token", to.query.token);
     }
+    // console.log(to.meta.content)
+//   if(to.meta.content){
+//     let head = document.getElementsByTagName('head');
+//     let meta = document.createElement('meta');
+//     setTimeout(() => {
+//     document.querySelector('meta[name="keywords"]').setAttribute('content', to.meta.content.keywords)
+//     document.querySelector('meta[name="description"]').setAttribute('content', to.meta.content.description)
+//     },1000)
+//     meta.content = to.meta.content;
+//     head[0].appendChild(meta)
+//   }
+//   // /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  }
     next();
 });
 

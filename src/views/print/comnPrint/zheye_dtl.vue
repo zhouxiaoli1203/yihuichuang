@@ -130,6 +130,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+  metaInfo: {
+      title: '易绘创官网-三折页|折页印刷|折页制作|在线折页设计|折页免费模板',
+      meta: [
+        { name:"keywords",content:'折页印刷,折页设计,三折页,折页制作,折页,折页模板,在线折页设计,易绘创'},
+        { name:"description",content:'在线折页设计印刷就来易绘创（yihuichuang.com），在线折页设计、折页制作、 折页印刷、三折页设计欣赏、折页模板免费设计一应俱全。满足企业对折页尺寸、设计、印刷、制作价格各个方面的要求，实现在线印刷折页的效果。' },
+      ]
+  },
   data() {
     return {
       dialogVisible: false,

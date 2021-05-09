@@ -69,6 +69,7 @@ export default new Router({
           name: 'design',
         //   component: () => import('@/views/design/index.vue'),
           component: () => import('@/views/design/design_home.vue'),
+         
         },
         {
           path: '/help/helpProblem',

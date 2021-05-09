@@ -5,7 +5,7 @@
         <span class="cursor_p"
               @click="goBack()">在线印刷</span><span class="current">&nbsp;/&nbsp;商品详情</span>
       </div>
-      <div class="print-detail-operate">
+      <div class="print-detail-operate" v-if="infos">
         <div class="operate-left">
           <!-- 每个页面的属性 -->
           <!-- <Armband v-if="detailType == 1"></Armband>
@@ -87,19 +87,21 @@
 
         </div>
         <div class="operate-right">
-          <img src=""
-               alt="">
+          <img :src="infos.right"
+               alt="" width="100%" height="100%">
         </div>
       </div>
       <div class="print-detail-info">
         <div class="fl relation">
           <div class="rel-title">相关产品</div>
           <ul class="card-style rel-products">
-            <li v-for="x in relItems">
-              <div class="image"></div>
-              <div class="title">海报印刷</div>
+            <li v-for="x in infos.xgcp">
+              <div class="image">
+                  <img :src="x.img" alt="">
+              </div>
+              <div class="title">{{x.title}}</div>
               <div class="number">
-                <span>34元</span>/<span>100张</span>
+               {{x.price}}
               </div>
             </li>
           </ul>
@@ -110,7 +112,15 @@
             <el-tab-pane :key="item.name"
                          v-for="(item, index) in editableTabs"
                          :label="item.title"
-                         :name="item.name">{{item.content}}
+                         :name="item.name">
+                        <div v-show="item.title == '产品详情'">
+                            <ul>
+                                <li v-for="(x,index) in infos.cpxq" :key="index">
+                                    <img :src="x" alt="" width="100%" height="100%">
+                                </li>
+                            </ul>
+                        </div>
+                        <div v-show="item.title == '售后服务'">1111</div>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -155,14 +165,15 @@ export default {
         imgs:'',
         fileList: []
       },
-
+      kind:"",
+      infos:{},
       attrViews: Ribbon,
       detailType: '',
       relItems: Array(4),
       editableTabsValue: 'detail',
       editableTabs: [
-        { name: 'detail', title: '产品详情', content: '11111111111' },
-        { name: 'server', title: '售后服务', content: '22222222222' },
+        { name: 'detail', title: '产品详情'},
+        { name: 'server', title: '售后服务'},
       ],
       title: '测试动态组件',
       show: true,
@@ -193,14 +204,27 @@ export default {
     Price,
   },
   created() {
-    this.detailType = this.$route.query.type
-    this.attrViews = this.arr.filter((v) => {
-      return this.detailType == v.id
-    })[0].cmpt
+    this.kind = this.$route.query.kind;
+    this.getDetails(this.kind);
+    // this.attrViews = this.arr.filter((v) => {
+    //   return this.detailType == v.id
+    // })[0].cmpt
   },
   mounted() {},
   computed: {},
   methods: {
+      getDetails(kind,temp){
+        let this_ = this;
+        let param = {
+            kind_id:kind?kind:undefined,
+            template_id:temp?temp:undefined
+        };
+        this_.$post("post","Goods/detail",param).then((res)=>{
+          if(res.code == 1){
+              this_.infos = res.data;
+          }
+        });
+      },
     goBack: function () {
       this.$router.push({
         //核心语句

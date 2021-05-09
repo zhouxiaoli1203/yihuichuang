@@ -101,6 +101,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+  metaInfo: {
+      title: '易绘创官网-餐厅菜单|高档菜单|菜单设计|菜单制作',
+      meta: [
+        { name:"keywords",content:'餐厅菜单,高档菜单,菜单设计,菜单制作,菜单模板,易绘创'},
+        { name:"description",content:'在线菜单设计和制作就来易绘创（yihuichuang.com），提供一站式餐厅菜单、高档菜单、菜单设计和菜单制作等服务。' },
+      ]
+  },
   data() {
     return {
         dialogVisible:false,

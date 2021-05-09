@@ -2,19 +2,21 @@
   <div class='print-more-page main bgray'>
     <div class="center">
       <div class="print-more-title">
-        <span class="cursor_p" @click="goBack()">在线印刷</span><span class="current">&nbsp;/&nbsp;{{currentQuery.title}}</span>
+        <span class="cursor_p" @click="goBack()">在线印刷</span><span class="current">&nbsp;/&nbsp;{{title}}</span>
       </div>
       <div class="banner">
 
       </div>
       <div class="print-more-items">
-        <h3 class="title">{{currentQuery.title}}</h3>
+        <h3 class="title">{{title}}</h3>
         <ul class="card-style">
-          <li v-for="x in currentQuery.items" class="cursor_p" @click="goDetail()">
-              <div class="image"></div>
-              <div class="title">海报印刷</div>
+          <li v-for="(item,index) in moreList" :key="index" class="cursor_p" @click="goDetail(item)">
+              <div class="image">
+                  <img :src="item.img" alt="">
+              </div>
+              <div class="title">{{item.title}}</div>
               <div class="number">
-                <span>34元</span>/<span>100张</span>
+                <span>{{item.price}}</span>
               </div>
           </li>
         </ul>
@@ -28,18 +30,38 @@ export default {
   name: 'more',
   data(){
     return {
-      currentQuery:this.$store.state.moredata,
-      items:[]
+      title:"",
+      moreList:[]
     }
   },
   components: {},
   created(){
-    // this.currentQuery = this.$route.query;
-    // console.log(this.currentQuery);
-    // this.items = Array(12);
+    this.type = this.$route.query.type;
+    switch (this.type){
+        case "ggwl":this.title = "广告物料";
+            break;
+        case "qydz":this.title = "企业定制";
+            break;
+        case "bsbpdz":this.title = "标识标牌店招";
+            break;
+        case "cyysp":this.title = "常用印刷品";
+            break;
+        case "qtys":this.title = "其它印刷";
+            break;
+    }
+    this.getmoreList(this.type);
+ 
   },
   mounted(){},
   methods: {
+      getmoreList(x){
+          let this_ = this;
+         this_.$post("post","Zxys/select",{category:x}).then((res)=>{
+          if(res.code == 1){
+              this_.moreList = res.data;
+          }
+        });
+      },
     goBack:function(){
       this.$router.push({  //核心语句
         path:'/print',   //跳转的路径
@@ -47,10 +69,11 @@ export default {
         }
       })
     },
-    goDetail:function(){
+    goDetail:function(x){
       this.$router.push({  //核心语句
         path:'/print/detial',   //跳转的路径
-        query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+        query:{
+            kind: x.kind_id          //路由传参时push和query搭配使用 ，作用时传递参数
         }
       })
     }

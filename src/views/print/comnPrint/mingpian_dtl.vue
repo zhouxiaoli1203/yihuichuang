@@ -308,6 +308,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
+  metaInfo: {
+      title: '易绘创官网-商务名片制作|高档名片|印名片|高端名片印刷|彩色名片',
+      meta: [
+        { name:"keywords",content:'名片制作,高档名片,印名片,彩色名片,高端名片,商务名片,高级名片,易绘创'},
+        { name:"description",content:'名片制作和印名片就来易绘创（yihuichuang.com）,提供一站式在线名片设计、高档名片、商务名片、彩色名片、高级名片、免费模版、名片制作、高端名片和名片印刷服务。满足企业对普通、商务、经典、高档和奢华的不同需求。' },
+      ]
+  },
   data() {
     return {
       dialogVisible: false,

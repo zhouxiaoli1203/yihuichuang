@@ -235,6 +235,13 @@
 import Server from '@/components/servertip'
 export default {
   name: 'xuanchuance',
+   metaInfo: {
+      title: '易绘创官网-企业宣传册设计制作|画册|在线企业画册设计印刷',
+      meta: [
+        { name:"keywords",content:'画册,画册设计, 企业宣传册,画册印刷,画册制作,企业画册,宣传画册,易绘创'},
+        { name:"description",content:'在线企业画册设计和制作就来易绘创（yihuichuang.com），提供一站式企业画册印刷、画册制作、企业画册、宣传画册、企业产品画册等设计印刷服务，包含画册印刷排版、画册封面设计印刷、企业画册制作等产品。' },
+      ]
+  },
   data() {
     return {
       dialogVisible: false,
