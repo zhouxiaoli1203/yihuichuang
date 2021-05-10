@@ -41,6 +41,14 @@
 <script>
   export default {
     name: 'service',
+    metaInfo: {
+      title: '易绘创官网服务保障',
+      meta: [
+        { name:"keywords",content:'易绘创行业模板 ,易绘创自提,免费开发票,易绘创'},
+        { name:"description",content:'易绘创（yihuichuang.com）服务保障：设计模板免费使用，下单的印刷品全国包邮配送，同城支持门店自提，质量问题7天包换，免费开发票。' },
+
+      ]
+    },
     data () {
       return {
         banner1: require('../../assets/img/service/banner.jpg'),

@@ -109,7 +109,7 @@ export default {
                 }).then(() => {  
                   
                     this.$post("post",'User/logout',{
-                        token:this.token,
+                        token:this.$store.state.token,
                     })
 
                     // 清空token，userId

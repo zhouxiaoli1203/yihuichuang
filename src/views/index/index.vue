@@ -211,6 +211,14 @@ import Search from '../../components/search'
 
 export default {
     name: 'index',
+    metaInfo: {
+      title: '易绘创官网：一站式图文广告印刷O2O连锁品牌',
+      meta: [
+        { name:"keywords",content:'图文广告店 ,海报设计,图文快印加盟,在线设计,名片制作,印刷厂,条幅制作,彩色画册印刷,宣传单印刷,名片印刷,特种纸,PVC卡,无碳联单,信纸表格,封套,手提袋,易绘创'},
+        { name:"description",content:'易绘创（yihuichuang.com）是集图文、广告、印刷、策划和文创于一体的综合性加盟连锁品牌。一直致力于用“互联网+”的手段和通过领先的O2O经营理念及自研的行业操作系统，解决用户在设计、印刷过程中遇到的问题，提高了工作效率并节省了顾客的时间，逐步实现行业的标准化、专业化、智慧化和惠民化。' },
+
+      ]
+    },
     data() {
       return {
         service1: require('../../assets/img/index/service1.png'),

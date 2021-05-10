@@ -14,21 +14,19 @@
                 </li>
             </template>
         </ul>
-        <!-- <template v-for="item in list"> -->
-            <div class="contentBox">
-                <p class="intro">{{list[contActive].tit}}</p>
-                <div :class="navActive ==6 || navActive == 4?'introBox':'flexintroBox introBox'">
-                    <img :src="list[contActive].img" alt="">
-                    <ul>
-                        <template v-for="item in list">
-                            <li @click="contNav(item.index)">
-                                <el-radio v-model="radio" :label="item.index" border>{{item.name}}</el-radio>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
+        <div class="contentBox">
+            <p class="intro">{{list[contActive].tit}}</p>
+            <div :class="navActive ==6 || navActive == 4?'introBox':'flexintroBox introBox'">
+                <img :src="list[contActive].img" alt="">
+                <ul>
+                    <template v-for="item in list">
+                        <li @click="contNav(item.index)">
+                            <el-radio v-model="radio" :label="item.index" border>{{item.name}}</el-radio>
+                        </li>
+                    </template>
+                </ul>
             </div>
-        <!-- </template> -->
+        </div>
     </section>
   </div>
 </template>
@@ -36,6 +34,14 @@
 <script>
   export default {
     name: 'unique',
+    metaInfo: {
+      title: '易绘创官网企业定制服务：构建设计、印刷、公关和营销一站式生态服务体系',
+      meta: [
+        { name:"keywords",content:'品牌设计,包装设计,电商设计,网站设计,品牌策划,公关传媒,文创,易绘创'},
+        { name:"description",content:'易绘创（yihuichuang.com）企业定制服务：能够满足企业私人定制的需求，涉及品牌设计、包装设计、电商设计、网站设计、品牌策划、公关传媒和文创等，构建设计、印刷、公关和营销一站式生态服务体系。' },
+
+      ]
+    },
     data () {
       return {
         icon1: require('../../assets/img/unique/icon1.png'),

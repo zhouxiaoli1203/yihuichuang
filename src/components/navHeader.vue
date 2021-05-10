@@ -163,7 +163,8 @@
               </div>
               <div class="tips" >
                 <img :src="loginSuccess" alt="">
-                <p>密码重置成功</p>
+                <p v-if="timeShow==1">密码重置成功</p>
+                <p v-else>注册成功</p>
                 <span v-if="timeShow==0">{{times}}秒后自动登录</span>
               </div>              
             </div>
