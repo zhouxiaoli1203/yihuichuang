@@ -208,6 +208,12 @@
         prov:'',
         city:'',
         dist:'',
+
+        prov_code:'',
+        city_code:'',
+        dist_code:'',
+
+
         token:'',
         page:1,
         limit:13,
@@ -226,7 +232,7 @@
       submitForm(formName) { //地址提交及修改
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            let {prov,city,dist,ruleForm,token, AddModifyid,page,limit} = this
+            let {prov,city,dist,ruleForm,token, AddModifyid,page,limit,prov_code,city_code,dist_code} = this
             let moren = ruleForm.default
             if(moren==true){
                moren = 'y'
@@ -238,6 +244,9 @@
               prov,
               city,
               dist,
+              prov_code,
+              city_code,
+              dist_code,
               detail:ruleForm.detail,
               name:ruleForm.name,
               phone:ruleForm.phone,
@@ -283,9 +292,16 @@
         this.ruleForm.city = ''
       },
       cityChange(val){ //选择收货地址
+      console.log(val);
         this.prov = this.CodeToText[val[0]]
         this.city = this.CodeToText[val[1]]
         this.dist = this.CodeToText[val[2]]
+
+        this.prov_code = val[0]
+        this.city_code = val[1]
+        this.dist_code = val[2]
+
+
       }, 
       
       // 获取地址列表
@@ -345,23 +361,23 @@
         .then((res)=>{
           let data = res.data
           if(res.code==1){
-            let prov = TextToCode[data.prov]
-            let provCode = prov.code
-            let city = TextToCode[data.prov] [data.city]
-            let cityCode = city.code
-            let dist = TextToCode[data.prov] [data.city] [data.dist]
-            let distCode = dist.code
             this.ruleForm={
               name:data.name,
               default:data.default=='y'?true:false, 
               detail: data.detail,
               phone:data.phone,
-              city:[provCode, cityCode, distCode],
+              city:[data.prov_code, data.city_code, data.dist_code],
               postcode:data.postcode,
             },
             this.prov = data.prov
             this.city = data.city
             this.dist = data.dist
+
+            this.prov_code = data.prov_code
+            this.prov_code = data.prov_code
+            this.prov_code = data.prov_code
+
+
           }else{
             this.$message({
               message:res.info,

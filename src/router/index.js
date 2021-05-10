@@ -15,7 +15,6 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      // component: () => import('./../views/home.vue'),
       component: resolve => (require(['@/views/home.vue'], resolve)),
       redirect: '/index', // 默认
       children: [
@@ -40,8 +39,13 @@ export default new Router({
           component: () => import('@/views/news/newsCustom.vue'),
         },
         {
-          path: '/detail',
-          name: 'detail',
+          path: '/news/newsCompany',
+          name: 'newsCompany',
+          component: () => import('@/views/news/newsCompany.vue'),
+        },
+        {
+          path: 'news/detail',
+          name: 'newsDetail',
           component: () => import('@/views/news/detail.vue'),
         },
         {
@@ -161,6 +165,7 @@ export default new Router({
           name: 'join',
           component: () => import('@/views/join/index.vue'),
         },
+        
        
        
       ],

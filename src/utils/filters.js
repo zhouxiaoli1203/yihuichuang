@@ -43,6 +43,18 @@ const filters = {
         var date = new Date(time);
         return Fns.formatDate(date, type);
     },
+    formatDate_(time,type){
+        if(time){
+            let val 
+            if(time.length==10){
+                val = Number(time)*1000
+            }else{
+                val = Number(time)
+            }
+            var date = new Date(val);
+            return Fns.formatDate(date, type);
+        }
+    },
     
 }
 export default (Vue) => {

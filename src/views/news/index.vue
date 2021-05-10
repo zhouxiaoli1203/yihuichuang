@@ -7,47 +7,24 @@
       <MenuLeft></MenuLeft>
       <div class="contList">
         <ul class="list">
-          <li @click="gotoMore">
-            <div class="tit">
-              <h3>好的界面设计并不始于图片，而是始于对人的理解，</h3>
-              <span>2020-02-02</span>
-            </div>
-            <p>温片达越保值步主一通地义青据打周书感记从选每候主光专化还国道九京般收无青易已军知一革门速通史义果中有温值交经华经好研几。美一风直们里真火文边青种听么况公西打接再成属她级即海工看主着特准志律构感三老水而等认下己克。张土除完斯连如济问段则当支自热记安并比器及使效列除办和酸代律回者西参收立思号西集思器成造要事</p>
-          </li>
-             <li>
-            <div class="tit">
-              <h3>好的界面设计并不始于图片，而是始于对人的理解，</h3>
-              <span>2020-02-02</span>
-            </div>
-            <p>温片达越保值步主一通地义青据打周书感记从选每候主光专化还国道九京般收无青易已军知一革门速通史义果中有温值交经华经好研几。美一风直们里真火文边青种听么况公西打接再成属她级即海工看主着特准志律构感三老水而等认下己克。张土除完斯连如济问段则当支自热记安并比器及使效列除办和酸代律回者西参收立思号西集思器成造要事</p>
-          </li>
-               <li>
-            <div class="tit">
-              <h3>好的界面设计并不始于图片，而是始于对人的理解，</h3>
-              <span>2020-02-02</span>
-            </div>
-            <p>温片达越保值步主一通地义青据打周书感记从选每候主光专化还国道九京般收无青易已军知一革门速通史义果中有温值交经华经好研几。美一风直们里真火文边青种听么况公西打接再成属她级即海工看主着特准志律构感三老水而等认下己克。张土除完斯连如济问段则当支自热记安并比器及使效列除办和酸代律回者西参收立思号西集思器成造要事</p>
-          </li>
-               <li>
-            <div class="tit">
-              <h3>好的界面设计并不始于图片，而是始于对人的理解，</h3>
-              <span>2020-02-02</span>
-            </div>
-            <p>温片达越保值步主一通地义青据打周书感记从选每候主光专化还国道九京般收无青易已军知一革门速通史义果中有温值交经华经好研几。美一风直们里真火文边青种听么况公西打接再成属她级即海工看主着特准志律构感三老水而等认下己克。张土除完斯连如济问段则当支自热记安并比器及使效列除办和酸代律回者西参收立思号西集思器成造要事</p>
-          </li>
-               <li>
-            <div class="tit">
-              <h3>好的界面设计并不始于图片，而是始于对人的理解，</h3>
-              <span>2020-02-02</span>
-            </div>
-            <p>温片达越保值步主一通地义青据打周书感记从选每候主光专化还国道九京般收无青易已军知一革门速通史义果中有温值交经华经好研几。美一风直们里真火文边青种听么况公西打接再成属她级即海工看主着特准志律构感三老水而等认下己克。张土除完斯连如济问段则当支自热记安并比器及使效列除办和酸代律回者西参收立思号西集思器成造要事</p>
-          </li>
+          <template v-for="item in list">
+            <li @click="gotoMore(item.ID)">
+              <div class="tit">
+                <h3>{{item.Title}}</h3>
+                <span>{{item.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
+              </div>
+              <p>{{item.Intro}}</p>
+            </li>
+          </template>
         </ul>
         <div class="paging">
           <el-pagination
             background
+            :current-page.sync="page"
             layout="prev, pager, next"
-            :total="1000">
+            @current-change="handleCurrentChange"
+            :page-size="1"
+            :total="count">
           </el-pagination>
         </div>
       </div>
@@ -65,21 +42,59 @@
     data () {
       return {
         banner1: require('../../assets/img/news/banner1.jpg'),
+        page:1,
+        limit:1,
+        list:[],
+        count:0,
+      }
+    },
+    created(){
+      let article = localStorage.getItem('article')
+      if (article) {
+        this.page = Number(article)
+        this.industry(article,this.limit) 
+      }else{
+        this.industry(this.page,this.limit) 
       }
     },
     methods: {
-      gotoMore(){
-        // // this.$router.push("/news/details" + e.id+"/"+e.paperName);
-        // this.$router.push("/news/detail");
-        this.$router.push({  
-            path: '/detail',   
-            name: 'detail',  
+      gotoMore(id){
+        this.$router.push({ 
+            path: 'news/detail/18',   
+            name: 'newsDetail',  
             query: {  
               name: '行业动态',
+              id,
+              type:'news'
             }
-        })  
-
-      }
+        })    
+      },
+      // 行业动态
+      industry(page,limit){
+        this.$post("post",'Article/select',{
+          category_id:5,
+          limit,
+          page,
+        })
+        .then((res)=>{
+          if(res.code==1){
+            this.list = res.data.list
+            this.count = res.data.count
+            localStorage.setItem('article',page)
+          }else{
+            this.$message({
+              message:res.info,
+              type: 'warning'
+            });
+          }
+        })
+      },
+      // 点击页数
+      handleCurrentChange(val) {
+        this.page = val
+        let {limit} = this
+        this.industry(val,limit)
+      },
     }
   }
 </script>
@@ -87,7 +102,6 @@
 
 <style lang="less" scoped>
   .contList {
-    position: relative;
     li{
       margin: 24px;
       border-bottom: 1px solid #D6DAEC;

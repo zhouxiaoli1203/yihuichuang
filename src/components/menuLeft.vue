@@ -41,35 +41,38 @@ export default {
         }
     },
     created(){
-        let navName = this.$store.state.publicHome;
-        // console.log(navName + '   navName')
+        let navName
+        let name
+        let urlName  = this.$route.query.name
+        let type  = this.$route.query.type
+        if(type == 'news'){
+            navName = '/news'
+            if(urlName=='公司动态'){
+                name = '/news/newsCompany'
+            }
+        }
+       
 
-        let name = this.$store.state.menuLeft;
+        let href = this.$route.path
+        let hrefs = href.split('/')[1]
 
-        this.leftNav(navName,name)
-
-        // console.log(name+'  name')
-
-        // let href = this.$route.path
-        // console.log(href +'   href')
-        // let hrefs = href.split('/')[1]
-        // console.log(hrefs +'   hrefs')
-
-        // // this.$store.state.menuLeft = href
-
-        // if(hrefs!='detail'){
-        //     this.leftNav(navName,name)
-        // }else{
-        //     this.leftNav(href,hrefs)
-        // }
-
+        if(href!='/news/detail'){
+            this.leftNav('/'+hrefs,href)
+            if(href != '/'+hrefs){
+                this.$store.state.menuLeft = href
+            }else{
+                this.$store.state.menuLeft = ''
+            }
+        }else{
+            this.leftNav(navName,name)
+            
+        }
     },
     mounted(){
 
     },
     methods: {
         handleSelect(key) {
-            // console.log(key)
             let navName = this.$store.state.publicHome;
             let val =  this.$store.state.menuLeft
             if(navName=='/user'){
@@ -87,7 +90,6 @@ export default {
                 this.activeIndexs=key
                 this.$store.state.menuLeft = key; //导航高亮
             }
-           
         },
         logout(){
             this.$confirm('确定要退出登录吗?', '提示', {
@@ -119,6 +121,7 @@ export default {
 
         // 给导航赋值
         leftNav(navName,name){
+            console.log(name);
             if(navName=='/news'){
                 this.activeIndexs = name?name:'/news'
                 this.commonList= [
@@ -132,7 +135,7 @@ export default {
                     },
                     {
                         tit:'公司动态',
-                        url:'/news/frc'
+                        url:'/news/newsCompany'
                     }
                 ]
             }
@@ -225,29 +228,9 @@ export default {
             }
         }
     },
-    computed:{
-        meanLeft: function () {
-            // console.log(111)
-            return this.$store.state.menuLeft
-        },
-    },
-    watch: {
-        $route(to,from){
-            console.log(to)
-            return
-            if(to.path=='/access/role'){
-                this.activedMenu = "role"
-            }else{
-                this.activedMenu = 'user'
-            }
-        },
-        meanLeft: function (val) {
-            console.log(val +' val')
-        //    this.userinfoFn(val)
-        },
-
+    watch:{
+       
     }
-  
 }
 </script>
 

@@ -14,11 +14,11 @@
         <div class="publicCenter">
             <MenuLeft></MenuLeft>
             <div class="contList">
-                <div class="tit">
-                  <h3>法律声明法律声明法律声明法律声明法律声明法律声明</h3>
-                  <span>2020-02-02</span>
-                </div>
-                <p>江具专科则原再层了须反信权速看太问律专土写为原经千报与标信好人当王带合直引电总革值力目只外响立立低更始任表知量温。存期日半规做县件离断决油民关历领此对几报选给式完定际示容须使知文受条易活开马例该一战门院。办式高气深直向的需何口道点里例管气过已育热反压个第究解受儿间加毛线清设劳了查新历众其如改候体与易格设整来来。制文许里列低回构接动圆习说专意联思电林次严为二见作北教来调分议难且元料算热权号形据包权公元美片体却百门或处飞条情县真究非还则思。标眼采动商世事本走持取低议生受队专证那候属打反再节验领中火严就员阶向什打指及动却科型强物。电金立特容但工选决第新局界先包经确音直斯算北一决般计积者会查于子适根员子代期果族好进阶党周多你何受机安路身运还点利根。江具专科则原再层了须反信权速看太问律专土写为原经千报与标信好人当王带合直引电总革值力目只外响立立低更始任表知量温。存期日半规做县件离断决油民关历领此对几报选给式完定际示容须使知文受条易活开马例该一战门院。办式高气深直向的需何口道点里例管气过已育热反压个第究解受儿间加毛线清设劳了查新历众其如改候体与易格设整来来。制文许里列低回构接动圆习说专意联思电林次严为二见作北教来调分议难且元料算热权号形据包权公元美片  体却百门或处飞条情县真究非还则思。容但工选决第新局界先包经确音直斯算北一决般计积者会查于子适根员子代期果族好进阶党周多你何受机安路身运还点利根。江具专科则原再层了须反信权速看太问律专土写为原经千报与标信好人当王带合直引电总革值力目只外响立立低更始任表知量温。存期日半规做县件离断决油民关历领此对几报选给</p>
+              <div class="tit">
+                <h3>{{info.Title}}</h3>
+                <span>{{info.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
+              </div>
+              <p v-html="info.Content"></p>
             </div>
         </div>
     </section>
@@ -35,18 +35,36 @@
     data () {
       return {
         banner1: require('../../assets/img/help/banner.jpg'),
+        info:''
       }
     },
+    created(){
+      this.detail()
+    },
     methods: {
-      gotoMore(){
-        // this.$router.push("/news/details" + e.id+"/"+e.paperName);
-        this.$router.push("/news/detail");
-      },
-       // 点击首页
+      // 点击首页
       pathIndex(){
         this.$store.state.currentIndex = '/index';
         this.$router.push("/index");
       },
+
+      // 法律声明
+      detail(){
+        this.$post("post",'Article/get',{
+          id:20,
+        })
+        .then((res)=>{
+          if(res.code==1){
+            this.info = res.data
+          }else{
+            this.$message({
+              message:res.info,
+              type: 'warning'
+            });
+          }
+        })
+      },
+
     }
   }
 </script>

@@ -8,7 +8,7 @@
       <div class="contList">
         <ul class="list">
           <template v-for="item in list">
-            <li @click="gotoMore">
+            <li @click="gotoMore(item.ID)">
               <div class="tit">
                 <h3>{{item.Title}}</h3>
                 <span>{{item.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
@@ -34,7 +34,7 @@
 <script>
   import MenuLeft from '../../components/menuLeft'
   export default {
-    name: 'newsCustom',
+    name: 'newsCompany',
     components: {
       MenuLeft,
     },
@@ -51,20 +51,21 @@
       this.industry(this.page,this.limit)
     },
     methods: {
-      gotoMore(){
+      gotoMore(id){
           this.$router.push({  
             path: 'news/detail',   
             name: 'newsDetail',  
             query: {  
-              name: '客户动态',
-              type:'news'
+                name: '公司动态',
+                id,
+                type:'news'
             }
           }) 
       },
       // 客户动态
       industry(page,limit){
         this.$post("post",'Article/select',{
-          category_id:6,
+          category_id:7,
           limit,
           page,
         })

@@ -65,26 +65,26 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 50px;
+        margin: 0 77px 50px;
         img{
-            width: 566px;
-            height: 400px;
-            border-radius: 10px;
+            width: 432px;
+            height: 306px;
+            border-radius: 8px;
         }
 
         .cont{
             width: 566px;
             h1{
-                font-size: 40px;
+                font-size: 28px;
                 color: #333;
                 margin-bottom: 32px;
                 line-height: 56px;
                 
             }
             p{
-                font-size: 20px;
+                font-size: 16px;
                 line-height: 28px;
-                color: #666;
+                color: #999;
             }
         }
     }
