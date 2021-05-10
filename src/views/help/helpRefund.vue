@@ -1,4 +1,3 @@
-
 <template>
   <div class="main connonBg">
     <div class="conmontBanner center">
@@ -8,7 +7,8 @@
         <div class="crumbsHeader">
           <div class="crumbs">
               <span @click="pathIndex()">首页 / </span>
-              <span>关于我们</span>
+              <!-- <span @click="pathNews()">帮助支持 /</span> -->
+              <span>退款说明</span>
           </div>
         </div>
         <div class="publicCenter">
@@ -23,15 +23,15 @@
   import MenuLeft from '../../components/menuLeft'
   import ArticleDetail from '../../components/articleDetail'
   export default {
-    name: 'about',
+    name: 'helpRefund',
     components: {
       MenuLeft,
       ArticleDetail
     },
     data () {
       return {
-        banner1: require('../../assets/img/about/banner.jpg'),
-        title:'about'
+        banner1: require('../../assets/img/help/banner.jpg'),
+        title:'helpRefund'
       }
     },
     created(){

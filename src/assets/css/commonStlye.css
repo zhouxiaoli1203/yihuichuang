@@ -311,7 +311,6 @@
   justify-content: space-between;
 }
 .yhc-attr-btns .btn {
-  width: 110px;
   background: #fff;
   border: 1px solid #c8cbd6;
 }
@@ -646,4 +645,20 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(95, 95, 95, 0.7);
+}
+.noCont {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #D6DAEC;
+  margin: 24px;
+  padding-bottom: 24px;
+  justify-content: center;
+}
+.noCont img {
+  width: 18px;
+  height: 18px;
+}
+.noCont p {
+  color: #999;
+  margin-left: 8px;
 }

@@ -50,12 +50,21 @@ export default {
             if(urlName=='公司动态'){
                 name = '/news/newsCompany'
             }
+            if(urlName=='客户动态'){
+                name = '/news/newsCustom'
+            }
         }
-       
+
+        if(type == 'help'){
+            navName = '/help'
+            if(urlName=='物流说明'){
+                name = '/help/helpExpress'
+            }
+        }
+
 
         let href = this.$route.path
         let hrefs = href.split('/')[1]
-
         if(href!='/news/detail'){
             this.leftNav('/'+hrefs,href)
             if(href != '/'+hrefs){
@@ -73,6 +82,7 @@ export default {
     },
     methods: {
         handleSelect(key) {
+            localStorage.removeItem('article')
             let navName = this.$store.state.publicHome;
             let val =  this.$store.state.menuLeft
             if(navName=='/user'){
@@ -121,7 +131,6 @@ export default {
 
         // 给导航赋值
         leftNav(navName,name){
-            console.log(name);
             if(navName=='/news'){
                 this.activeIndexs = name?name:'/news'
                 this.commonList= [
@@ -156,6 +165,7 @@ export default {
                     },
                     {
                         tit:'退款说明',
+                        url:'/help/helpRefund'
                     }
                 ]
             }
@@ -168,7 +178,7 @@ export default {
                     },
                     {
                         tit:'用户协议',
-                        url:'/about1',
+                        url:'/about/aboutUser',
                     },
                     {
                         tit:'联系我们',

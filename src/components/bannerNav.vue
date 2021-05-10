@@ -43,11 +43,13 @@ export default {
                     {value: '反光贴'}, 
                     {value: '展板'}, 
                     {value: '旗帜'}, 
+                    {value: '条幅'}, 
                     {value: '展架'}, 
                     {value: '绶带'}, 
                     {value: '吊旗'}, 
                     {value: '桌牌席卡'}, 
                     {value: '相纸'}, 
+                    {value: '袖标'}, 
                     ]
                 },
                 { 
@@ -71,11 +73,9 @@ export default {
                     {value: '名片'}, 
                     {value: 'PVC卡'}, 
                     {value: '不干胶'}, 
-                    {value: '展架'}, 
-                    {value: '绶带'}, 
-                    {value: '吊旗'}, 
-                    {value: '桌牌席卡'}, 
-                    {value: '相纸'}, 
+                    {value: '手提袋'}, 
+                    {value: '无纺布袋'}, 
+                    {value: '纸杯'}
                     ]
                 },
                 { 

@@ -329,8 +329,8 @@ export default {
             this.timer = setInterval(()=>{
                 this.timeSend--
                 if(this.timeSend===0){
-                this.timeSend=60
-                clearInterval(this.timer)
+                    this.timeSend=60
+                    clearInterval(this.timer)
                 }
             },1000)
         },

@@ -86,6 +86,11 @@ export default new Router({
           component: () => import('@/views/help/helpExpress.vue'),
         },
         {
+          path: '/help/helpRefund',
+          name: 'helpRefund',
+          component: () => import('@/views/help/helpRefund.vue'),
+        },
+        {
           path: '/about',
           name: 'about',
           component: () => import('@/views/about/index.vue'),
@@ -99,6 +104,11 @@ export default new Router({
           path: '/about/aboutOffline',
           name: 'aboutOffline',
           component: () => import('@/views/about/aboutOffline.vue'),
+        },
+        {
+          path: '/about/aboutUser',
+          name: 'aboutUser',
+          component: () => import('@/views/about/aboutUser.vue'),
         },
         {
           path: '/service',

@@ -8,7 +8,7 @@
         <div class="crumbsHeader">
           <div class="crumbs">
               <span @click="pathIndex()">首页 / </span>
-              <span>关于我们</span>
+              <span>用户协议</span>
           </div>
         </div>
         <div class="publicCenter">
@@ -23,7 +23,7 @@
   import MenuLeft from '../../components/menuLeft'
   import ArticleDetail from '../../components/articleDetail'
   export default {
-    name: 'about',
+    name: 'aboutUser',
     components: {
       MenuLeft,
       ArticleDetail
@@ -31,7 +31,7 @@
     data () {
       return {
         banner1: require('../../assets/img/about/banner.jpg'),
-        title:'about'
+        title:'aboutUser'
       }
     },
     created(){
