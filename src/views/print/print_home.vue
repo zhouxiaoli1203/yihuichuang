@@ -229,7 +229,7 @@ export default {
   }
   .print-items{
     .items{
-      margin:0 auto 68px;
+      margin:0 auto;
       display: flex;
       flex-direction:column;
       .items-li{

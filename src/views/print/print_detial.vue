@@ -211,9 +211,13 @@ export default {
     this.page_id = this.$route.query.page_id;
     this.design_id = this.$route.query.page_id;
     this.getDetails(this.page_id);
-    this.attrViews = this.arr.filter((v) => {
+    let arr = [];
+    arr = this.arr.filter((v) => {
       return this.page_id == v.id
-    })[0].cmpt
+    })
+    if(arr.length>0){
+        this.attrViews = arr[0].cmpt;
+    }
   },
   mounted() {},
   computed: {},
