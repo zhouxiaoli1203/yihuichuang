@@ -40,8 +40,7 @@
                         <div class="lineh105">默认双面印刷不覆膜·包心折</div>
                         <div class="lineh105">99</div>
                         <div class="lineh105">{{item.price}}</div>
-                        <div class="t_a_c lineh105"
-                            >
+                        <div class="t_a_c lineh105">
                             <span class="edit-icon el-icon-edit-outline mr10"></span>
                             <span class="delete-icon el-icon-delete"></span>
                         </div>
@@ -58,7 +57,7 @@
         <div class="table-footer clearfix">
           <div class="footer-infos fl">
             <div class="select">
-              <el-checkbox class="yhc-checkbox"></el-checkbox><span class="main-red">已选 ({{total.count}})</span>
+              <el-checkbox class="yhc-checkbox" v-model="checkAll" @change="checkAllFn"></el-checkbox><span class="main-red">已选 ({{total.count}})</span>
             </div>
             <div>
               <span>实付金额：<span class="main-red">￥{{total.price}}</span></span>

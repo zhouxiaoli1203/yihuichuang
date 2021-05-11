@@ -20,7 +20,7 @@
               <div class="items-header-m fr cursor_p" @click="gotoMore('ggwl')">更多</div>
             </div>
             <div class="items-lunbo">
-              <el-carousel arrow="always" :autoplay="false" height="400px">
+              <el-carousel arrow="always" :autoplay="true" height="400px">
                 <el-carousel-item v-for="(x,index) in printList.ggwl" :key="index">
                   <ul class="card-style">
                     <li class="cursor" v-for="(item,index_) in x" :key="index_"  @click="goDetail(item)">
@@ -194,12 +194,19 @@ export default {
       })
     },
     goDetail:function(x){
-      this.$router.push({  //核心语句
-        path:'/print/detial',   //跳转的路径
-        query:{           //路由传参时push和query搭配使用 ，作用时传递参数
-            kind:x.kind_id
+        if(this.$store.state.token){
+            this.$router.push({  //核心语句
+              path:'/print/detial',   //跳转的路径
+              query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                  page_id:x.page_id
+              }
+            })
+        }else{
+            this.$message({
+                type:"warning",
+                message: '请先登录!'
+            });
         }
-      })
     }
   }
 }

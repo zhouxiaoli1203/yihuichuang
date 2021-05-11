@@ -400,12 +400,7 @@ export default {
         width: 344px;
       }
     }
-    .yhc-attr-btns {
-      width: 164px !important;
-      .btn {
-        min-width: 74px;
-      }
-    }
+  
     .rules {
       .zidingyi {
         margin-top: 1px;

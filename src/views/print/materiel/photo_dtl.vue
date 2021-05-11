@@ -3,8 +3,8 @@
     <el-form label-width="100px"
              class="bgGreen">
       <!-- <div class="bgGreen"> -->
-      <h3 class="title">高清广告海报户内(外)写真KT板/PVC板</h3>
-      <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
+      <h3 class="title">{{title}}</h3>
+      <h5 class="introl">{{desc}}</h5>
       <Server></Server>
       <el-form-item label="产品"
                     class="chanpin">
@@ -24,7 +24,7 @@
                      v-model="params.mate">
             <el-option v-for="i in materials"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
@@ -63,13 +63,13 @@
                     class="mg-none">
         <el-checkbox-group v-model="params.gongyi" @change="changGongyi">
           <el-checkbox label="覆亮膜"
-                       name="type" value="liangmo"></el-checkbox>
+                       name="type" value="覆亮膜"></el-checkbox>
           <el-checkbox label="覆哑膜"
-                       name="type" value="yamo"></el-checkbox>
+                       name="type" value="覆亮膜"></el-checkbox>
           <el-checkbox label="覆KT板"
-                       name="type" value="ktban"></el-checkbox>
+                       name="type" value="覆KT板"></el-checkbox>
           <el-checkbox label="覆PVC板"
-                       name="type" value="pvcban"></el-checkbox>
+                       name="type" value="覆PVC板"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
 
@@ -108,6 +108,7 @@ export default {
       ],
     }
   },
+  props:["title","desc"],
   components: { Server },
   created() {},
   mounted() {},

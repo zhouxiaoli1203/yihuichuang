@@ -3,8 +3,8 @@
       <!-- 袖章 -->
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">安全员安全员臂章袖章袖标定做粘扣式便携款</h3>
-      <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
+      <h3 class="title">{{title}}</h3>
+      <h5 class="introl">{{introl}}</h5>
       <Server></Server>
             <el-form-item label="款式"
                     class="type">

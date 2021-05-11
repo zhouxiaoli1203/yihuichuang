@@ -3,14 +3,14 @@
     <div class="center">
       <div class="print-more-title">
         <span class="cursor_p"
-              @click="goBack()">在线印刷</span><span class="current">&nbsp;/&nbsp;商品详情</span>
+              @click="goBack()">在线印刷</span><span>&nbsp;/&nbsp;{{infos.category}}</span><span class="current">&nbsp;/&nbsp;商品详情</span>
       </div>
       <div class="print-detail-operate" v-if="infos">
         <div class="operate-left">
           <!-- 每个页面的属性 -->
           <!-- <Armband v-if="detailType == 1"></Armband>
           <Banner v-if="detailType == 2"></Banner> -->
-          <component v-bind:is="attrViews" @detailChange="attrDetails"></component>
+          <component v-bind:is="attrViews" :title="infos.title" :desc="infos.desc" @detailChange="attrDetails"></component>
 
           <!-- <Ribbon></Ribbon> -->
           <!-- 上传文件按钮 -->
@@ -26,7 +26,7 @@
                          :auto-upload="true"
                          :limit="3"
                          :disabled="false"
-                         :file-list="files.fileList"
+                         :file-list="params.files"
                          ref="addEditUpload"
                          multiple="multiple">
                 <el-button class="yhc_btn"
@@ -67,12 +67,11 @@
                          @click="openCkt"
                          style="width:110px;">挑选模版设计</el-button>
               <ul class="el-upload-list el-upload-list--text">
-                <li tabindex="0"
+                <li tabindex="0" v-for="(x,index) in params.models" @click="viewModel(x)"
                     class="el-upload-list__item is-success">
-                  <a class="el-upload-list__item-name"><i class="el-icon-document"></i>food.jpeg
+                  <a class="el-upload-list__item-name"><i class="el-icon-document"></i>我的模板
                   </a>
-                  <label class="el-upload-list__item-status-label"><i class="el-icon-upload-success el-icon-circle-check"></i></label><i class="el-icon-close"></i><i class="el-icon-close-tip">按 delete
-                    键可删除</i>
+                  <label class="el-upload-list__item-status-label"><i class="el-icon-upload-success el-icon-circle-check"></i></label><i class="el-icon-close" @click="onRemove_modl(index)"></i>
                 </li>
               </ul>
             </el-form-item>
@@ -83,7 +82,7 @@
             </el-form-item>
           </el-form>
           <!-- 在线估价弹框 -->
-          <Price  ></Price>
+          <Price  :datas="params"></Price>
 
         </div>
         <div class="operate-right">
@@ -153,7 +152,6 @@ import Mutuopai from '@/views/print/biaopai/mutuopai_dtl' //标识标牌店招-�
 //以下是公用组件--调取创客贴useCkt--在线估价pricePop
 import { regionData } from 'element-china-area-data'
 import Price from '@/components/pricePop'
-import CKT from '@/utils/useCkt'
 export default {
   name: 'pdetial',
   data() {
@@ -163,9 +161,8 @@ export default {
         showPicUrl: '',
         oldPicUrl: '',
         imgs:'',
-        fileList: []
       },
-      kind:"",
+      page_id:"",
       infos:{},
       attrViews: Ribbon,
       detailType: '',
@@ -178,7 +175,7 @@ export default {
       title: '测试动态组件',
       show: true,
       arr: [
-        { cmpt: Paint, id: 13 },
+        { cmpt: Photo, id: 1001 },
         { cmpt: BannerJia, id: 135 },
         { cmpt: Danye, id: 148 },
         { cmpt: Zheye, id: 143 },
@@ -187,6 +184,11 @@ export default {
         { cmpt: Caidan, id: 27 },
         { cmpt: Xuanchuance, id: 144 },
       ],
+      params:{
+          attr:{},
+          files:[],
+          models:[]
+      }
     }
   },
   components: {
@@ -206,20 +208,28 @@ export default {
     Price,
   },
   created() {
-    this.kind = this.$route.query.kind;
-    this.getDetails(this.kind);
+    this.page_id = this.$route.query.page_id;
+    this.design_id = this.$route.query.page_id;
+    this.getDetails(this.page_id);
     this.attrViews = this.arr.filter((v) => {
-      return this.kind == v.id
+      return this.page_id == v.id
     })[0].cmpt
   },
   mounted() {},
   computed: {},
   methods: {
-      getDetails(kind,temp){
+      getDetails(page,temp){
         let this_ = this;
+        if(!this_.$store.state.token){
+            return this_.$message({
+                type:"warning",
+                message: '请先登录!'
+            });
+        }
         let param = {
-            kind_id:kind?kind:undefined,
-            template_id:temp?temp:undefined
+            token:this_.$store.state.token,
+            page_id:page?page:undefined,
+            // template_id:temp?temp:undefined
         };
         this_.$post("post","Goods/detail",param).then((res)=>{
           if(res.code == 1){
@@ -237,9 +247,12 @@ export default {
       })
     },
     onRemove(file, fileList) {
-      this.files.fileList = this.files.fileList.filter((i)=>{
+      this.params.files = this.params.files.filter((i)=>{
           return i.uid != file.uid;
       });
+    },
+    onRemove_modl(ind){
+        this.params.models.splice(ind,1);
     },
     handlePreview(file) {
       let _this = this
@@ -257,7 +270,7 @@ export default {
       paramObj.name = event.file.name;
       _this.upFiles({ paramObj: paramObj, e: event }, (res) => {
            let _this = this;
-          _this.files.fileList.push({
+          _this.params.files.push({
                name:paramObj.name,
                uid:event.file.uid,
                key:res.key,
@@ -267,12 +280,27 @@ export default {
     },
     handleClick: function () {},
     openCkt: function () {
-      CKT.useCkt({ kind_id: '166' }, function (res) {
-        console.log(res)
+        let this_ = this;
+        this_.CKT.useCkt({ kind_id: '166' }, function (res) {
+          let arr = [];
+          if(res.kind == 2){
+              arr.push({name:"我的模板",designId:res["design-id"]});
+              this_.params.models = this_.params.models.concat(arr);
+          }
+          console.log(this_.params.models)
+      })
+    },
+    viewModel(x){
+         let this_ = this;
+        this_.CKT.useCkt({ design_id: x.designId }, function (res) {
+          let arr = [];
+          if(res.kind == 2){
+             x = {name:"我的模板",designId:res["design-id"]};
+          }
       })
     },
     attrDetails: function (d, o) {
-        // this.param = d;
+        this.params.attr = d;
         // console.log(this.param);
     },
   },
@@ -290,6 +318,7 @@ export default {
     height: 559px;
     background: #333333;
     border-radius: 8px;
+    overflow: hidden;
   }
 }
 .print-detail-info {

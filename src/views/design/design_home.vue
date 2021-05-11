@@ -94,12 +94,25 @@
         </el-pagination>
       </div>
     </div>
+    <!-- 详情页面的入口选择弹框 -->
+        <Dialog ref="rukou_pop"
+            :config="rkconfig"
+            :beforeClose="beforeClose"
+            modal-append-to-body="false"
+            @close="resetForm">
+            <ul class="rukou_select">
+                <li v-for="x in rukouList" @click="gotoDetail(x)">
+                    <img :src="x.icon" alt="" width="68px" height="68px">
+                    <div class="title">{{x.title}}</div>
+                </li>
+            </ul>
+    </Dialog>
   </div>
 </template>
 
 <script>
 import CKT from '@/utils/useCkt'
-
+import Dialog from '@/components/dialog-pop'
 export default {
   name: 'design',
   metaInfo: {
@@ -132,9 +145,17 @@ export default {
         { name: '热门排序', id: 'hot' },
         { name: '最新上传', id: 'new' },
       ],
+      rkconfig:{
+          width: '600px',
+        title: '',
+        center: false,
+        btnTxt: [],
+      },
+      design_id:"",
+      rukouList:[]
     }
   },
-  components: {},
+  components: {Dialog},
   created() {
     //   this.confirm_pop("确定要删除吗").then(res=>{
     //      this.$message({
@@ -161,17 +182,55 @@ export default {
             }
         });
      this_.CKT.useCkt(params,function(res){
-          console.log(res);
-          this_.$router.push({
-            //核心语句
-            path:'/print/detial',   //跳转的路径
-            query:{           //路由传参时push和query搭配使用 ，作用时传递参数
-                type:res.kind,
-                design_id:res["design-id"]
-            }
-        })
+          if(res.kind == 2){
+              this_.design_id = res["design-id"];
+              this_.$post("post","Goods/page",{template_id:"219393"}).then((res)=>{
+               if(res.code == 1){
+                   if(res.data.total == 0){
+                       return this_.$message({
+                           type: 'warning',
+                           message: '无效模板'
+                       });
+                   }else if(res.data.total == 1){
+                       this_.$router.push({
+                           //核心语句
+                           path:'/print/detial',   //跳转的路径
+                           query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                               page_id:res.data.list[0].page_id,
+                               design_id:res["design-id"]
+                           }
+                       })
+                   }else{
+                       this_.rukouList = res.data.list;
+                       
+                        this_.$refs.rukou_pop.open((cancel) => {
+
+                           }).then(() => {
+   
+                           }) 
+                   }
+               }
+           });
+          }
+  
       });
     },
+    gotoDetail(x){
+        let this_ = this;
+        this.resetForm();
+        this_.$router.push({
+                           //核心语句
+            path:'/print/detial',   //跳转的路径
+            query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                page_id:x.page_id,
+                design_id:this_.design_id
+            }
+        })
+    },
+    resetForm(){
+
+    },
+    beforeClose(){},
     changeSearch(x){
         this.search.current = x.name;
         this.levelist = x.level;
@@ -344,5 +403,24 @@ export default {
     padding-bottom: 104px;
     text-align: center;
   }
+}
+.rukou_select{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 345px;
+    margin: 50px auto;
+    li{
+        width: 68px;
+        height: 98px;
+        cursor: pointer;
+        img{
+            margin-bottom: 16px;
+        }
+        div.title{
+            text-align: center;
+            font-size: 14px;
+        }
+    }
 }
 </style>

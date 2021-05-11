@@ -119,8 +119,8 @@ img{
 .btn{
     /* width: 110px; */
     width: initial;
-    height: 34px;
-    line-height: 20px;
+    height: 32px;
+    line-height: 16px;
     border-radius: 4px;
     padding: 7px 13px;
     font-size: 14px;
@@ -152,7 +152,7 @@ img{
 }
 .bgGreen{
     padding: 16px;
-    background: #E5EDE7;
+    background-color: rgba(78, 159, 91, 0.03);
     border-radius: 4px;
     
 }

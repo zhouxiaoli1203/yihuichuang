@@ -251,6 +251,33 @@
   }
 
 }
+//公用弹框
+.yhc-dialog{
+    .el-dialog__header {
+        padding: 15px 24px 15px;
+        // background-color: rgba(53, 81, 223, 0.1);
+    }
+    .el-dialog__title{
+        font-size: 16px;
+    }
+    .el-dialog__body{
+        padding: 10px 24px;
+    }
+    .el-dialog__footer{
+        padding: 10px 24px 20px;
+        .el-button--primary{
+            background-color: #3551DF;
+             border-color: #3551DF;
+        }
+    }
+    .el-textarea__inner{
+        height: 170px;
+        background: #F2F3F8;
+    }
+    .el-button{
+        padding: 7px 13px;
+    }
+}
 //单选按钮群组
 .yhc-radios{
     .el-radio{
@@ -347,12 +374,17 @@
     color: #999;
     padding: 4px 0;
     margin-right: 8px;
-
     &.active {
       color: #4E9F5B;
       border-bottom: 2px solid #4E9F5B;
     }
-  }
+}
+.selectAddr{
+    cursor: pointer;
+    padding: 4px 0;
+    line-height: 18px;
+    color: #476dff;
+}
 }
 
 // 确定、取消按钮box
@@ -407,17 +439,22 @@
 // 属性表单中可切换的按钮
 .yhc-attr-btns {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+
 
   .btn {
     //   width: 110px;
+    color: #C0C4CC;
     background: #fff;
     border: 1px solid #c8cbd6;
+    &:not(:last-child){
+        margin-right: 16px;
+    }
     &:hover,
     &.active {
-      color: #476dff;
-      background: #ebf0ff;
-      border: 1px solid #3c63ff;
+      color: #4E9F5B;
+      background: #fff;
+      border: 1px solid #4E9F5B;
     }
   }
 }

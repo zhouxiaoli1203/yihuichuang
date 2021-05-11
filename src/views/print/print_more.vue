@@ -70,12 +70,20 @@ export default {
       })
     },
     goDetail:function(x){
-      this.$router.push({  //核心语句
-        path:'/print/detial',   //跳转的路径
-        query:{
-            kind: x.kind_id          //路由传参时push和query搭配使用 ，作用时传递参数
+         if(this.$store.state.token){
+            this.$router.push({  //核心语句
+                path:'/print/detial',   //跳转的路径
+                query:{
+                    page_id: x.page_id          //路由传参时push和query搭配使用 ，作用时传递参数
+                }
+            })
+        }else{
+            this.$message({
+                type:"warning",
+                message: '请先登录!'
+            });
         }
-      })
+      
     }
   }
 }
