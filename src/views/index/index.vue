@@ -149,56 +149,48 @@
       <section class="newsBox eleNwsBox">
         <h1 class="titH1">新闻中心</h1>
         <template>
-          <el-tabs v-model="activeName" @tab-click="handleClick" :before-leave="moreState">
-            <el-tab-pane label="行业动态" name="first">
-              <div class="newInfo">
+          <el-tabs v-model="activeName" :before-leave="moreState">
+            <el-tab-pane
+              :key="item.name"
+              v-for="(item, index) in editableTabs"
+              :label="item.title"
+              :name="item.name"
+            >
+              <div class="newInfo" v-if="list.length!=''">
                 <div class="top">
-                  <img src="" alt="">
-                  <div class="info">
-                    <h3>将已知的事物陌生化，更是一种创造</h3>
-                    <span>2020-02-22</span>
-                    <p>机他装斯次何领设该思因院事华采无面车法关比复色处装红人物知生厂称联公维它手其身群政期指想每得被此立标生层口断果比中外安场油支很外半心象天再把与格火。越别住难表上清切看回市研离以只新按此自事车入着况计物本</p>
+                  <img :src="list[0].image" alt="">
+                  <div class="info" @click="gotoMore(list[0].ID)">
+                    <h3>{{list[0].Title}}</h3>
+                    <span>{{list[0].PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
+                    <p>{{list[0].Intro}}</p>
                     <button>立即查看</button>
                   </div>
                 </div>
                 <ul class="bot">
-                  <li>
-                    <img src="" alt="">
-                    <div class="info">
-                      <h3>将已知的事物陌生化，更是一种创造</h3>
-                      <p>机他装斯次何领设该思因院事华采无面车法关比复色处装红人物知生厂称联公维它手其身群政期指想每得被此立标生层口断果比中外安场油支很外半心象天再把与格火。越别住难表上清切看回市研离以只新按此自事车入着况计物本</p>
-                      <span>2020-02-22</span>
-                      <button>立即查看</button>
-                    </div>
-                  </li>
-                   <li>
-                    <img src="" alt="">
-                    <div class="info">
-                      <h3>将已知的事物陌生化，更是一种创造</h3>
-                      <p>机他装斯次何领设该思因院事华采无面车法关比复色处装红人物知生厂称联公维它手其身群政期指想每得被此立标生层口断果比中外安场油支很外半心象天再把与格火。越别住难表上清切看回市研离以只新按此自事车入着况计物本</p>
-                      <span>2020-02-22</span>
-                      <button>立即查看</button>
-                    </div>
-                  </li>
-                   <li>
-                    <img src="" alt="">
-                    <div class="info">
-                      <h3>将已知的事物陌生化，更是一种创造</h3>
-                      <p>机他装斯次何领设该思因院事华采无面车法关比复色处装红人物知生厂称联公维它手其身群政期指想每得被此立标生层口断果比中外安场油支很外半心象天再把与格火。越别住难表上清切看回市研离以只新按此自事车入着况计物本</p>
-                      <span>2020-02-22</span>
-                      <button>立即查看</button>
-                    </div>
-                  </li>
+                  <template v-for="(item,index) in list">
+                    <li v-if="index>0" @click="gotoMore(item.ID)">
+                      <img :src="item.image" alt="">
+                      <div class="info">
+                        <h3>{{item.Title}}</h3>
+                        <p>{{item.Intro}}</p>
+                        <span>{{item.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
+                        <button>立即查看</button>
+                      </div>
+                    </li>
+                  </template>
                 </ul>
               </div>
+              <div class="noCont" v-show="noCont" v-else style="border:none;padding:0">
+                <img src="@/assets/img/common/wenzhang.png" alt="">
+                <p>暂无文章内容</p>
+              </div>
+
             </el-tab-pane>
-            <el-tab-pane label="客户动态" name="second">客户动态</el-tab-pane>
-            <el-tab-pane label="公搜动态" name="third">公搜动态</el-tab-pane>
-                <el-tab-pane name="more" class="more-btn">
-                  <span slot="label">查看更多</span>
-                  <!-- <span slot="label"><router-link to="/news">更多+</router-link></span> -->
-                </el-tab-pane>
+            <el-tab-pane name="more" class="more-btn">
+              <span slot="label">查看更多</span>
+            </el-tab-pane>
           </el-tabs>
+          
         </template>
 
       </section>
@@ -219,6 +211,10 @@ export default {
 
       ]
     },
+    components: {
+      BannerNav,
+      Search
+    },
     data() {
       return {
         service1: require('../../assets/img/index/service1.png'),
@@ -229,7 +225,6 @@ export default {
         buyIcon1: require('../../assets/img/index/buyIcon1.png'),
         buyIcon2: require('../../assets/img/index/buyIcon2.png'),
         banner: require('../../assets/img/index/banner.jpg'),
-
         // 轮播图
         bannerList:[
           {
@@ -241,22 +236,70 @@ export default {
          
           }
         ],
-        activeName: 'first',
+        activeName: '1',
         name: "HomeNewsList",
+        editableTabs:[
+          {
+            title: '行业动态',
+            name: '1',
+          },
+          {
+            title: '客户动态',
+            name: '2',
+          },
+          {
+            title: '公司动态',
+            name: '3',
+          }
+        ],
+        list:[],
+        name:'行业动态',
+        noCont:false
       };
     },
-    components: {
-      BannerNav,
-      Search
-    },
     created(){
-
+      this.industry('5')
     },
     methods: {
-      handleClick(tab, event) {  // 新闻中心
-        console.log(tab, event);
+      // 文章列表
+      industry(category_id){
+        this.$post("post",'Article/select',{
+          category_id,
+          limit:4,
+          page:1,
+        })
+        .then((res)=>{
+          if(res.code==1){
+            this.list = res.data.list
+            if(res.data.list.length==0){
+                this.noCont = true
+            }
+          }else{
+            this.$message({
+              message:res.info,
+              type: 'warning'
+            });
+          }
+        })
       },
+      
       moreState(tab){
+        console.log(tab);
+        if(tab == 1){
+          this.name = '行业动态'
+          this.industry('5')
+        }
+
+        if(tab == 2){
+          this.name = '客户动态'
+          this.industry('6')
+        }
+
+        if(tab == 3){
+          this.name = '公司动态'
+          this.industry('7')
+        }
+
         if(tab == 'more'){
           this.$store.state.currentIndex = '/news';
           this.$store.state.publicHome = '/news'
@@ -264,7 +307,23 @@ export default {
           this.$store.state.menuLeft = ''
           return false;
         }
-      }
+      },
+
+      // 查看详情
+      gotoMore(id){
+        this.$router.push({ 
+            path: 'news/detail',   
+            name: 'newsDetail',  
+            query: {  
+              name:this.name,
+              id,
+              type:'news'
+            }
+        })    
+      },
+
+
+      
     
   
 
@@ -497,6 +556,7 @@ export default {
       -webkit-box-orient: vertical; 
       -webkit-line-clamp: 3; 
       overflow: hidden;
+      height: 56px;
     }
     button{
       width: 74px;
@@ -525,17 +585,19 @@ export default {
       .info{
         flex: 1;
         margin: 0 32px;
+        cursor: pointer;
       }
     }
 
     .bot{
       display: flex;
       align-items: center;
-      justify-content: space-between;
       margin-top: 32px;
 
       li{
         width: 378px;
+        margin-right: 33px;
+        cursor: pointer;
 
         img{
           width: 100%;
@@ -553,6 +615,9 @@ export default {
           color: #999;
           margin-bottom: 11px;
         }
+      }
+      li:last-child{
+        margin-right: 0;
       }
     }
   }
