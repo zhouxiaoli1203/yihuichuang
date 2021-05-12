@@ -43,6 +43,7 @@ yhcmessage = Message.error;
 axios.defaults.timeout = 15000;
 
 // post请求头
+// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 

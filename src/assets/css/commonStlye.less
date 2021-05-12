@@ -15,7 +15,7 @@
 // 产品详情页--相关产品--card样式
 .card-style {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 
   li {
@@ -23,7 +23,9 @@
     height: 400px;
     background: #D8D8D8;
     border-radius: 8px;
-
+    &:not(:last-child){
+        margin-right: 47px;
+    }
     // margin-bottom: 48px;
     .image {
       width: 190px;

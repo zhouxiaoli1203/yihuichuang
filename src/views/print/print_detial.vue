@@ -72,9 +72,9 @@
                          @click="openCkt"
                          style="width:110px;">挑选模版设计</el-button>
               <ul class="el-upload-list el-upload-list--text">
-                <li tabindex="0" v-for="(x,index) in params.models" @click="viewModel(x)"
+                <li tabindex="0" v-for="(x,index) in params.models"
                     class="el-upload-list__item is-success">
-                  <a class="el-upload-list__item-name"><i class="el-icon-document"></i>我的模板
+                  <a class="el-upload-list__item-name"  @click="viewModel(x)"><i class="el-icon-document"></i>我的模板
                   </a>
                   <label class="el-upload-list__item-status-label"><i class="el-icon-upload-success el-icon-circle-check"></i></label><i class="el-icon-close" @click="onRemove_modl(index)"></i>
                 </li>
@@ -87,7 +87,7 @@
             </el-form-item>
           </el-form>
           <!-- 在线估价弹框 -->
-          <Price  :datas="params"></Price>
+          <Price  :datas="params" :pageId="page_id"></Price>
 
         </div>
         <div class="operate-right">
@@ -228,7 +228,10 @@ export default {
   },
   created() {
     this.page_id = this.$route.query.page_id;
-    this.design_id = this.$route.query.page_id;
+    this.design_id = this.$route.query.design_id;
+    if(this.design_id){
+        this.params.models.push({name:"我的模板",designId:this.design_id});
+    }
     this.getDetails(this.page_id);
     let arr = [];
     arr = this.arr.filter((v) => {
@@ -304,19 +307,26 @@ export default {
     handleClick: function () {},
     openCkt: function () {
         let this_ = this;
-        this_.CKT.useCkt({ kind_id: '166' }, function (res) {
+        if(this_.params.models.length>=1){
+            return this_.$message({
+                type:"warning",
+                message:"只可选择一个模板"
+            });
+        }
+        if(this.infos.kind_id<=0){
+            return this_.$message.error("暂时没有此类模板可供选择");
+        }
+        this_.CKT.useCkt({ kind_id: this.infos.kind_id }, function (res) {
           let arr = [];
           if(res.kind == 2){
               arr.push({name:"我的模板",designId:res["design-id"]});
               this_.params.models = this_.params.models.concat(arr);
           }
-          console.log(this_.params.models)
       })
     },
     viewModel(x){
          let this_ = this;
         this_.CKT.useCkt({ design_id: x.designId }, function (res) {
-          let arr = [];
           if(res.kind == 2){
              x = {name:"我的模板",designId:res["design-id"]};
           }

@@ -2,6 +2,7 @@
   <div class="detail-btns" >
     <div class="assess-btn">
       <div class="btn orange assess" @click="initPop" >在线评估</div>
+      <span class="tips">获取价格</span>
       <div class="assess-pop"
            v-show="checkpop">
         <div class="title">订单详情</div>
@@ -60,7 +61,7 @@
                              size="large"
                              :options="options"
                              placeholder="请选择省市区"
-                             v-model="payAddr.ssq_"
+                             v-model="payAddr_.ssq_"
                              disabled
                              @change="cityChange_ziti">
                 </el-cascader>
@@ -68,7 +69,7 @@
               <el-form-item>
                 <el-select class="width100"
                            placeholder="请选择详细地址"
-                           v-model="payAddr.addr_">
+                           v-model="payAddr_.addr_">
                   <el-option v-for="i in zitiList"
                              :label="i.name"
                              :value="i.value"
@@ -184,6 +185,7 @@ export default {
         { name: '户外相纸', value: '5' },
       ],
       payAddr:{},
+      payAddr_:{},
       cityValue: '',
       dialogVisible: false,
       pay_icons: [
@@ -220,7 +222,7 @@ export default {
       zitiList:[{name:"易慧创 · 淮北 · NO 0001：淮北市相山区古城路（二马路）与洪山路交叉口 红绿灯路口",value:"1"}]
     }
   },
-  props:["datas"],
+  props:["datas","pageId"],
   components: {Dialog},
   created() {
     //   console.log(this.datas);
@@ -230,8 +232,8 @@ export default {
     changTab: function (n) {
       this.currentTab = n.val;
       if(n.val == 2){
-        this.payAddr.ssq_ = ["340000", "340600", "340603"];
-        this.payAddr.addr_ = "1";
+        this.payAddr_.ssq_ = ["340000", "340600", "340603"];
+        this.payAddr_.addr_ = "1";
       }
     },
     cityChange: function () {
@@ -260,8 +262,46 @@ export default {
         // console.log(this.datas);
     },
     calculate(){
-        this.isCaculate = true;
-        console.log(this.datas);
+        let this_ = this;
+
+        let param = {
+            token:this_.$store.state.token,
+            page_id:this_.pageId,
+            data:this_.getData()
+        }
+       console.log(param);
+        this_.$post("post","Goods/price",param).then((res)=>{
+            if(res.code == 1){
+                this.isCaculate = true;
+            }
+        });
+        
+    },
+    //重构请求数据
+    getData(){
+        let obj = {};
+        let this_ = this;
+        let addr = {};//取货方式1邮寄 2自提
+        if(this_.currentTab == 1){
+            addr =  this_.payAddr;
+            delete addr.ssq;
+        }else{
+            addr =  this_.payAddr_;
+            delete addr.ssq_;
+        }
+        addr["qhtype"] = this_.currentTab;
+        obj = { ...this_.datas,...addr };
+
+         if(obj.files && obj.files.length>0){
+            let f = obj.files;
+            let str = "";
+            f.map((v,i)=>{
+                str+=v.key+",";
+            });
+            str = str.substring(0,str.length-1);
+            obj.files = str;
+        }
+        return obj;
     },
     // 以下是收货地址弹框
     openAddr(){
@@ -330,6 +370,19 @@ export default {
 }
 .assess-btn {
   position: relative;
+  .tips{
+      position: absolute;
+      top: -9px;
+      right: -47px;
+      width: 72px;
+      height: 29px;
+      line-height: 29px;
+      text-align: center;
+      background: #FF3333;
+      border-radius: 20px 20px 20px 3px;
+      border: 1px solid #FFFFFF;
+      color:#fff;
+  }
   .assess {
     width: 226px;
     height: 44px;

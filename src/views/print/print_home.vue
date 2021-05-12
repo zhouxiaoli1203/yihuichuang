@@ -20,7 +20,7 @@
               <div class="items-header-m fr cursor_p" @click="gotoMore('ggwl')">更多</div>
             </div>
             <div class="items-lunbo">
-              <el-carousel arrow="always" :autoplay="true" height="400px">
+              <el-carousel arrow="always" :autoplay="false" height="400px">
                 <el-carousel-item v-for="(x,index) in printList.ggwl" :key="index">
                   <ul class="card-style">
                     <li class="cursor" v-for="(item,index_) in x" :key="index_"  @click="goDetail(item)">
