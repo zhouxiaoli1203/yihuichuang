@@ -3,25 +3,41 @@
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
              class="bgGreen">
+      <h3 class="title">旗帜队旗制作红旗彩旗小旗子</h3>
+      <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
+      <Server></Server>
+
       <el-form-item 
                     label="产品"
                     class="chanpin">
         <el-col :span="15" class="yhc-attr-btns">
           <div class="btn"
                :class='{"active":currentVal == b.value}'
-               v-for="b in cnst.banner_btns"
+               v-for="b in cnst.qizhi_btns"
                @click="changeBtn(b)">{{b.name}}</div>
         </el-col>
       </el-form-item>
 
-      <el-form-item label="材料"
+      <el-form-item label="材料"  v-if="currentVal == 1"
                     class="cailiao">
         <el-col :span="15">
-
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.mate">
-            <el-option v-for="i in cnst.banner_materials"
+            <el-option v-for="i in cnst.qizhi_materials"
+                       :label="i.name"
+                       :value="i.value"
+                       :key="i.value"></el-option>
+          </el-select>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="材料"  v-if="currentVal == 2"
+                    class="cailiao">
+        <el-col :span="15">
+          <el-select class="form-contrl width100"
+                     placeholder="选择材料"
+                     v-model="params.mate">
+            <el-option v-for="i in cnst.jinqi_materials"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
@@ -29,7 +45,7 @@
         </el-col>
       </el-form-item>
 
-        <el-form-item v-if="currentVal != 3"
+        <el-form-item v-if="currentVal == 1"
                       label="尺寸(米)"
                       class="rules_two">
           <el-col :span="6">
@@ -43,7 +59,7 @@
                       placeholder="短边"></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item v-if="currentVal == 3"
+        <el-form-item v-if="currentVal == 2"
                       label="尺寸(米)"
                       class="rules">
           <el-col :span="15">
@@ -68,27 +84,28 @@
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
-                    class="typeNum" :class='{"mg-none":type != 1 && currentVal == 3}'>
+                    class="typeNum" :class='{"mg-none":currentVal == 2}'>
         <el-input-number v-model="params.typeNum"
                          @change="handleChange"
                          :min="1"
                          :max="10"></el-input-number>
       </el-form-item>
 
-        <el-form-item v-if="currentVal == 2"
-                      label="印色">
-          <el-radio-group v-model="params.radio">
-            <el-radio :label="1">白色</el-radio>
-            <el-radio :label="2">黄色</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-if="currentVal == 1 || currentVal == 2 "
+        <el-form-item v-if="currentVal == 1"
                       label="工艺"
                       class="gongyiType mg-none">
-            <!-- <el-radio-group class="yhc-radios" v-model="params.type">
-                <el-radio name="type" v-for="x in cnst.banner_types" :key="x.value" :label="x.value" >{{x.name}}</el-radio>
-            </el-radio-group> -->
-          <div v-for="x in cnst.banner_types_caise">
+            <el-checkbox-group v-model="params.checkList">
+                <el-checkbox v-for="x in cnst.qizhi_types" :label="x.name" :key="x.value" name="type">
+                <span v-if="x.name == '缝筒'">{{x.name}}</span>
+                <el-select class="mini" v-if="x.name == '缝筒'" v-model="params.drop" style="width:150px;margin-right:15px;">
+                    <el-option v-for="i in x.drops"
+                                :label="i.name"
+                                :value="i.value"
+                                :key="i.value"></el-option>
+                    </el-select>
+                </el-checkbox>
+            </el-checkbox-group>          
+          <!-- <div v-for="x in cnst.qizhi_types">
             <el-checkbox :label="x.name"
                          :value="x.value"
                          name="type"
@@ -100,7 +117,7 @@
                          :value="i.value"
                          :key="i.value"></el-option>
             </el-select>
-          </div>
+          </div> -->
         </el-form-item>
     </el-form>
 
@@ -108,13 +125,14 @@
 </template>
 
 <script>
+import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
    metaInfo: {
-      title: '易绘创官网-制作横幅|加工条幅 ',
+      title: '易绘创官网-旗帜设计|旗帜制作 ',
       meta: [
-        { name:"keywords",content:'横幅,条幅,彩色横幅,彩色条幅,条幅定制,横幅加工,锦旗,易绘创'},
-        { name:"description",content:'横幅条幅设计及制作就来易绘创（yihuichuang.com），提供一站式条幅横幅设计和制作，价格合理。' },
+        { name:"keywords",content:'旗帜设计,旗帜制作,彩旗,易绘创'},
+        { name:"description",content:'旗帜和彩旗的设计及制作就来易绘创（yihuichuang.com），提供一站式旗帜和彩旗设计和制作。' },
       ]
   },
   data() {
@@ -125,15 +143,14 @@ export default {
         mate: '',
         num: 1,
         typeNum: 1,
-        type: '',
         drop:"",
-        radio:2
+        checkList:[]
       },
       currentVal: 1,
     }
   },
   props: [],
-  components: { },
+  components: { Server },
   created() {},
   mounted() {
   },

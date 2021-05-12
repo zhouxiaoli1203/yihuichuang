@@ -86,6 +86,29 @@ const CONSTANT = {
         { name: '缝筒', value: '3' },
         { name: '裁净边', value: '4' },
     ],
+    qizhi_btns:[
+        { name: '旗帜', value: '1' },
+        { name: '锦旗', value: '2' },
+    ],
+    qizhi_materials:[
+        { name: '双透彩旗', value: "1" },
+        { name: '贡缎布', value: "2" },
+    ],
+    jinqi_materials:[
+        { name: '普通发泡锦旗', value: "1" },
+        { name: '普通镀金锦旗', value: "2" },
+    ],
+    qizhi_types:[
+        { name: '缝筒', value: "1" ,drops:[
+            {name:"左缝筒",value:"1"},
+            {name:"上缝筒",value:"2"},
+            {name:"右缝筒",value:"3"},
+            {name:"左右缝筒",value:"4"},
+            {name:"上下缝筒",value:"5"},
+            {name:"上缝筒左缝吊耳",value:"6"},
+        ]},
+        { name: '裁净边', value: "2" },
+    ],
     armband_materials: [
         { name: '绒布款', value: "1" },
     ],

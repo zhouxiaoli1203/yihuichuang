@@ -3,9 +3,6 @@
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">铜版纸名片 覆膜名片 多种工艺、材质定制</h3>
-      <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
-      <Server></Server>
       <el-form-item label="产品"
                     class="chanpin">
         <el-col :span="15"
@@ -305,7 +302,6 @@
 </template>
 
 <script>
-import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
   metaInfo: {
@@ -338,7 +334,7 @@ export default {
     }
   },
   props: ['type'],
-  components: { Server },
+  components: { },
   created() {},
   mounted() {
     console.log(this.type)

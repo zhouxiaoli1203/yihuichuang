@@ -3,9 +3,6 @@
       <!-- 袖章 -->
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">{{title}}</h3>
-      <h5 class="introl">{{introl}}</h5>
-      <Server></Server>
             <el-form-item label="款式"
                     class="type">
         <el-col :span="7">
@@ -79,7 +76,6 @@
 </template>
 
 <script>
-import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
    metaInfo: {
@@ -104,8 +100,7 @@ export default {
 
     }
   },
-  props:["title"],
-  components: { Server },
+  components: { },
   created() {},
   mounted() {},
   methods: {

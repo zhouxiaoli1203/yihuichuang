@@ -3,14 +3,19 @@
     <div class="center">
       <div class="print-more-title">
         <span class="cursor_p"
-              @click="goBack()">在线印刷</span><span>&nbsp;/&nbsp;{{infos.category}}</span><span class="current">&nbsp;/&nbsp;商品详情</span>
+              @click="goBack()">在线印刷</span><span class="cursor_p">&nbsp;/&nbsp;{{infos.category}}</span><span class="current">&nbsp;/&nbsp;商品详情</span>
       </div>
       <div class="print-detail-operate" v-if="infos">
         <div class="operate-left">
+            <div class="operate-left-head">
+                <h3 class="title">{{infos.name}}</h3>
+                <h5 class="introl">{{infos.desc}}</h5>
+                <Server></Server>
+            </div>
           <!-- 每个页面的属性 -->
           <!-- <Armband v-if="detailType == 1"></Armband>
           <Banner v-if="detailType == 2"></Banner> -->
-          <component v-bind:is="attrViews" :title="infos.title" :desc="infos.desc" @detailChange="attrDetails"></component>
+          <component v-bind:is="attrViews"  @detailChange="attrDetails"></component>
 
           <!-- <Ribbon></Ribbon> -->
           <!-- 上传文件按钮 -->
@@ -132,13 +137,13 @@
 <script>
 // 广告物料
 import Armband from '@/views/print/materiel/armband_dtl' //袖章
-import BannerJia from '@/views/print/materiel/banner_dtl_jia' //条幅--展架
+import ZhanJia from '@/views/print/materiel/zhanjia' //条幅--展架
 import Banner from '@/views/print/materiel/banner_dtl' //条幅
+import Qizhi from '@/views/print/materiel/qizhi_dtl' //旗帜
 import Paint from '@/views/print/materiel/paint_dtl' //喷绘
 import Photo from '@/views/print/materiel/photo_dtl' //写真
 import Ribbon from '@/views/print/materiel/ribbon_dtl' //绶带
-// 其他印刷
-import Caidan from '@/views/print/otherPrint/caidan_dtl' //菜单
+
 // 企业定制
 import Xuanchuance from '@/views/print/company/xuanchuance_dtl' //企业宣传册
 // 常用印刷
@@ -148,9 +153,11 @@ import Mingpian from '@/views/print/comnPrint/mingpian_dtl' //名片
 import Zheye from '@/views/print/comnPrint/zheye_dtl' //折页
 // 标牌
 import Mutuopai from '@/views/print/biaopai/mutuopai_dtl' //标识标牌店招-木托授权牌
-
+// 其他印刷
+import Caidan from '@/views/print/otherPrint/caidan_dtl' //菜单
 //以下是公用组件--调取创客贴useCkt--在线估价pricePop
 import { regionData } from 'element-china-area-data'
+import Server from '@/components/servertip'
 import Price from '@/components/pricePop'
 export default {
   name: 'pdetial',
@@ -176,13 +183,23 @@ export default {
       show: true,
       arr: [
         { cmpt: Photo, id: 1001 },
-        { cmpt: BannerJia, id: 135 },
-        { cmpt: Danye, id: 148 },
-        { cmpt: Zheye, id: 143 },
-        { cmpt: Mingpian, id: 12 },
-        { cmpt: Buganjiao, id: 181 },
-        { cmpt: Caidan, id: 27 },
-        { cmpt: Xuanchuance, id: 144 },
+        { cmpt: Paint, id: 1003 },
+        { cmpt: Qizhi, id: 1006 },
+        { cmpt: Banner, id: 1007 },
+        { cmpt: ZhanJia, id: 1008 },
+        { cmpt: Ribbon, id: 1009 },
+        { cmpt: Armband, id: 1013 },
+
+        { cmpt: Xuanchuance, id: 2001 },
+
+        { cmpt: Danye, id: 3001 },
+        { cmpt: Zheye, id: 3002 },
+        { cmpt: Mingpian, id: 3003 },
+        { cmpt: Buganjiao, id: 3005 },
+
+        { cmpt: Mutuopai, id: 4004 },
+
+        { cmpt: Caidan, id: 5001 },
       ],
       params:{
           attr:{},
@@ -194,7 +211,8 @@ export default {
   components: {
     Armband,
     Banner,
-    BannerJia,
+    Qizhi,
+    ZhanJia,
     Paint,
     Photo,
     Ribbon,
@@ -206,6 +224,7 @@ export default {
     Zheye,
     Mutuopai,
     Price,
+    Server
   },
   created() {
     this.page_id = this.$route.query.page_id;
@@ -316,6 +335,28 @@ export default {
   justify-content: space-between;
   .operate-left {
     width: 707px;
+    .operate-left-head{
+        padding-top: 16px;
+        background-color: rgba(78, 159, 91, 0.03);
+        // border-radius: 4px;
+        h3.title{
+            padding:0 16px;
+            font-size: 22px;
+            font-weight: 500;
+            color: #333333;
+            line-height: 30px;
+        }
+        h5.introl {
+            padding:0 16px;
+            margin-top: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 400;
+            color: #FF3333;
+            line-height: 20px;
+        }
+    }
+    
   }
   .operate-right {
     width: 456px;

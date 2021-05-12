@@ -2,10 +2,6 @@
   <div class='attr-operate photo-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <!-- <div class="bgGreen"> -->
-      <h3 class="title">{{title}}</h3>
-      <h5 class="introl">{{desc}}</h5>
-      <Server></Server>
       <el-form-item label="产品"
                     class="chanpin">
         <el-col :span="14" class="yhc-attr-btns">
@@ -80,7 +76,6 @@
 </template>
 
 <script>
-import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
    metaInfo: {
@@ -108,8 +103,8 @@ export default {
       ],
     }
   },
-  props:["title","desc"],
-  components: { Server },
+  props:[],
+  components: {},
   created() {},
   mounted() {},
   methods: {

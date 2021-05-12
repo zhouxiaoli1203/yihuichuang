@@ -26,13 +26,12 @@ export default {
 </script>
 <style lang='less' scoped>
 .server-tip {
-  width: calc(100% + 32px);
-    margin-left: -16px;
-    padding-left: 16px;
+  width:100%;
+  padding-left: 16px;
   height: 34px;
   clear: both;
   overflow: hidden;
-  margin-bottom: 22px;
+  margin-bottom: 8px;
   background-color: rgba(78,159,91,0.1);
   .form-label{
       width: 100px;
