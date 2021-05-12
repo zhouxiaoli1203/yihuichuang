@@ -60,7 +60,7 @@
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum"
-                    :class='{"mg-none":type != 1 && currentVal == 3}'>
+                    :class='{"mg-none":currentVal == 3}'>
         <el-input-number v-model="params.typeNum"
                          @change="handleChange"
                          :min="1"
@@ -78,7 +78,6 @@
         <el-checkbox label="折页"
                      v-model="params.model_">
         </el-checkbox>
-        <el-option label="折页" v-model="params.model_"></el-option>
         <el-select class="mini" v-model="params.drop" @change="changeTypes(params.drop)">
           <el-option v-for="i in cnst.danye_drop1"
                      :label="i.name"
@@ -136,7 +135,7 @@ export default {
       currentVal: 1,
     }
   },
-  props: ['type'],
+  props: [],
   components: { },
   created() {},
   mounted() {

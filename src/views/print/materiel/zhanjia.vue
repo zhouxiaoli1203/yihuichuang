@@ -3,11 +3,6 @@
   <div class='attr-operate banner-attr'>
     <el-form label-width="100px"
              class="bgGreen">
-      <h3 class="title">门型展架广告牌展示牌易拉宝海报</h3>
-      <h5 class="introl">不会设计？没时间设计？平台提供专业设计师套版设计服务，咨询客服了解详情</h5>
-      <Server></Server>
-
-
       <el-form-item label="材料"
                     class="cailiao">
         <el-col :span="15">
@@ -66,7 +61,6 @@
 </template>
 
 <script>
-import Server from '@/components/servertip'
 export default {
   name: 'photo-detail',
    metaInfo: {
@@ -91,7 +85,7 @@ export default {
     }
   },
   props: [],
-  components: { Server },
+  components: {},
   created() {},
   mounted() {
   },

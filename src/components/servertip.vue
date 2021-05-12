@@ -31,7 +31,7 @@ export default {
   height: 34px;
   clear: both;
   overflow: hidden;
-  margin-bottom: 8px;
+//   margin-bottom: 8px;
   background-color: rgba(78,159,91,0.1);
   .form-label{
       width: 100px;

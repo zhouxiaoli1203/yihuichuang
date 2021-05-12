@@ -3,7 +3,7 @@
     <div class="center">
       <div class="print-more-title">
         <span class="cursor_p"
-              @click="goBack()">在线印刷</span><span class="cursor_p">&nbsp;/&nbsp;{{infos.category}}</span><span class="current">&nbsp;/&nbsp;商品详情</span>
+              @click="goBack()">在线印刷</span><span class="cursor_p">&nbsp;/&nbsp;{{infos.category}}</span><span class="current">&nbsp;/&nbsp;{{infos.title}}</span>
       </div>
       <div class="print-detail-operate" v-if="infos">
         <div class="operate-left">
@@ -118,8 +118,8 @@
                          :label="item.title"
                          :name="item.name">
                         <div v-show="item.title == '产品详情'">
-                            <ul>
-                                <li v-for="(x,index) in infos.cpxq" :key="index">
+                            <ul class="prod-detail">
+                                <li v-for="(x,index) in infos.cpxq" :key="index" >
                                     <img :src="x" alt="" width="100%" height="100%">
                                 </li>
                             </ul>
@@ -408,5 +408,12 @@ export default {
     width: 927px;
     height: -webkit-fill-available;
   }
+}
+.prod-detail{
+    li{
+        &:not(:last-child){
+            margin-bottom: 24px;
+        }
+    }
 }
 </style>
