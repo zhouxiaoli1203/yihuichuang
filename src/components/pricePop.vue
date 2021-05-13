@@ -291,7 +291,6 @@ export default {
         }
         addr["qhtype"] = this_.currentTab;
         obj = { ...this_.datas,...addr };
-
          if(obj.files && obj.files.length>0){
             let f = obj.files;
             let str = "";
@@ -342,17 +341,19 @@ export default {
       console.log(this.form)
     },
     initPop(){
-        this.checkpop = !this.checkpop;
-        if(!this.checkpop){
-            this.currentTab = 1;
-            this.payAddr = {
-                name:"",
-                phone:"",
-                postcode:"",
-                ssq:[],
-                detail:""
-            }
-        }
+        this.$emit("submitForm");
+
+        // this.checkpop = !this.checkpop;
+        // if(!this.checkpop){
+        //     this.currentTab = 1;
+        //     this.payAddr = {
+        //         name:"",
+        //         phone:"",
+        //         postcode:"",
+        //         ssq:[],
+        //         detail:""
+        //     }
+        // }
     }
   },
 }

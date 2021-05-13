@@ -1,6 +1,6 @@
 <template>
   <div class='attr-operate photo-attr'>
-    <el-form label-width="100px"
+    <el-form label-width="100px" :model="params" :rules="rules" ref="ruleForm"
              class="bgGreen">
       <el-form-item label="产品"
                     class="chanpin">
@@ -12,12 +12,12 @@
         </el-col>
       </el-form-item>
       <el-form-item label="材料"
-                    class="cailiao">
+                    class="cailiao" prop="cailiao">
         <el-col :span="14">
 
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
-                     v-model="params.mate">
+                     v-model="params.cailiao">
             <el-option v-for="i in materials"
                        :label="i.name"
                        :value="i.name"
@@ -26,16 +26,20 @@
         </el-col>
       </el-form-item>
       <el-form-item label="尺寸(米)"
-                    class="rules">
+                    class="rules" required>
         <el-col :span="6">
-          <el-input v-model="params.rules.changbian"
-                    placeholder="长边"></el-input>
+          <el-form-item prop="changbian">
+            <el-input v-model="params.changbian"
+                        placeholder="长边"></el-input>
+          </el-form-item>  
         </el-col>
         <el-col class="t_a_c"
                 :span="2">×</el-col>
-        <el-col :span="6">
-          <el-input v-model="params.rules.duanbian"
+        <el-col :span="6" >
+            <el-form-item prop="duanbian">
+                <el-input v-model="params.duanbian"
                     placeholder="短边"></el-input>
+            </el-form-item>
         </el-col>
       </el-form-item>
 
@@ -51,9 +55,9 @@
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum">
-        <el-input-number v-model="params.typeNum"
-                         :min="1"
-                         :max="10"></el-input-number>
+        <el-input-number v-model="typeNumFun"
+                         :min="0"
+                         :max="10" disabled></el-input-number>
       </el-form-item>
       <el-form-item label="工艺"
                     class="mg-none">
@@ -91,11 +95,23 @@ export default {
       materials: this.cnst.photo_ot_xiezhen,
       params: {
         chanpinType:"户外写真",
-        mate: '',
-        rules:{changbian:"",duanbian:""},
+        cailiao: '',
+        changbian:"",
+        duanbian:"",
         num: 1,
-        typeNum: 1,
+        typeNum: 0,
         gongyi: [],
+      },
+      rules:{
+          cailiao: [
+            { required: true, message: '请选择材料', trigger: 'change' },
+          ],
+          changbian: [
+            { required: true, message: '请输入长边', trigger: 'blur' },
+          ],
+          duanbian: [
+            { required: true, message: '请输入短边', trigger: 'blur' },
+          ],
       },
       btns: [
         { name: '户外写真', value: '1' },
@@ -103,19 +119,29 @@ export default {
       ],
     }
   },
-  props:[],
+  props:["models","files"],
   components: {},
-  created() {},
+  created() {
+      
+  },
   mounted() {},
   methods: {
-    // handleChange_num: function () {},
-    // handleChange_typeNum: function () {},
     changGongyi: function () {},
     changeBtn: function (n) {
       this.currentVal = n.value;
       this.params.chanpinType = n.name;
       this.materials =
         n.value == 1 ? this.cnst.photo_ot_xiezhen : this.cnst.photo_in_xiezhen
+    },
+  },
+  computed: {
+      typeNumFun: {
+        get(){
+            return parseInt(this.files.length  + this.models.length);
+        },
+        set(v) {
+            this.params.typeNum = v
+        }
     },
   },
   watch:{
@@ -125,7 +151,7 @@ export default {
               this.$emit("detailChange",nV);
           },
           deep:true
-      }
+      },
   }
 }
 </script>
