@@ -85,7 +85,7 @@
                    v-show="checkpop">
                 <div class="title">订单详情</div>
                 <div class="title-detial">铝合金底座易拉宝 / 100张 / 尺寸：300m*200m</div>
-                <el-form width="100%">
+                <el-form width="100%" :rules="addRules" :model="payAddr"  ref="addrForm">
                   <div class="tabs-box">
                     <div v-for="x in tabs"
                          class="tab-plane cursor_p"
@@ -100,21 +100,21 @@
                          class="mail">
                       <ul class="person-info">
                         <li>
-                          <el-form-item>
+                          <el-form-item prop="name">
                             <label for="name">收件人姓名</label>
                             <el-input placeholder="收件人姓名"
                                       v-model="payAddr.name"></el-input>
                           </el-form-item>
                         </li>
                         <li>
-                          <el-form-item>
+                          <el-form-item prop="phone">
                             <label for="name">收件人电话</label>
                             <el-input placeholder="收件人电话"
                                       v-model="payAddr.phone"></el-input>
                           </el-form-item>
                         </li>
                         <li>
-                          <el-form-item>
+                          <el-form-item prop="postcode">
                             <label for="name">邮政编码</label>
                             <el-input placeholder="邮政编码"
                                       v-model="payAddr.postcode"></el-input>
@@ -125,7 +125,7 @@
                     <div v-if="currentTab == 1"
                          class="address">
                       <div class="part-line"></div>
-                      <el-form-item>
+                      <el-form-item prop="ssq">
                         <el-cascader class="width100"
                                      size="large"
                                      :options="options"
@@ -134,7 +134,7 @@
                                      @change="cityChange">
                         </el-cascader>
                       </el-form-item>
-                      <el-form-item v-if="currentTab == 1"
+                      <el-form-item v-if="currentTab == 1" prop="detail"
                                     class="mt15">
                         <el-input placeholder="请输入详细地址"
                                   v-model="payAddr.detail"></el-input>
@@ -263,7 +263,9 @@
                   </li>
                 </ul>
               </div>
-              <div v-show="item.title == '售后服务'">1111</div>
+              <div v-show="item.title == '售后服务'">
+                  <img src="@/assets/img/common/shfw.jpg" alt="">
+              </div>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -383,6 +385,20 @@ export default {
         { name: '邮寄', val: 1 },
         { name: '自提', val: 2 },
       ],
+      addRules:{
+          name: [
+            { required: true, message: '请输入姓名', trigger: 'blur' },
+          ],
+          phone: [
+            { required: true, message: '请输入电话', trigger: 'blur' },
+          ],
+          ssq: [
+            {type:"array", required: true, message: '请选择省市区', trigger: 'change' },
+          ],
+          detail: [
+            { required: true, message: '请输入详细地址', trigger: 'blur' },
+          ],
+      },
       currentTab: 1,
       checkpop: false, //弹框显示
       isCaculate: false, //是否已算价
@@ -595,20 +611,29 @@ export default {
       // console.log(this.datas);
     },
     calculate() {
-      let this_ = this
-
-      let param = {
-        token: this_.$store.state.token,
-        page_id: this_.page_id,
-        data: this_.getData(),
-      }
-      console.log(param)
-      this_.$post('post', 'Goods/price', param).then((res) => {
-        if (res.code == 1) {
-            this.checkpop = false;
-            this.isCaculate = true
+         let this_ = this
+         this_.$refs.addrForm.validate((valid) => {
+        if (valid) {
+           
+            let param = {
+                token: this_.$store.state.token,
+                page_id: this_.page_id,
+                data: this_.getData(),
+            }
+            console.log(param)
+            this_.$post('post', 'Goods/price', param).then((res) => {
+                if (res.code == 1) {
+                    this_.checkpop = false;
+                    this_.isCaculate = true
+                }
+            })
+        } else {
+          console.log('error submit!!')
+          return false
         }
       })
+
+
     },
     //重构请求数据
     getData() {

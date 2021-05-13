@@ -211,7 +211,9 @@ beforeUpload(file){
 
 
     },
-
+    changeAmount (n) {
+        n = n.replace(/[^d.]/g, '')
+    }
 
 
 }

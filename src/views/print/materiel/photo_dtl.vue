@@ -37,7 +37,7 @@
                 :span="2">×</el-col>
         <el-col :span="6" >
             <el-form-item prop="duanbian">
-                <el-input v-model="params.duanbian"
+                <el-input v-enterNumber v-model="params.duanbian"
                     placeholder="短边"></el-input>
             </el-form-item>
         </el-col>
@@ -108,9 +108,11 @@ export default {
           ],
           changbian: [
             { required: true, message: '请输入长边', trigger: 'blur' },
+            { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
           ],
           duanbian: [
             { required: true, message: '请输入短边', trigger: 'blur' },
+            { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
           ],
       },
       btns: [
@@ -131,8 +133,14 @@ export default {
       this.currentVal = n.value;
       this.params.chanpinType = n.name;
       this.materials =
-        n.value == 1 ? this.cnst.photo_ot_xiezhen : this.cnst.photo_in_xiezhen
+        n.value == 1 ? this.cnst.photo_ot_xiezhen : this.cnst.photo_in_xiezhen;
+        this.params.cailiao="";
+        this.params.changbian="";
+        this.params.duanbian="";
     },
+    aa(){
+        console.log(this.params.changbian)
+    }
   },
   computed: {
       typeNumFun: {

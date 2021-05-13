@@ -45,14 +45,24 @@ export default {
         margin-right: 30px;
         position: relative;
         padding-left: 23px;
+        // background:url("../assets/img/common/mfkp-icon.png") no-repeat center;
         &::before{
             position: absolute;
             left: 0;
-            top: 8px;
+            top: 3px;
             content:"";
             width: 15px;
             height: 15px;
-            border: 1px solid;
+            color: #4E9F5B;
+        }
+        &.free::before{
+            content:url("../assets/img/common/mfkp-icon.png");
+        }
+        &.examine::before{
+            content:url("../assets/img/common/dtsh-icon.png");
+        }
+        &.afterSale::before{
+            content:url("../assets/img/common/shwy-icon.png");
         }
     }
   }
