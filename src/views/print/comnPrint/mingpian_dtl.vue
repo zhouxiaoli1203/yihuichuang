@@ -1,7 +1,10 @@
 
 <template>
   <div class='attr-operate banner-attr'>
-    <el-form label-width="100px"
+    <el-form label-width="115px"
+             :model="params"
+             :rules="rulesForm"
+             ref="ruleForm"
              class="bgGreen">
       <el-form-item label="产品"
                     class="chanpin">
@@ -14,12 +17,12 @@
         </el-col>
       </el-form-item>
       <el-form-item label="材料"
+                    prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
-
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
-                     v-model="params.mate">
+                     v-model="params.cailiao">
             <el-option v-for="i in materials"
                        :label="i.name"
                        :value="i.value"
@@ -28,47 +31,77 @@
         </el-col>
       </el-form-item>
       <el-form-item label=""
-                    class="rules">
+                    v-if="!params.zidingyi"
+                    key="selectRule"
+                    prop="chicun"
+                    class="rules_style">
         <span slot="label">
           <span class="span-box displayFl">
             <span> 尺寸(毫米) </span>
-            <el-tooltip class="item yhc-tips-content"
+            <el-tooltip class="item"
                         effect="dark"
-                        popper-class="atooltip"
                         content="名片为系统自动处理，无人工干预，1.请保证设计尺寸为90*54ｍｍ四周直角，内容距边3ＭＭ；2.如文件做出血，四周出血各2毫米，例:成品90*54mm含出血94*58mm；3.如需切圆角，文件请改成直"
-                        placement="right">
+                        placement="top">
               <div class="yhc-tips">!</div>
             </el-tooltip>
           </span>
         </span>
-        <el-col :span="15"
-                v-if="!zidingyi">
+        <el-col :span="15">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
-                     v-model="params.mate">
-            <el-option v-for="i in rules"
+                     v-model="params.chicun">
+            <el-option v-for="i in cnst.danye_rules"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
-        <div v-if="zidingyi"
-             class="rules_two">
-          <el-col :span="6">
-            <el-input v-model="params.rule"
-                      placeholder="长边"></el-input>
-          </el-col>
-          <el-col class="t_a_c"
-                  :span="2">×</el-col>
-          <el-col :span="6">
-            <el-input v-model="params.rule"
-                      placeholder="短边"></el-input>
-          </el-col>
-        </div>
+
         <el-col :span="2">
           <el-checkbox class="zidingyi"
                        label="自定义"
-                       v-model="zidingyi"
+                       v-model="params.zidingyi"
+                       border>
+          </el-checkbox>
+        </el-col>
+      </el-form-item>
+
+      <el-form-item label=""
+                    v-if="params.zidingyi"
+                    key="inputRule"
+                    required
+                    class="rules_style">
+        <span slot="label">
+          <span class="span-box displayFl">
+            <span> 尺寸(毫米) </span>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="尺寸加大不加价，升级为标准16开210*285，8开420*285"
+                        placement="top">
+              <div class="yhc-tips">!</div>
+            </el-tooltip>
+          </span>
+        </span>
+        <el-col :span="6">
+          <el-form-item prop="changbian">
+            <el-input v-model="params.changbian"
+                      placeholder="长边"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col class="t_a_c"
+                :span="2">×</el-col>
+        <el-col :span="6">
+          <el-form-item prop="duanbian">
+            <el-input v-enterNumber
+                      v-model="params.duanbian"
+                      placeholder="短边"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="2">
+          <el-checkbox class="zidingyi"
+                       label="自定义"
+                       v-model="params.zidingyi"
                        border>
           </el-checkbox>
         </el-col>
@@ -84,23 +117,22 @@
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
-                    class="typeNum"
-                    :class='{"mg-none":type != 1 && currentVal == 3}'>
-        <el-input-number v-model="params.typeNum"
-                         @change="handleChange"
-                         :min="1"
-                         :max="10"></el-input-number>
+                    class="typeNum">
+        <el-input-number v-model="typeNumFun"
+                         :min="0"
+                         :max="10"
+                         disabled></el-input-number>
       </el-form-item>
       <el-form-item label="印色">
-        <el-radio-group v-model="params.radio">
-          <el-radio label="1">彩色</el-radio>
-          <el-radio label="2">单色</el-radio>
+        <el-radio-group v-model="params.secai">
+          <el-radio :label="2">彩色</el-radio>
+          <el-radio :label="1">单色</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="印面">
-        <el-radio-group v-model="params.radio">
-          <el-radio label="1">双面</el-radio>
-          <el-radio label="2">单面</el-radio>
+        <el-radio-group v-model="params.mian">
+          <el-radio :label="2">双面</el-radio>
+          <el-radio :label="1">单面</el-radio>
         </el-radio-group>
       </el-form-item>
       <!-- 工艺名片按钮下的工艺类型 -->
@@ -117,30 +149,30 @@
                        v-model="x.model_">
           </el-checkbox>
           <div v-show="x.name == '压痕'">
-              <el-select class="mini width78"
-                         v-model="params.drop">
-                <el-option label="1"
-                           value="1"></el-option>
-              </el-select>
-              <el-select class="mini width78"
-                         v-model="params.drop">
-                <el-option label="平均压痕"
-                           value="1"></el-option>
-                <el-option label="按文件标注"
-                           value="1"></el-option>
-              </el-select>
+            <el-select class="mini width78"
+                       v-model="params.drop">
+              <el-option label="1"
+                         value="1"></el-option>
+            </el-select>
+            <el-select class="mini width78"
+                       v-model="params.drop">
+              <el-option label="平均压痕"
+                         value="1"></el-option>
+              <el-option label="按文件标注"
+                         value="1"></el-option>
+            </el-select>
           </div>
           <div v-show="x.name == '压点线'">
-              <el-select class="mini width78"
-                         v-model="params.drop">
-                <el-option label="1"
-                           value="1"></el-option>
-              </el-select>
-              <el-select class="mini width78"
-                         v-model="params.drop">
-                <el-option label="按文件标注"
-                           value="1"></el-option>
-              </el-select>
+            <el-select class="mini width78"
+                       v-model="params.drop">
+              <el-option label="1"
+                         value="1"></el-option>
+            </el-select>
+            <el-select class="mini width78"
+                       v-model="params.drop">
+              <el-option label="按文件标注"
+                         value="1"></el-option>
+            </el-select>
           </div>
           <!-- 圆角 -->
           <div v-show="x.name == '圆角'">
@@ -158,10 +190,11 @@
                          :value="i"
                          :key="i"></el-option>
             </el-select>
-            <div class="yhc-el-input" style="display:inline-block;">
-            <el-input class="mini mr10"
-                      placeholder="模切位置"></el-input>
-          </div>
+            <div class="yhc-el-input"
+                 style="display:inline-block;">
+              <el-input class="mini mr10"
+                        placeholder="模切位置"></el-input>
+            </div>
           </div>
           <div v-show="x.name == '打孔'">
             <el-select class="mini width78"
@@ -171,16 +204,16 @@
                          :value="(i+2)"
                          :key="(i+2)"></el-option>
             </el-select>
-              <el-select class="mini width78"
-                         v-model="params.drop">
-                <el-option label="1"
-                           value="1"></el-option>
-              </el-select>
-              <el-select class="mini width78"
-                         v-model="params.drop">
-                <el-option label="按文件标注"
-                           value="1"></el-option>
-              </el-select>
+            <el-select class="mini width78"
+                       v-model="params.drop">
+              <el-option label="1"
+                         value="1"></el-option>
+            </el-select>
+            <el-select class="mini width78"
+                       v-model="params.drop">
+              <el-option label="按文件标注"
+                         value="1"></el-option>
+            </el-select>
           </div>
           <div v-show="x.name == '烫金'">
             <el-select class="mini width78"
@@ -225,10 +258,11 @@
               <el-option label="不带"
                          value="2"></el-option>
             </el-select>
-             <div class="yhc-el-input" style="display:inline-block;">
-            <el-input class="mini mr10"
-                      placeholder="起始码"></el-input>
-          </div>
+            <div class="yhc-el-input"
+                 style="display:inline-block;">
+              <el-input class="mini mr10"
+                        placeholder="起始码"></el-input>
+            </div>
           </div>
         </div>
       </el-form-item>
@@ -305,36 +339,56 @@
 export default {
   name: 'photo-detail',
   metaInfo: {
-      title: '易绘创官网-商务名片制作|高档名片|印名片|高端名片印刷|彩色名片',
-      meta: [
-        { name:"keywords",content:'名片制作,高档名片,印名片,彩色名片,高端名片,商务名片,高级名片,易绘创'},
-        { name:"description",content:'名片制作和印名片就来易绘创（yihuichuang.com）,提供一站式在线名片设计、高档名片、商务名片、彩色名片、高级名片、免费模版、名片制作、高端名片和名片印刷服务。满足企业对普通、商务、经典、高档和奢华的不同需求。' },
-      ]
+    title: '易绘创官网-商务名片制作|高档名片|印名片|高端名片印刷|彩色名片',
+    meta: [
+      {
+        name: 'keywords',
+        content:
+          '名片制作,高档名片,印名片,彩色名片,高端名片,商务名片,高级名片,易绘创',
+      },
+      {
+        name: 'description',
+        content:
+          '名片制作和印名片就来易绘创（yihuichuang.com）,提供一站式在线名片设计、高档名片、商务名片、彩色名片、高级名片、免费模版、名片制作、高端名片和名片印刷服务。满足企业对普通、商务、经典、高档和奢华的不同需求。',
+      },
+    ],
   },
   data() {
     return {
       dialogVisible: false,
-      zidingyi: false,
-      typelist: [],
+      currentVal: 1,
       activeName: '',
       materials: this.cnst.tongbanMates,
       rules: this.cnst.tongbanRules,
       gontyiTypes: this.cnst.tongbanTypes,
       params: {
-        mate: '',
+        zidingyi: false,
+        cailiao: '',
+        chicun: '',
+        changbian: '',
+        duanbian: '',
         num: 1,
-        typeNum: 1,
-        type: '',
-        drop: '',
-        drop2: '',
-        radio: 2,
-        model_: false,
+        typeNum: 0,
+        secai: 2,
+        mian: 2,
+        gongyi: [],
       },
-      currentVal: 1,
+      rulesForm: {
+        cailiao: [{ required: true, message: '请选择材料', trigger: 'change' }],
+        chicun: [{ required: true, message: '请选择尺寸', trigger: 'change' }],
+        changbian: [
+          { required: true, message: '请输入长边', trigger: 'blur' },
+          { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur' },
+        ],
+        duanbian: [
+          { required: true, message: '请输入短边', trigger: 'blur' },
+          { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur' },
+        ],
+      },
     }
   },
-  props: ['type'],
-  components: { },
+  props: ['models', 'files'],
+  components: {},
   created() {},
   mounted() {
     console.log(this.type)
@@ -355,11 +409,24 @@ export default {
       this.gontyiTypes =
         n == 1 || n == 2 ? this.cnst.tongbanTypes : this.cnst.gongyiTypes
     },
-    changeTypes: function (x) {
-      this.typelist = this.cnst.danye_drop1.filter((item, i) => {
-        return item.name == x
-      })[0].drops
-      console.log(this.typelist)
+  },
+  computed: {
+    typeNumFun: {
+      get() {
+        return parseInt(this.files.length + this.models.length)
+      },
+      set(v) {
+        this.params.typeNum = v
+      },
+    },
+  },
+  watch: {
+    params: {
+      handler(nV, oV) {
+        console.log(nV)
+        this.$emit('detailChange', nV)
+      },
+      deep: true,
     },
   },
 }
@@ -374,7 +441,10 @@ export default {
         width: 344px;
       }
     }
-    .rules {
+    /deep/.el-form-item .el-form-item__label {
+      display: flex !important;
+    }
+    .rules_style {
       .zidingyi {
         margin-top: 1px;
         margin-left: 10px;
@@ -385,29 +455,6 @@ export default {
         width: 148px;
       }
     }
-    // /deep/.caiseType .el-form-item__content {
-    //   display: flex;
-    //   justify-content: start;
-    //   flex-wrap: wrap;
-    //   margin-right: 20px;
-    //   > div {
-    //     margin-right: 20px;
-    //   }
-    //   .el-checkbox {
-    //     margin-right: 3px !important;
-    //   }
-    //   .el-select {
-    //     width: 72px;
-    //     input {
-    //       height: 24px !important;
-    //       line-height: 24px !important;
-    //     }
-    //     .el-select__caret {
-    //       height: 24px !important;
-    //       line-height: 24px !important;
-    //     }
-    //   }
-    // }
   }
 
   .dialog-type-style {

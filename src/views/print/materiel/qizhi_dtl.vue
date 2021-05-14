@@ -14,7 +14,7 @@
         </el-col>
       </el-form-item>
 
-      <el-form-item label="材料"  v-if="currentVal == 1"  prop="cailiao"
+      <el-form-item label="材料"  v-if="currentVal == 1" key="qizhi_cailiao" prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
           <el-select class="form-contrl width100"
@@ -27,7 +27,7 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="材料"  v-if="currentVal == 2"  prop="cailiao"
+      <el-form-item label="材料"  v-if="currentVal == 2" key="jinqi_cailiao"prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
           <el-select class="form-contrl width100"
@@ -41,7 +41,7 @@
         </el-col>
       </el-form-item>
 
-        <el-form-item v-if="currentVal == 1" required
+        <el-form-item v-if="currentVal == 1" key="qizhi_chicun" required
                       label="尺寸(米)"
                       class="rules_two">
           <el-col :span="6">
@@ -59,7 +59,7 @@
                 </el-form-item>
             </el-col>
         </el-form-item>
-        <el-form-item  v-if="currentVal == 2" prop="chicun"
+        <el-form-item  v-if="currentVal == 2" key="jinqi_chicun" prop="chicun"
                       label="尺寸(米)"
                       class="rules">
           <el-col :span="15">
@@ -77,7 +77,6 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           @change="handleChange"
                            :min="1"
                            :max="10"></el-input-number>
         </el-col>
@@ -85,7 +84,6 @@
       <el-form-item label="款数"
                     class="typeNum" :class='{"mg-none":currentVal == 2}'>
         <el-input-number v-model="typeNumFun"
-                         @change="handleChange"
                          :min="0"
                          :max="10" disabled></el-input-number>
       </el-form-item>
@@ -124,6 +122,7 @@ export default {
     return {
       currentVal: 1,
       params: {
+          chanpinType:"旗帜",
         cailiao: '',
         changbian:"",
         duanbian:"",
@@ -160,7 +159,11 @@ export default {
     handleChange: function () {},
     changeBtn: function (n) {
       this.currentVal = n.value;
-      console.log(this.params.chicun);
+       this.params.chanpinType = n.name;
+      this.params.cailiao="";
+        this.params.changbian="";
+        this.params.duanbian="";
+        this.params.chicun="";
     },
   },
    computed: {

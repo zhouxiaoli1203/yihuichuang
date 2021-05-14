@@ -1,15 +1,15 @@
 <template>
   <div class='attr-operate paint-attr'>
       <!-- 绶带 -->
-    <el-form label-width="100px"
+    <el-form label-width="100px" :model="params" :rules="rules" ref="ruleForm"
              class="bgGreen">
-      <el-form-item label="材料"
+      <el-form-item label="材料" prop="cailiao"
                     class="cailiao">
         <el-col :span="7">
 
-          <el-select class="form-contrl width100"
+          <el-select class="form-contrl width100" 
                      placeholder="选择材料"
-                     v-model="params.mate">
+                     v-model="params.cailiao">
             <el-option v-for="i in cnst.ribbon_materials"
                        :label="i.name"
                        :value="i.value"
@@ -17,13 +17,13 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="尺寸(米)"
+      <el-form-item label="尺寸(米)" prop="chicun"
                     class="rules">
         <el-col :span="7">
 
-          <el-select class="form-contrl width100"
+          <el-select class="form-contrl width100" 
                      placeholder="选择材料"
-                     v-model="params.rule">
+                     v-model="params.chicun">
             <el-option v-for="i in cnst.ribbon_rules"
                        :label="i.name"
                        :value="i.value"
@@ -36,18 +36,15 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           @change="handleChange"
                            :min="1"
-                           :max="10"
-                           label="描述文字"></el-input-number>
+                           :max="10"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum mg-none">
-        <el-input-number v-model="params.typeNum"
-                         @change="handleChange"
-                         :min="1"
-                         :max="10"></el-input-number>
+        <el-input-number v-model="typeNumFun"
+                         :min="0"
+                         :max="10" disabled></el-input-number>
       </el-form-item>
 
     </el-form>
@@ -67,18 +64,24 @@ export default {
   },
   data() {
     return {
-      activeName: '',
-
-      params: {
-        mate: '',
-        rule:'',
+       params: {
+        cailiao: '',
+        chicun:"",
         num: 1,
-        typeNum: 1,
-        type: '',
+        typeNum: 0,
+      },
+      rules:{
+          cailiao: [
+            { required: true, message: '请选择材料', trigger: 'change' },
+          ],
+          chicun: [
+            { required: true, message: '请选择尺寸', trigger: 'change' },
+          ],
       },
 
     }
   },
+  props:["models","files"],
   components: {},
   created() {
   },
@@ -86,6 +89,25 @@ export default {
   methods: {
     handleChange: function () {},
   },
+  computed: {
+      typeNumFun: {
+        get(){
+            return parseInt(this.files.length  + this.models.length);
+        },
+        set(v) {
+            this.params.typeNum = v
+        }
+    },
+  },
+  watch:{
+      params:{
+          handler(nV,oV){
+              console.log(nV);
+              this.$emit("detailChange",nV);
+          },
+          deep:true
+      },
+  }
 }
 </script>
 <style lang='less' scoped>

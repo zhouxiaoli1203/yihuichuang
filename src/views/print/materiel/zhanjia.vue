@@ -1,15 +1,15 @@
 <template>
 <!-- 条幅 -->
   <div class='attr-operate banner-attr'>
-    <el-form label-width="100px"
+    <el-form label-width="100px" :model="params" :rules="rules" ref="ruleForm"
              class="bgGreen">
-      <el-form-item label="材料"
+      <el-form-item label="材料" prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
 
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
-                     v-model="params.mate">
+                     v-model="params.cailiao">
             <el-option v-for="i in cnst.banner_materials"
                        :label="i.name"
                        :value="i.value"
@@ -17,12 +17,12 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item  label="尺寸(米)"
+      <el-form-item  label="尺寸(米)" prop="chicun"
                     class="rules">
         <el-col :span="15">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
-                     v-model="params.mate">
+                     v-model="params.chicun">
             <el-option v-for="i in cnst.banner_rules_zhanjia"
                        :label="i.name"
                        :value="i.value"
@@ -34,7 +34,6 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           @change="handleChange"
                            :min="1"
                            :max="10"
                            label="描述文字"></el-input-number>
@@ -42,14 +41,13 @@
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum">
-        <el-input-number v-model="params.typeNum"
-                         @change="handleChange"
-                         :min="1"
-                         :max="10"></el-input-number>
+        <el-input-number v-model="typeNumFun"
+                         :min="0"
+                         :max="10" disabled></el-input-number>
       </el-form-item>
         <el-form-item label="工艺"
                       class="mg-none">
-             <el-checkbox-group v-model="params.type">
+             <el-checkbox-group v-model="params.gongyi">
                 <el-checkbox v-for="x in cnst.banner_types" :label="x.name" :value="x.value"
                         :key="x.value"></el-checkbox>
             </el-checkbox-group>
@@ -72,19 +70,25 @@ export default {
   },
   data() {
     return {
-      activeName: '',
       params: {
-        mate: '',
+        cailiao: '',
+        chicun:"",
         num: 1,
-        typeNum: 1,
-        type: [],
-        drop:"",
-        radio:2
+        typeNum: 0,
+        gongyi: [],
       },
-      currentVal: 1,
+      rules:{
+          cailiao: [
+            { required: true, message: '请选择材料', trigger: 'change' },
+          ],
+          chicun: [
+            { required: true, message: '请选择尺寸', trigger: 'change' },
+          ],
+      },
+
     }
   },
-  props: [],
+  props:["models","files"],
   components: {},
   created() {},
   mounted() {
@@ -94,18 +98,25 @@ export default {
     changeBtn: function (n) {
       this.currentVal = n.value;
     },
-    clickitem (e) {
-        e === this.params.type ? this.params.type = '' : this.params.type = e
-    }
   },
-   watch:{
+   computed: {
+      typeNumFun: {
+        get(){
+            return parseInt(this.files.length  + this.models.length);
+        },
+        set(v) {
+            this.params.typeNum = v
+        }
+    },
+  },
+  watch:{
       params:{
           handler(nV,oV){
               console.log(nV);
               this.$emit("detailChange",nV);
           },
           deep:true
-      }
+      },
   }
 }
 </script>

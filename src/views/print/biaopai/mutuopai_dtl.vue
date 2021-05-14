@@ -1,15 +1,16 @@
 
 <template>
   <div class='attr-operate banner-attr'>
-    <el-form label-width="100px"
+    <el-form label-width="100px" :model="params"
+             :rules="rulesForm"
+             ref="ruleForm"
              class="bgGreen">
-      <el-form-item label="材料"
+      <el-form-item label="材料" prop="cailiao"
                     class="cailiao">
         <el-col :span="7">
-
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
-                     v-model="params.mate">
+                     v-model="params.cailiao">
             <el-option v-for="i in cnst.paiziMates"
                        :label="i.name"
                        :value="i.value"
@@ -17,12 +18,12 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="尺寸(毫米)"
+      <el-form-item label="尺寸(毫米)" prop="chicun"
                     class="rules">
         <el-col :span="7">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
-                     v-model="params.mate">
+                     v-model="params.chicun">
             <el-option v-for="i in cnst.paiziRules"
                        :label="i.name"
                        :value="i.value"
@@ -34,18 +35,15 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           @change="handleChange"
                            :min="1"
-                           :max="10"
-                           label="描述文字"></el-input-number>
+                           :max="10"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum">
-        <el-input-number v-model="params.typeNum"
-                         @change="handleChange"
-                         :min="1"
-                         :max="10"></el-input-number>
+        <el-input-number v-model="typeNumFun"
+                         :min="0"
+                         :max="10" disabled></el-input-number>
       </el-form-item>
       <el-form-item label="工艺"
                     class="gongyiType mg-none">
@@ -53,7 +51,7 @@
         <el-checkbox label="款式"
                      v-model="params.model_">
         </el-checkbox>
-        <el-select class="mini" v-model="params.drop" @change="changeTypes(params.drop)">
+        <el-select class="mini" v-model="params.drop">
           <el-option v-for="i in cnst.paiziType"
                      :label="i.name"
                      :value="i.name"
@@ -78,24 +76,25 @@ export default {
   data() {
     return {
         dialogVisible:false,
-      zidingyi: false,
-      typelist: [],
-      activeName: '',
-
+      currentVal: 1,
       params: {
-        mate: '',
+        cailiao: '',
+        chicun:"",
         num: 1,
-        typeNum: 1,
-        type: '',
-        drop: '',
-        drop2:"",
-        radio: 2,
+        typeNum: 0,
         model_: false,
       },
-      currentVal: 1,
+      rulesForm:{
+          cailiao: [
+            { required: true, message: '请选择材料', trigger: 'change' },
+          ],
+          chicun: [
+            { required: true, message: '请选择尺寸', trigger: 'change' },
+          ],
+      },
     }
   },
-  props: ['type'],
+   props:["models","files"],
   components: {},
   created() {},
   mounted() {
@@ -106,14 +105,27 @@ export default {
     changeBtn: function (n) {
       this.currentVal = n.value
     },
-    changeTypes: function (x) {
-      this.typelist = this.cnst.danye_drop1.filter( (item,i) =>{
-       return item.name == x;
-      })[0].drops;
-      console.log(this.typelist);
-    },
     
   },
+     computed: {
+      typeNumFun: {
+        get(){
+            return parseInt(this.files.length  + this.models.length);
+        },
+        set(v) {
+            this.params.typeNum = v
+        }
+    },
+  },
+  watch:{
+      params:{
+          handler(nV,oV){
+              console.log(nV);
+              this.$emit("detailChange",nV);
+          },
+          deep:true
+      },
+  }
 }
 </script>
 <style lang='less' scoped>

@@ -1,15 +1,18 @@
 <template>
   <div class='attr-operate banner-attr'>
-    <el-form label-width="100px"
+    <el-form label-width="115px"
+             :model="params"
+             :rules="rules"
+             ref="ruleForm"
              class="bgGreen">
 
       <el-form-item label="材料"
+                    prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
-
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
-                     v-model="params.mate">
+                     v-model="params.cailiao">
             <el-option v-for="i in cnst.zheye_materials"
                        :label="i.name"
                        :value="i.value"
@@ -18,7 +21,10 @@
         </el-col>
       </el-form-item>
       <el-form-item label=""
-                    class="rules">
+                    v-if="!params.zidingyi"
+                    key="selectRule"
+                    prop="chicun"
+                    class="rules_style">
         <span slot="label">
           <span class="span-box displayFl">
             <span> 尺寸(毫米) </span>
@@ -30,60 +36,87 @@
             </el-tooltip>
           </span>
         </span>
-        <el-col :span="15"
-                v-if="!zidingyi">
+        <el-col :span="15">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
                      v-model="params.mate">
-            <el-option v-for="i in cnst.zheye_rules"
+            <el-option v-for="i in cnst.danye_rules"
                        :label="i.name"
                        :value="i.value"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
-        <div v-if="zidingyi"
-             class="rules_two">
-          <el-col :span="6">
-            <el-input v-model="params.rule"
-                      placeholder="长边"></el-input>
-          </el-col>
-          <el-col class="t_a_c"
-                  :span="2">×</el-col>
-          <el-col :span="6">
-            <el-input v-model="params.rule"
-                      placeholder="短边"></el-input>
-          </el-col>
-        </div>
+
         <el-col :span="2">
           <el-checkbox class="zidingyi"
                        label="自定义"
-                       v-model="zidingyi"
+                       v-model="params.zidingyi"
                        border>
           </el-checkbox>
         </el-col>
       </el-form-item>
+
+      <el-form-item label=""
+                    v-if="params.zidingyi"
+                    key="inputRule"
+                    required
+                    class="rules_style">
+        <span slot="label">
+          <span class="span-box displayFl">
+            <span> 尺寸(毫米) </span>
+            <el-tooltip class="item"
+                        effect="dark"
+                        content="尺寸加大不加价，升级为标准16开210*285，8开420*285"
+                        placement="top">
+              <div class="yhc-tips">!</div>
+            </el-tooltip>
+          </span>
+        </span>
+        <el-col :span="6">
+          <el-form-item prop="changbian">
+            <el-input v-model="params.changbian"
+                      placeholder="长边"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col class="t_a_c"
+                :span="2">×</el-col>
+        <el-col :span="6">
+          <el-form-item prop="duanbian">
+            <el-input v-enterNumber
+                      v-model="params.duanbian"
+                      placeholder="短边"></el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="2">
+          <el-checkbox class="zidingyi"
+                       label="自定义"
+                       v-model="params.zidingyi"
+                       border>
+          </el-checkbox>
+        </el-col>
+      </el-form-item>
+
       <el-form-item label="数量"
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           @change="handleChange"
                            :min="1"
-                           :max="10"
-                           label="描述文字"></el-input-number>
+                           :max="10"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum"
-                    :class='{"mg-none":type != 1 && currentVal == 3}'>
-        <el-input-number v-model="params.typeNum"
-                         @change="handleChange"
-                         :min="1"
-                         :max="10"></el-input-number>
+                    :class='{"mg-none":currentVal == 3}'>
+        <el-input-number v-model="typeNumFun"
+                         :min="0"
+                         :max="10"
+                         disabled></el-input-number>
       </el-form-item>
       <el-form-item label="印面">
         <el-radio-group v-model="params.radio">
-          <el-radio label="1">双面</el-radio>
-          <el-radio label="2">单面</el-radio>
+          <el-radio :label="2">双面</el-radio>
+          <el-radio :label="1">单面</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="工艺"
@@ -94,20 +127,22 @@
                        :value="x.value"
                        name="type"
                        :key="x.value"
-                       v-model="x.model_">
+                       v-model="x.checkbox" @change="checkChange(x,index)">
           </el-checkbox>
-          <el-select class="mini" v-show="index==0"
-                     v-model="x.drop">
+          <el-select class="mini"
+                     v-if="index==0"
+                     v-model="x.drop" @change="dropChange(x,$event)">
             <el-option v-for="i in cnst.zheyes"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
-          <el-select class="mini" v-show="index!=0"
-                     v-model="x.drop">
+          <el-select class="mini"
+                     v-if="index!=0"
+                     v-model="x.drop" @change="dropChange(x,$event)">
             <el-option v-for="i in cnst.modelTypes"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </div>
@@ -127,34 +162,51 @@
 export default {
   name: 'photo-detail',
   metaInfo: {
-      title: '易绘创官网-三折页|折页印刷|折页制作|在线折页设计|折页免费模板',
-      meta: [
-        { name:"keywords",content:'折页印刷,折页设计,三折页,折页制作,折页,折页模板,在线折页设计,易绘创'},
-        { name:"description",content:'在线折页设计印刷就来易绘创（yihuichuang.com），在线折页设计、折页制作、 折页印刷、三折页设计欣赏、折页模板免费设计一应俱全。满足企业对折页尺寸、设计、印刷、制作价格各个方面的要求，实现在线印刷折页的效果。' },
-      ]
+    title: '易绘创官网-三折页|折页印刷|折页制作|在线折页设计|折页免费模板',
+    meta: [
+      {
+        name: 'keywords',
+        content:
+          '折页印刷,折页设计,三折页,折页制作,折页,折页模板,在线折页设计,易绘创',
+      },
+      {
+        name: 'description',
+        content:
+          '在线折页设计印刷就来易绘创（yihuichuang.com），在线折页设计、折页制作、 折页印刷、三折页设计欣赏、折页模板免费设计一应俱全。满足企业对折页尺寸、设计、印刷、制作价格各个方面的要求，实现在线印刷折页的效果。',
+      },
+    ],
   },
   data() {
     return {
       dialogVisible: false,
-      zidingyi: false,
-      typelist: [],
-      activeName: '',
-
-      params: {
-        mate: '',
-        num: 1,
-        typeNum: 1,
-        type: '',
-        drop: '',
-        drop2: '',
-        radio: 2,
-        model_: false,
-      },
       currentVal: 1,
+      params: {
+        zidingyi: false,
+        cailiao: '',
+        chicun:'',
+        changbian:'',
+        duanbian:'',
+        num: 1,
+        typeNum: 0,
+        radio: 2,
+        gongyi: [],
+      },
+      rules: {
+        cailiao: [{ required: true, message: '请选择材料', trigger: 'change' }],
+        chicun: [{ required: true, message: '请选择尺寸', trigger: 'change' }],
+        changbian: [
+          { required: true, message: '请输入长边', trigger: 'blur' },
+          { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur' },
+        ],
+        duanbian: [
+          { required: true, message: '请输入短边', trigger: 'blur' },
+          { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur' },
+        ],
+      },
     }
   },
-  props: ['type'],
-  components: { },
+  props: ['models', 'files'],
+  components: {},
   created() {
     this.cnst.zheye_types_gongyi.map((v, i) => {})
   },
@@ -166,11 +218,49 @@ export default {
     changeBtn: function (n) {
       this.currentVal = n.value
     },
-    changeTypes: function (x) {
-      this.typelist = this.cnst.danye_drop1.filter((item, i) => {
-        return item.name == x
-      })[0].drops
-      console.log(this.typelist)
+    checkChange(x,ind){
+        if(x.checkbox){
+            let o = {name:x.name};
+            if(x.drop){
+                o.drop = x.drop;
+            }
+            this.params.gongyi.push(o);
+        }else{
+            this.params.gongyi = this.params.gongyi.filter(t => t.name != x.name);
+        }
+        console.log(this.params.gongyi,"list");
+        this.$forceUpdate();
+    },
+    dropChange(x,e){
+        let list = this.params.gongyi;
+        if(x.checkbox){
+            for(let i in list){
+                if(list[i].name == x.name && x.drop){
+                    list[i].drop = x.drop;
+                }
+            }
+        }
+        console.log(list);
+        this.$forceUpdate();
+    }
+  },
+  computed: {
+    typeNumFun: {
+      get() {
+        return parseInt(this.files.length + this.models.length)
+      },
+      set(v) {
+        this.params.typeNum = v
+      },
+    },
+  },
+  watch: {
+    params: {
+      handler(nV, oV) {
+        console.log(nV)
+        this.$emit('detailChange', nV)
+      },
+      deep: true,
     },
   },
 }
@@ -185,15 +275,13 @@ export default {
         width: 344px;
       }
     }
-    .rules {
+    /deep/.el-form-item .el-form-item__label {
+      display: flex !important;
+    }
+    .rules_style {
       .zidingyi {
         margin-top: 1px;
         margin-left: 10px;
-      }
-    }
-    .rules_two {
-      .el-col-6 {
-        width: 148px;
       }
     }
   }

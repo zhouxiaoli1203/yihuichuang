@@ -1,14 +1,15 @@
 <template>
   <div class='attr-operate banner-attr'>
-    <el-form label-width="100px"
+    <el-form label-width="115px" :model="params"
+             :rules="rulesForm"
+             ref="ruleForm"
              class="bgGreen">
-      <el-form-item label="材料"
+      <el-form-item label="材料" prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
-
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
-                     v-model="params.mate">
+                     v-model="params.cailiao">
             <el-option v-for="i in cnst.caidanMates"
                        :label="i.name"
                        :value="i.value"
@@ -16,8 +17,8 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="尺寸(毫米)"
-                    class="rules">
+      <el-form-item label="尺寸(毫米)" prop="chicun"
+                    class="rules_style">
                     <span slot="label">
           <span class="span-box displayFl">
             <span> 尺寸(毫米) </span>
@@ -31,7 +32,7 @@
         <el-col :span="15">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
-                     v-model="params.mate">
+                     v-model="params.chicun">
             <el-option v-for="i in cnst.caidan_rules"
                        :label="i.name"
                        :value="i.value"
@@ -43,18 +44,15 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           @change="handleChange"
                            :min="1"
-                           :max="10"
-                           label="描述文字"></el-input-number>
+                           :max="10"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum">
-        <el-input-number v-model="params.typeNum"
-                         @change="handleChange"
-                         :min="1"
-                         :max="10"></el-input-number>
+        <el-input-number v-model="typeNumFun"
+                         :min="0"
+                         :max="10" disabled></el-input-number>
       </el-form-item>
       <el-form-item label="印面">
         <span>单面</span>
@@ -106,24 +104,28 @@ export default {
   data() {
     return {
         dialogVisible:false,
-      zidingyi: false,
-      typelist: [],
-      activeName: '',
-
+        typelist:[],
       params: {
-        mate: '',
+        cailiao: '',
+        chicun:'',
         num: 1,
-        typeNum: 1,
-        type: '',
+        typeNum: 0,
         drop: '',
         drop2:"",
-        radio: 2,
         model_: false,
+      },
+      rulesForm:{
+          cailiao: [
+            { required: true, message: '请选择材料', trigger: 'change' },
+          ],
+          chicun: [
+            { required: true, message: '请选择尺寸', trigger: 'change' },
+          ],
       },
       currentVal: 1,
     }
   },
-  props: ['type'],
+   props:["models","files"],
   components: {},
   created() {},
   mounted() {
@@ -142,6 +144,25 @@ export default {
     },
     
   },
+    computed: {
+      typeNumFun: {
+        get(){
+            return parseInt(this.files.length  + this.models.length);
+        },
+        set(v) {
+            this.params.typeNum = v
+        }
+    },
+  },
+  watch:{
+      params:{
+          handler(nV,oV){
+              console.log(nV);
+              this.$emit("detailChange",nV);
+          },
+          deep:true
+      },
+  }
 }
 </script>
 <style lang='less' scoped>
@@ -154,11 +175,14 @@ export default {
         width: 344px;
       }
     }
-    .rules{
-        .zidingyi{
-            margin-top: 1px;
-            margin-left: 10px;
-        }
+        /deep/.el-form-item .el-form-item__label {
+      display: flex !important;
+    }
+    .rules_style {
+      .zidingyi {
+        margin-top: 1px;
+        margin-left: 10px;
+      }
     }
     .rules_two {
       .el-col-6 {

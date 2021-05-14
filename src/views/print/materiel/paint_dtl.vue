@@ -38,10 +38,8 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           @change="handleChange"
                            :min="1"
-                           :max="10"
-                           label="描述文字"></el-input-number>
+                           :max="10"></el-input-number>
         </el-col>
       </el-form-item>
        <el-form-item label="款数"
