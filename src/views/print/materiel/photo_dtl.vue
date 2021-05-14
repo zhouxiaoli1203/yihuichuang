@@ -138,9 +138,6 @@ export default {
         this.params.changbian="";
         this.params.duanbian="";
     },
-    aa(){
-        console.log(this.params.changbian)
-    }
   },
   computed: {
       typeNumFun: {

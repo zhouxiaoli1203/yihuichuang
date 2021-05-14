@@ -289,7 +289,7 @@ export default {
             addr =  this_.payAddr_;
             delete addr.ssq_;
         }
-        addr["qhtype"] = this_.currentTab;
+        addr["qhfs"] = this_.currentTab;
         obj = { ...this_.datas,...addr };
          if(obj.files && obj.files.length>0){
             let f = obj.files;
