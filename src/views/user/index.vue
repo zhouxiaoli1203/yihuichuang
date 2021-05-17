@@ -56,7 +56,7 @@
                         <h4>编辑用户名称</h4>
                     </div> 
     
-                    <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm">
+                    <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
                         <el-form-item
                             prop="nickname"
                             :rules="[

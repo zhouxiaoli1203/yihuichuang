@@ -75,7 +75,7 @@
 
 
     <section class="addAreaBox publicPorp" v-show="addAreaBox">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" @submit.native.prevent>
         <el-form-item label="地址信息" prop="city">
           <el-cascader class="width100"
                       v-model="ruleForm.city"
@@ -286,6 +286,7 @@
         });
       },
       closePorp() { //关闭弹框
+        console.log(111111111);
         this.addAreaBox=false;
         this.AddModifyid = '' 
         this.$refs.ruleForm.resetFields();

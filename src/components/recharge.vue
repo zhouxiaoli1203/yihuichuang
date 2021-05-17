@@ -17,32 +17,18 @@
             <div class="chargingMod">
                 <h2>充值金额</h2>
                 <ul>
-                    <li class="active">
-                        <p>￥<span>180.00</span></p>
-                        <p>原价：<span>￥</span>200</p>
-                        <span class="lab">优惠价</span>
-                    </li>
-                    <li>
-                        <p>￥<span>180.00</span></p>
-                        <p>原价：<span>￥</span>200</p>
-                        <span class="lab">优惠价</span>
-                    </li>
-                    <li>
-                        <p>￥<span>180.00</span></p>
-                        <p>原价：<span>￥</span>200</p>
+                    <li v-for="item in categoryList" :class="activeIndex == item.val?'active':''" @click="categoryClick(item.val)">
+                        <p>￥<span>{{item.price}}</span></p>
+                        <p>原价：<span>￥</span>{{item.costPrice}}</p>
                         <span class="lab">优惠价</span>
                     </li>
                 </ul>
             </div>
             <div class="zhifuCode">
                 <ul>
-                    <li class="active">
-                        <img :src="Alipay" alt="">
-                        <p>支付宝</p>
-                    </li>
-                    <li>
-                        <img :src="weChat" alt="">
-                        <p>微信</p>
+                    <li v-for="item in paymode" :class="paymodeIndex == item.val?'active':''" @click="paymodeClick(item.val)">
+                        <img :src="item.img" alt="">
+                        <p>{{item.name}}</p>
                     </li>
                 </ul>
                 <div class="codeBox">
@@ -57,7 +43,7 @@
                     </div>
                     <div class="bt">
                         <p>支持使用支付宝、微信付款方式</p>
-                            <router-link :to="{path:'/user/userPicture'}"  class="link">《易绘创服务协议》</router-link>
+                        <router-link :to="{path:'/user/userPicture'}"  class="link">《易绘创服务协议》</router-link>
                     </div>
                     </div>
                 </div>
@@ -83,13 +69,46 @@ export default {
             recharge:false,
             face: require('../assets/img/common/head.png'),
             nickname:'',
-            money:0
+            money:0,
+            activeIndex:'A',
+            categoryList:[
+                {
+                    price:180.00,
+                    costPrice:200,
+                    val:'A'
+                },
+                {
+                    price:180,
+                    costPrice:160.00,
+                    val:'B'
+                },
+                {
+                    price:150.00,
+                    costPrice:200,
+                    val:'C'
+                }
+            ],
+            paymodeIndex:'alipay',
+            paymode:[
+                {
+                    name:'支付宝',
+                    img:require('@/assets/img/user/Alipay.png'),
+                    val:'alipay'
+                },
+                {
+                    name:'微信',
+                    img:require('@/assets/img/user/weChat.png'),
+                    val:'wxpay'
+                },
+            ]
         }
     },
     components: {},
     created() {
         let val = this.$store.getters.getUserInfo
         this.userinfoFn(val)
+        let token  = this.$store.getters.getToken;
+        this.token = token
     },
     mounted() {},
     methods: {
@@ -102,6 +121,26 @@ export default {
             this.face = userInfo.face
             this.nickname = userInfo.nickname
             this.money = userInfo.balance
+        },
+
+        // 切换套餐
+        categoryClick(val){
+            this.activeIndex = val
+        },
+        // 切换支付方式
+        paymodeClick(val){
+            this.paymodeIndex = val
+        },
+
+        // 余额充值
+        BillCz(){
+            this.$post('post','Bill/cz',{
+                token,
+                paymode,
+                category
+            }).then((res)=>{
+                console.log(res);
+            });
         },
     },
     computed:{
