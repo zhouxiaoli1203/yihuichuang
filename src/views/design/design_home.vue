@@ -255,15 +255,18 @@ export default {
         this.search.yt = y.name == "全部"?undefined: y.name;
         this.search.hy = undefined;
         this.search.current2 = null;
+        this.current = 1;
         this.geTemplates();
     },
     changeSearch2(y){
          this.search.current2 = y.name;
         this.checkpop2 = false;
         this.search.hy = y.name == "全部"?undefined: y.name;
+        this.current = 1;
         this.geTemplates();
     },
     changeSort(x){
+        this.current = 1;
         this.search.order = x.id;
         this.geTemplates();
     },

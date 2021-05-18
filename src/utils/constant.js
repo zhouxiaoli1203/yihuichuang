@@ -99,7 +99,7 @@ const CONSTANT = {
         { name: '普通镀金锦旗', value: "2" },
     ],
     qizhi_types:[
-        { name: '缝筒', value: "1" ,drops:[
+        { name: '缝筒', value: "1" ,select:true,drops:[
             {name:"左缝筒",value:"1"},
             {name:"上缝筒",value:"2"},
             {name:"右缝筒",value:"3"},
@@ -188,23 +188,33 @@ const CONSTANT = {
     ],
     buganjiao_gongyi:[
         { name: '直角切成片', value: '1'},
-        { name: '模切', value: '2'},
+        { name: '模切', value: '2',select:true,drops:[
+            {name:'圆形',value:'1'},
+            {name:'直角',value:'2'},
+            {name:'圆角',value:'3'},
+            {name:'椭圆',value:'4'},
+            {name:'其他',value:'5'},
+            {name:'10度圆角',value:'6'},
+            {name:'15度圆角',value:'7'},
+        ]},
         { name: '压点线', value: '3'},
         { name: '覆亮膜', value: '4'},
         { name: '覆哑膜', value: '5'},
         { name: '防晒油墨', value: '6'},
         { name: '拼咬口', value: '7'},
-        { name: '拼大张', value: '8'},
+        { name: '拼大张', value: '8',inputs:[
+            {changbian:"",duanbian:""}
+        ]},
     ],
-    buganjiao_moqie:[
-        {name:'圆形',value:'1'},
-        {name:'直角',value:'2'},
-        {name:'圆角',value:'3'},
-        {name:'椭圆',value:'4'},
-        {name:'其他',value:'5'},
-        {name:'10度圆角',value:'6'},
-        {name:'15度圆角',value:'7'},
-    ],
+    // buganjiao_moqie:[
+    //     {name:'圆形',value:'1'},
+    //     {name:'直角',value:'2'},
+    //     {name:'圆角',value:'3'},
+    //     {name:'椭圆',value:'4'},
+    //     {name:'其他',value:'5'},
+    //     {name:'10度圆角',value:'6'},
+    //     {name:'15度圆角',value:'7'},
+    // ],
     mingpian_btns:[
         {name:'铜版纸名片',value:'1'},
         {name:'精品纸名片',value:'2'},

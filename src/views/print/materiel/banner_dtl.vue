@@ -103,7 +103,7 @@
                          name="type"
                          :key="x.value" v-model="x.checkbox" @change="checkChange(x,index)">
             </el-checkbox>
-            <el-select class="mini" v-show="x.select" v-model="x.drop" @change="dropChange(x,$event)">
+            <el-select class="mini" v-show="x.select" v-model="x.drop" @change="dropChange(x,$event)" placeholder="类型">
               <el-option v-for="i in x.drops"
                          :label="i.name"
                          :value="i.name"

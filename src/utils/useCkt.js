@@ -111,6 +111,7 @@ function Ckt(){
                     console.log(res)
                     let cktDesign = new CktDesign(res.data);
                     cktDesign.open();
+                    document.getElementById("chuangkit-design-close-btn").previousSibling.innerText=""; 
                 }
            });
 

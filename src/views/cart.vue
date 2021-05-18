@@ -6,58 +6,72 @@
           <span class="main-gray">订单详情/商品详情/</span><span>购物车</span>
         </div>
         <div class="fr">
-          <span class="cursor_p tip-badge" :class='{"main-red":checkedCities.length>0}'>批量删除<i class="badge" v-show="checkedCities.length>0">{{checkedCities.length*1>99?"99+":checkedCities.length}}</i></span>
+          <span class="cursor_p tip-badge"
+                :class='{"main-red":checkedCities.length>0}' @click="delSahngpin('all')">批量删除<i class="badge"
+               v-show="checkedCities.length>0">{{checkedCities.length*1>99?"99+":checkedCities.length}}</i></span>
         </div>
       </div>
       <div class="cart-table">
-            <ul class="cart-table-head">
-              <li style="width:60px;">
-                <el-checkbox class="yhc-checkbox"
-                             v-model="checkAll"
-                             @change="checkAllFn" name="aaa">全选</el-checkbox>
-              </li>
-              <li class="t_a_c">商品信息</li>
-              <li>材质</li>
-              <li>类型</li>
-              <li>数量</li>
-              <li>印刷价格</li>
-              <li class="t_a_c"
-                  >操作</li>
-            </ul>
-          <div class="cart-table-content">
-               <el-checkbox-group v-model="checkedCities" @change="checkedCitiesChange">
-                  <el-checkbox v-for="(item,i) in fruits" :label="item.value" :key="i">
-                    <div class="t_a_c" style="">
-                            <img src=""
-                                alt=""
-                                width="56px"
-                                height="56px">
-                            <div class="title t_a_c"
-                                style="margin:7px 0 4px 0;">三折页</div>
-                            <div class="rule t_a_c">277.0mm*210.0mm</div>
-                        </div>
-                        <div class="lineh105">157g铜纸版·经济热销款</div>
-                        <div class="lineh105">默认双面印刷不覆膜·包心折</div>
-                        <div class="lineh105">99</div>
-                        <div class="lineh105">{{item.price}}</div>
-                        <div class="t_a_c lineh105">
-                            <span class="edit-icon el-icon-edit-outline mr10"></span>
-                            <span class="delete-icon el-icon-delete"></span>
-                        </div>
-                  </el-checkbox>
-                </el-checkbox-group>
-          </div>
+        <ul class="cart-table-head">
+          <li style="width:60px;">
+            <el-checkbox class="yhc-checkbox"
+                         v-model="checkAll"
+                         @change="checkAllFn"
+                         name="aaa">全选</el-checkbox>
+          </li>
+          <li class="t_a_c">商品信息</li>
+          <li>材质</li>
+          <li>类型</li>
+          <li>数量</li>
+          <li>印刷价格</li>
+          <li class="t_a_c">操作</li>
+        </ul>
+        <div class="cart-table-content">
+          <el-checkbox-group v-model="checkedCities"
+                             @change="checkedCitiesChange">
+            <el-checkbox v-for="(item,i) in cartList"
+                         :label="item.id"
+                         :key="i">
+              <div class="t_a_c"
+                   style="">
+                <img :src="item.icon"
+                     alt=""
+                     width="56px"
+                     height="56px">
+                <div class="title t_a_c"
+                     style="margin:7px 0 4px 0;">{{item.shangpin}}</div>
+                <div class="rule t_a_c">{{item.chicun}}</div>
+              </div>
+              <div class="lineh105">{{item.caizhi}}</div>
+              <div class="lineh105">{{item.leixing}}</div>
+              <div class="lineh105">{{item.num}}</div>
+              <div class="lineh105">{{item.price}}</div>
+              <div class="t_a_c lineh105">
+                <span class="edit-icon el-icon-edit-outline mr10"
+                      @click="editShangin(item)"></span>
+                <span class="delete-icon el-icon-delete"
+                      @click.stop="delSahngpin(item)"></span>
+              </div>
+            </el-checkbox>
+          </el-checkbox-group>
+        </div>
         <div class="table-pagination">
           <el-pagination class="t_a_c"
                          background
                          layout="prev, pager, next"
-                         :total="12">
+                         :page-size="10"
+                         :current-page="page.current"
+                         @size-change="handleSizeChange"
+                         @current-change="handleCurrentChange"
+                         :total="page.total">
           </el-pagination>
         </div>
         <div class="table-footer clearfix">
           <div class="footer-infos fl">
             <div class="select">
-              <el-checkbox class="yhc-checkbox" v-model="checkAll" @change="checkAllFn"></el-checkbox><span class="main-red">已选 ({{total.count}})</span>
+              <el-checkbox class="yhc-checkbox"
+                           v-model="checkAll"
+                           @change="checkAllFn"></el-checkbox><span class="main-red">已选 ({{total.count}})</span>
             </div>
             <div>
               <span>实付金额：<span class="main-red">￥{{total.price}}</span></span>
@@ -77,79 +91,116 @@ export default {
   name: '',
   data() {
     return {
-        // total:{count:0,price:0},
       checkAll: false,
-      fruits: [
-        {
-          label: 'Apple',
-          value: 'apple',
-          price: 2.5,
-        },
-        {
-          label: 'Banana',
-          value: 'banana',
-          price: 3,
-        },
-        {
-          label: 'Cherry',
-          value: 'cherry',
-          price: 5,
-        },
-        {
-          label: 'Orange',
-          value: 'orange',
-          price: 1.5,
-        },
-      ],
-      checkedCities: []
+      page: { current: 1, total: 0 },
+      checkedCities: [],
+      cartList: [],
     }
   },
   components: {},
   created() {
-    this.fruits.map((v) => {
-      v.hasChecked = false
-    })
+    this.getCartList()
   },
   computed: {
     total() {
       let count = 0
       let price = 0
-     
-      this.fruits.map((v) => {
-          let jud = false;
-         this.checkedCities.forEach((v_)=>{
-          if(v_ == v.value){
-              jud = true;
+
+      this.cartList.map((v) => {
+        let jud = false
+        this.checkedCities.forEach((v_) => {
+          if (v_ == v.id) {
+            jud = true
           }
-      });
-      if(jud){
-          count += 1;
-          price += v.price;
-      }
+        })
+        if (jud) {
+          count += 1
+          price += v.price * 1
+        }
       })
       return { count: count, price: price }
     },
   },
   mounted() {},
   methods: {
-    checkAllFn: function () {
-        if(this.checkAll){
-            const arr = [];
-            this.fruits.map((v) => {
-                arr.push(v.value);
-            })
-            this.checkedCities = arr;
-        }else{
-            this.checkedCities = [];
-        }
-    },
-    selectSingle: function (x) {
-        },
-     checkedCitiesChange(val) {
-         this.checkedCities = val;
-         this.checkAll = this.checkedCities.length == this.fruits.length?true:false;
-        console.log(this.checkedCities);
+    getCartList() {
+      let this_ = this
+      let param = {
+        token: this.$store.getters.getToken,
+        limit: 10,
+        page: this_.current || 1,
       }
+      this_.$post('post', 'Goods/cartSelect', param).then((res) => {
+        if (res.code == 1) {
+          this_.cartList = res.data.list
+          this_.cartList.map((v) => {
+            v.hasChecked = false
+          })
+          this_.page = {
+            total: res.data.count,
+            current: res.data.page,
+          }
+        }
+      })
+    },
+    delSahngpin(x) {
+      let this_ = this
+      this_
+        .confirm_pop(x=='all'?'确定清空购物车？':'确定该订单？', '确认信息')
+        .then(() => {
+          let param = {
+            token: this.$store.getters.getToken,
+            ids: this_.getIds() ? this_.getIds() : undefined,
+          }
+          if(x=='all'){
+              param["ids"] = undefined;
+          }
+          this_.$post('post', 'Goods/cartDelete', param).then((res) => {
+            if (res.code == 1) {
+                this_.getCartList();
+              this_.$message({
+                type: 'success',
+                message: '删除成功',
+              })
+            }
+          })
+        })
+        .catch(() => {})
+    },
+    getIds() {
+      let str = ''
+      this.checkedCities.map((t) => {
+        str += t + ','
+      })
+      return (str = str.substring(0, str.length - 1))
+    },
+    handleSizeChange(val) {
+      // 当pageSize发生变化后需重新查询列表
+      this.geTemplates()
+    },
+    // currentPage 改变时会触发
+    handleCurrentChange(val) {
+      this.current = val
+      // 当currentPage发生变化后需重新查询列表
+      this.geTemplates()
+    },
+    checkAllFn: function () {
+      if (this.checkAll) {
+        const arr = []
+        this.cartList.map((v) => {
+          arr.push(v.id)
+        })
+        this.checkedCities = arr
+      } else {
+        this.checkedCities = []
+      }
+    },
+    checkedCitiesChange(val) {
+      this.checkedCities = val
+      this.checkAll =
+        this.checkedCities.length == this.cartList.length ? true : false
+      console.log(this.checkedCities)
+    },
   },
 }
 </script>
@@ -188,61 +239,59 @@ export default {
   color: #666;
   cursor: pointer;
 }
-/deep/.cart-table{
-    
-    .cart-table-head{
-        display: flex;
-        padding: 13px;
-        background:#fff;
-        >li{
-            width: 16.67%;
-        }
+/deep/.cart-table {
+  .cart-table-head {
+    display: flex;
+    padding: 13px;
+    background: #fff;
+    > li {
+      width: 16.67%;
     }
-    .cart-table-content{
-        label{
-        width: 100%;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        align-items: center;
-        padding: 13px;
-        background: #FFFFFF;
-        border-radius: 4px;
-        margin-top: 24px;
-        border: 1px solid transparent;
-        &.is-checked{
-     border: 1px solid #4E9F5B;
-        }
-        .el-checkbox__input {
+  }
+  .cart-table-content {
+    label {
+      width: 100%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      padding: 13px;
+      background: #ffffff;
+      border-radius: 4px;
+      margin-top: 24px;
+      border: 1px solid transparent;
+      &.is-checked {
+        border: 1px solid #4e9f5b;
+      }
+      .el-checkbox__input {
         width: 60px;
+      }
     }
+    .el-checkbox__label {
+      display: flex;
+      width: calc(100% - 60px);
+      padding-left: 0;
+      > div {
+        width: 16.67%;
+        &.lineh105 {
+          line-height: 105px;
+        }
       }
-      .el-checkbox__label{
-          display: flex;
-          width: calc(100% - 60px);
-          padding-left: 0;
-          >div{
-              width: 16.67%;
-              &.lineh105{
-                  line-height: 105px;
-              }
-          }
-      }
-      .el-checkbox__input.is-checked+.el-checkbox__label{
-          color:#333;
-         
-      }
-      
     }
-    
-    .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
-              background-color: #4E9F5B;
-        border-color: #4E9F5B;
-      }
-      .el-checkbox__input.is-checked+.el-checkbox__label{
-          color:#4E9F5B;
-      }
+    .el-checkbox__input.is-checked + .el-checkbox__label {
+      color: #333;
+    }
+  }
+
+  .el-checkbox__input.is-checked .el-checkbox__inner,
+  .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #4e9f5b;
+    border-color: #4e9f5b;
+  }
+  .el-checkbox__input.is-checked + .el-checkbox__label {
+    color: #4e9f5b;
+  }
 }
 </style>

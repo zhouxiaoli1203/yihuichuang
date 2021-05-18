@@ -174,14 +174,14 @@
                     <div class="btn cancel"
                          @click="checkpop=false">取消</div>
                     <div class="btn sure"
-                         @click="calculate">确定</div>
+                         @click="calculateFun">确定</div>
                   </div>
 
                 </el-form>
               </div>
             </div>
-            <div class="buy-btn displayFl"
-                 v-if="isCaculate">
+            <div class="buy-btn displayFl" v-if="isCaculate">
+                 <h3 style="line-height:42px;margin-right:14px;"><span class="fuhao">￥</span><span class="jine">{{caculate.price | qf}}</span></h3>
               <div class="btn orange mr15"
                    @click="dialogVisible = true">立即购买</div>
               <div class="btn green"
@@ -234,8 +234,8 @@
           <div class="rel-title">相关产品</div>
           <ul class="card-style rel-products">
             <li v-for="x in infos.xgcp">
-              <div class="image">
-                <img :src="x.img"
+              <div class="image" >
+                <img :src="x.icon" width="100%" height="100%"
                      alt="">
               </div>
               <div class="title">{{x.title}}</div>
@@ -402,6 +402,7 @@ export default {
       currentTab: 1,
       checkpop: false, //弹框显示
       isCaculate: false, //是否已算价
+      caculate:{},//计算的总金额
       payAddr: {},
       payAddr_: {},
       dialogVisible: false,
@@ -609,8 +610,32 @@ export default {
     },
     addBuy: function () {
       // console.log(this.datas);
+            let this_ = this
+         this_.$refs.addrForm.validate((valid) => {
+        if (valid) {
+           
+            let param = {
+                token: this_.$store.state.token,
+                page_id: this_.page_id,
+                data: this_.getData(),
+                id:this_.caculate.id
+            }
+            console.log(param)
+            this_.$post('post', 'Goods/cartCreate', param).then((res) => {
+                if (res.code == 1) {
+                    this_.$message({
+                        type:"success",
+                        message:res.info
+                    });
+                }
+            })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
-    calculate() {
+    calculateFun() {
          let this_ = this
          this_.$refs.addrForm.validate((valid) => {
         if (valid) {
@@ -623,6 +648,7 @@ export default {
             console.log(param)
             this_.$post('post', 'Goods/price', param).then((res) => {
                 if (res.code == 1) {
+                    this_.caculate = res.data;
                     this_.checkpop = false;
                     this_.isCaculate = true
                 }
@@ -642,10 +668,10 @@ export default {
       let addr = {} //取货方式1邮寄 2自提
       if (this_.currentTab == 1) {
         addr = this_.payAddr
-        delete addr.ssq
+        // delete addr.ssq
       } else {
         addr = this_.payAddr_
-        delete addr.ssq_
+        // delete addr.ssq_
       }
       addr['qhtype'] = this_.currentTab
       obj = { ...this_.params, ...addr }
@@ -671,7 +697,8 @@ export default {
             this.selectedRow.prov_code,
             this.selectedRow.city_code,
             this.selectedRow.dist_code,
-          ]
+          ];
+           this_.$refs.addrForm.resetFields();
         })
         .then(() => {
           this.radioId = ''
@@ -791,7 +818,7 @@ export default {
           width: 134px;
           height: 134px;
           margin: 75px auto 8px;
-          border: 1px solid #666;
+          border: none;
         }
         .title {
           margin-bottom: 8px;
@@ -816,6 +843,15 @@ export default {
   justify-content: space-between;
 }
 .buy-btn {
+    .fuhao{
+         font-size: 14px;
+        color: #ff3333;
+    }
+    .jine{
+        font-size: 24px;
+        color: #ff3333;
+    }
+
   .btn {
     height: 42px;
     line-height: 28px;

@@ -83,7 +83,7 @@
           <li>印面</li>
         </ul>
         <div class="fengpi-table-content">
-          <ul v-for="(x,index) in neiyeDatas">
+          <ul v-for="(x,index) in fengpiDatas">
             <li style="width:233px;">
               <el-select class="form-contrl yhc-el"
                          placeholder="选择材料"
@@ -129,7 +129,7 @@
                              :key="x.value"
                              v-model="x.model_">
                 </el-checkbox>
-                <el-select class="mini width78"
+                <el-select class="mini width78" placeholder="类型"
                            v-model="x.drop"
                            v-if="x.types">
                   <el-option v-for="i in x.types"
@@ -255,6 +255,7 @@ export default {
         model_: false,
       },
       xuanchuan_mates:this.cnst.xuanchuan_mates,
+      fengpiDatas: [{ mate: '', mate2: '', color: '', boolean: 1 }],
       neiyeDatas: [{ mate: '', mate2: '', color: '', boolean: 1 }],
       xuanchuan_gongyi: [
         { name: '封面亮膜', value: '1' },

@@ -1,10 +1,12 @@
 <template>
   <div class='attr-operate banner-attr'>
-    <el-form label-width="100px"  :model="params"
+    <el-form label-width="100px"
+             :model="params"
              :rules="rulesForm"
              ref="ruleForm"
              class="bgGreen">
-      <el-form-item label="材料" prop="cailiao"
+      <el-form-item label="材料"
+                    prop="cailiao"
                     class="cailiao">
         <el-col :span="7">
           <el-select class="form-contrl width100"
@@ -12,12 +14,13 @@
                      v-model="params.cailiao">
             <el-option v-for="i in cnst.buganjiao_materials"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="尺寸(毫米)" prop="chicun"
+      <el-form-item label="尺寸(毫米)"
+                    prop="chicun"
                     class="rules">
         <el-col :span="7">
           <el-select class="form-contrl width100"
@@ -25,7 +28,7 @@
                      v-model="params.chicun">
             <el-option v-for="i in cnst.buganjiao_rules"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
@@ -43,40 +46,55 @@
 
         <el-input-number v-model="typeNumFun"
                          :min="0"
-                         :max="10" disabled></el-input-number>
+                         :max="10"
+                         disabled></el-input-number>
       </el-form-item>
       <el-form-item label="工艺"
                     class="gongyiType mg-none">
         <div v-for="(x,index) in cnst.buganjiao_gongyi"
-             class="displayFl">
+             class="displayFl"
+             style="align-items: center;">
           <el-checkbox :label="x.name"
                        :value="x.value"
                        name="type"
                        :key="x.value"
-                       v-model="x.model_">
+                       v-model="x.checkbox"
+                       @change="checkChange(x,index)">
           </el-checkbox>
           <el-tooltip v-if="x.name=='拼大张'"
                       class="item"
                       effect="dark"
                       content="当“拼大张”时，算价尺寸为小成品尺寸，数量时拼好的大张数量"
                       placement="top">
-            <div class="yhc-tips">!</div>
+            <div class="yhc-tips"
+                 style="margin-top:0;">!</div>
           </el-tooltip>
           <el-select class="mini width78"
                      v-show="x.name=='模切'"
-                     v-model="x.drop">
-            <el-option v-for="i in cnst.buganjiao_moqie"
+                     v-model="x.drop"
+                     @change="dropChange(x,$event)">
+            <el-option v-for="i in x.drops"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
 
           <div v-show="x.name=='拼大张'"
                class="yhc-el-input displayFl mt5">
-            <el-input class="mini mr10"
-                      placeholder="长边拼数"></el-input>
-            <el-input class="mini"
-                      placeholder="短边拼数"></el-input>
+            <div v-for="y in x.inputs">
+              <el-input type="text"
+                        class="mini mr10"
+                        style="width:78px;"
+                        placeholder="长边拼数"
+                        v-model="y.changbian"
+                        @input="inputChange(x,y)"></el-input>
+              <el-input type="text"
+                        class="mini"
+                        style="width:78px;"
+                        placeholder="短边拼数"
+                        v-model="y.duanbian"
+                        @input="inputChange(x,y)"></el-input>
+            </div>
           </div>
         </div>
       </el-form-item>
@@ -92,15 +110,22 @@
 </template>
 
 <script>
-
 export default {
   name: 'photo-detail',
-   metaInfo: {
-      title: '易绘创官网-不干胶印刷|不干胶贴制作|在线不干胶标签印刷设计',
-      meta: [
-        { name:"keywords",content:'不干胶印刷,不干胶制作,不干胶标签,不干胶设计,不干胶贴印刷,不干胶贴制作,易绘创'},
-        { name:"description",content:'不干胶制作印刷和不干胶设计就来易绘创（yihuichuang.com），提供一站式不干胶制作、不干胶印刷、不干胶标签设计、不干胶贴纸打印等不干胶印刷设计服务。包含不干胶标签、不干胶贴纸、不干胶标签纸、透明不干胶等产品信息。' },
-      ]
+  metaInfo: {
+    title: '易绘创官网-不干胶印刷|不干胶贴制作|在线不干胶标签印刷设计',
+    meta: [
+      {
+        name: 'keywords',
+        content:
+          '不干胶印刷,不干胶制作,不干胶标签,不干胶设计,不干胶贴印刷,不干胶贴制作,易绘创',
+      },
+      {
+        name: 'description',
+        content:
+          '不干胶制作印刷和不干胶设计就来易绘创（yihuichuang.com），提供一站式不干胶制作、不干胶印刷、不干胶标签设计、不干胶贴纸打印等不干胶印刷设计服务。包含不干胶标签、不干胶贴纸、不干胶标签纸、透明不干胶等产品信息。',
+      },
+    ],
   },
   data() {
     return {
@@ -108,29 +133,23 @@ export default {
       currentVal: 1,
       params: {
         cailiao: '',
-        chicun:"",
+        chicun: '',
         num: 1,
         typeNum: 0,
         gongyi: [],
       },
-      rulesForm:{
-          cailiao: [
-            { required: true, message: '请选择材料', trigger: 'change' },
-          ],
-          chicun: [
-            { required: true, message: '请选择尺寸', trigger: 'change' },
-          ],
+      rulesForm: {
+        cailiao: [{ required: true, message: '请选择材料', trigger: 'change' }],
+        chicun: [{ required: true, message: '请选择尺寸', trigger: 'change' }],
       },
-      
     }
   },
-  props:["models","files"],
-  components: { },
+  props: ['models', 'files'],
+  components: {},
   created() {
     this.cnst.zheye_types_gongyi.map((v, i) => {})
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     handleChange: function () {},
     changeBtn: function (n) {
@@ -142,26 +161,67 @@ export default {
       })[0].drops
       console.log(this.typelist)
     },
-  },
-   computed: {
-      typeNumFun: {
-        get(){
-            return parseInt(this.files.length  + this.models.length);
-        },
-        set(v) {
-            this.params.typeNum = v
+    checkChange(x, ind) {
+      if (x.checkbox) {
+        let o = { name: x.name }
+        if (x.drop) {
+          o.drop = x.drop
         }
+        if (x.inputs) {
+          o.inputs = x.inputs
+        }
+        this.params.gongyi.push(o)
+      } else {
+        this.params.gongyi = this.params.gongyi.filter((t) => t.name != x.name)
+      }
+      console.log(this.params.gongyi, 'list')
+      this.$forceUpdate()
+    },
+    dropChange(x, e) {
+      let list = this.params.gongyi
+      if (x.checkbox) {
+        for (let i in list) {
+          if (list[i].name == x.name && x.drop) {
+            list[i].drop = x.drop
+          }
+        }
+      }
+      console.log(list)
+      this.$forceUpdate()
+    },
+    inputChange(x, y) {
+      let list = this.params.gongyi
+      if (x.checkbox) {
+        for (let i in list) {
+          list[i].inputs = []
+          if (list[i].name == x.name) {
+            list[i].inputs.push(y)
+          }
+        }
+      }
+      console.log(list)
+      this.$forceUpdate()
     },
   },
-  watch:{
-      params:{
-          handler(nV,oV){
-              console.log(nV);
-              this.$emit("detailChange",nV);
-          },
-          deep:true
+  computed: {
+    typeNumFun: {
+      get() {
+        return parseInt(this.files.length + this.models.length)
       },
-  }
+      set(v) {
+        this.params.typeNum = v
+      },
+    },
+  },
+  watch: {
+    params: {
+      handler(nV, oV) {
+        console.log(nV)
+        this.$emit('detailChange', nV)
+      },
+      deep: true,
+    },
+  },
 }
 </script>
 <style lang='less' scoped>

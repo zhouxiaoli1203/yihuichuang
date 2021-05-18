@@ -91,17 +91,31 @@
         <el-form-item v-if="currentVal == 1"
                       label="工艺"
                       class="gongyiType mg-none">
-            <el-checkbox-group v-model="params.gongyi">
+           <div v-for="(x,index) in cnst.qizhi_types">
+            <el-checkbox :label="x.name"
+                         :value="x.value"
+                         name="type"
+                         :key="x.value" v-model="x.checkbox" @change="checkChange(x,index)">
+            </el-checkbox>
+            <el-select class="mini" v-show="x.select" v-model="x.drop" @change="dropChange(x,$event)">
+              <el-option v-for="i in x.drops"
+                         :label="i.name"
+                         :value="i.name"
+                         :key="i.value"></el-option>
+            </el-select>
+          </div>
+
+            <!-- <el-checkbox-group v-model="params.gongyi">
                 <el-checkbox v-for="x in cnst.qizhi_types" :label="x.name" :key="x.value" name="type">
                 <span v-if="x.name == '缝筒'">{{x.name}}</span>
                 <el-select class="mini" v-if="x.name == '缝筒'" v-model="params.drop" style="width:120px;margin-right:15px;">
                     <el-option v-for="i in x.drops"
                                 :label="i.name"
-                                :value="i.value"
+                                :value="i.name"
                                 :key="i.value"></el-option>
                     </el-select>
                 </el-checkbox>
-            </el-checkbox-group>          
+            </el-checkbox-group>           -->
         </el-form-item>
     </el-form>
 
@@ -165,6 +179,31 @@ export default {
         this.params.duanbian="";
         this.params.chicun="";
     },
+        checkChange(x,ind){
+        if(x.checkbox){
+            let o = {name:x.name};
+            if(x.drop){
+                o.drop = x.drop;
+            }
+            this.params.gongyi.push(o);
+        }else{
+            this.params.gongyi = this.params.gongyi.filter(t => t.name != x.name);
+        }
+        console.log(this.params.gongyi,"list");
+        this.$forceUpdate();
+    },
+    dropChange(x,e){
+        let list = this.params.gongyi;
+        if(x.checkbox){
+            for(let i in list){
+                if(list[i].name == x.name && x.drop){
+                    list[i].drop = x.drop;
+                }
+            }
+        }
+        console.log(list);
+        this.$forceUpdate();
+    }
   },
    computed: {
       typeNumFun: {
