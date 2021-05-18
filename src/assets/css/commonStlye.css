@@ -11,7 +11,7 @@
 }
 .card-style {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 .card-style li {
@@ -19,6 +19,9 @@
   height: 400px;
   background: #D8D8D8;
   border-radius: 8px;
+}
+.card-style li:not(:last-child) {
+  margin-right: 47px;
 }
 .card-style li .image {
   width: 190px;
@@ -185,6 +188,29 @@
   font-size: 12px;
   padding-left: 10px;
 }
+.yhc-dialog .el-dialog__header {
+  padding: 15px 24px 15px;
+}
+.yhc-dialog .el-dialog__title {
+  font-size: 16px;
+}
+.yhc-dialog .el-dialog__body {
+  padding: 10px 24px;
+}
+.yhc-dialog .el-dialog__footer {
+  padding: 10px 24px 20px;
+}
+.yhc-dialog .el-dialog__footer .el-button--primary {
+  background-color: #3551DF;
+  border-color: #3551DF;
+}
+.yhc-dialog .el-textarea__inner {
+  height: 170px;
+  background: #F2F3F8;
+}
+.yhc-dialog .el-button {
+  padding: 7px 13px;
+}
 .yhc-radios .el-radio {
   margin-bottom: 24px;
 }
@@ -237,6 +263,9 @@
   color: #4e9f5b !important;
   border-top: 3px solid #4e9f5b !important;
 }
+.yhc-el-tabs .el-tabs--border-card .el-tabs__content {
+  padding: 0 !important;
+}
 .el-button.yhc_btn {
   background: #4E9F5B;
   color: #fff;
@@ -262,6 +291,12 @@
 .tabs-box .tab-plane.active {
   color: #4E9F5B;
   border-bottom: 2px solid #4E9F5B;
+}
+.tabs-box .selectAddr {
+  cursor: pointer;
+  padding: 4px 0;
+  line-height: 18px;
+  color: #476dff;
 }
 .btn-box {
   display: flex;
@@ -308,17 +343,21 @@
 }
 .yhc-attr-btns {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .yhc-attr-btns .btn {
+  color: #C0C4CC;
   background: #fff;
   border: 1px solid #c8cbd6;
 }
+.yhc-attr-btns .btn:not(:last-child) {
+  margin-right: 16px;
+}
 .yhc-attr-btns .btn:hover,
 .yhc-attr-btns .btn.active {
-  color: #476dff;
-  background: #ebf0ff;
-  border: 1px solid #3c63ff;
+  color: #4E9F5B;
+  background: #fff;
+  border: 1px solid #4E9F5B;
 }
 .ych-title-head {
   height: 40px;
@@ -484,7 +523,7 @@
   align-items: center;
   justify-content: center;
 }
-.publicPorp .btnBox span {
+.publicPorp .btnBox .span {
   width: 85px;
   height: 34px;
   border-radius: 4px;
@@ -493,12 +532,24 @@
   line-height: 34px;
   cursor: pointer;
 }
-.publicPorp .btnBox span:first-child {
+.publicPorp .btnBox .span:first-child {
   background: #DBDBDB;
   margin-right: 24px;
 }
-.publicPorp .btnBox span:last-child {
+.publicPorp .btnBox .span:last-child {
   background: #4E9F5B;
+}
+.publicPorp .buttonBox .el-form-item__content {
+  margin-left: 0 !important;
+}
+.publicPorp .buttonBox .el-button {
+  padding: 0 !important;
+}
+.publicPorp .buttonBox .el-button + .el-button {
+  margin-left: 0 !important;
+}
+.publicPorp .buttonBox .el-button:active {
+  border: none !important;
 }
 .loginBoxPorp .el-form-item .el-form-item__content {
   width: 100%;

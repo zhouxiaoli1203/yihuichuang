@@ -72,13 +72,13 @@
     <section class="modifyBox publicPorp userPicturePorp"  v-show="userPublic" >
       <i class="el-icon-close" @click="userClose"></i>
       <div class="tabNav">
-          <el-tabs tab-position="left" type="border-card" style="height: 100%;" v-model="activeName">
+          <el-tabs tab-position="left" type="border-card" style="height: 100%;" v-model="activeName" >
               <el-tab-pane label="编辑" name="编辑">
                   <div class="editInput">
                       <h4>编辑照片信息</h4>
                   </div> 
   
-                  <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm">
+                  <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
                       <el-form-item
                         prop="nickname"
                         :rules="[
@@ -87,9 +87,9 @@
                       >
                         <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入照片名称" maxlength="9" show-word-limit></el-input>
                       </el-form-item>
-                      <el-form-item class="btns">
-                          <button  @click="userClose" class="spanBtn">取消</button>
-                          <button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</button>                           
+                      <el-form-item class="btns buttonBox">
+                        <el-button  @click="userClose" class="spanBtn">取消</el-button>
+                        <el-button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</el-button>                           
                       </el-form-item>
                   </el-form>
               </el-tab-pane>

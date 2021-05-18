@@ -55,7 +55,6 @@
                     <div class="editInput">
                         <h4>编辑用户名称</h4>
                     </div> 
-    
                     <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
                         <el-form-item
                             prop="nickname"
@@ -65,9 +64,9 @@
                         >
                          <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入用户名称"></el-input>
                         </el-form-item>
-                        <el-form-item class="btns">
-                            <button  @click.prevent="userClose" class="spanBtn">取消</button>
-                            <button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')" v-button>确定</button>                           
+                        <el-form-item class="btns buttonBox">
+                            <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>
+                            <el-button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')" v-button>确定</el-button>                           
                         </el-form-item>
                     </el-form>
 
@@ -129,9 +128,9 @@
                             </el-row>
                         </el-form-item>
 
-                         <el-form-item class="btns">
-                            <button  @click.prevent="userClose" class="spanBtn">取消</button>
-                            <button  class="spanBtn" type="primary" @click.prevent="phoneModifySubmit('phoneModifyForm')" v-button>确定</button>                           
+                         <el-form-item class="btns buttonBox">
+                            <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>
+                            <el-button  class="spanBtn" type="primary" @click.prevent="phoneModifySubmit('phoneModifyForm')" v-button>确定</el-button>                           
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -140,11 +139,11 @@
     </section>
     <div class="mask" v-show="userPublic" @click="userClose"></div>
 
-     <!-- 充值 -->
-    <rechargePorp :chongzhiPorp="chongzhiPorp" @changeShow="showAddOrUpdate"></rechargePorp>
+    <!-- 充值 -->
+    <rechargePorp ref="chongzhiPorp"></rechargePorp>
     <!-- 消费记录 -->
-    <consumePorp :xiaofeiPorp="xiaofeiPorp" @xiaofeiShow="xiaofeiUpdate"></consumePorp>
-
+    <consumePorp ref="xiaofeiPorp" ></consumePorp>
+    
   </div>
 </template>
 
@@ -210,8 +209,6 @@ export default {
                 ],
             },
             timeSend:60,
-            xiaofeiPorp:false,
-            chongzhiPorp:false,
             token:'',
             imgResult:'',
             imgList:[],
@@ -301,27 +298,11 @@ export default {
 
         // 充值
         RechargeClick(){
-            this.chongzhiPorp=true
-        },
-        // 监听 子组件弹窗关闭后触发，有子组件调用
-        showAddOrUpdate(data){
-            if(data === 'false'){
-                this.chongzhiPorp = false
-            }else{
-                this.chongzhiPorp = true
-            }
+            this.$refs.chongzhiPorp.onClick(true); //给子组件传递点击事件
         },
         // 消费
         recordBoxClick(){
-            this.xiaofeiPorp = true
-        },
-
-        xiaofeiUpdate(data){
-            if(data === 'false'){
-                this.xiaofeiPorp = false
-            }else{
-                this.xiaofeiPorp = true
-            }
+            this.$refs.xiaofeiPorp.xiaoFeiClick(true); //给子组件传递点击事件
         },
 
         // 获取验证码倒计时

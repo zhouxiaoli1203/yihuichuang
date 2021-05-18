@@ -56,16 +56,9 @@
 <script>
 export default {
     name: 'recharge',
-    props:{
-        chongzhiPorp:{
-            type: Boolean,         
-            default: false
-        }
-    },
+    props:{},
     data() {
         return {
-            Alipay: require('../assets/img/user/Alipay.png'),
-            weChat: require('../assets/img/user/weChat.png'),
             recharge:false,
             face: require('../assets/img/common/head.png'),
             nickname:'',
@@ -100,7 +93,8 @@ export default {
                     img:require('@/assets/img/user/weChat.png'),
                     val:'wxpay'
                 },
-            ]
+            ],
+            token:'',
         }
     },
     components: {},
@@ -112,8 +106,15 @@ export default {
     },
     mounted() {},
     methods: {
+        // 父组件的点击事件
+        onClick(param){
+            this.recharge = true
+            if(param == true){
+                this.BillCz(this.paymodeIndex,this.activeIndex);
+            }
+        },
         userClose(){ 
-            this.$emit('changeShow','false')
+            this.recharge = false
         },
         // 获取个人信息
         userinfoFn(val){
@@ -126,16 +127,18 @@ export default {
         // 切换套餐
         categoryClick(val){
             this.activeIndex = val
+            this.BillCz(this.paymodeIndex,val);
         },
         // 切换支付方式
         paymodeClick(val){
             this.paymodeIndex = val
+            this.BillCz(val,this.activeIndex);
         },
 
         // 余额充值
-        BillCz(){
+        BillCz(paymode,category){
             this.$post('post','Bill/cz',{
-                token,
+                token:this.token,
                 paymode,
                 category
             }).then((res)=>{
@@ -149,9 +152,6 @@ export default {
         },
     },
     watch:{
-        chongzhiPorp(oldVal,newVal){
-            this.recharge = this.chongzhiPorp
-        },
         headInfo: function (val) {
            this.userinfoFn(val)
         },

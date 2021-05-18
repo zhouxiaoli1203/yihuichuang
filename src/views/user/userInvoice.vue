@@ -78,10 +78,10 @@
         <el-form-item label="开票金额">
           <el-input v-model="form.name" placeholder="请输入注册开票金额"></el-input>
         </el-form-item>
-        <div class="btnBox">
-          <span @click="closePorp">取消</span>
-          <span  @click="onSubmit">提交</span>
-        </div>
+        <el-form-item class="btnBox buttonBox">
+          <el-button @click.prevent="closePorp" class="span" >取消</el-button>
+          <el-button @click.prevent="onSubmit" class="span" v-button>提交</el-button>
+        </el-form-item>
       </el-form>
     </section>
     <div class="mask" v-show="BillingPorp" @click="closePorp"></div>

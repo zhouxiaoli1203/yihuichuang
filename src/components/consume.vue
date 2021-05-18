@@ -6,72 +6,7 @@
                 <img :src="close" alt="" @click="userClose">
             </div>
             <ul>
-                <li>
-                    <div class="infoBox">
-                        <img src="" alt="">
-                        <div class="info">
-                            <p>购买******商品消费余额***元</p>
-                            <span>2021-02-11</span>
-                        </div>
-                    </div>
-                    <div class="money">
-                        <p>2021-02-11</p>
-                        <span>成功</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="infoBox">
-                        <img src="" alt="">
-                        <div class="info">
-                            <p>购买******商品消费余额***元</p>
-                            <span>2021-02-11</span>
-                        </div>
-                    </div>
-                    <div class="money">
-                        <p>2021-02-11</p>
-                        <span>成功</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="infoBox">
-                        <img src="" alt="">
-                        <div class="info">
-                            <p>购买******商品消费余额***元</p>
-                            <span>2021-02-11</span>
-                        </div>
-                    </div>
-                    <div class="money">
-                        <p>2021-02-11</p>
-                        <span>成功</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="infoBox">
-                        <img src="" alt="">
-                        <div class="info">
-                            <p>购买******商品消费余额***元</p>
-                            <span>2021-02-11</span>
-                        </div>
-                    </div>
-                    <div class="money">
-                        <p>2021-02-11</p>
-                        <span>成功</span>
-                    </div>
-                </li> 
-                <li>
-                    <div class="infoBox">
-                        <img src="" alt="">
-                        <div class="info">
-                            <p>购买******商品消费余额***元</p>
-                            <span>2021-02-11</span>
-                        </div>
-                    </div>
-                    <div class="money">
-                        <p>2021-02-11</p>
-                        <span>成功</span>
-                    </div>
-                </li>
-                <li>
+                <li v-for="item in 6">
                     <div class="infoBox">
                         <img src="" alt="">
                         <div class="info">
@@ -101,10 +36,6 @@
 export default {
     name: 'consume',
     props:{
-        xiaofeiPorp:{
-            type: Boolean,         
-            default: false
-        }
     },
     data() {
     return {
@@ -118,14 +49,16 @@ export default {
     mounted() {},
     methods: {
         userClose(){ 
-            console.log(111)
-            this.$emit('xiaofeiShow','false')
-        }
+            this.recordBox = false
+        },
+        // 父组件的点击事件
+        xiaoFeiClick(param){
+            this.recordBox = true
+            if(param == true){
+            }
+        },
     },
     watch:{
-        xiaofeiPorp(oldVal,newVal){
-            this.recordBox = this.xiaofeiPorp
-        },
     }
 }
 </script>

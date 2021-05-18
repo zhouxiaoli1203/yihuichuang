@@ -66,7 +66,7 @@
                       <h4>编辑文件信息</h4>
                   </div> 
   
-                  <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm">
+                  <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
                       <el-form-item
                         prop="nickname"
                         :rules="[
@@ -75,9 +75,9 @@
                       >
                         <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入文件名称" maxlength="9" show-word-limit></el-input>
                       </el-form-item>
-                      <el-form-item class="btns">
-                          <button  @click="userClose" class="spanBtn">取消</button>
-                          <button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</button>                           
+                      <el-form-item class="btns buttonBox">
+                          <el-button  @click="userClose" class="spanBtn">取消</el-button>
+                          <el-button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</el-button>                           
                       </el-form-item>
                   </el-form>
               </el-tab-pane>

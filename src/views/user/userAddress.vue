@@ -84,7 +84,6 @@
                       placeholder="请选择省市区"
                       @change="cityChange">
           </el-cascader>
-
         </el-form-item>
         <el-form-item label="详细地址" prop="detail">
           <el-input type="textarea" v-model="ruleForm.detail" placeholder="请输入详细地址"></el-input>
@@ -110,10 +109,10 @@
         <el-form-item  prop="default">
           <el-checkbox v-model="ruleForm.default">设置为默认收货地址</el-checkbox>
         </el-form-item>
-        <div class="btnBox">
-          <button @click.prevent="closePorp" class="span">取消</button>
-          <button  @click.prevent="submitForm('ruleForm')" class="span" v-button>保存</button>
-        </div>
+        <el-form-item class="btnBox buttonBox">
+            <el-button @click.prevent="closePorp" class="span" >取消</el-button>
+            <el-button @click.prevent="submitForm('ruleForm')" class="span" v-button>保存</el-button>
+          </el-form-item>
       </el-form>
     </section>
     <div class="mask" v-show="addAreaBox" @click="closePorp"></div>
@@ -548,7 +547,7 @@
     align-items: center;
     justify-content: center;
 
-    .span{
+    button{
       width: 85px;
       height: 34px;
       border-radius: 4px;
@@ -557,11 +556,11 @@
       line-height: 34px;
       cursor: pointer;
     }
-    .span:first-child{
+    button:first-child{
       background: #DBDBDB;
       margin-right: 24px;
     }
-    .span:last-child{
+    button:last-child{
       background: #4E9F5B;
     }
     

@@ -4,7 +4,6 @@
         <div class="crumbsHeader">
             <div class="crumbs">
                 <span @click="pathIndex()">首页 / </span>
-                <!-- <span @click="pathNews()">帮助支持 /</span> -->
                 <span>余额管理</span>
             </div>
         </div>
@@ -62,9 +61,9 @@
     </section>
 
     <!-- 充值 -->
-    <rechargePorp :chongzhiPorp="chongzhiPorp" @changeShow="showAddOrUpdate"></rechargePorp>
+    <rechargePorp ref="chongzhiPorp"></rechargePorp>
     <!-- 消费记录 -->
-    <consumePorp :xiaofeiPorp="xiaofeiPorp" @xiaofeiShow="xiaofeiUpdate"></consumePorp>
+    <consumePorp ref="xiaofeiPorp"></consumePorp>
     
   </div>
 </template>
@@ -84,8 +83,6 @@ import consumePorp from '../../components/consume'
       return {
         bill: require('../../assets/img/user/bill.png'),
         close: require('../../assets/img/user/close.png'),
-        xiaofeiPorp:false,
-        chongzhiPorp:false,
         billPorp:false,
         money:0,
       }
@@ -104,19 +101,11 @@ import consumePorp from '../../components/consume'
 
         // 充值
         RechargeClick(){
-            this.chongzhiPorp=true
-        },
-        // 监听 子组件弹窗关闭后触发，有子组件调用
-        showAddOrUpdate(data){
-            if(data === 'false'){
-                this.chongzhiPorp = false
-            }else{
-                this.chongzhiPorp = true
-            }
+            this.$refs.chongzhiPorp.onClick(true); //给子组件传递点击事件
         },
         // 消费
         recordBoxClick(){
-            this.xiaofeiPorp = true
+            this.$refs.xiaofeiPorp.xiaoFeiClick(true); //给子组件传递点击事件
         },
 
         // 点击账单
@@ -126,16 +115,6 @@ import consumePorp from '../../components/consume'
         billClose(){
             this.billPorp = false
         },
-
-        xiaofeiUpdate(data){
-            if(data === 'false'){
-                this.xiaofeiPorp = false
-            }else{
-                this.xiaofeiPorp = true
-            }
-        },
-
-
         gotoMore(){
             this.$router.push("/news/detail");
         },
