@@ -48,7 +48,7 @@
               <div class="lineh105">{{item.price}}</div>
               <div class="t_a_c lineh105">
                 <span class="edit-icon el-icon-edit-outline mr10"
-                      @click="editShangin(item)"></span>
+                      @click.stop="editShangin(item)"></span>
                 <span class="delete-icon el-icon-delete"
                       @click.stop="delSahngpin(item)"></span>
               </div>
@@ -201,6 +201,22 @@ export default {
         this.checkedCities.length == this.cartList.length ? true : false
       console.log(this.checkedCities)
     },
+    editShangin:function(x){
+        if(this.$store.state.token){
+            this.$router.push({  //核心语句
+              path:'/print/detial',   //跳转的路径
+              query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                  page_id:x.page_id,
+                  attrId:x.id
+              }
+            })
+        }else{
+            this.$message({
+                type:"warning",
+                message: '请先登录!'
+            });
+        }
+    }
   },
 }
 </script>

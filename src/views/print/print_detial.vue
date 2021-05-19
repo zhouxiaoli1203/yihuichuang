@@ -19,8 +19,11 @@
           <component ref="child"
                      v-bind:is="attrViews"
                      @detailChange="attrDetails"
+                     v-if="params_"
+                     :datas="params_"
+                     :files="params.files"
                      :models="params.models"
-                     :files="params.files"></component>
+                    ></component>
 
           <!-- <Ribbon></Ribbon> -->
           <!-- 上传文件按钮 -->
@@ -181,7 +184,7 @@
               </div>
             </div>
             <div class="buy-btn displayFl" v-if="isCaculate">
-                 <h3 style="line-height:42px;margin-right:14px;"><span class="fuhao">￥</span><span class="jine">{{caculate.price | qf}}</span></h3>
+                 <h3 style="line-height:42px;margin-right:14px;"><span class="fuhao">￥</span><span class="jine">{{caculate.price/100 | qf}}</span></h3>
               <div class="btn orange mr15"
                    @click="dialogVisible = true">立即购买</div>
               <div class="btn green"
@@ -379,6 +382,7 @@ export default {
         files: [],
         models: [],
       },
+      params_:{},
       //以下是算价，购买单子
       options: regionData,
       tabs: [
@@ -467,13 +471,15 @@ export default {
   },
   created() {
     this.page_id = this.$route.query.page_id
+    this.attrId = this.$route.query.attrId;
     this.design_id = this.$route.query.design_id
     if (this.design_id) {
       this.params.models.push({ name: '我的模板', designId: this.design_id })
     } else {
       this.params.models = []
     }
-    this.getDetails(this.page_id)
+    this.getDetails(this.page_id);//获取页面信息
+    this.getAttrs(this.attrId);//编辑获取商品属性
     let arr = []
     arr = this.arr.filter((v) => {
       return this.page_id == v.id
@@ -490,6 +496,7 @@ export default {
       if (!this_.$store.state.token) {
         return this_.$message({
           type: 'warning',
+           offset:"68",
           message: '请先登录!',
         })
       }
@@ -503,6 +510,39 @@ export default {
           this_.infos = res.data
         }
       })
+    },
+    getAttrs(id){
+        let this_ = this
+        if(id){
+            if (!this_.$store.state.token) {
+                return this_.$message({
+                type: 'warning',
+                 offset:"68",
+                message: '请先登录!',
+                })
+            }
+            let param = {
+                token: this_.$store.state.token,
+                id: id,
+            }
+           this_.$post('post', 'Goods/cartGet', param).then((res) => {
+                if (res.code == 1) {
+                    this_.params_ = res.data.data.data;
+                    this_.params.files = res.data.data.data.files;
+                    this_.params.models = res.data.data.data.models;
+                    if(res.data.data.data.address){
+                        let adr = res.data.data.data.address;
+                        this_.currentTab = adr.qhtype;
+                        if(adr.qhtype==1){
+                            this_.payAddr = res.data.data.data.address;
+                        }else{
+                            this_.payAddr_ = res.data.data.data.address;
+                        }
+                    }
+                    
+                }
+            }) 
+        }
     },
     goBack: function () {
       this.$router.push({
@@ -552,6 +592,7 @@ export default {
       if (this_.params.models.length >= 1) {
         return this_.$message({
           type: 'warning',
+           offset:"68",
           message: '只可选择一个模板',
         })
       }
@@ -618,7 +659,8 @@ export default {
                 token: this_.$store.state.token,
                 page_id: this_.page_id,
                 data: this_.getData(),
-                id:this_.caculate.id
+                id:this_.caculate.id,
+                cart_id:this_.attrId
             }
             console.log(param)
             this_.$post('post', 'Goods/cartCreate', param).then((res) => {
@@ -639,7 +681,6 @@ export default {
          let this_ = this
          this_.$refs.addrForm.validate((valid) => {
         if (valid) {
-           
             let param = {
                 token: this_.$store.state.token,
                 page_id: this_.page_id,
@@ -665,31 +706,30 @@ export default {
     getData() {
       let obj = {}
       let this_ = this
-      let addr = {} //取货方式1邮寄 2自提
+      let addr = {address:""} //取货方式1邮寄 2自提
       if (this_.currentTab == 1) {
-        addr = this_.payAddr
+        addr.address = this_.payAddr
         // delete addr.ssq
       } else {
-        addr = this_.payAddr_
+        addr.address = this_.payAddr_
         // delete addr.ssq_
       }
-      addr['qhtype'] = this_.currentTab
+      addr.address['qhtype'] = this_.currentTab
       obj = { ...this_.params, ...addr }
-      if (obj.files && obj.files.length > 0) {
-        let f = obj.files
-        let str = ''
-        f.map((v, i) => {
-          str += v.key + ','
-        })
-        str = str.substring(0, str.length - 1)
-        obj.files = str
-      }
+    //   if (obj.files && obj.files.length > 0) {
+    //     let f = obj.files
+    //     let str = ''
+    //     f.map((v, i) => {
+    //       str += v.key + ','
+    //     })
+    //     str = str.substring(0, str.length - 1)
+    //     obj.fileStr = str
+    //   }
       return obj
     },
     // 以下是收货地址弹框
     openAddr() {
       let this_ = this
-
       this_.$refs.addr_pop
         .open((cancel) => {
           this.payAddr = this.selectedRow
@@ -729,8 +769,16 @@ export default {
       console.log(this.form)
     },
     initPop() {
+
       this.$refs.child.$refs.ruleForm.validate((valid) => {
         if (valid) {
+            if(parseInt((this.params.files?this.params.files.length:0)  + (this.params.models?this.params.models.length:0)) == 0){
+                return this.$message({
+                    type:"error",
+                    offset:"68",
+                    message:"模板或稿件不能为空"
+                })
+            }
             this.checkpop = !this.checkpop;
             if(!this.checkpop){
                 this.currentTab = 1;

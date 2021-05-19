@@ -82,8 +82,7 @@
                 :span="2">×</el-col>
         <el-col :span="6">
           <el-form-item prop="duanbian">
-            <el-input v-enterNumber
-                      v-model="params.duanbian"
+            <el-input v-model="params.duanbian"
                       placeholder="短边"></el-input>
           </el-form-item>
         </el-col>
@@ -107,7 +106,7 @@
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum"
-                    :class='{"mg-none":currentVal == 3}'>
+                    :class='{"mg-none":params.chanpinType == 3}'>
         <el-input-number v-model="typeNumFun"
                          :min="0"
                          :max="10"
@@ -115,8 +114,8 @@
       </el-form-item>
       <el-form-item label="印面">
         <el-radio-group v-model="params.radio">
-          <el-radio :label="2">双面</el-radio>
-          <el-radio :label="1">单面</el-radio>
+          <el-radio label="2">双面</el-radio>
+          <el-radio label="1">单面</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="工艺"
@@ -179,8 +178,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      currentVal: 1,
       params: {
+        chanpinType:"1",
         zidingyi: false,
         cailiao: '',
         chicun:'',
@@ -188,7 +187,7 @@ export default {
         duanbian:'',
         num: 1,
         typeNum: 0,
-        radio: 2,
+        radio: "2",
         gongyi: [],
       },
       rules: {
@@ -216,7 +215,7 @@ export default {
   methods: {
     handleChange: function () {},
     changeBtn: function (n) {
-      this.currentVal = n.value
+      this.params.chanpinType = n.value
     },
     checkChange(x,ind){
         if(x.checkbox){

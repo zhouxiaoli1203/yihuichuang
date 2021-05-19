@@ -8,13 +8,13 @@
                     class="chanpin">
         <el-col :span="15" class="yhc-attr-btns">
           <div class="btn"
-               :class='{"active":currentVal == b.value}'
+               :class='{"active":params.chanpinType == b.value}'
                v-for="b in cnst.qizhi_btns"
                @click="changeBtn(b)">{{b.name}}</div>
         </el-col>
       </el-form-item>
 
-      <el-form-item label="材料"  v-if="currentVal == 1" key="qizhi_cailiao" prop="cailiao"
+      <el-form-item label="材料"  v-if="params.chanpinType == 1" key="qizhi_cailiao" prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
           <el-select class="form-contrl width100"
@@ -27,7 +27,7 @@
           </el-select>
         </el-col>
       </el-form-item>
-      <el-form-item label="材料"  v-if="currentVal == 2" key="jinqi_cailiao"prop="cailiao"
+      <el-form-item label="材料"  v-if="params.chanpinType == 2" key="jinqi_cailiao"prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
           <el-select class="form-contrl width100"
@@ -41,7 +41,7 @@
         </el-col>
       </el-form-item>
 
-        <el-form-item v-if="currentVal == 1" key="qizhi_chicun" required
+        <el-form-item v-if="params.chanpinType == 1" key="qizhi_chicun" required
                       label="尺寸(米)"
                       class="rules_two">
           <el-col :span="6">
@@ -54,12 +54,12 @@
                     :span="2">×</el-col>
             <el-col :span="6" >
                 <el-form-item prop="duanbian">
-                    <el-input v-enterNumber v-model="params.duanbian"
+                    <el-input v-model="params.duanbian"
                         placeholder="短边"></el-input>
                 </el-form-item>
             </el-col>
         </el-form-item>
-        <el-form-item  v-if="currentVal == 2" key="jinqi_chicun" prop="chicun"
+        <el-form-item  v-if="params.chanpinType == 2" key="jinqi_chicun" prop="chicun"
                       label="尺寸(米)"
                       class="rules">
           <el-col :span="15">
@@ -82,13 +82,13 @@
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
-                    class="typeNum" :class='{"mg-none":currentVal == 2}'>
+                    class="typeNum" :class='{"mg-none":params.chanpinType == 2}'>
         <el-input-number v-model="typeNumFun"
                          :min="0"
                          :max="10" disabled></el-input-number>
       </el-form-item>
 
-        <el-form-item v-if="currentVal == 1"
+        <el-form-item v-if="params.chanpinType == 1"
                       label="工艺"
                       class="gongyiType mg-none">
            <div v-for="(x,index) in cnst.qizhi_types">
@@ -134,9 +134,8 @@ export default {
   },
   data() {
     return {
-      currentVal: 1,
       params: {
-          chanpinType:"旗帜",
+          chanpinType:"1",
         cailiao: '',
         changbian:"",
         duanbian:"",
@@ -164,7 +163,7 @@ export default {
       
     }
   },
-  props:["models","files"],
+  props:["datas","files","models"],
   components: { },
   created() {},
   mounted() {
@@ -172,8 +171,7 @@ export default {
   methods: {
     handleChange: function () {},
     changeBtn: function (n) {
-      this.currentVal = n.value;
-       this.params.chanpinType = n.name;
+       this.params.chanpinType = n.value;
       this.params.cailiao="";
         this.params.changbian="";
         this.params.duanbian="";
@@ -208,7 +206,7 @@ export default {
    computed: {
       typeNumFun: {
         get(){
-            return parseInt(this.files.length  + this.models.length);
+           return parseInt((this.files?this.files.length:0)  + (this.models?this.models.length:0));
         },
         set(v) {
             this.params.typeNum = v
@@ -216,6 +214,15 @@ export default {
     },
   },
   watch:{
+      datas:{
+          handler(nV,oV){
+              if(nV && JSON.stringify(nV) !='{}'){
+                  this.params = nV.attr;
+              }
+          },
+          immediate:true,
+          deep:true
+      },
       params:{
           handler(nV,oV){
               console.log(nV);

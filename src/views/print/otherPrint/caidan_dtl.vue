@@ -61,7 +61,7 @@
                     class="gongyiType mg-none">
 
         <el-checkbox label="折页"
-                     v-model="params.model_">
+                     v-model="params.checkbox">
         </el-checkbox>
         <el-select class="mini" v-model="params.drop" @change="changeTypes(params.drop)">
           <el-option v-for="i in cnst.danye_drop1.filter((v)=>{return v.value<6})"
@@ -106,13 +106,14 @@ export default {
         dialogVisible:false,
         typelist:[],
       params: {
+        chanpinType:"1",
         cailiao: '',
         chicun:'',
         num: 1,
         typeNum: 0,
         drop: '',
         drop2:"",
-        model_: false,
+        checkbox: false,
       },
       rulesForm:{
           cailiao: [
@@ -122,10 +123,9 @@ export default {
             { required: true, message: '请选择尺寸', trigger: 'change' },
           ],
       },
-      currentVal: 1,
     }
   },
-   props:["models","files"],
+   props:["datas","files","models"],
   components: {},
   created() {},
   mounted() {
@@ -134,7 +134,7 @@ export default {
   methods: {
     handleChange: function () {},
     changeBtn: function (n) {
-      this.currentVal = n.value
+      this.params.chanpinType = n.value
     },
     changeTypes: function (x) {
       this.typelist = this.cnst.danye_drop1.filter( (item,i) =>{
@@ -147,7 +147,7 @@ export default {
     computed: {
       typeNumFun: {
         get(){
-            return parseInt(this.files.length  + this.models.length);
+            return parseInt((this.files?this.files.length:0)  + (this.models?this.models.length:0));
         },
         set(v) {
             this.params.typeNum = v
@@ -155,6 +155,15 @@ export default {
     },
   },
   watch:{
+      datas:{
+          handler(nV,oV){
+              if(nV && JSON.stringify(nV) !='{}'){
+                  this.params = nV.attr;
+              }
+          },
+          immediate:true,
+          deep:true
+      },
       params:{
           handler(nV,oV){
               console.log(nV);

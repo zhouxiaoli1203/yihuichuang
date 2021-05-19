@@ -88,21 +88,18 @@ export default {
 
     }
   },
-  props:["models","files"],
+  props:["datas","files","models"],
   components: {},
   created() {},
   mounted() {
   },
   methods: {
     handleChange: function () {},
-    changeBtn: function (n) {
-      this.currentVal = n.value;
-    },
   },
    computed: {
       typeNumFun: {
         get(){
-            return parseInt(this.files.length  + this.models.length);
+            return parseInt((this.files?this.files.length:0)  + (this.models?this.models.length:0));
         },
         set(v) {
             this.params.typeNum = v
@@ -110,6 +107,15 @@ export default {
     },
   },
   watch:{
+       datas:{
+          handler(nV,oV){
+              if(nV && JSON.stringify(nV) !='{}'){
+                  this.params = nV.attr;
+              }
+          },
+          immediate:true,
+          deep:true
+      },
       params:{
           handler(nV,oV){
               console.log(nV);

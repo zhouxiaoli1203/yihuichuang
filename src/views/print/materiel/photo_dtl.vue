@@ -6,7 +6,7 @@
                     class="chanpin">
         <el-col :span="14" class="yhc-attr-btns">
           <div class="btn"
-               :class='{"active":currentVal == b.value}'
+               :class='{"active":params.chanpinType == b.value}'
                v-for="b in btns"
                @click="changeBtn(b)">{{b.name}}</div>
         </el-col>
@@ -37,7 +37,7 @@
                 :span="2">×</el-col>
         <el-col :span="6" >
             <el-form-item prop="duanbian">
-                <el-input v-enterNumber v-model="params.duanbian"
+                <el-input v-model="params.duanbian"
                     placeholder="短边"></el-input>
             </el-form-item>
         </el-col>
@@ -91,10 +91,9 @@ export default {
   },
   data() {
     return {
-      currentVal: 1,
       materials: this.cnst.photo_ot_xiezhen,
       params: {
-        chanpinType:"户外写真",
+        chanpinType:"1",
         cailiao: '',
         changbian:"",
         duanbian:"",
@@ -121,28 +120,28 @@ export default {
       ],
     }
   },
-  props:["models","files"],
+  props:["datas","files","models"],
   components: {},
   created() {
       
   },
-  mounted() {},
+
+  mounted() {
+ 
+  },
   methods: {
     changGongyi: function () {},
     changeBtn: function (n) {
-      this.currentVal = n.value;
-      this.params.chanpinType = n.name;
+      this.params.chanpinType = n.value;
       this.materials =
         n.value == 1 ? this.cnst.photo_ot_xiezhen : this.cnst.photo_in_xiezhen;
         this.params.cailiao="";
-        this.params.changbian="";
-        this.params.duanbian="";
     },
   },
   computed: {
       typeNumFun: {
         get(){
-            return parseInt(this.files.length  + this.models.length);
+            return parseInt((this.files?this.files.length:0)  + (this.models?this.models.length:0));
         },
         set(v) {
             this.params.typeNum = v
@@ -150,13 +149,25 @@ export default {
     },
   },
   watch:{
+       datas:{
+          handler(nV,oV){
+              if(nV && JSON.stringify(nV) !='{}'){
+                  this.params = nV.attr;
+                    this.materials = 
+                    this.params.chanpinType == 1 ? this.cnst.photo_ot_xiezhen : this.cnst.photo_in_xiezhen;
+              }
+          },
+          immediate:true,
+          deep:true
+      },
       params:{
           handler(nV,oV){
-              console.log(nV);
+              console.log(nV,"nv");
               this.$emit("detailChange",nV);
           },
           deep:true
       },
+
   }
 }
 </script>

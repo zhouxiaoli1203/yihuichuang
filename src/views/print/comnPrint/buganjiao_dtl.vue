@@ -130,8 +130,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      currentVal: 1,
       params: {
+        chanpinType:"1",
         cailiao: '',
         chicun: '',
         num: 1,
@@ -153,7 +153,7 @@ export default {
   methods: {
     handleChange: function () {},
     changeBtn: function (n) {
-      this.currentVal = n.value
+      this.params.chanpinType = n.value
     },
     changeTypes: function (x) {
       this.typelist = this.cnst.danye_drop1.filter((item, i) => {

@@ -1,5 +1,7 @@
 <template>
   <div class="navHeader">
+      <div style="color:red;position:fixed;top:20px;right:20px">{{config.version}}</div>
+      <!-- <div style="color:red;position:fixed;top:20px;right:20px">{{new Date()|formatDate_("yyyy/MM/dd hh:mm")}}</div> -->
       <div class="center headerCenter">
             <div class="img cursor_p">
                 <img :src="logo" alt="">
@@ -15,6 +17,7 @@
                 <el-menu-item index="/join">合作加盟</el-menu-item>
                 <el-menu-item index="/about">关于我们</el-menu-item>
             </el-menu>
+            
             <div class="hraderInfo">
                 <div class="cart cursor_p" @click="goCart">
                   <img :src="cart" alt="">
@@ -26,6 +29,7 @@
                      <p>在线证件照制作</p>
                   </div>
                   <span>{{nickname}}</span>
+                  
                 </div>
                 <p class="login cursor_p"  @click="dialogTableVisible = true" v-else>登录/注册</p>
             </div>
@@ -185,6 +189,7 @@
 </template>
 
 <script>
+import config from '../../package.json'
 var secret = require('@/utils/jquery.md5');
 export default {
   name: 'navHeader',
@@ -326,6 +331,7 @@ export default {
     }
   },
   created(){
+      this.config = config;
     this.activeIndex = this.$store.state.currentIndex;
     this.token = this.$store.getters.getToken;
     this.userinfoFn()

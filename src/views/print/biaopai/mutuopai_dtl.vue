@@ -49,7 +49,7 @@
                     class="gongyiType mg-none">
 
         <el-checkbox label="款式"
-                     v-model="params.model_">
+                     v-model="params.checkbox">
         </el-checkbox>
         <el-select class="mini" v-model="params.drop">
           <el-option v-for="i in cnst.paiziType"
@@ -76,13 +76,13 @@ export default {
   data() {
     return {
         dialogVisible:false,
-      currentVal: 1,
       params: {
+        chanpinType:"1",
         cailiao: '',
         chicun:"",
         num: 1,
         typeNum: 0,
-        model_: false,
+        checkbox: false,
       },
       rulesForm:{
           cailiao: [
@@ -94,7 +94,7 @@ export default {
       },
     }
   },
-   props:["models","files"],
+   props:["datas","files","models"],
   components: {},
   created() {},
   mounted() {
@@ -103,14 +103,14 @@ export default {
   methods: {
     handleChange: function () {},
     changeBtn: function (n) {
-      this.currentVal = n.value
+      this.params.chanpinType = n.value
     },
     
   },
      computed: {
       typeNumFun: {
         get(){
-            return parseInt(this.files.length  + this.models.length);
+           return parseInt((this.files?this.files.length:0)  + (this.models?this.models.length:0));
         },
         set(v) {
             this.params.typeNum = v

@@ -11,7 +11,7 @@
         <el-col :span="15"
                 class="yhc-attr-btns">
           <div class="btn"
-               :class='{"active":currentVal == b.value}'
+               :class='{"active":params.chanpinType == b.value}'
                v-for="b in cnst.mingpian_btns"
                @click="changeBtn(b)">{{b.name}}</div>
         </el-col>
@@ -92,8 +92,7 @@
                 :span="2">×</el-col>
         <el-col :span="6">
           <el-form-item prop="duanbian">
-            <el-input v-enterNumber
-                      v-model="params.duanbian"
+            <el-input v-model="params.duanbian"
                       placeholder="短边"></el-input>
           </el-form-item>
         </el-col>
@@ -125,18 +124,18 @@
       </el-form-item>
       <el-form-item label="印色">
         <el-radio-group v-model="params.secai">
-          <el-radio :label="2">彩色</el-radio>
-          <el-radio :label="1">单色</el-radio>
+          <el-radio label="2">彩色</el-radio>
+          <el-radio label="1">单色</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="印面">
         <el-radio-group v-model="params.mian">
-          <el-radio :label="2">双面</el-radio>
-          <el-radio :label="1">单面</el-radio>
+          <el-radio label="2">双面</el-radio>
+          <el-radio label="1">单面</el-radio>
         </el-radio-group>
       </el-form-item>
       <!-- 工艺名片按钮下的工艺类型 -->
-      <el-form-item v-if="currentVal != 3"
+      <el-form-item v-if="params.chanpinType != 3"
                     label="工艺"
                     class="gongyiType mg-none">
         <div v-for="x in cnst.tongbanTypes"
@@ -146,7 +145,7 @@
                        :value="x.value"
                        name="type"
                        :key="x.value"
-                       v-model="x.model_">
+                       v-model="x.checkbox">
           </el-checkbox>
           <div v-show="x.name == '压痕'">
             <el-select class="mini width78"
@@ -268,7 +267,7 @@
       </el-form-item>
 
       <!-- 按钮为铜板或精品纸名片的工艺 -->
-      <el-form-item v-if="currentVal == 3"
+      <el-form-item v-if="params.chanpinType == 3"
                     label="工艺"
                     class="gongyiType mg-none">
         <div v-for="x in cnst.gongyiTypes"
@@ -278,7 +277,7 @@
                        :value="x.value"
                        name="type"
                        :key="x.value"
-                       v-model="x.model_">
+                       v-model="x.checkbox">
           </el-checkbox>
 
           <div v-show="x.value == 1">
@@ -356,12 +355,12 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      currentVal: 1,
       activeName: '',
       materials: this.cnst.tongbanMates,
       rules: this.cnst.tongbanRules,
       gontyiTypes: this.cnst.tongbanTypes,
       params: {
+        chanpinType:"1",
         zidingyi: false,
         cailiao: '',
         chicun: '',
@@ -369,8 +368,8 @@ export default {
         duanbian: '',
         num: 1,
         typeNum: 0,
-        secai: 2,
-        mian: 2,
+        secai: "2",
+        mian: "2",
         gongyi: [],
       },
       rulesForm: {
@@ -397,7 +396,7 @@ export default {
     handleChange: function () {},
     changeBtn: function (x) {
       let n = x.value
-      this.currentVal = n
+      this.params.chanpinType = n
       this.materials =
         n == 1
           ? this.cnst.tongbanMates

@@ -105,7 +105,7 @@ export default {
 
     }
   },
-   props:["models","files"],
+  props:["datas","files","models"],
   components: { },
   created() {},
   mounted() {},
@@ -115,7 +115,7 @@ export default {
   computed: {
       typeNumFun: {
         get(){
-            return parseInt(this.files.length  + this.models.length);
+            return parseInt((this.files?this.files.length:0)  + (this.models?this.models.length:0));
         },
         set(v) {
             this.params.typeNum = v
