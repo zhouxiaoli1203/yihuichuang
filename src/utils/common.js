@@ -213,8 +213,41 @@ beforeUpload(file){
     },
     changeAmount (n) {
         n = n.replace(/[^d.]/g, '')
+    },
+    validateChangbian(rule,value,callback){
+        let reg = /^\d+$|^\d*\.\d+$/g;
+        if(!value){
+            callback(new Error('请输入长边'))
+         }else if(!reg.test(value)){
+            callback(new Error('请输入正确格式的数字'))
+         }else if(value.indexOf(".") != -1 && value.split('.')[1].length > 3){
+           callback(new Error('最多可输入小数点后三位')) //小数点后两位
+        }else{
+          callback();
+        }
+    },
+    validateDuanbian(rule,value,callback){
+        let reg = /^\d+$|^\d*\.\d+$/g;
+        if(!value){
+            callback(new Error('请输入短边'))
+         }else if(!reg.test(value)){
+            callback(new Error('请输入正确格式的数字'))
+         }else if(value.indexOf(".") != -1 && value.split('.')[1].length > 3){
+           callback(new Error('最多可输入小数点后三位')) //小数点后两位
+        }else{
+          callback();
+        }
+    },
+    validateNum(rule,value,callback){
+        let reg = /^\d+$/g;
+        if(!value){
+            callback(new Error('请输入内容'))
+         }else if(!reg.test(value)){
+            callback(new Error('请输入正确格式的数字'))
+         }else{
+          callback();
+        } 
     }
-
 
 }
 

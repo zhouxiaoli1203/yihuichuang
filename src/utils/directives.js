@@ -19,9 +19,9 @@ export default () => {
         }
     });
 
-Vue.directive('enterNumber', {
+Vue.directive('inputNumber', {
   inserted: function (el) {
-    el.addEventListener("keypress",function(e){
+    el.addEventListener("keyup",function(e){
       e = e || window.event;
       let charcode = typeof e.charCode === 'number' ? e.charCode : e.keyCode;
       let re = /\d/;

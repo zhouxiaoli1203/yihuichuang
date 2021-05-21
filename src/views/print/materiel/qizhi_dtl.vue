@@ -91,13 +91,13 @@
         <el-form-item v-if="params.chanpinType == 1"
                       label="工艺"
                       class="gongyiType mg-none">
-           <div v-for="(x,index) in cnst.qizhi_types">
+           <div v-for="(x,index) in params.gongyi">
             <el-checkbox :label="x.name"
                          :value="x.value"
                          name="type"
-                         :key="x.value" v-model="x.checkbox" @change="checkChange(x,index)">
+                         :key="x.value" v-model="x.checkbox" >
             </el-checkbox>
-            <el-select class="mini" v-show="x.select" v-model="x.drop" @change="dropChange(x,$event)">
+            <el-select class="mini" v-show="x.select" v-model="x.drop" >
               <el-option v-for="i in x.drops"
                          :label="i.name"
                          :value="i.name"
@@ -142,19 +142,19 @@ export default {
         chicun:"",
         num: 1,
         typeNum: 0,
-        gongyi: [],
+        gongyi: this.cnst.qizhi_types,
       },
       rules:{
           cailiao: [
             { required: true, message: '请选择材料', trigger: 'change' },
           ],
           changbian: [
-            { required: true, message: '请输入长边', trigger: 'blur' },
-            { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
+            { required: true,trigger: 'blur', validator:this.validateChangbian },
+            // { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
           ],
           duanbian: [
-            { required: true, message: '请输入短边', trigger: 'blur' },
-            { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
+            { required: true,trigger: 'blur', validator:this.validateDuanbian },
+            // { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
           ],
           chicun: [
             { required: true, message: '请选择尺寸', trigger: 'change' },
@@ -177,31 +177,31 @@ export default {
         this.params.duanbian="";
         this.params.chicun="";
     },
-        checkChange(x,ind){
-        if(x.checkbox){
-            let o = {name:x.name};
-            if(x.drop){
-                o.drop = x.drop;
-            }
-            this.params.gongyi.push(o);
-        }else{
-            this.params.gongyi = this.params.gongyi.filter(t => t.name != x.name);
-        }
-        console.log(this.params.gongyi,"list");
-        this.$forceUpdate();
-    },
-    dropChange(x,e){
-        let list = this.params.gongyi;
-        if(x.checkbox){
-            for(let i in list){
-                if(list[i].name == x.name && x.drop){
-                    list[i].drop = x.drop;
-                }
-            }
-        }
-        console.log(list);
-        this.$forceUpdate();
-    }
+    //     checkChange(x,ind){
+    //     if(x.checkbox){
+    //         let o = {name:x.name};
+    //         if(x.drop){
+    //             o.drop = x.drop;
+    //         }
+    //         this.params.gongyi.push(o);
+    //     }else{
+    //         this.params.gongyi = this.params.gongyi.filter(t => t.name != x.name);
+    //     }
+    //     console.log(this.params.gongyi,"list");
+    //     this.$forceUpdate();
+    // },
+    // dropChange(x,e){
+    //     let list = this.params.gongyi;
+    //     if(x.checkbox){
+    //         for(let i in list){
+    //             if(list[i].name == x.name && x.drop){
+    //                 list[i].drop = x.drop;
+    //             }
+    //         }
+    //     }
+    //     console.log(list);
+    //     this.$forceUpdate();
+    // }
   },
    computed: {
       typeNumFun: {
@@ -217,7 +217,27 @@ export default {
       datas:{
           handler(nV,oV){
               if(nV && JSON.stringify(nV) !='{}'){
-                  this.params = nV.attr;
+                  let this_ = this;
+                  this_.params = nV.attr;
+                  let gy = this_.params.gongyi;
+                  if(gy && gy.length>0){
+                      this_.cnst.qizhi_types.map((v,i)=>{
+                          let jud = false;
+                          let drop = "";
+                          gy.map((v_,i_)=>{
+                              if(v.name == v_.name){
+                                  jud = true;
+                                  if(v_.drop){
+                                      drop = v_.drop;
+                                  }
+                              }
+                          });
+                          if(jud){
+                              v.checkbox = true;
+                              v.drop = drop;
+                          }
+                      });
+                  }
               }
           },
           immediate:true,

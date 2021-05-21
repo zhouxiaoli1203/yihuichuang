@@ -27,7 +27,7 @@
         <el-col :span="15">
           <el-select class="form-contrl width100"
                      placeholder="选择尺寸"
-                     v-model="params.mate">
+                     v-model="params.chicun">
             <el-option v-for="i in cnst.danye_rules"
                        :label="i.name"
                        :value="i.value"

@@ -29,8 +29,7 @@
                     class="rules" required>
         <el-col :span="6">
           <el-form-item prop="changbian">
-            <el-input v-model="params.changbian"
-                        placeholder="长边"></el-input>
+            <el-input v-model="params.changbian" placeholder="长边"></el-input>
           </el-form-item>  
         </el-col>
         <el-col class="t_a_c"
@@ -106,12 +105,12 @@ export default {
             { required: true, message: '请选择材料', trigger: 'change' },
           ],
           changbian: [
-            { required: true, message: '请输入长边', trigger: 'blur' },
-            { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
+            { required: true,trigger: 'blur', validator:this.validateChangbian },
+            // { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
           ],
           duanbian: [
-            { required: true, message: '请输入短边', trigger: 'blur' },
-            { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
+            { required: true,trigger: 'blur', validator:this.validateDuanbian },
+            // { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
           ],
       },
       btns: [

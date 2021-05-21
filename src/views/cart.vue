@@ -144,9 +144,19 @@ export default {
       })
     },
     delSahngpin(x) {
-      let this_ = this
+      let this_ = this;
+      let msg="";
+      if(x=='all'){
+          if(this.checkedCities.length>0){
+              msg = "确定批量删除订单？"
+          }else{
+              msg = "确定清空购物车？"
+          }
+      }else{
+          msg="确定删除该订单？";
+      }
       this_
-        .confirm_pop(x=='all'?'确定清空购物车？':'确定该订单？', '确认信息')
+        .confirm_pop(msg, '确认信息')
         .then(() => {
           let param = {
             token: this.$store.getters.getToken,
@@ -176,13 +186,13 @@ export default {
     },
     handleSizeChange(val) {
       // 当pageSize发生变化后需重新查询列表
-      this.geTemplates()
+      this.getCartList()
     },
     // currentPage 改变时会触发
     handleCurrentChange(val) {
       this.current = val
       // 当currentPage发生变化后需重新查询列表
-      this.geTemplates()
+      this.getCartList()
     },
     checkAllFn: function () {
       if (this.checkAll) {

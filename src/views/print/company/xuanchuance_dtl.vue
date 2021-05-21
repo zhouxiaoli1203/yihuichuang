@@ -138,7 +138,7 @@
             <el-form-item label=""
                           class="gongyiType mg-none">
 
-              <div v-for="(x,index) in cnst.xuanchuan_gongyi"
+              <div v-for="(x,index) in params.gongyi"
                    v-show="!(params.chanpinType==1 && (x.value == 12||x.value == 13))"
                    class="displayFl"
                    :class="{'width100':(x.name=='击凸' || x.name=='UV' || x.name=='烫金'|| x.name=='浮雕烫')}">
@@ -289,6 +289,7 @@ export default {
         num: 1,
         typeNum: 1,
         checkbox: false,
+        gongyi:this.cnst.xuanchuan_gongyi,
         fengpi:{
             cailiao:"",
             color:"2",
@@ -303,12 +304,12 @@ export default {
             { required: true, message: '请选择材料', trigger: 'change' },
           ],
           changbian: [
-            { required: true, message: '请输入长边', trigger: 'blur' },
-            { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
+            { required: true,trigger: 'blur', validator:this.validateChangbian },
+            // { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
           ],
           duanbian: [
-            { required: true, message: '请输入短边', trigger: 'blur' },
-            { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
+            { required: true,trigger: 'blur', validator:this.validateDuanbian },
+            // { pattern: /^[0-9.]*$/, message: '尺寸需为数字', trigger: 'blur'}
           ],
       },
       xuanchuan_mates: this.cnst.xuanchuan_mates,
@@ -350,7 +351,7 @@ export default {
         obj = { hasDrop: true, drop: '', changbian: '', duanbian: '' }
       }
       x.items.push(obj)
-
+      this.$forceUpdate();
       //   let old = JSON.parse(JSON.stringify(this.xuanchuan_gongyi))
       //   let arr = old.filter((y) => {
       //     return x.value == y.value
@@ -365,7 +366,8 @@ export default {
       if (arr.length == 1) {
         return this.$message.error('最后一条不可删除')
       }
-      x.items.splice(i, 1)
+      x.items.splice(i, 1);
+      this.$forceUpdate();
     },
     inputChange(x, y) {
       //   let list = this.params.gongyi

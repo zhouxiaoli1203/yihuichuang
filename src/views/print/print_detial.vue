@@ -113,14 +113,14 @@
                           <el-form-item prop="phone">
                             <label for="name">收件人电话</label>
                             <el-input placeholder="收件人电话"
-                                      v-model="payAddr.phone"></el-input>
+                                      v-model="payAddr.phone" maxLength='11'></el-input>
                           </el-form-item>
                         </li>
                         <li>
                           <el-form-item prop="postcode">
                             <label for="name">邮政编码</label>
                             <el-input placeholder="邮政编码"
-                                      v-model="payAddr.postcode"></el-input>
+                                      v-model="payAddr.postcode"  maxLength='6'></el-input>
                           </el-form-item>
                         </li>
                       </ul>
@@ -391,11 +391,14 @@ export default {
       ],
       addRules:{
           name: [
-            { required: true, message: '请输入姓名', trigger: 'blur' },
+            { required: true, message: '请输入姓名', trigger: 'change'},
           ],
           phone: [
-            { required: true, message: '请输入电话', trigger: 'blur' },
+            { required: true,  trigger: 'change', validator:this.validateNum },
           ],
+        //   postcode: [
+        //     { required: false, trigger: 'change', validator:this.validateNum },
+        //   ],
           ssq: [
             {type:"array", required: true, message: '请选择省市区', trigger: 'change' },
           ],
@@ -772,13 +775,13 @@ export default {
 
       this.$refs.child.$refs.ruleForm.validate((valid) => {
         if (valid) {
-            if(parseInt((this.params.files?this.params.files.length:0)  + (this.params.models?this.params.models.length:0)) == 0){
-                return this.$message({
-                    type:"error",
-                    offset:"68",
-                    message:"模板或稿件不能为空"
-                })
-            }
+            // if(parseInt((this.params.files?this.params.files.length:0)  + (this.params.models?this.params.models.length:0)) == 0){
+            //     return this.$message({
+            //         type:"error",
+            //         offset:"68",
+            //         message:"模板或稿件不能为空"
+            //     })
+            // }
             this.checkpop = !this.checkpop;
             if(!this.checkpop){
                 this.currentTab = 1;
