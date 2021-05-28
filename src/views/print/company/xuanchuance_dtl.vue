@@ -85,8 +85,7 @@
                     class="number mg-none">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           :min="1"
-                           :max="10"></el-input-number>
+                           :min="1"></el-input-number>
         </el-col>
       </el-form-item>
 

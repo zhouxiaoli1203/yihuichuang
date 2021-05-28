@@ -65,15 +65,13 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           :min="1"
-                           :max="10"></el-input-number>
+                           :min="1"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum" :class='{"mg-none":params.chanpinType == 3}'>
         <el-input-number v-model="typeNumFun"
-                         :min="0"
-                         :max="10" disabled></el-input-number>
+                         :min="0" disabled></el-input-number>
       </el-form-item>
 
         <el-form-item v-if="params.chanpinType == 2"
@@ -161,7 +159,14 @@ export default {
   },
  props:["datas","files","models"],
   components: { },
-  created() {},
+  created() {
+       if(!(this.datas && JSON.stringify(this.datas) !='{}')){
+          this.cnst.banner_types_caise.map((v, i) => {
+              v.checkbox = false;
+              v.drop = "";
+          })
+      }
+  },
   mounted() {
   },
   methods: {
@@ -212,10 +217,25 @@ export default {
               if(nV && JSON.stringify(nV) !='{}'){
                   this.params = nV.attr;
                    this.materials = this.params.chanpinType == 3?this.cnst.jinqi_materials:this.cnst.banner_materials;
+                   let gy = nV.attr.gongyi;
+                  this_.cnst.banner_types_caise.map((v)=>{
+                      let jud = false;
+                      let dp = "";
+                        gy.map((v_)=>{
+                            if(v.name == v_.name){
+                                jud = true;
+                                dp = v_.drop?v_.drop:"";
+                            }
+                        });
+                      if(jud){
+                          this_.$set(v,"checkbox",true);
+                          this_.$set(v,"drop",dp);
+                      }
+                  });
               }
           },
-          immediate:true,
-          deep:true
+        //   immediate:true,
+        //   deep:true
       },
       params:{
           handler(nV,oV){

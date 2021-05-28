@@ -48,19 +48,17 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           :min="1"
-                           :max="10"></el-input-number>
+                           :min="1"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum">
         <el-input-number v-model="typeNumFun"
-                         :min="0"
-                         :max="10" disabled></el-input-number>
+                         :min="0" disabled></el-input-number>
       </el-form-item>
       <el-form-item label="工艺"
                     class="mg-none">
-        <el-checkbox-group v-model="params.gongyi" @change="changGongyi">
+        <el-checkbox-group v-model="params.gongyi" >
           <el-checkbox label="覆亮膜"
                        name="type" value="覆亮膜"></el-checkbox>
           <el-checkbox label="覆哑膜"
@@ -122,7 +120,9 @@ export default {
   props:["datas","files","models"],
   components: {},
   created() {
-      
+       if(!(this.datas && JSON.stringify(this.datas) !='{}')){
+          this.params.gongyi = [];
+      }
   },
 
   mounted() {
@@ -156,8 +156,8 @@ export default {
                     this.params.chanpinType == 1 ? this.cnst.photo_ot_xiezhen : this.cnst.photo_in_xiezhen;
               }
           },
-          immediate:true,
-          deep:true
+        //   immediate:true,
+        //   deep:true
       },
       params:{
           handler(nV,oV){

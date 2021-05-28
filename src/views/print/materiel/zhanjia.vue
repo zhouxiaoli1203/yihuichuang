@@ -35,20 +35,18 @@
         <el-col :span="2">
           <el-input-number v-model="params.num"
                            :min="1"
-                           :max="10"
                            label="描述文字"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum">
         <el-input-number v-model="typeNumFun"
-                         :min="0"
-                         :max="10" disabled></el-input-number>
+                         :min="0" disabled></el-input-number>
       </el-form-item>
         <el-form-item label="工艺"
                       class="mg-none">
              <el-checkbox-group v-model="params.gongyi">
-                <el-checkbox v-for="x in cnst.banner_types" :label="x.name" :value="x.value"
+                <el-checkbox v-for="x in cnst.banner_types" :label="x.name" :value="x.name"
                         :key="x.value"></el-checkbox>
             </el-checkbox-group>
         </el-form-item>

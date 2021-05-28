@@ -111,7 +111,6 @@
           <el-input-number v-model="params.num"
                            @change="handleChange"
                            :min="1"
-                           :max="10"
                            label="描述文字"></el-input-number>
         </el-col>
       </el-form-item>
@@ -119,7 +118,6 @@
                     class="typeNum">
         <el-input-number v-model="typeNumFun"
                          :min="0"
-                         :max="10"
                          disabled></el-input-number>
       </el-form-item>
       <el-form-item label="印色">

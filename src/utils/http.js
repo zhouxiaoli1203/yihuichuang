@@ -43,8 +43,8 @@ yhcmessage = Message.error;
 axios.defaults.timeout = 15000;
 
 // post请求头
-// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 
 // 请求拦截器
@@ -115,7 +115,8 @@ export function yhcReq(methods, url, params,file,yhc_f_a, needCatch) {/*  */
     // 需要同时处理特殊code和catch错误时，yhc_f_a和needCatch都传
     return new Promise((resolve, reject) => {
         // params.yhc_f_a = typeof yhc_f_a === 'string' ? yhc_f_a : '';
-        const r = methods == 'post' ? axios.post(url,file == "upload"?params:qs.stringify(params)) : axios.get(url, { params: params });
+        const r = methods == 'post' ? axios.post(url,params) : axios.get(url, { params: params });
+        // const r = methods == 'post' ? axios.post(url,file == "upload"?params:params) : axios.get(url, { params: params });
         r.then(res => {
             resolve(res.data);
         }).catch(err => {

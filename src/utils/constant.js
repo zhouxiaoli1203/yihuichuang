@@ -121,10 +121,10 @@ const CONSTANT = {
         { name: '市场128克铜板（110克）', value: '2' },
     ],
     danye_rules:[
-        { name: '285*210', value: '1' },
-        { name: '210*90', value: '2' },
-        { name: '210*140', value: '3' },
-        { name: '420*285', value: '4' },
+        { name: 'A4（210*285MM）', value: '1' },
+        // { name: '210*90', value: '2' },
+        // { name: '210*140', value: '3' },
+        { name: 'A3（420*285MM）', value: '2' },
     ],
     danye_all_drops:[
         {name:"对折",value:"1"},

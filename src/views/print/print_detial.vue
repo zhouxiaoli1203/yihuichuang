@@ -531,8 +531,8 @@ export default {
            this_.$post('post', 'Goods/cartGet', param).then((res) => {
                 if (res.code == 1) {
                     this_.params_ = res.data.data.data;
-                    this_.params.files = res.data.data.data.files;
-                    this_.params.models = res.data.data.data.models;
+                    this_.params.files = res.data.data.data.files||[];
+                    this_.params.models = res.data.data.data.models||[];
                     if(res.data.data.data.address){
                         let adr = res.data.data.data.address;
                         this_.currentTab = adr.qhtype;

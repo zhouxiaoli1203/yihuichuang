@@ -302,7 +302,9 @@ export default {
       > div {
         width: 16.67%;
         &.lineh105 {
-          line-height: 105px;
+        display: flex;
+        align-items: center;
+        white-space: normal;
         }
       }
     }

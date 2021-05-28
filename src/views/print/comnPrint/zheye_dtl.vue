@@ -15,7 +15,7 @@
                      v-model="params.cailiao">
             <el-option v-for="i in cnst.zheye_materials"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
@@ -51,6 +51,7 @@
           <el-checkbox class="zidingyi"
                        label="自定义"
                        v-model="params.zidingyi"
+                      
                        border>
           </el-checkbox>
         </el-col>
@@ -90,8 +91,7 @@
         <el-col :span="2">
           <el-checkbox class="zidingyi"
                        label="自定义"
-                       v-model="params.zidingyi"
-                       border>
+                       v-model="params.zidingyi" border>
           </el-checkbox>
         </el-col>
       </el-form-item>
@@ -100,16 +100,13 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           :min="1"
-                           :max="10"></el-input-number>
+                           :min="1"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
-                    class="typeNum"
-                    :class='{"mg-none":params.chanpinType == 3}'>
+                    class="typeNum">
         <el-input-number v-model="typeNumFun"
                          :min="0"
-                         :max="10"
                          disabled></el-input-number>
       </el-form-item>
       <el-form-item label="印面">
@@ -204,13 +201,17 @@ export default {
       },
     }
   },
-  props: ['models', 'files'],
+  props:["datas","files","models"],
   components: {},
   created() {
-    this.cnst.zheye_types_gongyi.map((v, i) => {})
+      if(!(this.datas && JSON.stringify(this.datas) !='{}')){
+          this.cnst.zheye_types_gongyi.map((v, i) => {
+              v.checkbox = false;
+              v.drop = "";
+          })
+      }
   },
   mounted() {
-    console.log(this.type)
   },
   methods: {
     handleChange: function () {},
@@ -246,7 +247,7 @@ export default {
   computed: {
     typeNumFun: {
       get() {
-        return parseInt(this.files.length + this.models.length)
+        return parseInt((this.files?this.files.length:0)  + (this.models?this.models.length:0));
       },
       set(v) {
         this.params.typeNum = v
@@ -254,6 +255,33 @@ export default {
     },
   },
   watch: {
+      datas:{
+          handler(nV,oV){
+              let this_ = this;
+              if(nV && JSON.stringify(nV) !='{}'){
+                  this_.$set(this_.params,"zidingyi",nV.attr.zidingyi);
+                  this_.params = nV.attr;
+                  let gy = nV.attr.gongyi;
+                  this_.cnst.zheye_types_gongyi.map((v)=>{
+                      let jud = false;
+                      let dp = "";
+                        gy.map((v_)=>{
+                            if(v.name == v_.name){
+                                jud = true;
+                                dp = v_.drop?v_.drop:"";
+                            }
+                        });
+                      if(jud){
+                          this_.$set(v,"checkbox",true);
+                          this_.$set(v,"drop",dp);
+                      }
+                  });
+                //   this_.$forceUpdate(); 
+              }
+          },
+        //   immediate:true,
+        //   deep:true
+      },
     params: {
       handler(nV, oV) {
         console.log(nV)

@@ -77,27 +77,25 @@
                     class="number">
         <el-col :span="2">
           <el-input-number v-model="params.num"
-                           :min="1"
-                           :max="10"></el-input-number>
+                           :min="1"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
                     class="typeNum" :class='{"mg-none":params.chanpinType == 2}'>
         <el-input-number v-model="typeNumFun"
-                         :min="0"
-                         :max="10" disabled></el-input-number>
+                         :min="0" disabled></el-input-number>
       </el-form-item>
 
         <el-form-item v-if="params.chanpinType == 1"
                       label="工艺"
                       class="gongyiType mg-none">
-           <div v-for="(x,index) in params.gongyi">
+           <div v-for="(x,index) in cnst.qizhi_types">
             <el-checkbox :label="x.name"
                          :value="x.value"
                          name="type"
-                         :key="x.value" v-model="x.checkbox" >
+                         :key="x.value" v-model="x.checkbox" @change="checkChange(x,index)">
             </el-checkbox>
-            <el-select class="mini" v-show="x.select" v-model="x.drop" >
+            <el-select class="mini" v-show="x.select" v-model="x.drop" @change="dropChange(x)">
               <el-option v-for="i in x.drops"
                          :label="i.name"
                          :value="i.name"
@@ -142,7 +140,7 @@ export default {
         chicun:"",
         num: 1,
         typeNum: 0,
-        gongyi: this.cnst.qizhi_types,
+        gongyi: [],
       },
       rules:{
           cailiao: [
@@ -165,7 +163,14 @@ export default {
   },
   props:["datas","files","models"],
   components: { },
-  created() {},
+  created() {
+       if(!(this.datas && JSON.stringify(this.datas) !='{}')){
+          this.cnst.qizhi_types.map((v, i) => {
+              v.checkbox = false;
+              v.drop = "";
+          })
+      }
+  },
   mounted() {
   },
   methods: {
@@ -177,31 +182,31 @@ export default {
         this.params.duanbian="";
         this.params.chicun="";
     },
-    //     checkChange(x,ind){
-    //     if(x.checkbox){
-    //         let o = {name:x.name};
-    //         if(x.drop){
-    //             o.drop = x.drop;
-    //         }
-    //         this.params.gongyi.push(o);
-    //     }else{
-    //         this.params.gongyi = this.params.gongyi.filter(t => t.name != x.name);
-    //     }
-    //     console.log(this.params.gongyi,"list");
-    //     this.$forceUpdate();
-    // },
-    // dropChange(x,e){
-    //     let list = this.params.gongyi;
-    //     if(x.checkbox){
-    //         for(let i in list){
-    //             if(list[i].name == x.name && x.drop){
-    //                 list[i].drop = x.drop;
-    //             }
-    //         }
-    //     }
-    //     console.log(list);
-    //     this.$forceUpdate();
-    // }
+    checkChange(x,ind){
+        if(x.checkbox){
+            let o = {name:x.name};
+            if(x.drop){
+                o.drop = x.drop;
+            }
+            this.params.gongyi.push(o);
+        }else{
+            this.params.gongyi = this.params.gongyi.filter(t => t.name != x.name);
+        }
+        console.log(this.params.gongyi,"list");
+        this.$forceUpdate();
+    },
+    dropChange(x,e){
+        let list = this.params.gongyi;
+        if(x.checkbox){
+            for(let i in list){
+                if(list[i].name == x.name && x.drop){
+                    list[i].drop = x.drop;
+                }
+            }
+        }
+        console.log(list);
+        this.$forceUpdate();
+    }
   },
    computed: {
       typeNumFun: {
@@ -240,8 +245,8 @@ export default {
                   }
               }
           },
-          immediate:true,
-          deep:true
+        //   immediate:true,
+        //   deep:true
       },
       params:{
           handler(nV,oV){
