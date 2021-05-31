@@ -22,6 +22,7 @@
             </div>
             <span class="add" @click="selectAll" v-if="checkAll==false">全选</span>
             <span class="add" @click="notatAll" v-if="checkAll==true">全不选</span>
+            <span class="add" style="margin-left:54px">上传文件</span>
           </div>
         </div>
 

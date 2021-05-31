@@ -180,15 +180,15 @@ export default {
         overflow: hidden;
 
         .inputInner{
-        display: flex;
-        align-items: center;
-        flex: 1;
-        padding-left: 20px;
-        input{
-            flex: 1;
-            height: 100%;
-            margin-left: 8px;
-        }
+          display: flex;
+          align-items: center;
+          flex: 1;
+          padding-left: 20px;
+          input{
+              flex: 1;
+              height: 100%;
+              margin-left: 8px;
+          }
         }
     }
 
