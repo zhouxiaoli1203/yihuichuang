@@ -30,7 +30,7 @@
             <h1 class="titH1">加盟易绘创能做那些事？</h1>
             <ul class="workUL">
                 <template v-for="item in workList">
-                    <li :class="item.index == activeName?'cont active':'cont'" @click="workClick(item.index)">
+                    <li :class="item.index == activeName?'cont active':'cont'" @mouseover='navMouseOver(item.index)'>
                         <img :src="item.img" alt="">
                         <p></p>
                         <span v-if="item.index == activeName">{{item.name}}</span>
@@ -292,10 +292,9 @@
       }
     },
     methods: {
-        workClick(index){
+        navMouseOver: function(index) {
             this.activeName = index;
         },
-
     }
   }
 </script>
