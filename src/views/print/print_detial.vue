@@ -922,7 +922,7 @@ export default {
       line-height: 44px;
       text-align: center;
       font-size: 14px;
-      border-bottom: 1px solid #615858;
+      border-bottom: 1px solid #ccc;
     }
     .rel-products {
       display: flex;
@@ -931,10 +931,13 @@ export default {
       > li {
         width: 100%;
         height: 318px;
-        border-bottom: 1px solid #615858;
+        box-shadow: none;
         border-radius: 0px;
         margin-bottom: 0px;
         background: #fff;
+        &:not(:last-child){
+            border-bottom: 1px solid #ccc;
+        }
         .image {
           width: 134px;
           height: 134px;

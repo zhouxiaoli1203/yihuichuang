@@ -181,10 +181,12 @@ export default {
 
             }
         });
-     this_.CKT.useCkt(params,function(res){
-          if(res.kind == 2){
-              this_.design_id = res["design-id"];
-              this_.$post("post","Goods/page",{template_id:"219393"}).then((res)=>{
+     this_.CKT.useCkt(params,function(ckt){
+         console.log(ckt);
+          if(ckt.kind == 2){
+              this_.design_id = ckt["design-id"];
+            //  "219393"  x.designTemplateId
+              this_.$post("post","Goods/page",{token:this_.$store.state.token,template_id:x.designTemplateId}).then((res)=>{
                if(res.code == 1){
                    if(res.data.total == 0){
                        return this_.$message({
@@ -197,7 +199,7 @@ export default {
                            path:'/print/detial',   //跳转的路径
                            query:{           //路由传参时push和query搭配使用 ，作用时传递参数
                                page_id:res.data.list[0].page_id,
-                               design_id:res["design-id"]
+                               design_id:ckt["design-id"]
                            }
                        })
                    }else{

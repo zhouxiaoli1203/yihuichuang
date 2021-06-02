@@ -6,8 +6,9 @@
       </div>
       <div class="lunbo">
         <el-carousel height="500px">
-            <el-carousel-item v-for="item in 4" :key="item">
-              <h3 class="small">{{ item }}</h3>
+            <el-carousel-item >
+              <!-- <h3 class="small">{{ item }}</h3> -->
+              <img src="@/assets/img/print/print.png" alt="" class="barimg">
             </el-carousel-item>
           </el-carousel>
       </div>
@@ -144,6 +145,7 @@ export default {
         { name:"keywords",content:'名片制作,印刷厂,条幅制作,彩色画册印刷,喷绘,写真,宣传单印刷,名片印刷,特种纸,PVC卡,无碳联单,信纸表格,封套,手提袋,发光字,奖牌,展架,易拉宝, 易绘创'},
         { name:"description",content:'易绘创（yihuichuang.com）在线印刷一站式采购平台，能够实现在线评估报价、一键下单印刷品、包邮到家、线下门店自提等服务，满足广大客户对广告物料制作、企业定制、印刷品和标识标牌等宣传品的设计加工需求。' },
       ]
+
   },
   data(){
     return {
@@ -215,7 +217,7 @@ export default {
   .banner{
     height: 500px;
     display: flex;
-    border: 1px solid;
+    // border: 1px solid;
     // margin-top: 25px;
     justify-content: space-between;
     .column{
