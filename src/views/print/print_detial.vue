@@ -48,13 +48,14 @@
                            type="primary">上传稿件</el-button> -->
                 <div class="operateBox fl">
                     <span class="add">上传文件</span>
-                    <input type="file" @change="getFile($event)" multiple="multiple" accept="image/jpeg,image/gif,image/png" >
+                    <input type="file" @change="getFile($event)" multiple="multiple" accept="image/jpg,image/jpeg,image/gif,image/png,application/pdf" >
                 </div>
                 <ul class="el-upload-list el-upload-list--text">
                 <li v-for="(x,index) in params.files"
                     class="el-upload-list__item is-success">
-                  <a class="el-upload-list__item-name"
-                     @click="viewFile(x)"><i class="el-icon-document"></i>{{x.name}}
+                  <a class="el-upload-list__item-name" :href="x.url" target="blank_"
+                    ><i class="el-icon-document"></i>{{x.name}}
+                     <!-- @click="viewFile(x)" -->
                   </a>
                   <label class="el-upload-list__item-status-label"><i class="el-icon-upload-success el-icon-circle-check"></i></label><i class="el-icon-close"
                      @click="onRemove_File(index)"></i>
