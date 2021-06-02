@@ -8,7 +8,7 @@
               <span>文件</span>
           </div>
           <div class="operateBox">
-            <p @click="handleBatchDownload">下载</p>
+            <!-- <p @click="handleBatchDownload">下载</p> -->
             <div class="downBox">
               <el-dropdown trigger="click" @command="handleCommand" style="width:100%;padding:9px 0">
                 <span>编辑</span>
@@ -17,7 +17,7 @@
                   <el-dropdown-item command="重命名">重命名</el-dropdown-item>
                   <el-dropdown-item command="删除">删除</el-dropdown-item>
                   <el-dropdown-item command="打印">打印</el-dropdown-item>
-                  <el-dropdown-item command="下载">下载</el-dropdown-item>
+                  <!-- <el-dropdown-item command="下载">下载</el-dropdown-item> -->
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -83,7 +83,6 @@
                   <div class="editInput">
                       <h4>编辑文件信息</h4>
                   </div> 
-
                   <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
                       <el-form-item
                         prop="nickname"
@@ -103,13 +102,12 @@
                 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
                   <el-form-item>
                     <el-cascader class="width100"
-                                size="large"
-                                :options="options"
-                                placeholder="请选择省市区"
-                                @change="cityChange">
+                      size="large"
+                      :options="options"
+                      placeholder="请选择省市区"
+                      @change="cityChange">
                     </el-cascader>
                   </el-form-item>
-
                   <el-form-item label="取件地址" prop="region">
                     <el-select v-model="ruleForm.region" placeholder="请选择店铺名称" class="width100">
                       <el-option label="区域一" value="shanghai"></el-option>
@@ -213,7 +211,7 @@
                 </div>
   
               </el-tab-pane>
-              <el-tab-pane label="下载" name="下载">
+              <!-- <el-tab-pane label="下载" name="下载">
                 <div class="wenjianDayin  xiazaiWenjianDayin">
                   <section class="sectionUL">
                     <ul class="wenjianLIst">
@@ -304,7 +302,7 @@
                   <button  @click="userClose" class="spanBtn">取消</button>
                   <button  class="spanBtn" type="primary" >确定</button> 
                 </div>
-              </el-tab-pane>
+              </el-tab-pane> -->
           </el-tabs>
       </div>
     </section>
@@ -427,6 +425,7 @@
       },
       // checkbox选中 --- 当绑定值变化时触发的事件
       handleCheckedCitiesChange(value) {
+        console.log(this.list);
         console.log(value)
         let checkedCount = value.length;   //选中值的长度
         this.checkAll = checkedCount === this.list.length;  //如果选中值的长度和源数据的长度一样，返回true，就表示你已经选中了全部checkbox，那么就把true赋值给this.checkAll
@@ -669,6 +668,7 @@
   justify-content: space-between;
   padding: 24px 24px 24px 52px;
   border-bottom: 1px solid #F5F6FA;
+  padding-right: 148px;
   span:first-child{
     width: 60%;
   }
@@ -696,7 +696,7 @@
   .info{
     display: flex;
     align-items: center;
-    width: 60%;
+    width: 52%;
     img{
       width: 28px;
       height: 28px;
@@ -716,7 +716,7 @@
   }
   button{
     cursor: pointer;
-    margin-right: 24px;
+    margin: 0 24px;
     color: #4E9F5B;
   }
   button:hover{
@@ -733,14 +733,14 @@
 
   .tabNav{
       position: absolute;
-      top: 0;
+      top: 40px;
       right: 0;
       left: 0;
       bottom: 0;
   }
 
   .el-icon-close{
-      width: 82%;
+      width: 100%;
       height: 40px;
       background: #F9F7F7;
       text-align: right;

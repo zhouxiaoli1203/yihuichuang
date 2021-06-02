@@ -4,33 +4,23 @@
         <div class="footerTop">
             <div class="footerLeft">
                     <div class="link">
-                        <el-link>广告印刷</el-link>
-                        <el-link>包装印刷</el-link>
-                        <el-link>画册印刷</el-link>
-                        <el-link>厂家价格定做定制各类企业宣传册</el-link>
-                        <el-link>产品手册</el-link>
-                        <el-link>笔记本</el-link>
-                        <el-link>纪念册</el-link>
-                        <el-link>手提袋</el-link>
-                        <el-link>海报</el-link>
-                        <el-link>点菜单</el-link>
-                        <el-link>不干胶</el-link>
-                        <el-link>红包对联</el-link>
-                        <el-link>包装盒</el-link>
+                        <el-link :underline="false" v-for="(item,index) in linkLIst" :key="index">{{item}}</el-link>
                     </div>
                     <div class="contact">
-                        <p>电话：12341233321</p>
-                        <p>QQ：12341233321</p>
-                        <p>邮箱：123412333@qq.com</p>
+                        <p>电话：400 049 9904</p>
+                        <p>手机：13155613029</p>
+                        <p>微信：yihuichuang001</p>
+                        <p>QQ：474336503</p>
+                        <p>邮箱：474336503@qq.com</p>
                     </div>
-                    <p class="address">地址：贵州省黔东南苗族侗族自治州施秉县衡山街40号</p>
+                    <p class="address">地址：安徽省淮北市相山区古城路与洪山路交叉口红绿灯路口 68-5号</p>
             </div>
             <div class="footerRight">
-                <span></span>
-                <p>微信公众号</p>
+                <img src="@/assets/img/common/kefuCode.jpg" alt="">
+                <p>联系客服</p>
             </div>
         </div>
-        <div class="Record">Copyright © 2021 安徽滚动永恒信息科技有公司 版权所有 备案号：皖ICP备18045741号-1</div>
+        <div class="Record">Copyright © 2021 安徽印屿设广告传媒有限公司 版权所有 备案号：皖ICP备18045741号-1</div>
       </div>
   </div>
 </template>
@@ -40,7 +30,7 @@ export default {
   name: 'navFooter',
   data () {
     return {
-     
+        linkLIst:['广告印刷','包装印刷','画册印刷','厂家价格定做定制各类企业宣传册','产品手册','笔记本','纪念册','手提袋','海报','点菜单','不干胶','红包对联','包装盒']
     }
   }
 }
@@ -82,7 +72,7 @@ export default {
                 color: #fff;
                 font-size: 14px;
                 border-right: 1px solid #fff;
-                padding-right: 5px;
+                padding: 0 5px;
             }
 
             .contact{
@@ -106,17 +96,17 @@ export default {
         }
         .footerRight{
             margin-left: 39px;
-            span{
-                width: 63px;
-                height: 63px;
-                background: #666;
-                display: inline-block;
+
+            img{
+                width: 70px;
+                height: 70px;
             }
 
             p{
                 color: #fff;
                 font-size: 14px;
                 margin-top: 16px;
+                text-align: center;
             }
         }
     }

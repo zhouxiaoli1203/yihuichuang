@@ -6,7 +6,13 @@
             <div class="img cursor_p">
                 <img :src="logo" alt="">
             </div>
-            <el-menu :default-active="activeIndex" active-text-color="#4E9F5B" class="el-menu-demo navUl" mode="horizontal" @select="handleSelect"  theme="dark"  router>
+            <ul class="navUl">
+              <template v-for="(item,index) in menuList">
+                <li @click="handleSelect(item.url)" :class="activeIndex == item.url?'activeClass':''"><router-link :to="{path:item.url}">{{item.name}}</router-link></li>
+              </template>
+            </ul>
+
+            <!-- <el-menu :default-active="activeIndex" active-text-color="#4E9F5B" class="el-menu-demo navUl" mode="horizontal" @select="handleSelect"  theme="dark"  router>
                 <el-menu-item index="/index">首页</el-menu-item>
                 <el-menu-item index="/print">在线印刷</el-menu-item>
                 <el-menu-item index="/design">设计模板</el-menu-item>
@@ -16,7 +22,7 @@
                 <el-menu-item index="/help">帮助支持</el-menu-item>
                 <el-menu-item index="/join">合作加盟</el-menu-item>
                 <el-menu-item index="/about">关于我们</el-menu-item>
-            </el-menu>
+            </el-menu> -->
             
             <div class="hraderInfo">
                 <div class="cart cursor_p" @click="goCart">
@@ -174,10 +180,8 @@
             </div>
             <div class="link">
                 登录即同意 
-                <a href="#">用户协议</a>
-                和
-                <a href="#">隐私政策</a>
-            </div>
+                <a href="javascript:;" @click="userArge">用户协议</a>
+            </div> 
           </div>
         </div>
         <div class="img" @click="LognClose">
@@ -233,9 +237,45 @@ export default {
         callback();
       }
     };
-
-
     return {
+      menuList:[
+        {
+          url:'/index',
+          name:'首页'
+        },
+        {
+          url:'/print',
+          name:'在线印刷'
+        },
+        {
+          url:'/design',
+          name:'设计模板'
+        },
+        {
+          url:'/unique',
+          name:'定制服务'
+        },
+        {
+          url:'/service',
+          name:'服务保障'
+        },
+         {
+          url:'/news',
+          name:'新闻中心'
+        },
+        {
+          url:'/help',
+          name:'帮助支持'
+        },
+        {
+          url:'/join',
+          name:'合作加盟'
+        },
+        {
+          url:'/about',
+          name:'关于我们'
+        }
+      ],
       logo: require('../assets/img/common/logo.png'),
       cart: require('../assets/img/common/cart.png'),
       face: require('../assets/img/common/head.png'),
@@ -331,7 +371,7 @@ export default {
     }
   },
   created(){
-      this.config = config;
+    this.config = config;
     this.activeIndex = this.$store.state.currentIndex;
     this.token = this.$store.getters.getToken;
     this.userinfoFn()
@@ -342,6 +382,14 @@ export default {
     this.sms_token=''
   },
   methods: {
+    dddff(url){
+      console.log(url);
+    },
+    // 点击用户协议
+    userArge(){
+      this.dialogTableVisible = false
+      this.$router.push("/about/aboutUser");
+    },
     // 获取个人信息
     userinfoFn(){
       let userInfo = this.$store.getters.getUserInfo
@@ -578,6 +626,7 @@ export default {
     },
 
     handleSelect(index) {
+      console.log(index);
       this.activeIndex = index;
       this.$store.state.currentIndex = index; //导航高亮
       this.$store.state.publicHome = index; //记录跳转路径
@@ -693,6 +742,44 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        height: 70px;
+
+        .navUl{
+          display: flex;
+          align-items: center;
+          width: 840px;
+          justify-content: space-between;
+          height: 70px;
+          
+          li{
+            position: relative;
+            text-align: center;
+            flex: 1;
+            text-align: center;
+            a{
+              color: #333330;
+              width: 100%;
+              height: 100%;
+              display: inline-block;
+            }
+          }
+
+          .activeClass{
+            a{
+              color: #4E9F5B;
+            }
+          }
+
+          .activeClass::before{
+            content: '';
+            position: absolute;
+            height: 2px;
+            background: #4E9F5B;
+            bottom: -27px;
+            left: 0;
+            right: 0;
+          }
+        }
 
         .img{
           width: 95px;

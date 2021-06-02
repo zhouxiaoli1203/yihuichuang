@@ -9,17 +9,17 @@
                 <div class="cont severCont" v-show="navActive == 0">
                     <div class="info">
                     <img :src="tel" alt="">
-                    <p>服务热线：0561-3433212</p>
+                    <p>服务热线：400 049 9904</p>
                     </div>
                 </div>
             </li>
             <li @mouseover='navMouseOver(1)' @mouseleave='navMouseLeave(1)' :class="navActive == 1?'active':''">
                 <div class="icon">
-                    <img :src="severIcon2" alt="">
+                    <img :src="dingyueCode" alt="">
                     <p>订阅号</p>
                 </div>
                 <div class="cont codeCont" v-show="navActive == 1">
-                    <img :src="banner" alt="">
+                    <img :src="dingyueCode" alt="">
                 </div>
             </li>
             <li @mouseover='navMouseOver(2)' @mouseleave='navMouseLeave(2)' :class="navActive == 2?'active':''">
@@ -47,11 +47,11 @@
             </li>
             <li  @mouseover='navMouseOver(3)' @mouseleave='navMouseLeave(3)' :class="navActive == 3?'active':''">
                 <div class="icon">
-                    <img :src="severIcon4" alt="">
+                    <img :src="serviceCode" alt="">
                     <p>服务号</p>
                 </div>
                 <div class="cont codeCont" v-show="navActive == 3">
-                    <img :src="banner" alt="">
+                    <img :src="serviceCode" alt="">
                 </div>
             </li>
             <li @click="backToTop">
@@ -88,7 +88,9 @@ export default {
             nameInput:'',
             complaintInput:'',
             navActive: -1,
-            interval: null
+            interval: null,
+            dingyueCode:require('@/assets/img/common/dingyueCode.jpg'),
+            serviceCode:require('@/assets/img/common/serviceCode.jpg'),
         }
     },
     mounted() {

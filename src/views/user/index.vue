@@ -65,8 +65,8 @@
                          <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入用户名称"></el-input>
                         </el-form-item>
                         <el-form-item class="btns buttonBox">
-                            <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>
-                            <el-button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')" v-button>确定</el-button>                           
+                            <el-button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')" v-button>确定</el-button>
+                            <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>                           
                         </el-form-item>
                     </el-form>
 
@@ -76,32 +76,35 @@
                 <el-tab-pane label="头像">
                     <div class="upHead">
                         <div class="img">
-                              <el-image 
-                                v-if="imgResult"
+                            <el-upload 
+                             v-if="imgResult==''"
+                            action='' 
+                            :limit="1" 
+                            list-type="picture" 
+                            :auto-upload="true" 
+                            name='face'  
+                            style="text-align:center"  
+                            :show-file-list="false" 
+                            :before-upload="beforeAvatarUpload"
+                            accept=".jpg,.jpeg,.png,.gif,.JPG,.JPEG"
+                            >
+                                <div class="shangchuanBOX"> 
+                                    <i class="el-icon-plus avatar-uploader-icon"></i>
+                                    <span class="shangchuan">上传头像</span>
+                                </div>
+                            </el-upload>
+                            <el-image 
+                                v-else
                                 :src="imgResult" 
                                 :preview-src-list="srcList"
                                 class="avatar"
                                 >
                             </el-image>
-                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </div>
-                        <el-upload 
-                        action='' 
-                        :limit="1" 
-                        list-type="picture" 
-                        :auto-upload="true" 
-                        name='face'  
-                        style="text-align:center"  
-                        :show-file-list="false" 
-                        :before-upload="beforeAvatarUpload"
-                        accept=".jpg,.jpeg,.png,.gif,.JPG,.JPEG"
-                        >
-                            <el-button size="small" type="primary">上传头像</el-button>
-                        </el-upload>
                     </div>
                     <div class="btns">
-                        <button  @click.prevent="userClose" class="spanBtn">取消</button>
                         <button  class="spanBtn" type="primary" @click.prevent="modifyFace" v-button>确定</button>    
+                        <button  @click.prevent="userClose" class="spanBtn">取消</button>
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="手机号">
@@ -129,8 +132,8 @@
                         </el-form-item>
 
                          <el-form-item class="btns buttonBox">
-                            <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>
-                            <el-button  class="spanBtn" type="primary" @click.prevent="phoneModifySubmit('phoneModifyForm')" v-button>确定</el-button>                           
+                            <el-button  class="spanBtn" type="primary" @click.prevent="phoneModifySubmit('phoneModifyForm')" v-button>确定</el-button>   
+                            <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>                        
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -328,6 +331,7 @@ export default {
         userClose(){
             console.log(1211)
             this.userPublic=false
+            this.imgResult = ''
         },
 
         // 获取个人信息
@@ -410,6 +414,7 @@ export default {
                         type: 'success'
                     });
                     this.userPublic = false
+                    this.imgResult = ''
                 }else{
                     this.$message({
                         message:res.info,
@@ -606,14 +611,14 @@ export default {
 
     .tabNav{
         position: absolute;
-        top: 0;
+        top: 40px;
         right: 0;
         left: 0;
         bottom: 0;
     }
 
     .el-icon-close{
-        width: 82%;
+        width: 100%;
         height: 40px;
         background: #F9F7F7;
         text-align: right;
@@ -651,7 +656,7 @@ export default {
 
     .btns{
         position: absolute;
-        bottom: 15px;
+        bottom: 43px;
         left: 0;
         right: 0;
         text-align: center;
@@ -667,12 +672,12 @@ export default {
             line-height: 34px;
         }
         .spanBtn:first-child{
-            background: #DBDBDB;
+            background: #4E9F5B;
             margin-right: 48px;
         }
 
         .spanBtn:last-child{
-            background: #4E9F5B;
+            background: #DBDBDB;
         }
     }
 
@@ -693,10 +698,30 @@ export default {
             }
 
             i{
-                font-size: 60px;
-                color: #ddd;
+                font-size: 56px;
+                color: #4E9F5B;
+            }
+
+            .shangchuanBOX{
+                width: 130px;
+                height: 118px;
+                border-radius: 8px;
+                border: 1px dashed #4E9F5B;
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .shangchuan{
+                margin-top: 8px;
+                display: block;
+                text-align: center;
+                font-size: 16px;
+                color: #4E9F5B;
             }
         }
+        
     }
   }
 </style>

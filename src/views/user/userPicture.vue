@@ -419,14 +419,14 @@
 
     .tabNav{
         position: absolute;
-        top: 0;
+        top: 40px;
         right: 0;
         left: 0;
         bottom: 0;
     }
 
     .el-icon-close{
-        width: 82%;
+        width: 100%;
         height: 40px;
         background: #F9F7F7;
         text-align: right;

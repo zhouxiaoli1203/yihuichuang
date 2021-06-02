@@ -273,11 +273,11 @@
                 cont:'强大的运营、设计管理团队'
             },
             {
-                img:'',
+                img:require('../../assets/img/join/img3.jpg'),
                 cont:'通过IS09000质量体系认证'
             },
             {
-                img:'',
+                img:require('../../assets/img/join/img4.jpg'),
                 cont:'统一门店服装和设计服务'
             },
             {
@@ -285,7 +285,7 @@
                 cont:'智能化操作系统'
             },
             {
-                img:require('../../assets/img/join/img5.jpg'),
+                img:require('../../assets/img/join/img6.jpg'),
                 cont:'O2O店铺引流'
             }
         ]
@@ -418,6 +418,7 @@
             width: 1044px;
             background: #FFFFFF;
             border-radius: 20px;
+            margin:0 auto;
         }
 
         ul:first-child{
