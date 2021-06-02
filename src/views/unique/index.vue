@@ -89,25 +89,25 @@
             {
                 tit:'让您的企业形象深入人心',
                 name:'LOGO设计',
-                img:'',
+                img:require('@/assets/img/unique/pinpai1.png'),
                 index:0
             },
             {
                 tit:'构建烙印消费者大脑的视觉锤',
                 name:'VI设计',
-                img:'',
+                img:require('@/assets/img/unique/pinpai2.png'),
                 index:1
             },
             {
                 tit:'让品牌变身“吸粉神器”',
                 name:'吉祥物设计',
-                img:'',
+                img:require('@/assets/img/unique/pinpai3.png'),
                 index:2
             },
             {
                 tit:'“看脸”时代企业的移动门面',
                 name:'宣传品设计',
-                img:'',
+                img:require('@/assets/img/unique/pinpai4.png'),
                 index:3
             }
         ]
@@ -124,25 +124,25 @@
                     {
                         tit:'让您的企业形象深入人心',
                         name:'LOGO设计',
-                        img:'',
+                        img:require('@/assets/img/unique/pinpai1.png'),
                         index:0
                     },
                     {
                         tit:'构建烙印消费者大脑的视觉锤',
                         name:'VI设计',
-                        img:'',
+                        img:require('@/assets/img/unique/pinpai2.png'),
                         index:1
                     },
                     {
                         tit:'让品牌变身“吸粉神器”',
                         name:'吉祥物设计',
-                        img:'',
+                        img:require('@/assets/img/unique/pinpai3.png'),
                         index:2
                     },
                     {
                         tit:'“看脸”时代企业的移动门面',
                         name:'宣传品设计',
-                        img:'',
+                        img:require('@/assets/img/unique/pinpai4.png'),
                         index:3
                     }
                 ]
@@ -152,25 +152,25 @@
                     {
                         tit:'行走的品牌广告',
                         name:'包装袋设计',
-                        img:'',
+                        img:require('@/assets/img/unique/baozhuang1.png'),
                         index:0
                     },
                     {
                         tit:'为产品销量保驾护航',
                         name:'包装盒设计',
-                        img:'',
+                        img:require('@/assets/img/unique/baozhuang2.png'),
                         index:1
                     },
                     {
                         tit:'节庆货架上的畅销秘诀',
                         name:'礼盒设计',
-                        img:'',
+                        img:require('@/assets/img/unique/baozhuang3.png'),
                         index:2
                     },
                     {
                         tit:'人手一瓶的实用美学',
                         name:'瓶型设计',
-                        img:'',
+                        img:require('@/assets/img/unique/baozhuang4.png'),
                         index:3
                     }
                 ]
@@ -208,19 +208,19 @@
                     {
                         tit:'为品牌产品打造专属网络名片',
                         name:'官网设计',
-                        img:'',
+                        img:require('@/assets/img/unique/wangzhan1.png'),
                         index:0
                     },
                     {
                         tit:'方便实用的移动推广手册',
                         name:'H5设计',
-                        img:'',
+                        img:require('@/assets/img/unique/wangzhan2.png'),
                         index:1
                     },
                     {
                         tit:'引流推广必备武器',
                         name:'落地页设计',
-                        img:'',
+                        img:require('@/assets/img/unique/wangzhan1.png'),
                         index:2
                     },
                 ]

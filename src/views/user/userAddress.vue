@@ -69,6 +69,10 @@
                     </el-pagination>
                 </div>
               </template>
+              <div v-if="noCont==true" class="NoCont">
+                <img src="@/assets/img/common/noCont.png" alt="">
+                <span>暂无数据</span>
+              </div>
             </div>
         </div>
     </section>
@@ -219,6 +223,7 @@
         list:[],
         count:0,
         AddModifyid:'',
+        noCont:false
         
       }
     },
@@ -315,6 +320,12 @@
           if(res.code==1){
             this.list = res.data.list
             this.count =  res.data.count
+            if(res.data.list.length==0){
+              this.noCont = true
+            }else{
+              this.noCont = false
+            }
+
           }else{
             this.$message({
               message:res.info,

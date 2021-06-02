@@ -23,7 +23,7 @@
                 </el-pagination>
             </div>
         </div>
-        <div class="noCont" v-show="noCont">
+        <div class="noCont" v-if="noCont==true">
             <img src="@/assets/img/common/wenzhang.png" alt="">
             <p>暂无文章内容</p>
         </div>

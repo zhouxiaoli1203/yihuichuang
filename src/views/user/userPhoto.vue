@@ -210,8 +210,10 @@
         let param = new FormData(); // 创建form对象
         param.append("cert", file); 
         param.append("token", this.token); // 添加form表单中其他数据
+        this.openFullScreen(); //调用加载中
         this.$post("post",'Cert/upload',param,'upload')
         .then((res)=>{
+            this.closeFullScreen(this.openFullScreen()); //关闭加载框
             if(res.code==1){
               this.imgResult = res.data.png
               this.name = res.data.name
@@ -258,18 +260,15 @@
       // 照片打印
       CertPrint(){
         let {token,name,bgColor,size} = this
+        this.openFullScreen(); //调用加载中
         this.$post("post",'Cert/download',{
           token,
           name,
           color:bgColor,
           size
-        })
-        .then((res)=>{
+        }).then((res)=>{
+          this.closeFullScreen(this.openFullScreen()); //关闭加载框
           if(res.code==1){
-            this.$message({
-                message:res.info,
-                type: 'success'
-            });
             let page = window.open(res.data.pdf);
             setTimeout(()=>{
               page.print(); //这一步就是在新窗口调出打印机

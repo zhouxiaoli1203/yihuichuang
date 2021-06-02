@@ -94,53 +94,54 @@
         <h1 class="titH1">服务领域</h1>
         <ul class="hangye">
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever1.png" alt="">
+            
             <p>电商淘宝</p>
           </li>
            <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever2.png" alt="">
             <p>教育培训</p>
           </li>
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever3.png" alt="">
             <p>公司包装</p>
           </li>
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever4.png" alt="">
             <p>餐饮美食</p>
           </li>
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever5.png" alt="">
             <p>房产商业</p>
           </li>
         </ul>
         <ul class="anli1">
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever6.png" alt="">
           </li>
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever7.png" alt="">
           </li>
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever8.png" alt="">
           </li>
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever9.png" alt="">
           </li>
         </ul>
         <ul class="anli2">
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever10.png" alt="">
           </li>
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever11.png" alt="">
           </li>
           <li>
-            <img :src="banner" alt="">
+            <img src="@/assets/img/index/sever12.png" alt="">
           </li>
         </ul>
         <div class="btns">
-          <button>立即体验</button>
+           <router-link :to="{name:'print'}" class="button">立即体验 </router-link>
         </div>
       </section>
 
@@ -521,7 +522,7 @@ export default {
     .btns{
       text-align: center;
       margin-top: 35px;
-      button{
+      .button{
         background: #4E9F5B;
         color: #fff;
         width: 140px;
@@ -529,6 +530,7 @@ export default {
         line-height: 46px;
         text-align: center;
         border-radius: 8px;
+        display: inline-block;
       }
 
     }

@@ -9,61 +9,49 @@
           </div>
           <div class="operateBox">
             <span class="add">上传文件</span>
+            <input type="file" @change="getFile($event)" multiple="multiplt" accept="image/jpeg,image/gif,image/png" >
           </div>
         </div>
-
-        <!-- <div>时间</div> -->
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
-              <ul class="pictureBox">
-                <li>
-                  <div class="img">
-                    <img src="" alt="">
-                    <div class="downBox">
-                      <el-dropdown trigger="click"  @command="(command)=>{handleCommand(command,1)}">
-                        <i class="el-icon-arrow-down el-icon-caret-bottom"></i>
-                        <el-dropdown-menu slot="dropdown" class="editBox">
-                          <el-dropdown-item command="编辑">编辑</el-dropdown-item>
-                          <el-dropdown-item command="删除">删除</el-dropdown-item>
-                          <el-dropdown-item command="打印">打印</el-dropdown-item>
-                          <el-dropdown-item command="下载">下载</el-dropdown-item>
-                        </el-dropdown-menu>
-                      </el-dropdown>
+              <div v-if="list!=''">
+                <ul class="pictureBox">
+                  <li v-for="item in list">
+                    <div class="img">
+                      <img :src="item.url" alt="">
+                      <div class="downBox">
+                        <el-dropdown trigger="click"  @command="(command)=>{handleCommand(command,item.id,item.url)}">
+                          <i class="el-icon-arrow-down el-icon-caret-bottom"></i>
+                          <el-dropdown-menu slot="dropdown" class="editBox">
+                            <el-dropdown-item command="编辑">编辑</el-dropdown-item>
+                            <el-dropdown-item command="删除">删除</el-dropdown-item>
+                            <el-dropdown-item command="打印">打印</el-dropdown-item>
+                            <el-dropdown-item command="下载">下载</el-dropdown-item>
+                          </el-dropdown-menu>
+                        </el-dropdown>
+                      </div>
                     </div>
-                  </div>
-                  <h3>要么是态度问题的是</h3>
-                  <span>2020-02-02</span>
-                </li>
-                <li>
-                  <div class="img">
-                    <img src="" alt="">
-                    <div class="downBox">
-                      <el-dropdown trigger="click" @command="handleCommand(e,2)">
-                        <i class="el-icon-arrow-down el-icon-caret-bottom"></i>
-                        <el-dropdown-menu slot="dropdown"  class="editBox">
-                          <el-dropdown-item command="编辑">编辑</el-dropdown-item>
-                          <el-dropdown-item command="删除">删除</el-dropdown-item>
-                          <el-dropdown-item command="打印">打印</el-dropdown-item>
-                          <el-dropdown-item command="下载">下载</el-dropdown-item>
-                        </el-dropdown-menu>
-                      </el-dropdown>
-                    </div>
-                  </div>
-                  <h3>要么是态度问题的是</h3>
-                  <span>2020-02-02</span>
-                </li>
-    
-     
-
-              </ul>
-              <div class="paging">
-                  <el-pagination
-                      background
-                      layout="prev, pager, next"
-                      :total="1000">
-                  </el-pagination>
+                    <h3>{{item.name}}</h3>
+                    <span>{{item.upload_time  | formatDate_('yyyy-MM-dd hh:mm:ss') }}</span>
+                  </li>
+                </ul>
+                <div class="paging">
+                    <el-pagination
+                        background
+                        :current-page.sync="page"
+                        @current-change="handleCurrentChange"
+                        layout="prev, pager, next"
+                        :page-size="limit"
+                        :auto-upload="false"
+                        :total="total">
+                    </el-pagination>
                 </div>
+              </div>
+              <div v-if="noCont==true" class="NoCont">
+                <img src="@/assets/img/common/noCont.png" alt="">
+                <span>暂无数据</span>
+              </div>
             </div>
         </div>
     </section>
@@ -77,7 +65,6 @@
                   <div class="editInput">
                       <h4>编辑照片信息</h4>
                   </div> 
-  
                   <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
                       <el-form-item
                         prop="nickname"
@@ -111,19 +98,17 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item class="btns">
-                      <button  @click="userClose" class="spanBtn">取消</button>
-                      <button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</button>                           
+                      <button  @click.prevent="userClose" class="spanBtn">取消</button>
+                      <button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</button>                           
                   </el-form-item>
                 </el-form>
-
-                <img src="" alt="" class="phoneLook">
-
+                <img :src="downImg" alt="" class="phoneLook">
               </el-tab-pane>
               <el-tab-pane label="下载" name="下载">
-                  <img src="" alt="" class="phoneLook xiazai"> 
+                  <img :src="downImg" alt="" class="phoneLook xiazai"> 
                   <div class="btns">
-                    <button  @click="userClose" class="spanBtn">取消</button>
-                    <button  class="spanBtn" type="primary" >确定</button> 
+                    <button  @click.prevent="userClose" class="spanBtn">取消</button>
+                    <button  class="spanBtn" type="primary" @click.prevent="downImgClick(downImg)">确定</button> 
                   </div>
               </el-tab-pane>
           </el-tabs>
@@ -157,38 +142,146 @@
           region: [
             {message: '请选择活动区域', trigger: 'change' }
           ],
-        }
+        },
+        token:'',
+        page:1,
+        limit:20,
+        list:[],
+        total:0,
+        wenjianList:[],
+        downImg:'',  //下载路径
+        noCont:false,
       }
     },
+    created(){
+      this.token = this.$store.getters.getToken;
+      this.PrintsSelect(this.page,this.limit)
+    },
     methods: {
-      handleCommand(command,id) {
-        if(command=='删除'){
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
+      getFile(event){
+        console.log(event);
+        var file = event.target.files;
+        console.log(file.length);
+        if(file.length>0){
+          for(var i = 0;i<file.length;i++){
+            const reg = /\/(?:jpeg|png|jpg)/i;//判断文件类型是不是图片
+            const fileType = reg.test(file[i].type)
+            const isLt5M = file[i].size / 1024 / 1024 < 5;
+            if (!fileType) {
+              return this.$message.error('上传图片只能是JPG,PNG,GIF格式!');
+            }
+
+            if (!isLt5M) {
+              return this.$message.error('上传图片大小不能超过 5MB!');
+            }
+          }
+          this.FileUpload(file)
+        }        
+      },
+      // 上传图片
+      FileUpload(file){
+        let param = new FormData(); // 创建form对象
+        for (var k in file) {
+          param.append("file[]", file[k]); // 通过append向form对象添加数据
+          if (k == file.length-1) {//循环到5那项后，停止循环
+            break;
+          }
+        }
+        param.append("token", this.token); // 添加form表单中其他数据
+
+        this.openFullScreen(); //调用加载中
+        this.$post("post",'File/upload',param).then((res)=>{
+          this.closeFullScreen(this.openFullScreen()); //关闭加载框
+          if(res.code==1){
+            this.PrintsUpload(res.data.list)
+          }
+        })
+      },
+
+      // 文件code
+      PrintsUpload(codes){
+        this.$post("post",'Prints/upload',{
+          token:this.token,
+          codes
+        }).then((res)=>{
+          if(res.code==1){
+            this.page = 1
+            this.PrintsSelect(1,this.limit)
             this.$message({
-              type: 'success',
-              message: '删除成功!'
+              message:'上传成功',
+              type: 'success'
             });
-          }).catch(() => {       
-          });
+          }
+        })
+      },
+
+      // 获取文件列表
+      PrintsSelect(page,limit){
+        this.openFullScreen(); //调用加载中
+        this.$post("post",'Prints/select',{
+          token:this.token,
+          category:'img',
+          page,
+          limit
+        }).then((res)=>{
+          this.closeFullScreen(this.openFullScreen()); //关闭加载框
+          if(res.code==1){
+            this.list = res.data.list
+            this.total = res.data.count
+            if(res.data.list.length==0){
+              this.noCont = true
+            }else{
+              this.noCont = false
+            }
+          }
+        })
+      },
+
+      // 点击页数
+      handleCurrentChange(val) {
+        this.page = val
+        this.PrintsSelect(val,this.limit);
+      },
+      handleCommand(command,id,url) {
+        if(command=='删除'){
+          this.confirm_pop("此操作将永久删除该文件, 是否继续?").then(res=>{
+            this.PrintsDelete(id);
+          })
         }else{
+          this.downImg = url
           this.userPublic = true
           this.activeName = command
         }
       },
+
+      // 删除文件
+      PrintsDelete(ids){
+        this.$post("post",'Prints/delete',{
+          token:this.token,
+          ids
+        }).then((res)=>{
+          if(res.code==1){
+            this.page = 1
+            this.PrintsSelect(1,this.limit)
+            this.$message({
+              message:'删除成功',
+              type: 'success'
+            });
+          }
+        })
+      },
+
       pathNews(){
         this.$router.replace("/user/userFile");
       },
+
+      
       userClose(){
-          this.userPublic=false
+        this.userPublic=false
       },
       cityChange(val){ //选择收货地址
         console.log(val)
       },
-
       // 修改文件名
       nicknameSubmit(formName) {
         this.$refs[formName].validate((valid) => {
@@ -221,6 +314,10 @@
             }
         });
       },
+      // 下载图片
+      downImgClick(url){
+        window.open(url,'download');
+      }
     }
   }
 </script>
@@ -230,7 +327,20 @@
   .crumbsHeader{
     justify-content: space-between;
 
-
+    .operateBox{
+      width: 102px;
+      height: 34px;
+      position: relative;
+      overflow: hidden;
+      input{
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        opacity: 0;
+      }
+    }
     .add{
       width: 102px;
       height: 34px;

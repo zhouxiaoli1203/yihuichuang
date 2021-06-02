@@ -8,6 +8,7 @@
               <span>文件</span>
           </div>
           <div class="operateBox">
+            <p @click="handleBatchDownload">下载</p>
             <div class="downBox">
               <el-dropdown trigger="click" @command="handleCommand" style="width:100%;padding:9px 0">
                 <span>编辑</span>
@@ -22,37 +23,53 @@
             </div>
             <span class="add" @click="selectAll" v-if="checkAll==false">全选</span>
             <span class="add" @click="notatAll" v-if="checkAll==true">全不选</span>
-            <span class="add" style="margin-left:54px">上传文件</span>
+            <div class="shangChuan">
+              <span class="add">上传文件</span>
+              <input type="file" @change="getFile($event)" multiple="multiplt" accept=".doc,.docx,.xls,.xlsx"/>
+            </div>
           </div>
         </div>
 
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
-              <div class="fileTitle">
-                <span>文件名</span>
-                <span>大小</span>
-                <span>日期</span>
-              </div>
-              <div class="checkboxBox">
-                <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                  <el-checkbox v-for="(item,i) in flileList" :label="item.id" :key="i">
-                    <div class="info">
-                      <img :src="file1" alt="">
-                      <p>{{item.tit}}</p>
-                    </div>
-                    <span class="kb">{{item.kb}}KB</span>
-                    <p class="time">{{item.time}}</p>
-                  </el-checkbox>
-                </el-checkbox-group>
-              </div>
-              <div class="paging">
-                  <el-pagination
-                      background
-                      layout="prev, pager, next"
-                      :total="1000">
-                  </el-pagination>
+              <div  v-if="list!=''">
+                <div class="fileTitle">
+                  <span>文件名</span>
+                  <span>大小</span>
+                  <span>日期</span>
                 </div>
+                <div class="checkboxBox">
+                  <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+                    <div v-for="(item,i) in list" :key="i" class="li">
+                      <el-checkbox :label="item.id" >
+                        <div class="info">
+                          <img :src="file1" alt="">
+                          <p>{{item.name}}</p>
+                        </div>
+                        <span class="kb" v-if="item.size / 1024 / 1024 < 1">{{Number(item.size/1024).toFixed(1)}}KB</span>
+                        <span class="kb" v-else>{{Number(item.size / 1024 / 1024).toFixed(1)}}MB</span>
+                        <p class="time">{{item.upload_time | formatDate_('yyyy-MM-dd hh:mm:ss') }}</p>
+                      </el-checkbox>
+                      <button class="spanBtn" type="primary" @click.prevent="downImgClick(item.url)">下载</button> 
+                    </div>
+                  </el-checkbox-group>
+                </div>
+                <div class="paging">
+                    <el-pagination
+                      background
+                      :current-page.sync="page"
+                      @current-change="handleCurrentChange"
+                      layout="prev, pager, next"
+                      :page-size="limit"
+                      :total="total">
+                    </el-pagination>
+                </div>
+              </div>
+              <div v-if="noCont==true" class="NoCont">
+                <img src="@/assets/img/common/noCont.png" alt="">
+                <span>暂无数据</span>
+              </div>
             </div>
         </div>
     </section>
@@ -66,7 +83,7 @@
                   <div class="editInput">
                       <h4>编辑文件信息</h4>
                   </div> 
-  
+
                   <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
                       <el-form-item
                         prop="nickname"
@@ -77,8 +94,8 @@
                         <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入文件名称" maxlength="9" show-word-limit></el-input>
                       </el-form-item>
                       <el-form-item class="btns buttonBox">
-                          <el-button  @click="userClose" class="spanBtn">取消</el-button>
-                          <el-button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</el-button>                           
+                          <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>
+                          <el-button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</el-button>                           
                       </el-form-item>
                   </el-form>
               </el-tab-pane>
@@ -100,8 +117,8 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item class="btns">
-                      <button  @click="userClose" class="spanBtn">取消</button>
-                      <button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</button>                           
+                      <button  @click.prevent="userClose" class="spanBtn">取消</button>
+                      <button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</button>                           
                   </el-form-item>
                 </el-form>
                 <div class="wenjianDayin xiazaiSection">
@@ -298,6 +315,8 @@
 <script>
   import MenuLeft from '../../components/menuLeft'
   import { regionData } from 'element-china-area-data'
+   import JSZip from 'jszip'
+  import FileSaver from 'file-saver'
   export default {
     name: 'userFiledown',
     components: {
@@ -308,22 +327,6 @@
         file1: require('../../assets/img/user/file1.png'), 
         //全选
         checkAll: false,
-        flileList: [
-          {
-            tit:"打不死的是信念，绕不开的是变化",
-            kb:"928",
-            time:"2006-10-16 20:22:22",
-            val:"张",
-            id:1
-          },
-          {
-            tit:"打不死的是信念，绕不开的是变化",
-            kb:"245",
-            time:"2006-10-16 20:22:22",
-            val:"李",
-            id:2,
-          },
-        ], //数据源
         checkedCities:[], //绑定默认选中
         userPublic: false, 
         options: regionData,
@@ -338,12 +341,82 @@
           region: [
             {message: '请选择活动区域', trigger: 'change' }
           ],
-        }
+        },
+        token:'',
+        list: [], //数据源
+        page:1,
+        limit:20,
+        total:0,
+        noCont:false,
       }
     },
+    created(){
+      this.token = this.$store.getters.getToken;
+      this.PrintsSelect(this.page,this.limit)
+
+
+    },
     methods: {
+      handleBatchDownload() {
+         let filename = 'yasyoi'
+         let arrImages = [
+           {fileUrl:'https://yhc0561.oss-cn-hangzhou.aliyuncs.com/uploads/202106/0115415996058211.docx',renameFileName:'11'},
+           {fileUrl:'https://yhc0561.oss-cn-hangzhou.aliyuncs.com/uploads/202106/0115415996058211.docx',renameFileName:'11'}
+          ]
+        let _this = this;
+        let zip = new JSZip();
+        let cache = {};
+        let promises = [];
+        _this.title = '正在加载压缩文件';
+        for (let item of arrImages) {
+          const promise= _this.getImgArrayBuffer(item.fileUrl).then(data => {
+            console.log(11111);
+            // 下载文件, 并存成ArrayBuffer对象(blob)
+            console.log(item.renameFileName, data, { binary: true });
+            zip.file(item.renameFileName, data, { binary: true }); // 逐个添加文件
+            cache[item.renameFileName] = data;
+          });
+          console.log(promises);
+          promises.push(promise);
+        }
+        Promise.all(promises).then(() => {
+          zip.generateAsync({ type: "blob" }).then(content => {
+            _this.title = '正在压缩';
+            // 生成二进制流
+            FileSaver.saveAs(content, filename); // 利用file-saver保存文件  自定义文件名
+            _this.title = '压缩完成';
+          });
+        }).catch(res=>{
+          console.log(res);
+          _this.$message.error('文件压缩失败');
+        });
+      },
+    //获取文件blob
+      getImgArrayBuffer(url){
+        console.log(111522);
+        let _this=this;
+        return new Promise((resolve, reject) => {
+          //通过请求获取文件blob格式
+          let xmlhttp = new XMLHttpRequest();
+          xmlhttp.open("GET", url, true);
+          xmlhttp.responseType = "blob";
+          // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+          // xmlhttp.setRequestHeader("Content-Type", "application/json");
+          // xmlhttp.setRequestHeader("=Content-Type", "Basic a2VybWl0Omtlcm1pdA==");
+          // xmlhttp.setRequestHeader("Authorization", "Basic a2VybWl0Omtlcm1pdA==");
+          xmlhttp.onload = function () {
+            if (this.status == 200) {
+              resolve(this.response);
+            }else{
+              reject(this.status);
+            }
+          }
+          xmlhttp.send();
+        });
+
+      },
       selectAll() {
-        this.flileList.forEach(item=>{  //当全选被选中的时候，循环遍历源数据，把数据的每一项加入到默认选中的数组去
+        this.list.forEach(item=>{  //当全选被选中的时候，循环遍历源数据，把数据的每一项加入到默认选中的数组去
           this.checkedCities.push(item.id)
         })
         this.checkAll = true
@@ -356,36 +429,53 @@
       handleCheckedCitiesChange(value) {
         console.log(value)
         let checkedCount = value.length;   //选中值的长度
-        this.checkAll = checkedCount === this.flileList.length;  //如果选中值的长度和源数据的长度一样，返回true，就表示你已经选中了全部checkbox，那么就把true赋值给this.checkAll
+        this.checkAll = checkedCount === this.list.length;  //如果选中值的长度和源数据的长度一样，返回true，就表示你已经选中了全部checkbox，那么就把true赋值给this.checkAll
       },
       pathNews(){
         this.$router.replace("/user/userFile");
       },
       handleCommand(command) {
         let { checkedCities } = this
+        const newList = []
         if(checkedCities==''){
           return this.$message({
             message: '您还没有选择要操作的文件哦',
             type: 'warning'
           });
         }
+        
+        checkedCities.forEach(i => {
+        　　newList.push(i)
+        })
+
+        let str = newList.join(",")   // 字符串一,字符串二,字符串三
         if(command=='删除'){
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
-          }).catch(() => {       
-          });
+          this.confirm_pop("此操作将永久删除该文件, 是否继续?").then(res=>{
+            console.log(str) 
+            this.PrintsDelete(str); //多选删除文件
+          })
         }else{
           this.userPublic = true
           this.activeName = command
         }
 
+      },
+
+      // 删除文件
+      PrintsDelete(ids){
+        this.$post("post",'Prints/delete',{
+          token:this.token,
+          ids
+        }).then((res)=>{
+          if(res.code==1){
+            this.page = 1
+            this.PrintsSelect(1,this.limit)
+            this.$message({
+              message:'删除成功',
+              type: 'success'
+            });
+          }
+        })
       },
       userClose(){
           this.userPublic=false
@@ -425,6 +515,100 @@
             }
         });
       },
+
+      // 获取文件列表
+      PrintsSelect(page,limit){
+        this.openFullScreen(); //调用加载中
+        this.$post("post",'Prints/select',{
+          token:this.token,
+          category:'doc',
+          page,
+          limit
+        }).then((res)=>{
+          this.closeFullScreen(this.openFullScreen()); //关闭加载框
+          if(res.code==1){
+            this.list = res.data.list
+            this.total = res.data.count
+            if(res.data.list.length==0){
+              this.noCont = true
+            }else{
+              this.noCont = false
+            }
+          }
+        })
+      },
+      // 点击页数
+      handleCurrentChange(val) {
+        this.page = val
+        this.PrintsSelect(val,this.limit);
+      },
+
+      // 点击上传
+      getFile(event){
+        console.log(event);
+        var file = event.target.files;
+        console.log(file.length);
+        if(file.length>0){
+          for(var i = 0;i<file.length;i++){
+
+            const fileType = file[i].name.endsWith('.xlsx') || file[i].name.endsWith('.xls') || file[i].name.endsWith('.doc') || file[i].name.endsWith('.docx')
+
+            const isLt5M = file[i].size / 1024 / 1024 < 5;
+
+            if (!fileType) {
+              return this.$message.error('上传文件只能是DOC,XLS格式!');
+            }
+
+            if (!isLt5M) {
+              return this.$message.error('上传文件大小不能超过 5MB!');
+            }
+          }
+          this.FileUpload(file)
+        }        
+      },
+
+      // 上传图片
+      FileUpload(file){
+        let param = new FormData(); 
+        for (var k in file) {
+          param.append("file[]", file[k]); 
+          if (k == file.length-1) {
+            break;
+          }
+        }
+        param.append("token", this.token); // 添加form表单中其他数据
+
+        this.openFullScreen(); //调用加载中
+        this.$post("post",'File/upload',param).then((res)=>{
+          this.closeFullScreen(this.openFullScreen()); //关闭加载框
+          if(res.code==1){
+            this.PrintsUpload(res.data.list)
+          }
+        })
+      },
+
+      // 文件code
+      PrintsUpload(codes){
+        this.$post("post",'Prints/upload',{
+          token:this.token,
+          codes
+        }).then((res)=>{
+          if(res.code==1){
+            this.page = 1
+            this.PrintsSelect(1,this.limit)
+            this.$message({
+              message:'上传成功',
+              type: 'success'
+            });
+          }
+        })
+      },
+
+      // 下载文件
+      downImgClick(url){
+        window.open(url,'download');
+      }
+
     }
   }
 </script>
@@ -459,6 +643,22 @@
     margin-right: 54px;
     cursor: pointer;
   }
+  .shangChuan{
+    width: 102px;
+    height: 34px;
+    overflow: hidden;
+    position: relative;
+    margin-left: 54px;
+
+    input{
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: 0;
+    }
+  }
 }
 .contList{
   position: relative;
@@ -481,12 +681,16 @@
   }
 }
 .checkboxBox{
+  .li{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #F5F6FA;
+  }
   label{
-    width: 100%;
+    flex: 1;
     display: flex;
     align-items: center;
     height: 40px;
-    border-bottom: 1px solid #F5F6FA;
     padding: 0 24px
   }
   .info{
@@ -509,6 +713,14 @@
   .kb, .time{
     color: #666;
     font-size: 12px;
+  }
+  button{
+    cursor: pointer;
+    margin-right: 24px;
+    color: #4E9F5B;
+  }
+  button:hover{
+    text-decoration: underline;
   }
 }
 .modifyBox{
@@ -633,7 +845,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 100%;
+      width: 97%;
       height: 40px;
       background: #FFFFFF;
       border-radius: 4px;

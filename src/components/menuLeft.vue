@@ -65,7 +65,15 @@ export default {
 
         let href = this.$route.path
         let hrefs = href.split('/')[1]
-        if(href!='/news/detail'){
+        
+        if(href=='/user/userPicture' || href=='/user/userFiledown' ){
+            navName = '/user',
+            name = '/user/userFile'
+        }
+
+        
+        if(href!='/news/detail' && href!='/user/userPicture' && href!='/user/userFiledown'){
+            console.log(11111);
             this.leftNav('/'+hrefs,href)
             if(href != '/'+hrefs){
                 this.$store.state.menuLeft = href
@@ -76,6 +84,9 @@ export default {
             this.leftNav(navName,name)
             
         }
+        
+
+        
     },
     mounted(){
 
