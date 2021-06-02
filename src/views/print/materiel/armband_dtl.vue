@@ -20,7 +20,6 @@
         <el-form-item label="尺寸(米)" prop="chicun"
                     class="rules">
         <el-col :span="7">
-
           <el-select class="form-contrl width100"
                      placeholder="选择材料"
                      v-model="params.chicun">
@@ -60,9 +59,17 @@
                          :min="0" disabled></el-input-number>
       </el-form-item>
       <el-form-item label="工艺"
-                    class="typeNum mg-none">
-        <el-color-picker v-model="params.color" show-alpha></el-color-picker>
-         <span class="demonstration" style="vertical-align: top;">颜色</span>
+                    class="gongyiStyle mg-none">
+                    <div class="item-line">
+                    <color-select :color-list="colorList" v-model="params.color1"></color-select>
+                    <span class="demonstration ml5" style="vertical-align: top;">袖标底色</span>
+                    </div>
+                    <div class="item-line ml15">
+                    <color-select :color-list="colorList" v-model="params.color2"></color-select>
+                    <span class="demonstration ml5" style="vertical-align: top;">字体颜色</span>
+                    </div>
+        <!-- <el-color-picker v-model="params.color" show-alpha></el-color-picker>
+         <span class="demonstration" style="vertical-align: top;">颜色</span> -->
       </el-form-item>
 
     </el-form>
@@ -71,6 +78,8 @@
 </template>
 
 <script>
+import colorSelect from "@/components/colorSelect";
+
 export default {
   name: 'photo-detail',
    metaInfo: {
@@ -86,9 +95,14 @@ export default {
         kuanshi:"",
         cailiao: '',
         chicun:"",
+        color1:"#FF1717",
+        color2:"#FFFFFF",
         num: 1,
         typeNum: 0,
       },
+      colorList:[
+          "#FF1717", "#FAFF25","#FFFFFF",
+      ],
       rules:{
           kuanshi: [
             { required: true, message: '请选择款式', trigger: 'change' },
@@ -104,7 +118,7 @@ export default {
     }
   },
   props:["datas","files","models"],
-  components: { },
+  components: {colorSelect },
   created() {},
   mounted() {},
   methods: {
@@ -121,6 +135,15 @@ export default {
     },
   },
   watch:{
+            datas:{
+          handler(nV,oV){
+              if(nV && JSON.stringify(nV) !='{}'){
+                  this.params = nV.attr;
+              }
+          },
+        //   immediate:true,
+        //   deep:true
+      },
       params:{
           handler(nV,oV){
               console.log(nV);
@@ -136,6 +159,19 @@ export default {
   width: 707px;
   .el-form {
     width: 100%;
+  }
+  /deep/.gongyiStyle{
+      .el-form-item__content{
+          display: flex;
+      }
+  }
+  .item-line{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .el-select{
+          width: 80px !important;
+      }
   }
 }
 </style>

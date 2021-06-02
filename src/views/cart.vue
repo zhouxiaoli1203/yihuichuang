@@ -7,7 +7,7 @@
         </div>
         <div class="fr">
           <span class="cursor_p tip-badge"
-                :class='{"main-red":checkedCities.length>0}' @click="delSahngpin('all')">批量删除<i class="badge"
+                :class='{"main-red":checkedCities.length>0}' @click="delShangpin('all')">批量删除<i class="badge"
                v-show="checkedCities.length>0">{{checkedCities.length*1>99?"99+":checkedCities.length}}</i></span>
         </div>
       </div>
@@ -21,7 +21,7 @@
           </li>
           <li class="t_a_c">商品信息</li>
           <li>材质</li>
-          <li>类型</li>
+          <li class="t_a_c">类型</li>
           <li>数量</li>
           <li>印刷价格</li>
           <li class="t_a_c">操作</li>
@@ -39,18 +39,18 @@
                      width="56px"
                      height="56px">
                 <div class="title t_a_c"
-                     style="margin:7px 0 4px 0;">{{item.shangpin}}</div>
+                     style="margin:7px 0 4px 0; white-space: normal;">{{item.shangpin}}</div>
                 <div class="rule t_a_c">{{item.chicun}}</div>
               </div>
-              <div class="lineh105">{{item.caizhi}}</div>
-              <div class="lineh105">{{item.leixing}}</div>
+              <div class="lineh105 t_a_c">{{item.caizhi}}</div>
+              <div class="lineh105 t_a_c j_c_c">{{item.leixing}}</div>
               <div class="lineh105">{{item.num}}</div>
               <div class="lineh105">{{item.price}}</div>
-              <div class="t_a_c lineh105">
+              <div class="t_a_c lineh105 j_c_c">
                 <span class="edit-icon el-icon-edit-outline mr10"
-                      @click.stop="editShangin(item)"></span>
+                      @click.stop="editShangpin(item)"></span>
                 <span class="delete-icon el-icon-delete"
-                      @click.stop="delSahngpin(item)"></span>
+                      @click.stop="delShangpin(item)"></span>
               </div>
             </el-checkbox>
           </el-checkbox-group>
@@ -74,7 +74,7 @@
                            @change="checkAllFn"></el-checkbox><span class="main-red">已选 ({{total.count}})</span>
             </div>
             <div>
-              <span>实付金额：<span class="main-red">￥{{total.price}}</span></span>
+              <span>实付金额：<span class="main-red">￥{{total.price|qf}}</span></span>
             </div>
           </div>
           <div class="fr">
@@ -143,7 +143,7 @@ export default {
         }
       })
     },
-    delSahngpin(x) {
+    delShangpin(x) {
       let this_ = this;
       let msg="";
       if(x=='all'){
@@ -211,7 +211,7 @@ export default {
         this.checkedCities.length == this.cartList.length ? true : false
       console.log(this.checkedCities)
     },
-    editShangin:function(x){
+    editShangpin:function(x){
         if(this.$store.state.token){
             this.$router.push({  //核心语句
               path:'/print/detial',   //跳转的路径

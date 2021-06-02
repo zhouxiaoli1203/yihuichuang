@@ -15,7 +15,7 @@
                @click="changeBtn(b)">{{b.name}}</div>
         </el-col>
       </el-form-item>
-      <el-form-item label="材料"
+      <!-- <el-form-item label="材料"
                     prop="cailiao"
                     class="cailiao">
         <el-col :span="15">
@@ -29,9 +29,9 @@
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="尺寸(毫米)"
-                    v-if="!zidingyi"
+                    v-if="!params.zidingyi"
                     key="select_rule"
                     prop="chicun"
                     class="rules">
@@ -48,15 +48,15 @@
         <el-col :span="2" class="ml10">
           <el-checkbox class="zidingyi"
                        label="自定义"
-                       v-model="zidingyi"
+                       v-model="params.zidingyi"
                        border>
           </el-checkbox>
         </el-col>
       </el-form-item>
-      <el-form-item v-if="zidingyi"
+      <el-form-item v-if="params.zidingyi"
                     key="shuru_rule"
                     required
-                    label="尺寸(米)"
+                    label="尺寸(毫米)"
                     class="rules_two">
         <el-col :span="6">
           <el-form-item prop="changbian">
@@ -75,7 +75,7 @@
         <el-col :span="2" class="ml10">
           <el-checkbox class="zidingyi"
                        label="自定义"
-                       v-model="zidingyi"
+                       v-model="params.zidingyi"
                        border>
           </el-checkbox>
         </el-col>
@@ -106,25 +106,25 @@
               <el-select class="form-contrl yhc-el"
                          placeholder="选择材料"
                          v-model="params.fengpi.cailiao">
-                <el-option v-for="i in cnst.xuanchuan_mates"
+                <el-option v-for="i in xuanchuan_mates"
                            :label="i.name"
-                           :value="i.value"
+                           :value="i.name"
                            :key="i.value"></el-option>
               </el-select>
             </li>
             <li style="width:130px;">
               <el-radio-group v-model="params.fengpi.color"
                               class="yhc-el">
-                <el-radio label="1">单黑</el-radio>
-                <el-radio label="2"
+                <el-radio label="单黑">单黑</el-radio>
+                <el-radio label="彩色"
                           class="mg-none">彩色</el-radio>
               </el-radio-group>
             </li>
             <li class="mg-none">
               <el-radio-group v-model="params.fengpi.mian"
                               class="yhc-el">
-                <el-radio label="2">双面</el-radio>
-                <el-radio label="1"
+                <el-radio label="双面">双面</el-radio>
+                <el-radio label="单面"
                           class="mg-auto">单面</el-radio>
               </el-radio-group>
             </li>
@@ -189,7 +189,7 @@
                       <el-input class="mini"
                                 placeholder="宽度mm"
                                 v-model="x.kuandu"
-                                @input="inputChange(x,y)"></el-input>
+                                @input="inputChange(x)"></el-input>
                     </div>
                   </div>
                 </div>
@@ -219,7 +219,7 @@
               <el-select class="form-contrl yhc-el"
                          placeholder="选择材料"
                          v-model="x.cailiao">
-                <el-option v-for="i in cnst.xuanchuan_mates"
+                <el-option v-for="i in xuanchuan_mates"
                            :label="i.name"
                            :value="i.name"
                            :key="i.value"></el-option>
@@ -228,20 +228,20 @@
             <li style="width:120px;">
               <el-radio-group v-model="x.color"
                               class="yhc-el">
-                <el-radio label="1">单黑</el-radio>
-                <el-radio label="2" class="mg-none">彩色</el-radio>
+                <el-radio label="单黑">单黑</el-radio>
+                <el-radio label="彩色" class="mg-none">彩色</el-radio>
               </el-radio-group>
             </li>
             <li style="width:200px;">
               <el-input class="yhc-el" placeholder="内文P数"
                                 v-model="x.pshu"
-                                @input="inputChange(x,y)"></el-input>
+                                @input="inputChange(x)"></el-input>
             </li>
             <li class="mg-none">
               <el-radio-group v-model="x.neirong"
                               class="yhc-el">
-                <el-radio label="1">是</el-radio>
-                <el-radio label="0" class="mg-auto">否</el-radio>
+                <el-radio label="是">是</el-radio>
+                <el-radio label="否" class="mg-auto">否</el-radio>
               </el-radio-group>
               <span class="main-click displayIB"
                     @click="deleteNeiye(x,index)">删除</span>
@@ -278,9 +278,9 @@ export default {
   },
   data() {
     return {
-      zidingyi: false,
       params: {
         chanpinType: '1',
+        zidingyi:false,
         cailiao: '',
         chicun:"",
         changbian:"",
@@ -291,11 +291,11 @@ export default {
         gongyi:this.cnst.xuanchuan_gongyi,
         fengpi:{
             cailiao:"",
-            color:"2",
-            mian:"2"
+            color:"彩色",
+            mian:"双面"
         },
         neiye:[
-            { cailiao: '', pshu: '', color: '2', neirong: "1" }
+            { cailiao: '', pshu: '', color: '彩色', neirong: "是" }
         ]
       },
        rules:{
@@ -317,7 +317,9 @@ export default {
   },
   props:["datas","files","models"],
   components: {},
-  created() {},
+  created() {
+      
+  },
   mounted() {
     console.log(this.type)
   },
@@ -330,9 +332,16 @@ export default {
         n == 1
           ? this.cnst.xuanchuan_mates
           : this.cnst.xuanchuan_mates_jiaozhuang
+        //   if(n == 1){
+        //       this.params.gongyi = this.params.gongyi.filter((v)=>{
+        //           return v.name != "封面封底勒口" || v.name != "书脊";
+        //       });
+
+        //   }
+        //   console.log(this.params.gongyi)
     },
     addNeiye: function () {
-      this.params.neiye.push({ cailiao: '', pshu: '', color: '2', neirong: "1" });
+      this.params.neiye.push({ cailiao: '', pshu: '', color: '彩色', neirong: "是" });
       
     },
     deleteNeiye: function (i) {
@@ -399,13 +408,19 @@ export default {
                   this.params = nV.attr;
               }
           },
-          immediate:true,
-          deep:true
+        //   immediate:true,
+        //   deep:true
       },
       params:{
           handler(nV,oV){
-              console.log(nV,"nv");
-              this.$emit("detailChange",nV);
+              let n_ = JSON.parse(JSON.stringify(nV));
+              let gy = n_.gongyi;
+              if(n_.chanpinType == 1){
+                  gy = gy.filter((v)=>{
+                      return !(v.name == "封面封底勒口" || v.name == "书脊");
+                  });
+              }
+              this.$emit("detailChange",n_);
           },
           deep:true
       },

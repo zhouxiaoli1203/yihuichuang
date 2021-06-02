@@ -29,7 +29,7 @@
           <!-- 上传文件按钮 -->
           <el-form class="bgGreen_">
             <el-form-item label="我有文件">
-              <el-upload class="upload-demo"
+              <!-- <el-upload class="upload-demo"
                          action=""
                          :on-exceed="exceed"
                          :http-request="qiniuUploadCover"
@@ -41,12 +41,26 @@
                          :disabled="false"
                          :file-list="params.files"
                          ref="addEditUpload"
-                         multiple="multiple">
-                <el-button class="yhc_btn"
+                         multiple="multiple"> -->
+                <!-- <el-button class="yhc_btn"
                            slot="trigger"
                            size="small"
-                           type="primary">上传稿件</el-button>
-              </el-upload>
+                           type="primary">上传稿件</el-button> -->
+                <div class="operateBox fl">
+                    <span class="add">上传文件</span>
+                    <input type="file" @change="getFile($event)" multiple="multiple" accept="image/jpeg,image/gif,image/png" >
+                </div>
+                <ul class="el-upload-list el-upload-list--text">
+                <li v-for="(x,index) in params.files"
+                    class="el-upload-list__item is-success">
+                  <a class="el-upload-list__item-name"
+                     @click="viewFile(x)"><i class="el-icon-document"></i>{{x.name}}
+                  </a>
+                  <label class="el-upload-list__item-status-label"><i class="el-icon-upload-success el-icon-circle-check"></i></label><i class="el-icon-close"
+                     @click="onRemove_File(index)"></i>
+                </li>
+              </ul>
+              <!-- </el-upload> -->
               <el-dialog :visible.sync="files.showPic"
                          size="tiny"
                          :append-to-body="true">
@@ -339,6 +353,7 @@ export default {
   name: 'pdetial',
   data() {
     return {
+        token:"",
       files: {
         showPic: false,
         showPicUrl: '',
@@ -473,6 +488,7 @@ export default {
     Dialog,
   },
   created() {
+      this.token = this.$store.getters.getToken;
     this.page_id = this.$route.query.page_id
     this.attrId = this.$route.query.attrId;
     this.design_id = this.$route.query.design_id
@@ -556,38 +572,88 @@ export default {
         },
       })
     },
-    onRemove(file, fileList) {
-      this.params.files = this.params.files.filter((i) => {
-        return i.uid != file.uid
-      })
-    },
+    // onRemove(file, fileList) {
+    //   this.params.files = this.params.files.filter((i) => {
+    //     return i.uid != file.uid
+    //   })
+    // },
     onRemove_modl(ind) {
       this.params.models.splice(ind, 1)
     },
-    handlePreview(file) {
-      let _this = this
-      _this.files.showPicUrl = file.url
-      _this.files.showPic = true
-    },
-    beforeUpload(file) {},
-    qiniuUploadCover(event) {
-      let _this = this
-      var paramObj = _this.getImagekey('')
-      paramObj.key = paramObj.key + event.file.uid
-      paramObj.name = event.file.name
-      _this.upFiles({ paramObj: paramObj, e: event }, (res) => {
-        let _this = this
-        _this.params.files.push({
-          name: paramObj.name,
-          uid: event.file.uid,
-          key: res.key,
-          url:
-            'http://qrndg83uk.hn-bkt.clouddn.com/' +
-            res.key +
-            '?v=' +
-            Date.parse(new Date()),
+    // handlePreview(file) {
+    //   let _this = this
+    //   _this.files.showPicUrl = file.url
+    //   _this.files.showPic = true
+    // },
+    // beforeUpload(file) {},
+    // qiniuUploadCover(event) {
+    //   let _this = this
+    //   var paramObj = _this.getImagekey('')
+    //   paramObj.key = paramObj.key + event.file.uid
+    //   paramObj.name = event.file.name
+    //   _this.upFiles({ paramObj: paramObj, e: event }, (res) => {
+    //     let _this = this
+    //     _this.params.files.push({
+    //       name: paramObj.name,
+    //       uid: event.file.uid,
+    //       key: res.key,
+    //       url:
+    //         'http://kodo.yihuichuang.com/' +
+    //         res.key +
+    //         '?v=' +
+    //         Date.parse(new Date()),
+    //     })
+    //     console.log( _this.params.files);
+    //   })
+    // },
+    getFile(event){
+        console.log(event);
+        var file = event.target.files;
+        console.log(file.length);
+        if(file.length>0){
+          for(var i = 0;i<file.length;i++){
+            const reg = /\/(?:jpeg|png|jpg)/i;//判断文件类型是不是图片
+            const fileType = reg.test(file[i].type)
+            const isLt5M = file[i].size / 1024 / 1024 < 5;
+            // if (!fileType) {
+            //   return this.$message.error('上传图片只能是JPG,PNG,GIF格式!');
+            // }
+
+            // if (!isLt5M) {
+            //   return this.$message.error('上传图片大小不能超过 5MB!');
+            // }
+          }
+          this.FileUpload(file)
+        }        
+      },
+      // 上传图片
+      FileUpload(file){
+        let param = new FormData(); // 创建form对象
+        for (var k in file) {
+          param.append("file[]", file[k]); // 通过append向form对象添加数据
+          if (k == file.length-1) {//循环到5那项后，停止循环
+            break;
+          }
+        }
+        param.append("token", this.token); // 添加form表单中其他数据
+
+        this.openFullScreen(); //调用加载中
+        this.$post("post",'File/upload',param).then((res)=>{
+            console.log(res);
+          this.closeFullScreen(this.openFullScreen()); //关闭加载框
+          if(res.code==1){
+            let arr = res.data.details;
+            this.params.files = [...this.params.files,...arr];
+          }
         })
-      })
+      },
+      viewFile(x){
+    let _this = this
+      _this.files.showPicUrl = x.url
+      _this.files.showPic = true
+      },
+       onRemove_File(ind) {
+      this.params.files.splice(ind, 1)
     },
     handleClick: function () {},
     openCkt: function () {
@@ -782,6 +848,8 @@ export default {
             //         message:"模板或稿件不能为空"
             //     })
             // }
+            
+            // this.params = this.getParams(this.params, this.page_id);
             this.checkpop = !this.checkpop;
             if(!this.checkpop){
                 this.currentTab = 1;
@@ -858,6 +926,7 @@ export default {
     .rel-products {
       display: flex;
       flex-direction: column;
+      margin: 0;
       > li {
         width: 100%;
         height: 318px;
@@ -916,7 +985,7 @@ export default {
     right: -47px;
     width: 72px;
     height: 29px;
-    line-height: 29px;
+    line-height: 27px;
     text-align: center;
     background: #ff3333;
     border-radius: 20px 20px 20px 3px;
@@ -1021,4 +1090,26 @@ export default {
     }
   }
 }
+    .operateBox{
+      width: 110px;
+      height: 34px;
+      position: relative;
+      overflow: hidden;
+      background: #4E9F5B;
+        color: #fff;
+        border-color: #4E9F5B;
+        text-align: center;
+        border-radius: 2px;
+        cursor: pointer;
+      input{
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        opacity: 0;
+        width: 100%;
+        cursor: pointer;
+      }
+    }
 </style>

@@ -99,8 +99,7 @@
       <el-form-item label="数量"
                     class="number">
         <el-col :span="2">
-          <el-input-number v-model="params.num"
-                           :min="1"></el-input-number>
+          <el-input-number v-model="params.num" :step="100"></el-input-number>
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
@@ -182,7 +181,7 @@ export default {
         chicun:'',
         changbian:'',
         duanbian:'',
-        num: 1,
+        num: 500,
         typeNum: 0,
         radio: "2",
         gongyi: [],

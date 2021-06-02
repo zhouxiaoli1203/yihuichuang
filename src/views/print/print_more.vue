@@ -5,14 +5,14 @@
         <span class="cursor_p" @click="goBack()">在线印刷</span><span class="current">&nbsp;/&nbsp;{{title}}</span>
       </div>
       <div class="banner">
-
+          <img :src="imgBg" alt="" width="100%">
       </div>
       <div class="print-more-items">
         <h3 class="title">{{title}}</h3>
         <ul class="card-style">
           <li v-for="(item,index) in moreList" :key="index" class="cursor_p" @click="goDetail(item)">
               <div class="image">
-                  <img :src="item.img" alt="">
+                  <img :src="item.view" alt="">
               </div>
               <div class="title">{{item.title}}</div>
               <div class="number">
@@ -31,6 +31,7 @@ export default {
   data(){
     return {
       title:"",
+      imgBg:"",
       moreList:[]
     }
   },
@@ -39,14 +40,19 @@ export default {
     this.type = this.$route.query.type;
     switch (this.type){
         case "ggwl":this.title = "广告物料";
+        this.imgBg = require('@/assets/img/print/ggwl.png');
             break;
         case "qydz":this.title = "企业定制";
+        this.imgBg = require('@/assets/img/print/qydz.png');
             break;
         case "bsbpdz":this.title = "标识标牌店招";
+        this.imgBg = require('@/assets/img/print/bsbp.png');
             break;
         case "cyysp":this.title = "常用印刷品";
+        this.imgBg = require('@/assets/img/print/cyys.png');
             break;
         case "qtys":this.title = "其它印刷";
+        this.imgBg = require('@/assets/img/print/qtys.png');
             break;
     }
     this.getmoreList(this.type);
@@ -92,10 +98,10 @@ export default {
 
 .banner{
   height: 500px;
-  border: 1px solid;
+//   border: 1px solid;
 }
 .print-more-items{
-  .title{
+  >.title{
     font-size: 24px;
     font-weight: 500;
     color: #333333;
@@ -105,8 +111,9 @@ export default {
 
 }
 .card-style{
- 
+ justify-content: space-between;
   li{
+      margin-right: 0;
     margin-bottom: 48px;
   }
 }

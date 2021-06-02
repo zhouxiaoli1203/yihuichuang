@@ -17,28 +17,33 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-
+  margin-top: 10px;
   li {
     width: 368px;
-    height: 400px;
-    background: #D8D8D8;
+    height: 380px;
+    background: #fff;
     border-radius: 8px;
+    box-shadow:0px 0px 10px rgba(83,88,101,0.3);
     &:not(:last-child){
         margin-right: 47px;
     }
     // margin-bottom: 48px;
     .image {
-      width: 190px;
-      height: 204px;
-      margin: 47px auto 32px;
-      border: 1px solid #666;
+        width: 239px;
+        height: 256px;
+      margin: 42px auto 15px;
+    //   border: 1px solid #666;
+      border-radius: 8px;
+      img{
+          width: 100%;
+      }
     }
 
     .title {
       text-align: center;
       font-size: 16px;
       color: #333333;
-      margin-bottom: 32px;
+      margin-bottom: 15px;
     }
 
     .number {
@@ -98,7 +103,7 @@
 
   // 计数器
   .el-input-number {
-    width: 110px;
+    width: 140px;
     height: 34px;
     line-height: 34px !important;
   }

@@ -25,7 +25,7 @@
                   <ul class="card-style">
                     <li class="cursor" v-for="(item,index_) in x" :key="index_"  @click="goDetail(item)">
                       <div class="image">
-                          <img :src="item.img" alt="">
+                          <img :src="item.view" alt="">
                       </div>
                       <div class="title">{{item.title}}</div>
                       <div class="number">
@@ -48,7 +48,7 @@
                   <ul class="card-style">
                     <li class="cursor" v-for="(item,index_) in x" :key="index_" @click="goDetail(item)">
                       <div class="image">
-                          <img :src="item.img" alt="">
+                          <img :src="item.view" alt="">
                       </div>
                       <div class="title">{{item.title}}</div>
                       <div class="number">
@@ -71,7 +71,7 @@
                   <ul class="card-style">
                     <li class="cursor" v-for="(item,index_) in x" :key="index_" @click="goDetail(item)">
                       <div class="image">
-                          <img :src="item.img" alt="">
+                          <img :src="item.view" alt="">
                       </div>
                       <div class="title">{{item.title}}</div>
                       <div class="number">
@@ -94,7 +94,7 @@
                   <ul class="card-style">
                     <li class="cursor" v-for="(item,index_) in x" :key="index_" @click="goDetail(item)">
                       <div class="image">
-                          <img :src="item.img" alt="">
+                          <img :src="item.view" alt="">
                       </div>
                       <div class="title">{{item.title}}</div>
                       <div class="number">
@@ -117,7 +117,7 @@
                   <ul class="card-style">
                     <li class="cursor" v-for="(item,index_) in x" :key="index_" @click="goDetail(item)">
                       <div class="image">
-                          <img :src="item.img" alt="">
+                          <img :src="item.view" alt="">
                       </div>
                       <div class="title">{{item.title}}</div>
                       <div class="number">
@@ -216,7 +216,7 @@ export default {
     height: 500px;
     display: flex;
     border: 1px solid;
-    margin-top: 25px;
+    // margin-top: 25px;
     justify-content: space-between;
     .column{
       width: 190px;
@@ -252,7 +252,7 @@ export default {
         }
         .items-lunbo{
           width: 100%;
-          border: 1px solid;
+        //   border: 1px solid;
         .el-carousel--horizontal {
           width: 100%;
         }

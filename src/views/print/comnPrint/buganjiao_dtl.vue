@@ -28,7 +28,7 @@
                      v-model="params.chicun">
             <el-option v-for="i in cnst.buganjiao_rules"
                        :label="i.name"
-                       :value="i.name"
+                       :value="i.value"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
@@ -142,10 +142,21 @@ export default {
       },
     }
   },
-  props: ['models', 'files'],
+  props: ['datas','models', 'files'],
   components: {},
   created() {
-    this.cnst.zheye_types_gongyi.map((v, i) => {})
+       if (!(this.datas && JSON.stringify(this.datas) != '{}')) {
+      this.cnst.buganjiao_gongyi.map((v, i) => {
+        v.checkbox = false
+        v.drop = '';
+        if(x.inputs){
+            x.inputs.map((v_)=>{
+                v_.changbian="";
+                v_.duanbian="";
+            });
+        }
+      })
+    }
   },
   mounted() {},
   methods: {
@@ -212,6 +223,40 @@ export default {
     },
   },
   watch: {
+        datas: {
+      handler(nV, oV) {
+        if (nV && JSON.stringify(nV) != '{}') {
+          let this_ = this
+          this.params = nV.attr
+          let gy = this_.params.gongyi
+          if (gy && gy.length > 0) {
+            this_.cnst.buganjiao_gongyi.map((v, i) => {
+              let jud = false
+              let drop = '';
+              let inputs = [];
+              gy.map((v_, i_) => {
+                if (v.name == v_.name) {
+                  jud = true
+                  if (v_.drop) {
+                    drop = v_.drop
+                  }
+                  if(v_.inputs){
+                      inputs = v_.inputs;
+                  }
+                }
+              })
+              if (jud) {
+                v.checkbox = true
+                v.drop = drop
+                if(inputs){
+                    v.inputs = inputs
+                }
+              }
+            })
+          }
+        }
+      },
+    },  
     params: {
       handler(nV, oV) {
         console.log(nV)

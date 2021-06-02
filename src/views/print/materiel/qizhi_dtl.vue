@@ -181,6 +181,17 @@ export default {
         this.params.changbian="";
         this.params.duanbian="";
         this.params.chicun="";
+        if(n.value == 2){
+            this.params.gongyi = undefined;
+        }else{
+            this.params.gongyi = [];
+             this.cnst.qizhi_types.map((v, i) => {
+              v.checkbox = false;
+              v.drop = "";
+          })
+        }
+        console.log(this.params)
+         this.$forceUpdate();
     },
     checkChange(x,ind){
         if(x.checkbox){

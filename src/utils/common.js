@@ -261,6 +261,20 @@ beforeUpload(file){
     closeFullScreen(loading){
       loading.close();
     },
+    getParams(params,page){
+        let obj = JSON.parse(JSON.stringify(params));
+        if(page == 2001){//宣传册
+
+            let a = obj.attr;
+            if(a.gongyi){
+                a.gongyi = a.gongyi.filter((v)=>{
+                    return v.checkbox;
+                });
+            }
+        }
+        console.log(obj);
+        return obj;
+    }
 
 }
 

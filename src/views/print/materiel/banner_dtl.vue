@@ -29,7 +29,7 @@
         </el-col>
       </el-form-item>
 
-        <el-form-item v-if="params.chanpinType != 3" key="shuru_rule" required
+        <el-form-item key="shuru_rule" required
                       label="尺寸(米)"
                       class="rules_two">
            <el-col :span="6">
@@ -47,20 +47,7 @@
             </el-form-item>
         </el-col>
         </el-form-item>
-        <el-form-item v-if="params.chanpinType == 3" key="select_rule" prop="chicun"
-                      label="尺寸(米)"
-                      class="rules">
-          <el-col :span="15">
-            <el-select class="form-contrl width100"
-                       placeholder="选择尺寸"
-                       v-model="params.chicun">
-              <el-option v-for="i in cnst.banner_rules_jinqi"
-                         :label="i.name"
-                         :value="i.value"
-                         :key="i.value"></el-option>
-            </el-select>
-          </el-col>
-        </el-form-item>
+
       <el-form-item label="数量"
                     class="number">
         <el-col :span="2">
@@ -69,7 +56,7 @@
         </el-col>
       </el-form-item>
       <el-form-item label="款数"
-                    class="typeNum" :class='{"mg-none":params.chanpinType == 3}'>
+                    class="typeNum">
         <el-input-number v-model="typeNumFun"
                          :min="0" disabled></el-input-number>
       </el-form-item>
@@ -84,17 +71,7 @@
         <el-form-item v-if="params.chanpinType == 1 || params.chanpinType == 2 "
                       label="工艺"
                       class="gongyiType mg-none">
-            <!-- <el-checkbox-group v-model="params.gongyi">
-                <el-checkbox v-for="(x,index) in cnst.banner_types_caise" :label="x.name" :key="x.value" name="type">
-                <span v-if="x.select">{{x.name}}</span>
-                <el-select class="mini" v-if="x.select" v-model="x.drop"style="width:120px;margin-right:15px;">
-                    <el-option v-for="i in x.drops"
-                                :label="i.name"
-                                :value="i.value"
-                                :key="i.value"></el-option>
-                    </el-select>
-                </el-checkbox>
-            </el-checkbox-group>  -->
+            
           <div v-for="(x,index) in cnst.banner_types_caise">
             <el-checkbox :label="x.name"
                          :value="x.value"
@@ -174,6 +151,15 @@ export default {
     changeBtn: function (n) {
       this.params.chanpinType = n.value;
       this.materials = this.params.chanpinType == 3?this.cnst.jinqi_materials:this.cnst.banner_materials;
+       this.params.cailiao="";
+        this.params.changbian="";
+        this.params.duanbian="";
+        this.params.chicun="";
+       if(n.value == 1){
+            this.params.radio = undefined;
+        }else{
+            this.params.radio = "2";
+        }
     },
     checkChange(x,ind){
         if(x.checkbox){
@@ -215,23 +201,28 @@ export default {
       datas:{
           handler(nV,oV){
               if(nV && JSON.stringify(nV) !='{}'){
+                   let this_ = this;
                   this.params = nV.attr;
-                   this.materials = this.params.chanpinType == 3?this.cnst.jinqi_materials:this.cnst.banner_materials;
-                   let gy = nV.attr.gongyi;
-                  this_.cnst.banner_types_caise.map((v)=>{
-                      let jud = false;
-                      let dp = "";
-                        gy.map((v_)=>{
-                            if(v.name == v_.name){
-                                jud = true;
-                                dp = v_.drop?v_.drop:"";
-                            }
-                        });
-                      if(jud){
-                          this_.$set(v,"checkbox",true);
-                          this_.$set(v,"drop",dp);
-                      }
-                  });
+                   this.materials = this.cnst.banner_materials;
+                  let gy = this_.params.gongyi;
+                  if(gy && gy.length>0){
+                      this_.cnst.banner_types_caise.map((v,i)=>{
+                          let jud = false;
+                          let drop = "";
+                          gy.map((v_,i_)=>{
+                              if(v.name == v_.name){
+                                  jud = true;
+                                  if(v_.drop){
+                                      drop = v_.drop;
+                                  }
+                              }
+                          });
+                          if(jud){
+                              v.checkbox = true;
+                              v.drop = drop;
+                          }
+                      });
+                  }
               }
           },
         //   immediate:true,
