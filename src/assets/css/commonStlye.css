@@ -13,27 +13,32 @@
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 .card-style li {
   width: 368px;
-  height: 400px;
-  background: #D8D8D8;
+  height: 380px;
+  background: #fff;
   border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(83, 88, 101, 0.3);
 }
 .card-style li:not(:last-child) {
   margin-right: 47px;
 }
 .card-style li .image {
-  width: 190px;
-  height: 204px;
-  margin: 47px auto 32px;
-  border: 1px solid #666;
+  width: 239px;
+  height: 256px;
+  margin: 42px auto 15px;
+  border-radius: 8px;
+}
+.card-style li .image img {
+  width: 100%;
 }
 .card-style li .title {
   text-align: center;
   font-size: 16px;
   color: #333333;
-  margin-bottom: 32px;
+  margin-bottom: 15px;
 }
 .card-style li .number {
   text-align: center;
@@ -75,7 +80,7 @@
   line-height: 34px !important;
 }
 .el-form-item .el-input-number {
-  width: 110px;
+  width: 140px;
   height: 34px;
   line-height: 34px !important;
 }
@@ -465,6 +470,58 @@
   padding: 32px 32px;
   position: relative;
   height: 100%;
+}
+.userPicturePorp .el-form-item {
+  margin-bottom: 2%;
+}
+.userPicturePorp .el-tabs--border-card > .el-tabs__content {
+  padding: 4%;
+}
+.userPicturePorp .el-form {
+  height: 30%;
+  overflow: hidden;
+}
+.userPicturePorp .el-form-item {
+  margin-bottom: 0 !important;
+  height: 28%;
+}
+.userPicturePorp .el-form-item .el-form-item__content {
+  line-height: 100% !important;
+  height: 100%;
+}
+.userPicturePorp .el-form-item .el-input__inner,
+.userPicturePorp .el-form-item .el-cascader {
+  height: 100% !important;
+  line-height: normal !important;
+}
+.userPicturePorp .el-input {
+  height: 100%;
+}
+.userPicturePorp .el-input__inner {
+  height: 100%;
+  line-height: 100%;
+}
+.userPicturePorp .el-select {
+  height: 100%;
+}
+.userPicturePorp .btns {
+  height: 34px ;
+  bottom: 27px;
+}
+.userPicturePorp .buttonBox {
+  height: 28%;
+}
+.userPicturePorp .phoneLook {
+  height: 50% !important;
+}
+.userPicturePorp .xiazai {
+  height: 69% !important;
+}
+.userPicturePorp .wenjianDayin {
+  height: 69% !important;
+}
+.userPicturePorp .wenjianDayin ul {
+  margin-top: 2% !important;
 }
 /* 个人中心 打印文件 多选 */
 .checkboxBox .el-checkbox__label {

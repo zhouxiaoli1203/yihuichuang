@@ -121,7 +121,7 @@
                 </el-form>
                 <div class="wenjianDayin xiazaiSection">
                   <div class="editInput">
-                      <h4>文件详情</h4>
+                      <h3>文件详情</h3>
                       <p>(共打印{{checkedCities.length}})</p>
                   </div> 
                   <section class="sectionUL">

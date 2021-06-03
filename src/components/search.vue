@@ -2,10 +2,10 @@
     <div class="searchBox">
         <div class="input">
             <div class="inputInner">
-                <i class="el-icon-search"></i>
-                <input type="text" v-model="input"   placeholder="请输入内容" @focus="searchFocus"  @blur="searchBlur" @keyup.enter="searchBtn($event)">
+                <input type="text" v-model="input"   placeholder="设计模板/在线印刷" @focus="searchFocus"  @blur="searchBlur" @keyup.enter="searchBtn($event)">
+                <i class="el-icon-search"  @click="searchBtn"></i>
             </div>
-            <el-button type="primary" @click="searchBtn">搜索</el-button>
+            <!-- <el-button type="primary" @click="searchBtn">搜索</el-button> -->
         </div>
         <div class="search" v-if="searchList==true">
             <div class="link" v-if="historyList!=''">
@@ -170,24 +170,30 @@ export default {
     right: 32px;
     z-index: 11;
     width: 400px;
+    box-shadow: 0px 2px 6px rgb(83 88 101 / 30%);
 
     .input{
         display: flex;
         align-items: center;
         background: #fff;
         border: none;
-        border-radius: 100px;
+        border-radius: 8px;
         overflow: hidden;
+        height: 40px;
+        padding: 0 16px;
 
         .inputInner{
           display: flex;
           align-items: center;
           flex: 1;
-          padding-left: 20px;
+
+          i{
+            font-size: 22px;
+            cursor: pointer;
+          }
           input{
               flex: 1;
               height: 100%;
-              margin-left: 8px;
           }
         }
     }
@@ -205,6 +211,7 @@ export default {
 .search{
       background: #fff;
       border-radius: 8px;
+      margin-top: 1px;
       // padding: 16px;
 
       .link{

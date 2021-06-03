@@ -18,7 +18,7 @@
                 :current-page.sync="page"
                 layout="prev, pager, next"
                 @current-change="handleCurrentChange"
-                :page-size="5"
+                :page-size="limit"
                 :total="count">
                 </el-pagination>
             </div>
@@ -36,7 +36,7 @@
     data () {
       return {
         page:1,
-        limit:5,
+        limit:1,
         list:[],
         count:0,
         category_id:0,
@@ -45,6 +45,18 @@
       }
     },
     created(){
+      console.log('创建后');
+      // console.log(this.$route.path);
+        let num = this.$route.query.page
+        // console.log(num);
+        if(num){
+          this.page = num
+          localStorage.setItem('article',num)
+        }else{
+          this.page = 1
+          localStorage.setItem('article',1)
+        }
+
         let type = this.$props.title
         if(type=='news'){
             this.category_id = 5
@@ -52,8 +64,8 @@
         }
 
         if(type=='newsCompany'){
-            this.category_id = 7
-            this.name = '公司动态'
+          this.category_id = 7
+          this.name = '公司动态'
         }
 
         if(type=='newsCustom'){
@@ -66,6 +78,7 @@
             this.name = '常见问题'
         }
         let article = localStorage.getItem('article')
+        console.log(article);
         if (article) {
             this.page = Number(article)
             this.industry(article,this.limit,this.category_id) 
@@ -98,7 +111,7 @@
             this.count = res.data.count
             localStorage.setItem('article',page)
             if(res.data.list.length==0){
-                this.noCont = true
+              this.noCont = true
             }
           }else{
             this.$message({
@@ -111,9 +124,40 @@
       // 点击页数
       handleCurrentChange(val) {
         this.page = val
-        let {limit,category_id} = this
-        this.industry(val,limit,category_id)
+        this.$router.push({ 
+            path: this.$route.path,   
+            query: {  
+              page:val,
+            }
+        })    
       },
+    },
+    watch:{
+      $route: {
+        handler: function(val, oldVal){
+          let {limit,category_id} = this
+          let url = val.path
+          let num = Number(val.query.page)
+          if(num){
+            this.page = num
+            this.$router.push({ 
+              path: url,   
+              query: {  
+                page:num,
+              }
+            })    
+            this.industry(num,limit,category_id)
+          }else{
+            this.page = 1
+            this.$router.push({ 
+              path: url,   
+            })   
+            this.industry(1,limit,category_id)
+          }
+        },
+        // 深度观察监听
+        // deep: true
+      }
     }
   }
 </script>
