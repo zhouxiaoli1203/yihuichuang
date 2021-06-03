@@ -2,7 +2,7 @@
   <div class="main connonBg">
     <section class="center">
         <div class="cont">
-            <h3>设计·印刷·公关·营销一站式生态服务体系</h3>
+            <h1>设计·印刷·公关·营销一站式生态服务体系</h1>
             <p>易绘印拥有自营印刷厂和专业的设计、营销运营及技术开发人员，为了打造图文广告印刷的标准化、专业化、智绘化和惠民化的一站式服务品牌而努力。</p>
         </div>
         <ul class="uniqueNav">
@@ -297,7 +297,7 @@
 }
 
 .cont{
-    h3{
+    h1{
         font-size: 24px;
         color: #000;
         text-align: center;

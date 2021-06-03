@@ -225,37 +225,6 @@ export default {
     },
 
     methods: {
-
-        // qiniuUploadCover(event) {
-        //     console.log(event)
-       
-        //     /* 新增和编辑时上传图片到七牛都调用此方法，参数要求：
-        //     新增：paramObj：{key:"tmp_bj_" + Date.parse(new Date()),url:""}
-        //     编辑：paramObj：_this.getImagekey(_this.oldPicUrl);
-        //     */
-        //     //console.log(_this.oldPicUrl);
-        //     let _this = this
-        //     var paramObj = _this.getImagekey(_this.oldPicUrl)
-
-            
-        //     paramObj.key = paramObj.key + event.file.uid
-        
-        //     _this.upFiles({ paramObj: paramObj, e: event }, (res) => {
-        //         console.log(res)
-
-        //         // return
-        //             if(_this.form.imgs!=""){
-        //                 customaryImgArr = _this.form.imgs.split(",");
-        //             }
-        //             //2、把当前上传的图片插入数组
-        //             customaryImgArr.push( "http://qrndg83uk.hn-bkt.clouddn.com/"+paramObj.key+"?v="+Date.parse(new Date()));
-        //             keyArr.push(paramObj.key);
-        //             //3、把数组转换成string，给接口保存。
-        //             _this.form.imgs = customaryImgArr.toString();
-        //             console.log(customaryImgArr,111);
-        //             // console.log(_this.form.imgs);
-        //     })
-        // },
         beforeAvatarUpload(file) {
             console.log(file.type)
             const isJPG = file.type === 'image/jpg';
@@ -337,10 +306,12 @@ export default {
         // 获取个人信息
         userInfoGet(token) {
             let {srcList} = this
+            this.openFullScreen(); //关闭加载框
             this.$post("post",'User/infoGet',{
                 token,
             })
             .then((res)=>{
+                this.closeFullScreen(this.openFullScreen()); //关闭加载框
                 if(res.code==1){
                     this.info = res.data
                     this.nickname = res.data.nickname
@@ -405,7 +376,7 @@ export default {
                 param.append("face[]", file[index]); // 通过append向form对象添加数据
             })
             param.append("token", this.token); // 添加form表单中其他数据
-            this.$post("post",'https://api.yihuichuang.com/User/infoUpdate',param,'upload')
+            this.$post("post",'/User/infoUpdate',param)
             .then((res)=>{
                 if(res.code==1){
                     this.userInfoGet(this.token)

@@ -1,7 +1,7 @@
 <template>
     <div class="contList">
       <div class="tit" v-if="type!='aboutContact'">
-        <h3>{{info.Title}}</h3>
+        <h1>{{info.Title}}</h1>
         <span>{{info.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
       </div>
       <p v-html="info.Content"></p>
@@ -78,7 +78,7 @@
       border-bottom: 1px solid #CBCFE3;
       padding-bottom: 24px;
 
-      h3{
+      h1{
         font-size: 16px;
         color: #333;
         font-weight: 600;

@@ -5,7 +5,7 @@
                 <template v-for="item in list">
                 <li @click="gotoMore(item.ID)">
                     <div class="tit">
-                    <h3>{{item.Title}}</h3>
+                    <h1>{{item.Title}}</h1>
                     <span>{{item.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
                     </div>
                     <p>{{item.Intro}}</p>
@@ -175,7 +175,7 @@
         justify-content: space-between;
         margin-bottom: 24px;
 
-        h3{
+        h1{
           font-size: 16px;
           color: #333;
           font-weight: 600;

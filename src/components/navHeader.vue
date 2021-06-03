@@ -4,7 +4,7 @@
       <!-- <div style="color:red;position:fixed;top:20px;right:20px">{{new Date()|formatDate_("yyyy/MM/dd hh:mm")}}</div> -->
       <div class="center headerCenter">
             <div class="img cursor_p">
-                <img :src="logo" alt="">
+                <img :src="logo" alt="" @click="logoClick()">
             </div>
             <ul class="navUl">
               <template v-for="(item,index) in menuList">
@@ -693,7 +693,14 @@ export default {
     //购物车列表跳转
     goCart:function(){
         this.$router.push("/cart");
+    },
+
+    // 点击logo
+    logoClick(){
+      this.$store.state.currentIndex = '/index';
+      this.$router.push("/index");
     }
+
   },
   computed: {
     aState: function () {
