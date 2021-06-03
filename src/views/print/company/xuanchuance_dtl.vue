@@ -318,7 +318,21 @@ export default {
   props:["datas","files","models"],
   components: {},
   created() {
-      
+      if (!(this.datas && JSON.stringify(this.datas) != '{}')) {
+      this.params.gongyi.map((v, i) => {
+        v.checkbox = false
+        v.drop = '';
+        if(v.items){
+            v.items.map((v_)=>{
+                v_.changbian="";
+                v_.duanbian="";
+                if(v_.hasDrop){
+                    v_.drop = "";
+                }
+            });
+        }
+      })
+    }
   },
   mounted() {
     console.log(this.type)
@@ -342,7 +356,6 @@ export default {
     },
     addNeiye: function () {
       this.params.neiye.push({ cailiao: '', pshu: '', color: '彩色', neirong: "是" });
-      
     },
     deleteNeiye: function (i) {
       this.params.neiye.splice(i, 1)

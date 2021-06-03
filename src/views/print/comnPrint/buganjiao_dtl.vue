@@ -149,8 +149,8 @@ export default {
       this.cnst.buganjiao_gongyi.map((v, i) => {
         v.checkbox = false
         v.drop = '';
-        if(x.inputs){
-            x.inputs.map((v_)=>{
+        if(v.inputs){
+            v.inputs.map((v_)=>{
                 v_.changbian="";
                 v_.duanbian="";
             });

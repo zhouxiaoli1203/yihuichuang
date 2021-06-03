@@ -1017,9 +1017,11 @@ export default {
       margin-bottom: 8px;
     }
     .title-detial {
-      font-size: 14px;
-      color: #333;
-      margin-bottom: 24px;
+        font-size: 20px;
+        font-weight: 500;
+        color: #333;
+        margin-top: 24px;
+        margin-bottom: 24px;
     }
     .tabs-content {
       margin-top: 16px;

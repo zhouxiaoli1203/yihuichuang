@@ -71,7 +71,7 @@
             <div class="select">
               <el-checkbox class="yhc-checkbox"
                            v-model="checkAll"
-                           @change="checkAllFn"></el-checkbox><span class="main-red ml10">已选 ({{total.count}})</span>
+                           @change="checkAllFn"></el-checkbox><span class="main-red ml10">已选 ({{checkedCities.length}})</span>
             </div>
             <div>
               <span>实付金额：<span class="main-red">￥{{total.price|qf}}</span></span>

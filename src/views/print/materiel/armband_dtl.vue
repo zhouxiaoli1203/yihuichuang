@@ -12,7 +12,7 @@
                      v-model="params.kuanshi">
             <el-option v-for="i in cnst.armband_types"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
@@ -39,7 +39,7 @@
                      v-model="params.cailiao">
             <el-option v-for="i in cnst.armband_materials"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>

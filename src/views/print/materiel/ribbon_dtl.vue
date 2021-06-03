@@ -12,7 +12,7 @@
                      v-model="params.cailiao">
             <el-option v-for="i in cnst.ribbon_materials"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
@@ -26,7 +26,7 @@
                      v-model="params.chicun">
             <el-option v-for="i in cnst.ribbon_rules"
                        :label="i.name"
-                       :value="i.value"
+                       :value="i.name"
                        :key="i.value"></el-option>
           </el-select>
         </el-col>
