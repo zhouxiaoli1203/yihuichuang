@@ -43,6 +43,23 @@
     },
     created(){
     },
+    mounted(){
+      window.onload = function () {
+        setTimeout(function () {
+          var href = window.location.href;
+          var html = document.getElementsByTagName("html")[0].innerHTML;
+          var ajax = new XMLHttpRequest();
+          ajax.onreadystatechange = function (){
+            if(ajax.readyState == 4 && ajax.status == 200) {
+              console.log(ajax.responseText);
+            }
+          }
+          ajax.open("post", "https://api.yihuichuang.com/Seo/html", true);
+          ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          ajax.send("href=" + encodeURIComponent(href) + "&html=" + encodeURIComponent(html));
+        }, 3000);
+      }
+    },
     methods: {
       // 点击首页
       pathIndex(){

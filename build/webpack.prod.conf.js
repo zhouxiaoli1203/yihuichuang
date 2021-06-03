@@ -11,6 +11,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+
+// 预渲染
+const PrerenderSPAPlugin = require('prerender-spa-plugin')
+const Renderer = PrerenderSPAPlugin.PuppeteerRenderer
+
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/prod.env')
@@ -32,6 +37,15 @@ const webpackConfig = merge(baseWebpackConfig, {
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
+    new PrerenderSPAPlugin({
+      staticDir: path.join(__dirname, '../dist'),
+      routes: [ '/', '/index','/print','/design','/unique','/service','/join'],
+      renderer: new Renderer({
+        renderAfterTime: 10000, // Wait 5 seconds.
+        headless: false, 
+        renderAfterDocumentEvent: 'render-event', // render-event: 声明的方法名 
+      })
+    }),
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env

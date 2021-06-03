@@ -8,7 +8,15 @@
             </div>
             <ul class="navUl">
               <template v-for="(item,index) in menuList">
-                <li @click="handleSelect(item.url)" :class="activeIndex == item.url?'activeClass':''"><router-link :to="{path:item.url}">{{item.name}}</router-link></li>
+                <li @click="handleSelect(item.url)" :class="activeIndex == item.url?'activeClass':''">
+                  <router-link :to="{path:item.url}">{{item.name}}</router-link>
+                  <!-- <template v-if="item.url=='/news.html' || item.url=='/help.html' || item.url=='/about.html'">
+                    <router-link to="">{{item.name}}</router-link>
+                  </template>
+                  <template v-else>
+                    <router-link :to="{path:item.url}">{{item.name}}</router-link>
+                  </template> -->
+                </li>
               </template>
             </ul>
 
@@ -259,13 +267,21 @@ export default {
           url:'/service',
           name:'服务保障'
         },
-         {
+        {
           url:'/news',
           name:'新闻中心'
         },
         {
+          url:'/news.html',
+          name:'新闻中心1'
+        },
+        {
           url:'/help',
           name:'帮助支持'
+        },
+        {
+          url:'/help.html',
+          name:'帮助支持1'
         },
         {
           url:'/join',
@@ -274,6 +290,10 @@ export default {
         {
           url:'/about',
           name:'关于我们'
+        },
+        {
+          url:'/about.html',
+          name:'关于我们1'
         }
       ],
       logo: require('../assets/img/common/logo.png'),
@@ -375,6 +395,37 @@ export default {
     this.activeIndex = this.$store.state.currentIndex;
     this.token = this.$store.getters.getToken;
     this.userinfoFn()
+    console.log(this.$router.history);
+
+
+    let url = this.$router.history.current.fullPath
+    console.log(url);
+
+    let fuhao =  url.substr(url.length-1,1)
+    console.log(fuhao);
+    
+    console.log(url.slice(0,url.length-1));
+
+    if(url){
+
+      let fuhao =  url.substr(url.length-1,1)
+
+      if(fuhao=='/'){
+        let href = url.slice(0,url.length-1)
+
+        this.activeIndex = href;
+        this.$store.state.currentIndex = href; //导航高亮
+        this.$store.state.publicHome = href; //记录跳转路径
+
+      }else{
+
+        this.activeIndex = url;
+        this.$store.state.currentIndex = url; //导航高亮
+        this.$store.state.publicHome = url; //记录跳转路径
+      }
+    
+      this.$store.state.menuLeft = ''
+    }
   },
   beforeDestroy() {
     clearInterval(this.timer);        
@@ -627,6 +678,10 @@ export default {
 
     handleSelect(index) {
       console.log(index);
+      if(index=='/news.html' || index=='/help.html' || index=='/about.html'){
+        return 
+        // window.location.href=index
+      }
       this.activeIndex = index;
       this.$store.state.currentIndex = index; //导航高亮
       this.$store.state.publicHome = index; //记录跳转路径
@@ -683,7 +738,10 @@ export default {
     },
     getPath () {  //解决浏览器后退导航高亮问题
       let href = this.$route.path
+      console.log(this.$route);
+      console.log(href);
       let hrefUrl =  href.split('/')[1]
+      console.log(hrefUrl);
       if(hrefUrl!='detail'){
           this.activeIndex = '/'+ hrefUrl
           this.$store.state.currentIndex = '/'+ hrefUrl

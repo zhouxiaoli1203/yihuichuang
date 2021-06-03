@@ -251,12 +251,6 @@
                         img:'',
                         index:3
                     },
-                    {
-                        tit:'过目不忘，字字吸金',
-                        name:'品牌文案',
-                        img:'',
-                        index:4
-                    },
                        {
                         tit:'梳理品牌脉络，发现问题提出解决方案',
                         name:'品牌策划',
@@ -270,13 +264,13 @@
                     {
                         tit:'为品牌发声，让品牌留下印记',
                         name:'日常传播维护',
-                        img:'',
+                        img:require('@/assets/img/unique/gongguan1.png'),
                         index:0
                     },
                     {
                         tit:'广告投放管家，精准投放目标人群',
                         name:'媒体广告投放',
-                        img:'',
+                        img:require('@/assets/img/unique/gongguan2.png'),
                         index:1
                     },
                 ]
