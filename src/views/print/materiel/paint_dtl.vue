@@ -49,8 +49,9 @@
       <el-form-item label="工艺"
                     class="mg-none">
         <el-checkbox-group v-model="params.gongyi">
-          <el-checkbox v-for="x in cnst.paint_types" :label="x.name" :value="x.value"
-                       name="type" :key="x.value"></el-checkbox>
+          <el-checkbox v-for="x in cnst.paint_types" :label="x.name" :value="x.value" 
+                       name="type" :key="x.value">
+                       </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
 

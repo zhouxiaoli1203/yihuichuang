@@ -106,6 +106,7 @@ function Ckt(){
             } else {
                 options = JSON.parse(JSON.stringify(_options));
             }
+            console.log(options,"options");
             yhcReq("post","Ckt/sign",options).then((res)=>{
                 if(res.code == 1){
                     console.log(res)

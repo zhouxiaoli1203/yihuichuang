@@ -288,7 +288,7 @@ export default {
         num: 1,
         typeNum: 1,
         checkbox: false,
-        gongyi:this.cnst.xuanchuan_gongyi,
+        gongyi:[],
         fengpi:{
             cailiao:"",
             color:"彩色",
@@ -319,7 +319,7 @@ export default {
   components: {},
   created() {
       if (!(this.datas && JSON.stringify(this.datas) != '{}')) {
-      this.params.gongyi.map((v, i) => {
+      this.cnst.xuanchuan_gongyi.map((v, i) => {
         v.checkbox = false
         v.drop = '';
         if(v.items){
@@ -335,7 +335,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.type)
+       this.params.gongyi=this.cnst.xuanchuan_gongyi
   },
   methods: {
     handleChange: function () {},
@@ -426,6 +426,7 @@ export default {
       },
       params:{
           handler(nV,oV){
+              console.log(nV);
               let n_ = JSON.parse(JSON.stringify(nV));
               let gy = n_.gongyi;
               if(n_.chanpinType == 1){

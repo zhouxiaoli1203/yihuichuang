@@ -306,7 +306,7 @@
           </el-tabs>
       </div>
     </section>
-    <div class="mask" v-show="userPublic" @click="userClose"></div>
+    <div class="mask" v-show="userPublic" @click="userClose" data-newId=`${}`></div>
   </div>
 </template>
 

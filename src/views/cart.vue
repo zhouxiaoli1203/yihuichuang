@@ -7,8 +7,8 @@
         </div>
         <div class="fr">
           <span class="cursor_p tip-badge"
-                :class='{"main-red":checkedCities.length>0}' @click="delShangpin('all')">批量删除<i class="badge"
-               v-show="checkedCities.length>0">{{checkedCities.length*1>99?"99+":checkedCities.length}}</i></span>
+                :class='{"main-red":total.count>0}' @click="delShangpin('all')">批量删除<i class="badge"
+               v-show="total.count>0">{{total.count*1>99?"99+":total.count}}</i></span>
         </div>
       </div>
       <div class="cart-table">
@@ -162,9 +162,9 @@ export default {
             token: this.$store.getters.getToken,
             ids: this_.getIds() ? this_.getIds() : undefined,
           }
-          if(x=='all'){
-              param["ids"] = undefined;
-          }
+        //   if(x=='all'){
+        //       param["ids"] = undefined;
+        //   }
           this_.$post('post', 'Goods/cartDelete', param).then((res) => {
             if (res.code == 1) {
                 this_.getCartList();

@@ -669,6 +669,7 @@ export default {
       if (this.infos.kind_id <= 0) {
         return this_.$message.error('暂时没有此类模板可供选择')
       }
+      console.log(this.infos.kind_id,"kind");
       this_.CKT.useCkt({ kind_id: this.infos.kind_id }, function (res) {
         let arr = []
         if (res.kind == 2) {
