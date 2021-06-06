@@ -294,7 +294,7 @@
   font-size: 16px;
   color: #999;
   padding: 4px 0;
-  margin-right: 8px;
+  margin-right: 24px;
 }
 .tabs-box .tab-plane.active {
   color: #4E9F5B;
@@ -795,4 +795,8 @@
   text-align: center;
   font-size: 16px;
   color: #A1A7B5;
+}
+.page-component__scroll {
+  height: 100vh;
+  overflow-x: hidden;
 }

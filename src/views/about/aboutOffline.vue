@@ -6,7 +6,8 @@
     <section class="center">
         <div class="crumbsHeader">
           <div class="crumbs">
-              <span @click="pathIndex()">首页 / </span>
+              <!-- <span @click="pathIndex()">首页 / </span> -->
+              <router-link to="/"> <span>首页 / </span></router-link>
               <span>线下店分布</span>
           </div>
         </div>

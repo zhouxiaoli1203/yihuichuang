@@ -44,26 +44,54 @@ export default {
         let navName
         let name
         let urlName  = this.$route.query.name
-        let type  = this.$route.query.type
-        if(type == 'news'){
+        // let type  = this.$route.query.type
+        // if(type == 'news'){
+        //     navName = '/news'
+        //     if(urlName=='公司动态'){
+        //         name = '/news/newsCompany'
+        //     }
+        //     if(urlName=='客户动态'){
+        //         name = '/news/newsCustom'
+        //     }
+        // }
+
+        if(urlName=='行业动态'){
             navName = '/news'
-            if(urlName=='公司动态'){
-                name = '/news/newsCompany'
-            }
-            if(urlName=='客户动态'){
-                name = '/news/newsCustom'
-            }
+            name = '/news'
         }
 
-        if(type == 'help'){
-            navName = '/help'
-            if(urlName=='物流说明'){
-                name = '/help/helpExpress'
-            }
+        if(urlName=='公司动态'){
+            navName = '/news'
+            name = '/news/newsCompany'
         }
+
+        if(urlName=='客户动态'){
+            navName = '/news'
+            name = '/news/newsCustom'
+        }
+
+        if(urlName=='物流说明'){
+            navName = '/help'
+            name = '/help/helpExpress'
+        }
+
+        if(urlName=='常见问题'){
+            navName = '/help'
+            name = '/help/helpProblem'
+        }
+
+
+        // if(type == 'help'){
+        //     navName = '/help'
+        //     if(urlName=='物流说明'){
+        //         name = '/help/helpExpress'
+        //     }
+        // }
 
 
         let href = this.$route.path
+
+        console.log(href);
         let hrefs = href.split('/')[1]
         
         if(href=='/user/userPicture' || href=='/user/userFiledown' ){
@@ -72,8 +100,9 @@ export default {
         }
 
         
-        if(href!='/news/detail' && href!='/user/userPicture' && href!='/user/userFiledown'){
-            console.log(11111);
+        if(href!='/news/detail' && href!='/user/userPicture' && href!='/user/userFiledown' && href!='/help/detail'){
+            console.log(104);
+            console.log(hrefs,href);
             this.leftNav('/'+hrefs,href)
             if(href != '/'+hrefs){
                 this.$store.state.menuLeft = href
@@ -81,6 +110,8 @@ export default {
                 this.$store.state.menuLeft = ''
             }
         }else{
+            console.log(112);
+            console.log(navName,name);
             this.leftNav(navName,name)
             
         }
@@ -142,6 +173,8 @@ export default {
 
         // 给导航赋值
         leftNav(navName,name){
+            console.log(navName,name + '---------176');
+            // this.$store.state.currentIndex = navName; //导航高亮
             if(navName=='/news'){
                 this.activeIndexs = name?name:'/news'
                 this.commonList= [

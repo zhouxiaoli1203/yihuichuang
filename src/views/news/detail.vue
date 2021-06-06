@@ -6,8 +6,8 @@
     <section class="center">
        <div class="crumbsHeader">
             <div class="crumbs">
-              <span @click="pathIndex()">首页 / </span>
-              <span @click="pathNews()">{{crumbsName}} / </span>
+              <a href="/index"><span>首页 / </span></a>
+              <a href="javascript:history.go(-1)"><span>{{crumbsName}} /  </span></a>
               <span>详情页</span>
           </div>
         </div>
@@ -37,16 +37,31 @@
     },
     mounted(){
       this.crumbsName = this.$route.query.name
+      // window.onload = function () {
+      //   setTimeout(function () {
+      //     var href = window.location.href;
+      //     var html = document.getElementsByTagName("html")[0].innerHTML;
+      //     var ajax = new XMLHttpRequest();
+      //     ajax.onreadystatechange = function (){
+      //       if(ajax.readyState == 4 && ajax.status == 200) {
+      //         console.log(ajax.responseText);
+      //       }
+      //     }
+      //     ajax.open("post", "https://api.yihuichuang.com/Seo/html", true);
+      //     ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      //     ajax.send("href=" + encodeURIComponent(href) + "&html=" + encodeURIComponent(html));
+      //   }, 3000);
+      // }
     },
     methods: {
       // 点击首页
-      pathIndex(){
-        this.$store.state.currentIndex = '/index';
-        this.$router.push("/index");
-      },
-      pathNews(){
-        this.$router.go(-1)
-      },
+      // pathIndex(){
+      //   this.$store.state.currentIndex = '/index';
+      //   this.$router.push("/index");
+      // },
+      // pathNews(){
+      //   this.$router.go(-1)
+      // },
     }
   }
 </script>

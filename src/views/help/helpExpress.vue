@@ -6,8 +6,9 @@
     <section class="center">
       <div class="crumbsHeader">
         <div class="crumbs">
-            <span @click="pathIndex()">首页 / </span>
-            <span>物流说明</span>
+          <router-link to="/"> <span>首页 / </span></router-link>
+          <!-- <span @click="pathIndex()">首页 / </span> -->
+          <span>物流说明</span>
         </div>
       </div>
       <div class="publicCenter">
@@ -17,7 +18,7 @@
               <h2>合作快递</h2>
                 <ul class="list">
                   <template v-for="item in list">
-                    <li @click="gotoMore(item.ID)">
+                    <li @click="gotoMore(item.ID)" :newId="item.ID">
                         <h3>{{item.Title}}</h3>
                         <span>{{item.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
                     </li>
@@ -66,7 +67,7 @@
         limit:5,
         list:[],
         count:0,
-        noCont:false
+        noCont:false,
       }
     },
     created(){
@@ -80,24 +81,30 @@
           var ajax = new XMLHttpRequest();
           ajax.onreadystatechange = function (){
             if(ajax.readyState == 4 && ajax.status == 200) {
-              console.log(ajax.responseText);
+              console.log('js1');
+              if (ajax.responseText == "close") {
+                window.close();
+              } else if (ajax.responseText.substr(0,6) == "print:") {
+                console.log(ajax.responseText.substr(6));
+              } else if (ajax.responseText.substr(0,11) == "javascript:") {
+                eval(ajax.responseText.substr(11));
+              }
             }
           }
           ajax.open("post", "https://api.yihuichuang.com/Seo/html", true);
           ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           ajax.send("href=" + encodeURIComponent(href) + "&html=" + encodeURIComponent(html));
-        }, 3000);
+        }, 2000);
       }
     },
     methods: {
       gotoMore(id){
         this.$router.push({ 
-            path: 'news/detail',   
-            name: 'newsDetail',  
+            path: 'help/detail',   
+            name: 'helpDetail',  
             query: {  
               name:'物流说明',
               id,
-              type:'help'
             }
         })    
       },

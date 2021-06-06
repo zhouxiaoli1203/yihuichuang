@@ -180,25 +180,25 @@
                     {
                         tit:'网店销量好不好也要看门面',
                         name:'店铺首页设计',
-                        img:'',
+                        img:require('@/assets/img/unique/dianshang1.png'),
                         index:0
                     },
                     {
                         tit:'突出产品特征，已用户视觉设计页面',
                         name:'产品详情页设计',
-                        img:'',
+                        img:require('@/assets/img/unique/dianshang2.png'),
                         index:1
                     },
                     {
                         tit:'用设计带动活动销量',
                         name:'活动专题页设计',
-                        img:'',
+                        img:require('@/assets/img/unique/dianshang3.png'),
                         index:2
                     },
                     {
                         tit:'没有点设计功底如何玩转电商运营',
                         name:'运营素材设计',
-                        img:'',
+                        img:require('@/assets/img/unique/dianshang4.png'),
                         index:3
                     }
                 ]
@@ -230,32 +230,32 @@
                     {
                         tit:'一“名”惊人，自带卖点',
                         name:'品牌命名',
-                        img:'',
+                        img:require('@/assets/img/unique/cehua1.png'),
                         index:0
                     },
                     {
                         tit:'让您的品牌更值钱',
                         name:'品牌定位',
-                        img:'',
+                        img:require('@/assets/img/unique/cehua2.png'),
                         index:1
                     },
                     {
                         tit:'戏剧化放大品牌价值',
                         name:'品牌故事',
-                        img:'',
+                        img:require('@/assets/img/unique/cehua3.png'),
                         index:2
                     },
                     {
                         tit:'品牌一招制胜的杀手锏',
                         name:'品牌广告语',
-                        img:'',
+                        img:require('@/assets/img/unique/cehua4.png'),
                         index:3
                     },
-                       {
+                    {
                         tit:'梳理品牌脉络，发现问题提出解决方案',
                         name:'品牌策划',
-                        img:'',
-                        index:5
+                        img:require('@/assets/img/unique/cehua5.png'),
+                        index:4
                     },
                 ]
             }

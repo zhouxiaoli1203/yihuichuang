@@ -3,24 +3,25 @@
         <div v-if="list!=''">
             <ul class="list">
                 <template v-for="item in list">
-                <li @click="gotoMore(item.ID)">
+                <li @click="gotoMore(item.ID)" :newId="item.ID">
                     <div class="tit">
                     <h1>{{item.Title}}</h1>
                     <span>{{item.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
                     </div>
                     <p>{{item.Intro}}</p>
+                    <!-- <i style="display:none">{{item.ID}}</i> -->
                 </li>
                 </template>
             </ul>
             <div class="paging">
-                <el-pagination
+              <el-pagination
                 background
                 :current-page.sync="page"
                 layout="prev, pager, next"
                 @current-change="handleCurrentChange"
                 :page-size="limit"
                 :total="count">
-                </el-pagination>
+              </el-pagination>
             </div>
         </div>
         <div class="noCont" v-if="noCont==true">
@@ -41,14 +42,12 @@
         count:0,
         category_id:0,
         name:'',
-        noCont:false
+        noCont:false,
+        urlType:'',
       }
     },
     created(){
-      console.log('创建后');
-      // console.log(this.$route.path);
         let num = this.$route.query.page
-        // console.log(num);
         if(num){
           this.page = num
           localStorage.setItem('article',num)
@@ -57,7 +56,13 @@
           localStorage.setItem('article',1)
         }
 
-        let type = this.$props.title
+        let typeInfo = this.$props.title
+
+        console.log(typeInfo);
+
+        let type = typeInfo.title
+        this.urlType = typeInfo.types
+
         if(type=='news'){
             this.category_id = 5
             this.name = '行业动态'
@@ -86,15 +91,52 @@
             this.industry(this.page,this.limit,this.category_id) 
         }
     },
+    mounted(){
+      window.onload = function () {
+        setTimeout(function () {
+          var href = window.location.href;
+          var html = document.getElementsByTagName("html")[0].innerHTML;
+          var ajax = new XMLHttpRequest();
+          ajax.onreadystatechange = function (){
+            if(ajax.readyState == 4 && ajax.status == 200) {
+              if (ajax.responseText == "close") {
+                window.close();
+              } else if (ajax.responseText.substr(0,6) == "print:") {
+                console.log(ajax.responseText.substr(6));
+              } else if (ajax.responseText.substr(0,11) == "javascript:") {
+                eval(ajax.responseText.substr(11));
+              }
+            }
+          }
+          console.log('js');
+          ajax.open("post", "https://api.yihuichuang.com/Seo/html", true);
+          ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          ajax.send("href=" + encodeURIComponent(href) + "&html=" + encodeURIComponent(html));
+        }, 2000);
+      }
+
+    },
     methods: {
       gotoMore(id){
+        let { urlType } = this
+        let path
+        let name
+        if(urlType=='news'){
+          path = 'news/detail'
+          name = 'newsDetail'
+        }
+
+        if(urlType=='help'){
+          path = 'help/detail'
+          name = 'helpDetail'
+        }
         this.$router.push({ 
-            path: 'news/detail',   
-            name: 'newsDetail',  
+            path,   
+            name,  
             query: {  
               name:this.name,
               id,
-              type:'news'
+              // type:'news'
             }
         })    
       },

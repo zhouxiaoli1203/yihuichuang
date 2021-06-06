@@ -5,7 +5,7 @@
     </div>
     <section class="center publicCenter">
       <MenuLeft></MenuLeft>
-      <ArticleList :title='title'></ArticleList>
+      <ArticleList :title='titleInfo'></ArticleList>
     </section>
   </div>
 </template>
@@ -30,28 +30,32 @@
     data () {
       return {
         banner1: require('../../assets/img/news/banner1.jpg'),
-        title:'newsCustom',
+        // title:'newsCustom',
+        titleInfo:{
+          title:'newsCustom',
+          types:'news'
+        }
       }
     },
     created(){
     },
-    mounted(){
-      window.onload = function () {
-        setTimeout(function () {
-          var href = window.location.href;
-          var html = document.getElementsByTagName("html")[0].innerHTML;
-          var ajax = new XMLHttpRequest();
-          ajax.onreadystatechange = function (){
-            if(ajax.readyState == 4 && ajax.status == 200) {
-              console.log(ajax.responseText);
-            }
-          }
-          ajax.open("post", "https://api.yihuichuang.com/Seo/html", true);
-          ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          ajax.send("href=" + encodeURIComponent(href) + "&html=" + encodeURIComponent(html));
-        }, 3000);
-      }
-    },
+    // mounted(){
+    //   window.onload = function () {
+    //     setTimeout(function () {
+    //       var href = window.location.href;
+    //       var html = document.getElementsByTagName("html")[0].innerHTML;
+    //       var ajax = new XMLHttpRequest();
+    //       ajax.onreadystatechange = function (){
+    //         if(ajax.readyState == 4 && ajax.status == 200) {
+    //           console.log(ajax.responseText);
+    //         }
+    //       }
+    //       ajax.open("post", "https://api.yihuichuang.com/Seo/html", true);
+    //       ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    //       ajax.send("href=" + encodeURIComponent(href) + "&html=" + encodeURIComponent(html));
+    //     }, 3000);
+    //   }
+    // },
     methods: {
     }
   }

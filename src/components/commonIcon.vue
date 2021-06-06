@@ -1,60 +1,67 @@
 <template>
     <div class="commonIcon">
         <ul>
-            <li @mouseover='navMouseOver(0)' @mouseleave='navMouseLeave(0)' :class="navActive == 0?'active':''">
+            <li>
                 <div class="icon">
                     <img :src="severIcon1" alt="">
                     <p>服务热线</p>
                 </div>
-                <div class="cont severCont" v-show="navActive == 0">
+                <div class="cont severCont contbox">
                     <div class="info">
                     <img :src="tel" alt="">
                     <p>服务热线：400 049 9904</p>
                     </div>
                 </div>
             </li>
-            <li @mouseover='navMouseOver(1)' @mouseleave='navMouseLeave(1)' :class="navActive == 1?'active':''">
+            <li >
                 <div class="icon">
                     <img :src="dingyueCode" alt="">
                     <p>订阅号</p>
                 </div>
-                <div class="cont codeCont" v-show="navActive == 1">
+                <div class="cont codeCont contbox" >
                     <img :src="dingyueCode" alt="">
                 </div>
             </li>
-            <li @mouseover='navMouseOver(2)' @mouseleave='navMouseLeave(2)' :class="navActive == 2?'active':''">
+            <li >
                 <div class="icon">
                     <img :src="severIcon3" alt="">
                     <p>投诉建议</p>
                 </div>
-                <div class="cont complaintCont" v-show="navActive == 2">
-                    <div class="col">
-                    <img :src="name" alt="">
-                    <input type="text" placeholder="请输入姓名" v-model="nameInput">
-                    </div>
-                    <div class="col">
-                    <img :src="phone" alt="">
-                    <input type="text" placeholder="请输入手机号" v-model="phoneInput">
-                    </div>
-                    <div class="textarea">
-                    <p>投诉建议</p>
-                    <textarea id="" cols="30" rows="10" v-model="complaintInput"></textarea>
-                    </div>
-                    <div class="btns">
-                    <button>提交</button>
-                    </div>
+                <div class="cont complaintCont contbox" >
+                  <!-- <form action="https://api.yihuichuang.com/Article/select" autocomplete id="userInfo" method="get" enctype="multipart/form-data" name="register">
+                   <input type="hidden" name="p3_Amt" value="0.01">  
+            <input  name="p4_Cur" value="CNY">  
+            <input  name="p5_Pid" value="生鲜">  
+            <input  name="p6_Pcat" value="123">  
+            <input type="submit" value="提交"> -->
+                      <div class="col">
+                      <img :src="name" alt="">
+                      <input type="text" placeholder="请输入姓名" v-model="nameInput">
+                      </div>
+                      <div class="col">
+                      <img :src="phone" alt="">
+                      <input type="text" placeholder="请输入手机号" v-model="phoneInput">
+                      </div>
+                      <div class="textarea">
+                      <p>投诉建议</p>
+                      <textarea id="" cols="30" rows="10" v-model="complaintInput"></textarea>
+                      </div>
+                      <div class="btns">
+                      <button>提交</button>
+                      </div>
+                    <!-- </form> -->
                 </div>
             </li>
-            <li  @mouseover='navMouseOver(3)' @mouseleave='navMouseLeave(3)' :class="navActive == 3?'active':''">
+            <li >
                 <div class="icon">
                     <img :src="serviceCode" alt="">
                     <p>服务号</p>
                 </div>
-                <div class="cont codeCont" v-show="navActive == 3">
+                <div class="cont codeCont contbox">
                     <img :src="serviceCode" alt="">
                 </div>
             </li>
-            <li @click="backToTop">
+            <li onClick="javascript:document.body.scrollTop = 0;document.documentElement.scrollTop = 0;">
                 <div class="icon">
                     <img :src="severIcon5" alt="">
                     <p>回到顶部</p>
@@ -94,7 +101,7 @@ export default {
         }
     },
     mounted() {
-        window.addEventListener('scroll', this.handleScroll)
+        // window.addEventListener('scroll', this.handleScroll)
     },
     beforeDestroy() {
         window.removeEventListener('scroll', this.handleScroll)
@@ -162,6 +169,8 @@ export default {
             position: relative;
         }
 
+        
+
         .active{
             background: #eeeeee;
         }
@@ -173,6 +182,17 @@ export default {
         .active:first-child{
           border-radius: 10px 10px 0 0;
         }
+
+
+      li:hover{
+        .icon{
+          background: #eeeeee;
+        }
+
+        .contbox{
+          display: block;
+        }
+      }
     }
 
     .icon{
@@ -191,6 +211,9 @@ export default {
       }
     }
 
+    .contbox{
+      display: none;
+    }
     .cont{
       position: absolute;
       right: 60px;
@@ -198,13 +221,16 @@ export default {
     }
 
     .severCont{
-      display: flex;
-      align-items:center;
+
+      display: block;
+      // align-items:center;
       width: 253px;
       height: 66px;
       background: #fff;
-      justify-content: center;
+      // justify-content: center;
       border-radius: 4px;
+      display: none;
+     
 
       .info{
         display: flex;
@@ -214,6 +240,8 @@ export default {
         height: 34px;
         background: #eeeeee;
         border-radius: 4px;
+         margin: 0 auto;
+         margin-top: 15px;
       }
 
       p{

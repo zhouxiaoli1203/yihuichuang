@@ -20,20 +20,28 @@
                 <p>联系客服</p>
             </div>
         </div>
-        <div class="Record">Copyright © 2021 安徽印屿设广告传媒有限公司 版权所有 备案号：皖ICP备18045741号-1</div>
+        <div class="Record">
+            <a href="https://uweb.umeng.com/v1/login.php?siteid=1279981687" target="_blank">
+                <img src="@/assets/img/common/pic.gif" alt="">
+            </a>&nbsp;
+            Copyright © 2021 安徽印屿设广告传媒有限公司 版权所有 备案号：<a href="http://beian.miit.gov.cn/" style="color:#fff" target="_blank">皖ICP备2021006112号-1</a></div>
+
+      
+      
       </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'navFooter',
-  data () {
-    return {
-        linkLIst:['广告印刷','包装印刷','画册印刷','厂家价格定做定制各类企业宣传册','产品手册','笔记本','纪念册','手提袋','海报','点菜单','不干胶','红包对联','包装盒']
+
+    export default {
+    name: 'navFooter',
+    data () {
+        return {
+            linkLIst:['广告印刷','包装印刷','画册印刷','厂家价格定做定制各类企业宣传册','产品手册','笔记本','纪念册','手提袋','海报','点菜单','不干胶','红包对联','包装盒']
+        }
     }
-  }
-}
+    }
 </script>
 
 
