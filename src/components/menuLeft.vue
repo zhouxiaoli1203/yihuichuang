@@ -37,7 +37,6 @@ export default {
             commonList:[],
             navName:'',
             name:'',
-
         }
     },
     created(){

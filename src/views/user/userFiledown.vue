@@ -313,7 +313,7 @@
 <script>
   import MenuLeft from '../../components/menuLeft'
   import { regionData } from 'element-china-area-data'
-   import JSZip from 'jszip'
+  import JSZip from 'jszip'
   import FileSaver from 'file-saver'
   export default {
     name: 'userFiledown',
@@ -355,64 +355,64 @@
 
     },
     methods: {
-      handleBatchDownload() {
-         let filename = 'yasyoi'
-         let arrImages = [
-           {fileUrl:'https://yhc0561.oss-cn-hangzhou.aliyuncs.com/uploads/202106/0115415996058211.docx',renameFileName:'11'},
-           {fileUrl:'https://yhc0561.oss-cn-hangzhou.aliyuncs.com/uploads/202106/0115415996058211.docx',renameFileName:'11'}
-          ]
-        let _this = this;
-        let zip = new JSZip();
-        let cache = {};
-        let promises = [];
-        _this.title = '正在加载压缩文件';
-        for (let item of arrImages) {
-          const promise= _this.getImgArrayBuffer(item.fileUrl).then(data => {
-            console.log(11111);
-            // 下载文件, 并存成ArrayBuffer对象(blob)
-            console.log(item.renameFileName, data, { binary: true });
-            zip.file(item.renameFileName, data, { binary: true }); // 逐个添加文件
-            cache[item.renameFileName] = data;
-          });
-          console.log(promises);
-          promises.push(promise);
-        }
-        Promise.all(promises).then(() => {
-          zip.generateAsync({ type: "blob" }).then(content => {
-            _this.title = '正在压缩';
-            // 生成二进制流
-            FileSaver.saveAs(content, filename); // 利用file-saver保存文件  自定义文件名
-            _this.title = '压缩完成';
-          });
-        }).catch(res=>{
-          console.log(res);
-          _this.$message.error('文件压缩失败');
-        });
-      },
-    //获取文件blob
-      getImgArrayBuffer(url){
-        console.log(111522);
-        let _this=this;
-        return new Promise((resolve, reject) => {
-          //通过请求获取文件blob格式
-          let xmlhttp = new XMLHttpRequest();
-          xmlhttp.open("GET", url, true);
-          xmlhttp.responseType = "blob";
-          // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
-          // xmlhttp.setRequestHeader("Content-Type", "application/json");
-          // xmlhttp.setRequestHeader("=Content-Type", "Basic a2VybWl0Omtlcm1pdA==");
-          // xmlhttp.setRequestHeader("Authorization", "Basic a2VybWl0Omtlcm1pdA==");
-          xmlhttp.onload = function () {
-            if (this.status == 200) {
-              resolve(this.response);
-            }else{
-              reject(this.status);
-            }
-          }
-          xmlhttp.send();
-        });
+      // handleBatchDownload() {
+      //   let filename = 'yasyoi'
+      //   let arrImages = [
+      //     {fileUrl:'https://yhc0561.oss-cn-hangzhou.aliyuncs.com/uploads/202106/0115415996058211.docx',renameFileName:'11'},
+      //     {fileUrl:'https://yhc0561.oss-cn-hangzhou.aliyuncs.com/uploads/202106/0115415996058211.docx',renameFileName:'11'}
+      //   ]
+      //   let _this = this;
+      //   let zip = new JSZip();
+      //   let cache = {};
+      //   let promises = [];
+      //   _this.title = '正在加载压缩文件';
+      //   for (let item of arrImages) {
+      //     const promise= _this.getImgArrayBuffer(item.fileUrl).then(data => {
+      //       console.log(11111);
+      //       // 下载文件, 并存成ArrayBuffer对象(blob)
+      //       console.log(item.renameFileName, data, { binary: true });
+      //       zip.file(item.renameFileName, data, { binary: true }); // 逐个添加文件
+      //       cache[item.renameFileName] = data;
+      //     });
+      //     console.log(promises);
+      //     promises.push(promise);
+      //   }
+      //   Promise.all(promises).then(() => {
+      //     zip.generateAsync({ type: "blob" }).then(content => {
+      //       _this.title = '正在压缩';
+      //       // 生成二进制流
+      //       FileSaver.saveAs(content, filename); // 利用file-saver保存文件  自定义文件名
+      //       _this.title = '压缩完成';
+      //     });
+      //   }).catch(res=>{
+      //     console.log(res);
+      //     _this.$message.error('文件压缩失败');
+      //   });
+      // },
+      // //获取文件blob
+      // getImgArrayBuffer(url){
+      //   console.log(111522);
+      //   let _this=this;
+      //   return new Promise((resolve, reject) => {
+      //     //通过请求获取文件blob格式
+      //     let xmlhttp = new XMLHttpRequest();
+      //     xmlhttp.open("GET", url, true);
+      //     xmlhttp.responseType = "blob";
+      //     // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+      //     // xmlhttp.setRequestHeader("Content-Type", "application/json");
+      //     // xmlhttp.setRequestHeader("=Content-Type", "Basic a2VybWl0Omtlcm1pdA==");
+      //     xmlhttp.setRequestHeader("Authorization", "Basic a2VybWl0Omtlcm1pdA==");
+      //     xmlhttp.onload = function () {
+      //       if (this.status == 200) {
+      //         resolve(this.response);
+      //       }else{
+      //         reject(this.status);
+      //       }
+      //     }
+      //     xmlhttp.send();
+      //   });
 
-      },
+      // },
       selectAll() {
         this.list.forEach(item=>{  //当全选被选中的时候，循环遍历源数据，把数据的每一项加入到默认选中的数组去
           this.checkedCities.push(item.id)

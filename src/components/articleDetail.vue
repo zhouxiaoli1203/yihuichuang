@@ -22,29 +22,29 @@
       if(typeInfo){
         let type = typeInfo.title
         this.type = type
-      if(type=='help'){
-        return this.detail('20')   //法律声明
-          
-      }
-       if(type=='helpRefund'){
-        return this.detail('22')   //退款说明
-          
-      }
+        if(type=='help'){
+          return this.detail('20')   //法律声明
+            
+        }
+        if(type=='helpRefund'){
+          return this.detail('22')   //退款说明
+            
+        }
 
-      if(type=='about'){
-        return this.detail('25')   //关于我们
-          
-      }
+        if(type=='about'){
+          return this.detail('25')   //关于我们
+            
+        }
 
-      if(type=='aboutUser'){
-        return this.detail('26')   //用户协议
-          
-      }
+        if(type=='aboutUser'){
+          return this.detail('26')   //用户协议
+            
+        }
 
-      if(type=='aboutContact'){
-        return this.detail('27')   //联系我们
-          
-      }
+        if(type=='aboutContact'){
+          return this.detail('27')   //联系我们
+            
+        }
       }
       
       console.log(285222);

@@ -10,6 +10,7 @@
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
+                <div id="qrcode" ref="qrcode"></div>
                 <section class="headBox">
                     <div class="head">
                         <div class="infoBox">
@@ -151,6 +152,7 @@
 </template>
 
 <script>
+import QRCode from 'qrcodejs2'
 import MenuLeft from '../../components/menuLeft'
 import rechargePorp from '../../components/recharge'
 import consumePorp from '../../components/consume'
@@ -159,7 +161,8 @@ export default {
     components: {
         MenuLeft,
         rechargePorp,
-        consumePorp
+        consumePorp,
+        QRCode
     },
     data () {
         var validatePass = (rule, value, callback) => {
@@ -223,8 +226,18 @@ export default {
         this.token = token
         this.userInfoGet(token)
     },
-
+    mounted() {
+        this.qrcodeScan();    // 注：需在mounted里触发qrcodeScan函数
+    },
     methods: {
+        qrcodeScan () {//生成二维码
+            let qrcode = new QRCode('qrcode', {  
+                width: 200,  // 二维码宽度 
+                height: 200, // 二维码高度
+                text: 'weixin://wxpay/bizpayurl?pr=fPNxdfczz',
+                correctLevel : QRCode.CorrectLevel.H
+            })  
+        },
         beforeAvatarUpload(file) {
             console.log(file.type)
             const isJPG = file.type === 'image/jpg';
@@ -316,7 +329,6 @@ export default {
                     this.info = res.data
                     this.nickname = res.data.nickname
                     this.face = res.data.face
-                    // this.imgResult = res.data.face
                     this.phone = res.data.phone
                     this.$store.commit('setUserInfo',res.data)
                     srcList.push(res.data.face)

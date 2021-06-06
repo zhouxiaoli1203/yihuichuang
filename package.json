@@ -25,6 +25,7 @@
     "less-loader": "^5.0.0",
     "prerender-spa-plugin": "^3.4.0",
     "qiniu-js": "^3.1.2",
+    "qrcodejs2": "0.0.2",
     "qs.js": "^0.1.12",
     "vue": "^2.5.2",
     "vue-meta": "^2.4.0",
