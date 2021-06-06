@@ -183,10 +183,10 @@
                       </el-form-item>
                       <div class="fz14 weight500 mb15 mt15">凭该账号手机尾号后4位到店提取</div>
                     </div>
-                    <div class="price mt15">
+                    <!-- <div class="price mt15">
                       <label class="fz14">价格:</label>
                       <span class="main-red fz16">6666.00</span>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="btn-box">
                     <div class="btn cancel"
@@ -213,8 +213,8 @@
                 <div class="pay-pop">
                   <div class="pay-title">支付订单</div>
                   <ul class="pay-icons displayFl">
-                    <li v-for="(x,index) in pay_icons"
-                        @click="changePay(x)">
+                    <li v-for="(x,index) in pay_icons" :class='[`icon_${(index+1)}`,{"active":curntIndx == index}]' 
+                        @click="changePay(x,index)">
                       <img :src="x.big_icon"
                            alt=""
                            width="54px"
@@ -467,6 +467,7 @@ export default {
           value: '1',
         },
       ],
+      curntIndx:null,
     }
   },
   components: {
@@ -704,7 +705,8 @@ export default {
     cityChange_ziti: function () {
       // console.log(this.payAddr.ssq_);
     },
-    changePay: function (x) {
+    changePay: function (x,ind) {
+       this.curntIndx = ind;
       this.payInfos = {
         iconUrl: x.iconUrl,
         sicon: x.s_icon,
@@ -1066,6 +1068,18 @@ export default {
         width: 54px;
         height: 54px;
         cursor: pointer;
+        &.icon_1.active{
+            border:1px solid #03A9F3;
+            border-radius: 4px;
+        }
+        &.icon_2.active{
+            border:1px solid #4E9F5B;
+            border-radius: 4px;
+        }
+        &.icon_3.active{
+            border:1px solid #FF9B1F;
+            border-radius: 4px;
+        }
       }
     }
     .pay-content {
