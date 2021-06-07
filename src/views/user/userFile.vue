@@ -69,7 +69,7 @@
 .contList{
   padding: 24px;
   position: relative;
-
+  background: #fff;
   ul{
     display: flex;
     align-items: center;

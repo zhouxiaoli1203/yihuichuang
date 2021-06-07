@@ -197,6 +197,7 @@
 .contList{
   padding: 24px;
   position: relative;
+  background: #fff;
 }
 .tabBox{
   width: 100%;

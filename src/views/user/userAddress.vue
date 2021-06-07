@@ -457,6 +457,7 @@
 .contList{
   padding: 24px;
   position: relative;
+  background: #fff;
 }
 .notice{
   background: rgba(78, 159, 91, 0.1);

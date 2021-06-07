@@ -408,6 +408,10 @@
   width: 976px;
   min-height: 923px;
 }
+.wenzhnagContList {
+  background: #FFFFFF;
+  padding: 54px 24px 0;
+}
 .publicCenter .contList .paging {
   text-align: center;
   margin-top: 47px;

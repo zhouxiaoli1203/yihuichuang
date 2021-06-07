@@ -269,18 +269,18 @@ export default {
           url:'/service',
           name:'服务保障'
         },
-        // {
-        //   url:'/news',
-        //   name:'新闻中心'
-        // },
+        {
+          url:'/news',
+          name:'新闻中心1'
+        },
         {
           url:'/news-1.html',
           name:'新闻中心'
         },
-        // {
-        //   url:'/help',
-        //   name:'帮助支持'
-        // },
+        {
+          url:'/help',
+          name:'帮助支持1'
+        },
         {
           url:'/help.html',
           name:'帮助支持'
@@ -289,10 +289,10 @@ export default {
           url:'/join',
           name:'合作加盟'
         },
-        // {
-        //   url:'/about',
-        //   name:'关于我们'
-        // },
+        {
+          url:'/about',
+          name:'关于我们1'
+        },
         {
           url:'/about.html',
           name:'关于我们'

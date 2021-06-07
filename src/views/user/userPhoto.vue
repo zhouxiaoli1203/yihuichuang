@@ -15,20 +15,8 @@
                 <div class="photolf">
                   <h3>在线制作证件照</h3>
                   <div class="img">
-                    <!-- <img v-if="imageUrl" :src="imageUrl" class="avatar"> -->
-                    <div  v-if="imgResult" :class="bgColor">
-                      <el-image 
-                        :src="imgResult" 
-                        :preview-src-list="srcList"
-                        class="avatar"
-                        >
-                      </el-image>
-                    </div>
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                  </div>
-                  <div class="btnBox">
-                    <h3>&nbsp</h3>
-                      <el-upload
+                    <el-upload
+                        v-if="!imgResult"
                         class="avatar-uploader btns"
                         action=""
                         name='cert' 
@@ -36,8 +24,18 @@
                         :before-upload="beforeAvatarUpload"
                          accept=".jpg,.jpeg,.png,.JPG,.JPEG"
                         >
-                        <span class="span">上传文件</span>
+                        <div class="unClass">
+                          <i class="el-icon-plus avatar-uploader-icon"></i>
+                          <p>点击上传照片</p>
+                        </div>
                       </el-upload>
+                      <div  v-else :class="bgColor">
+                        <el-image 
+                          :src="imgResult" 
+                          class="avatar"
+                          >
+                        </el-image>
+                      </div>
                   </div>
                 </div>
                 
@@ -62,7 +60,6 @@
                     </ul>
                   </div>
                   <div class="btnBox">
-                    <h3>底色选择</h3>
                     <ul class="btns">
                       <template v-for="item in colorList">
                         <li :class="item.name" @click="colorClick(item.index,item.name)">
@@ -155,7 +152,6 @@
         token:'',
         imgResult:'',
         imgList:[],
-        srcList: [],
         bgColor:'red',
         size:''
       }
@@ -197,10 +193,8 @@
 
       // 上传头像
       getFile(file, fileList) {
-          let {srcList} = this
           this.getBase64(file).then(res => {
               this.imgResult = res
-              srcList.push(res)
               this.modifyFace(file)
           });
       },
@@ -291,6 +285,7 @@
 
 .contList{
   padding: 24px;
+  background: #fff;
 }
 
 .photoBox{
@@ -307,11 +302,10 @@
 
     .img{
       width: 100%;
-      height: 364px;
+      height: 462px;
       background: #F5F6FA;
       border-radius: 10px;
       text-align: center;
-      margin-bottom: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -331,19 +325,32 @@
         height: 200px;
       }
 
-      i{
-        color: #e2e2e2;
-        font-size: 98px;
-        line-height: 354px;
+      .unClass{
+        height: 304px;
+        border-radius: 10px;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px dashed #ACC1FF;
+        width: 220px;
+        i{
+          color: #ACC1FF;
+          font-size: 70px;
+        }
+        p{
+          color: #ACC1FF;
+          margin-top: 24px;
+        }
       }
     }
   }
 
   .radioBox{
     width: 557px;
-    height: 364px;
+    height: 360px;
     background: #F5F6FA;
-    margin-bottom: 24px;
+    margin-bottom: 21px;
 
     .title{
       display: flex;
@@ -365,7 +372,7 @@
     }
 
     ul{
-      height: 314px;
+      height: 310px;
       display: flex;
       flex-flow: column;
       justify-content: space-between;
@@ -395,9 +402,9 @@
   }
 
   .btns{
-    height: 113px;
+    height: 81px;
     background: #F5F6FA;
-    border-radius: 10px;
+    border-radius: 8px;
   }
   .photolf{
     .btns{
@@ -427,19 +434,19 @@
       justify-content: center;
 
       li{
-        width: 58px;
-        height: 58px;
-        border-radius: 16px;
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
         border: 1px solid #BCCCFF;
         cursor: pointer;
         position: relative;
 
         p{
           width: 100%;
-          height: 5px;
+          height: 3px;
           border-radius: 50px;
           position: absolute;
-          bottom: -27.5px;
+          bottom: -24.5px;
 
           i{
             width: 0;
@@ -449,7 +456,7 @@
             border-left: 6px solid transparent;
             position: absolute;
             left: 50%;
-            bottom: 5px;
+            bottom: 2px;
             -webkit-transform: translate(-50%, 0);
             transform: translate(-50%, 0);
           }
@@ -502,7 +509,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 180px;
+    margin-top: 100px;
 
     span{
       width: 140px;

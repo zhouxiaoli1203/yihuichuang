@@ -207,6 +207,7 @@
 
 <style lang="less" scoped>
   .contList {
+    background: #fff;
     li{
       margin: 24px;
       border-bottom: 1px solid #D6DAEC;

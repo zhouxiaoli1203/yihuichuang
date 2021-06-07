@@ -222,6 +222,7 @@
 
 <style lang="less" scoped>
   .contList {
+    background: #fff;
     padding: 24px;
     .offlineBOX{
       display: flex;

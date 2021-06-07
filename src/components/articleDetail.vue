@@ -1,5 +1,5 @@
 <template>
-    <div class="contList">
+    <div>
       <div class="tit" v-if="type!='aboutContact'">
         <h1>{{info.Title}}</h1>
         <span>{{info.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>

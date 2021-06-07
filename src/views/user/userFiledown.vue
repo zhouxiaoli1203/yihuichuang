@@ -662,6 +662,7 @@
 }
 .contList{
   position: relative;
+  background: #fff;
 }
 .fileTitle{
   display: flex;

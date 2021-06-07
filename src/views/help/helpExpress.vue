@@ -12,7 +12,7 @@
       </div>
       <div class="publicCenter">
           <MenuLeft></MenuLeft>
-          <div class="contList">
+          <div class="contList wenzhnagContList">
             <div v-if="list!=''">
               <h2>合作快递</h2>
                 <ul class="list">

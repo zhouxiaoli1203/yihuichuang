@@ -356,6 +356,7 @@
   .contList{
     padding: 24px;
     position: relative;
+    background: #fff;
   }
 
   .pictureBox{
