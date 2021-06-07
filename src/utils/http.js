@@ -132,7 +132,7 @@ export function yhcReq(methods, url, params,file,yhc_f_a, needCatch) {/*  */
                 this.$store.state.userId = '';
                 localStorage.removeItem('userInfo');
                 this.$store.state.userInfo = '';       
-                this.$store.state.currentIndex="/index"
+                this.$store.state.currentIndex="/"
                 this.$router.replace('/');
             }
 

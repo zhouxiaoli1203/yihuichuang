@@ -20,7 +20,7 @@ export default new Router({
       redirect: '/index', // 默认
       children: [
         {
-          path: '/index',
+          path: '/',
           name: 'index',
           component: () => import('@/views/index/index.vue'),
         },

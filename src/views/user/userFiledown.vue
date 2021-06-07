@@ -3,7 +3,7 @@
     <section class="center">
         <div class="crumbsHeader">
           <div class="crumbs">
-              <span @click="pathIndex()">首页 / </span>
+              <router-link to="/"><span>首页 / </span></router-link>
               <span @click="pathNews()">文件打印 /</span>
               <span>文件</span>
           </div>
@@ -306,7 +306,7 @@
           </el-tabs>
       </div>
     </section>
-    <div class="mask" v-show="userPublic" @click="userClose" data-newId=`${}`></div>
+    <div class="mask" v-show="userPublic" @click="userClose"></div>
   </div>
 </template>
 
@@ -434,6 +434,7 @@
         this.$router.replace("/user/userFile");
       },
       handleCommand(command) {
+        
         let { checkedCities } = this
         const newList = []
         if(checkedCities==''){
@@ -446,7 +447,7 @@
         checkedCities.forEach(i => {
         　　newList.push(i)
         })
-
+        console.log(command);
         let str = newList.join(",")   // 字符串一,字符串二,字符串三
         if(command=='删除'){
           this.confirm_pop("此操作将永久删除该文件, 是否继续?").then(res=>{

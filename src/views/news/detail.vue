@@ -54,14 +54,6 @@
       // }
     },
     methods: {
-      // 点击首页
-      // pathIndex(){
-      //   this.$store.state.currentIndex = '/index';
-      //   this.$router.push("/index");
-      // },
-      // pathNews(){
-      //   this.$router.go(-1)
-      // },
     }
   }
 </script>

@@ -6,7 +6,6 @@
     <section class="center">
         <div class="crumbsHeader">
           <div class="crumbs">
-            <!-- <span @click="pathIndex()">首页 / </span> -->
             <router-link to="/"> <span>首页 / </span></router-link>
             <!-- <span @click="pathNews()">帮助支持 /</span> -->
             <span>退款说明</span>
@@ -66,11 +65,6 @@
     //   }
     // },
     methods: {
-      // 点击首页
-      pathIndex(){
-        this.$store.state.currentIndex = '/index';
-        this.$router.push("/index");
-      },
     }
   }
 </script>

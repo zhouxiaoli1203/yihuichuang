@@ -250,7 +250,7 @@ export default {
     return {
       menuList:[
         {
-          url:'/index',
+          url:'/',
           name:'首页'
         },
         {
@@ -306,7 +306,7 @@ export default {
       loginBg: require('../assets/img/common/loginBg.jpg'),
       loginClose: require('../assets/img/common/loginClose.png'),
       loginSuccess: require('../assets/img/common/loginSuccess.png'),
-      activeIndex:'/index',
+      activeIndex:'/',
       dialogTableVisible: false,
       modeNum:1, //密码登录，0手机验证码登录
       loginType:1, //1登陆，2注册，3重置，4成功提示
@@ -399,9 +399,7 @@ export default {
     this.userinfoFn()
 
     let url = this.$router.history.current.fullPath
-
-  
-    if(url){
+    if(url && url!='/'){
       let fuhao =  url.substr(url.length-1,1)
       if(fuhao=='/'){
         let href = url.slice(0,url.length-1)
@@ -414,6 +412,11 @@ export default {
         this.$store.state.currentIndex = '/'+ url.split('/')[1]
         this.$store.state.publicHome = '/'+ url.split('/')[1]
       }
+      this.$store.state.menuLeft = ''
+    }else{
+      this.activeIndex = '/'
+      this.$store.state.currentIndex = '/'
+      this.$store.state.publicHome = '/'
       this.$store.state.menuLeft = ''
     }
   },
@@ -728,7 +731,7 @@ export default {
     getPath () {  //解决浏览器后退导航高亮问题
       let href = this.$route.path
       console.log(this.$route);
-      console.log(href);
+      console.log(href +'-----------934');
       let hrefUrl =  href.split('/')[1]
       if(hrefUrl!='detail'){
           this.activeIndex = '/'+ hrefUrl
@@ -743,8 +746,8 @@ export default {
 
     // 点击logo
     logoClick(){
-      this.$store.state.currentIndex = '/index';
-      this.$router.push("/index");
+      this.$store.state.currentIndex = '/';
+      this.$router.push("/");
     }
 
   },

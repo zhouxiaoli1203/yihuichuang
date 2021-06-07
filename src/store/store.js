@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     //所有的数据都放在state中
     state:{
-      currentIndex:"/index",
+      currentIndex:"/",
       publicHome:'',
       menuLeft:'',
       token:'',

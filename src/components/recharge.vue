@@ -27,7 +27,8 @@
             <div class="zhifuCode">
                 <ul>
                     <li v-for="item in paymode" :class="paymodeIndex == item.val?'active':''" @click="paymodeClick(item.val)">
-                        <img :src="item.img" alt="">
+                        <!-- <img :src="item.img" alt=""> -->
+                        <div id="qrcode" ref="qrcode"></div>
                         <p>{{item.name}}</p>
                     </li>
                 </ul>
@@ -54,6 +55,7 @@
 </template>
 
 <script>
+import QRCode from 'qrcodejs2'
 export default {
     name: 'recharge',
     props:{},
@@ -97,7 +99,9 @@ export default {
             token:'',
         }
     },
-    components: {},
+    components: {
+        QRCode
+    },
     created() {
         let val = this.$store.getters.getUserInfo
         this.userinfoFn(val)
@@ -106,6 +110,14 @@ export default {
     },
     mounted() {},
     methods: {
+        qrcodeScan(text) {//生成二维码
+            let qrcode = new QRCode('qrcode', {  
+                width: 111,  // 二维码宽度 
+                height: 111, // 二维码高度
+                text,
+                correctLevel : QRCode.CorrectLevel.H
+            })  
+        },
         // 父组件的点击事件
         onClick(param){
             this.recharge = true
@@ -143,6 +155,7 @@ export default {
                 category
             }).then((res)=>{
                 console.log(res);
+                this.qrcodeScan(res.data.code_url)
             });
         },
     },

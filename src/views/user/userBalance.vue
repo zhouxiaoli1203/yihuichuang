@@ -3,7 +3,7 @@
     <section class="center">
         <div class="crumbsHeader">
             <div class="crumbs">
-                <span @click="pathIndex()">首页 / </span>
+                <router-link to="/"><span>首页 / </span></router-link>
                 <span>余额管理</span>
             </div>
         </div>
@@ -117,11 +117,6 @@ import consumePorp from '../../components/consume'
         },
         gotoMore(){
             this.$router.push("/news/detail");
-        },
-        // 点击首页
-        pathIndex(){
-            this.$store.state.currentIndex = '/index';
-            this.$router.push("/index");
         },
 
         userClose(){

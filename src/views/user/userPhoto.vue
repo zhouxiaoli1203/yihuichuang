@@ -3,8 +3,7 @@
     <section class="center">
         <div class="crumbsHeader">
           <div class="crumbs">
-              <span @click="pathIndex()">首页 / </span>
-              <!-- <span @click="pathNews()">帮助支持 /</span> -->
+              <router-link to="/"><span>首页 / </span></router-link>
               <span>证件照</span>
           </div>
         </div>

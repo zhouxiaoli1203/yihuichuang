@@ -8,7 +8,6 @@
         <div class="crumbsHeader">
           <div class="crumbs">
             <router-link to="/"> <span>首页 / </span></router-link>
-            <!-- <span @click="pathIndex()">首页 / </span> -->
             <span>关于我们</span>
           </div>
         </div>
@@ -66,11 +65,6 @@
     //   }
     // },
     methods: {
-      // 点击首页
-      pathIndex(){
-        this.$store.state.currentIndex = '/index';
-        this.$router.push("/index");
-      },
     }
   }
 </script>
