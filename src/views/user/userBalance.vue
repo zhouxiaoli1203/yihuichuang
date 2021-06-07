@@ -29,31 +29,47 @@
                 </section>
                 <section class="billBox" v-show="billPorp">
                     <div class="tit">
-                        <h4>账单记录</h4>
+                        <h4>充值记录</h4>
                         <img :src="close" alt="" @click="billClose">
                     </div>
-                    <table border = "1" class="tableBox"  width="100%">
-                        <tbody>
-                            <tr>
-                                <th>名称</th>
-                                <th>购买日期</th>
-                                <th>金额</th>
-                                <th>状态</th>
-                            </tr>
-                            <tr>
-                                <td>海报设计</td>
-                                <td>2020-02-11</td>
-                                <td>-29.00</td>
-                                <td>购买成功</td>
-                            </tr>
-                        </tbody>   
-                    </table>
-                     <div class="paging">
-                        <el-pagination
-                            background
-                            layout="prev, pager, next"
-                            :total="1000">
-                        </el-pagination>
+                    <div v-if="list.length!=0">
+                        <table border = "1" class="tableBox"  width="100%">
+                            <tbody>
+                                <tr>
+                                    <th>到账金额</th>
+                                    <th>支付金额</th>
+                                    <th>支付方式</th>
+                                    <th>支付时间</th>
+                                </tr>
+                                <tr v-for="item in list">
+                                    <td>{{item.balance/100}}</td>
+                                    <td>{{item.money/100}}</td>
+                                    <td v-if="item.type == 'wxpay'" class="type">
+                                        <img src="@/assets/img/user/weChat.png" alt="">
+                                        <span>微信</span>
+                                    </td>
+                                    <td v-else class="type">
+                                        <img src="@/assets/img/user/Alipay.png" alt="">
+                                        <span>支付宝</span>
+                                    </td>
+                                    <td>{{item.pay_time | formatDate_('yyyy-MM-dd hh:mm') }}</td>
+                                </tr>
+                            </tbody>   
+                        </table>
+                        <div class="paging">
+                            <el-pagination
+                                background
+                                :current-page.sync="page"
+                                layout="prev, pager, next"
+                                @current-change="handleCurrentChange"
+                                :page-size="limit"
+                                :total="count">
+                            </el-pagination>
+                        </div>
+                    </div>
+                    <div v-if="noCont==true" class="NoCont" style="margin-top:50px">
+                        <img src="@/assets/img/common/noCont.png" alt="">
+                        <span>暂无数据</span>
                     </div>
                 </section>
             </div>
@@ -85,18 +101,51 @@ import consumePorp from '../../components/consume'
         close: require('../../assets/img/user/close.png'),
         billPorp:false,
         money:0,
+        page:1,
+        limit:2,
+        list:[],
+        count:0,
+        noCont:false
       }
     },
     created() {
-        let val = this.$store.getters.getUserInfo
-        this.userinfoFn(val)
+        let token  = this.$store.getters.getToken;
+        this.token = token
+        this.userInfoGet(token)
     },
 
     methods: {
         // 获取个人信息
-        userinfoFn(val){
-            let userInfo = val
-            this.money = userInfo.balance
+        userInfoGet(token) {
+            this.$post("post",'User/infoGet',{
+                token,
+            })
+            .then((res)=>{
+                if(res.code==1){
+                    this.money = res.data.balance/100
+                    this.$store.commit('setUserInfo',res.data)
+                }
+            })
+        },
+
+        // 充值记录
+        BillCzjl(page,limit){
+            this.$post("post",'Bill/czjl',{
+                token:this.token,
+                page,
+                limit
+            })
+            .then((res)=>{
+                if(res.code==1){
+                    this.list = res.data.list
+                    this.count = res.data.count
+                    if(res.data.list.length==0){
+                        this.noCont = true
+                    }else{
+                        this.noCont = false
+                    }
+                }
+            })
         },
 
         // 充值
@@ -108,10 +157,19 @@ import consumePorp from '../../components/consume'
             this.$refs.xiaofeiPorp.xiaoFeiClick(true); //给子组件传递点击事件
         },
 
-        // 点击账单
+        // 充值记录
         billClick(){
             this.billPorp = true
+            this.BillCzjl(this.page,this.limit);
         },
+
+        // 点击页数
+        handleCurrentChange(val) {
+            this.page = val
+            this.BillCzjl(val,this.limit);
+        },
+
+
         billClose(){
             this.billPorp = false
         },
@@ -123,7 +181,6 @@ import consumePorp from '../../components/consume'
             this.userPublic=false;
             this.Recharge=false;
             this.recordBox=false;
-            
         },
 
     },
@@ -132,11 +189,6 @@ import consumePorp from '../../components/consume'
             return this.$store.getters.getUserInfo
         },
     },
-    watch:{
-        headInfo: function (val) {
-           this.userinfoFn(val)
-        },
-    }
   }
 </script>
 
@@ -237,6 +289,24 @@ import consumePorp from '../../components/consume'
           tr{
               height: 35px;
               text-align: center;
+          }
+          th{
+            padding: 15px 0;
+          }
+
+          td{
+              padding: 10px 0;
+              img{
+                  width: 25px;
+                  height: 25px;
+              }
+          }
+
+          .type{
+              span{
+                      line-height: 25px;
+                  margin-left: 8px;
+              }
           }
       }
   }

@@ -1,6 +1,5 @@
 <template>
   <div class="navHeader">
-      <div style="color:red;position:fixed;top:20px;right:20px">{{config.version}}</div>
       <!-- <div style="color:red;position:fixed;top:20px;right:20px">{{new Date()|formatDate_("yyyy/MM/dd hh:mm")}}</div> -->
       <div class="center headerCenter">
             <div class="img cursor_p">
@@ -203,7 +202,6 @@
 </template>
 
 <script>
-import config from '../../package.json'
 var secret = require('@/utils/jquery.md5');
 export default {
   name: 'navHeader',
@@ -269,18 +267,18 @@ export default {
           url:'/service',
           name:'服务保障'
         },
-        {
-          url:'/news',
-          name:'新闻中心1'
-        },
+        // {
+        //   url:'/news',
+        //   name:'新闻中心1'
+        // },
         {
           url:'/news-1.html',
           name:'新闻中心'
         },
-        {
-          url:'/help',
-          name:'帮助支持1'
-        },
+        // {
+        //   url:'/help',
+        //   name:'帮助支持1'
+        // },
         {
           url:'/help.html',
           name:'帮助支持'
@@ -289,10 +287,10 @@ export default {
           url:'/join',
           name:'合作加盟'
         },
-        {
-          url:'/about',
-          name:'关于我们1'
-        },
+        // {
+        //   url:'/about',
+        //   name:'关于我们1'
+        // },
         {
           url:'/about.html',
           name:'关于我们'
@@ -393,7 +391,6 @@ export default {
     }
   },
   created(){
-    this.config = config;
     this.activeIndex = this.$store.state.currentIndex;
     this.token = this.$store.getters.getToken;
     this.userinfoFn()

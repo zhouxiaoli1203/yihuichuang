@@ -38,7 +38,7 @@
                         </div>
                         <p>
                             <span v-if="info.balance!=0">￥</span>
-                            <span>{{info.balance}}</span>
+                            <span>{{info.balance/100}}</span>
                         </p>
                     </div>
                 </section>

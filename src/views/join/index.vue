@@ -140,6 +140,14 @@
 <script>
   export default {
     name: 'join',
+    metaInfo: {
+      title: '易绘创合作加盟连锁|图文广告店加盟|快印店加盟',
+      meta: [
+        { name:"keywords",content:'图文广告店加盟,图文快印加盟,图文连锁加盟,图文店加盟,图文快印店,图文快印,快印店加盟,数码快印加盟,数码快印,数码印刷,易绘创'},
+        { name:"description",content:'易绘创（yihuichuang.com）合作加盟：易绘创是中国图文快印店加盟行业的连锁品牌，是图文快印店加盟行业标准化和“互利网+”化的倡导者，是在图文快印店加盟、图文连锁加盟、图文店加盟连锁领域具有广泛知名度和影响力的企业。' },
+
+      ]
+    },
     data () {
       return {
         banner1: require('../../assets/img/join/banner.jpg'),

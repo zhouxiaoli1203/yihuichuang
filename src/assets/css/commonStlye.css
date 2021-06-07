@@ -803,3 +803,14 @@
   height: 100vh;
   overflow-x: hidden;
 }
+.fueuxieui .el-dialog__footer {
+  text-align: center;
+}
+.fueuxieui .el-button--primary {
+  background-color: #4E9F5B;
+  border-color: #4E9F5B;
+}
+.fueuxieui .el-dialog__body {
+  max-height: 450px;
+  overflow-y: scroll;
+}
