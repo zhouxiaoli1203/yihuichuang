@@ -4,7 +4,7 @@
         <h1>{{info.Title}}</h1>
         <span>{{info.PostTime | formatDate_('yyyy-MM-dd hh:mm') }}</span>
       </div>
-      <p v-html="info.Content"></p>
+      <p v-html="info.Content" class="articleDetail"></p>
     </div>
 </template>
 
@@ -97,8 +97,7 @@
 
 
 <style lang="less" scoped>
-  .contList {
-    padding: 54px 24px 0;
+
    .tit{
       display: flex;
       align-items: center;
@@ -117,9 +116,19 @@
         color: #999;
       }
     }
-    p{
-      color: #666666;
-      line-height: 34px;
-    }
+
+
+  
+
+  .articleDetail{
+    strong {
+       background: red;
+          font-weight: bold !important;
+        span{
+          background: red;
+          font-weight: bold !important;
+        }
+        
+      }
   }
 </style>

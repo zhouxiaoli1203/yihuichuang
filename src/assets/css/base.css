@@ -36,6 +36,11 @@ time, mark, audio, video, input, button, textarea,select{
     box-sizing: border-box;
 }
 
+strong, strong span{
+    font-weight: bold;
+}
+
+
 body{ line-height: 1; min-width: 1200px;}
 ul,ol{ list-style: none; }
 input,button,textarea,select,input:focus,textarea:focus{ background:none; outline:none; }
