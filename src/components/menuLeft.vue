@@ -49,7 +49,7 @@ export default {
         //     if(urlName=='公司动态'){
         //         name = '/news/newsCompany'
         //     }
-        //     if(urlName=='客户动态'){
+        //     if(urlName=='印刷知识'){
         //         name = '/news/newsCustom'
         //     }
         // }
@@ -64,7 +64,7 @@ export default {
             name = '/news/newsCompany'
         }
 
-        if(urlName=='客户动态'){
+        if(urlName=='印刷知识'){
             navName = '/news'
             name = '/news/newsCustom'
         }
@@ -182,7 +182,7 @@ export default {
                         url:'/news'
                     },
                     {
-                        tit:'客户动态',
+                        tit:'印刷知识',
                         url:'/news/newsCustom'
                     },
                     {

@@ -245,7 +245,7 @@ export default {
             name: '1',
           },
           {
-            title: '客户动态',
+            title: '印刷知识',
             name: '2',
           },
           {
@@ -292,7 +292,7 @@ export default {
         }
 
         if(tab == 2){
-          this.name = '客户动态'
+          this.name = '印刷知识'
           this.industry('6')
         }
 

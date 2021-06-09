@@ -10,7 +10,7 @@
                     </div>
                     <p>{{item.Intro}}</p>
                     <!-- <i style="display:none">{{item.ID}}</i> -->
-                </li>
+                </li>    
                 </template>
             </ul>
             <div class="paging">
@@ -37,7 +37,7 @@
     data () {
       return {
         page:1,
-        limit:1,
+        limit:5,
         list:[],
         count:0,
         category_id:0,
@@ -75,7 +75,7 @@
 
         if(type=='newsCustom'){
             this.category_id = 6
-            this.name = '客户动态'
+            this.name = '印刷知识'
         }
 
         if(type=='helpProblem'){

@@ -29,7 +29,7 @@
                     :current-page.sync="page"
                     layout="prev, pager, next"
                     @current-change="handleCurrentChange"
-                    :page-size="5"
+                    :page-size="limit"
                     :total="count">
                   </el-pagination>
                 </div>
@@ -63,7 +63,7 @@
       return {
         banner1: require('../../assets/img/help/banner.jpg'),
         page:1,
-        limit:5,
+        limit:10,
         list:[],
         count:0,
         noCont:false,
