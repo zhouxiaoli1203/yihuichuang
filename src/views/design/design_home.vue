@@ -184,35 +184,42 @@ export default {
      this_.CKT.useCkt(params,function(ckt){
          console.log(ckt);
           if(ckt.kind == 2){
-              this_.design_id = ckt["design-id"];
+                this_.design_id = ckt["design-id"];
+                this_.openFullScreen(); //调用加载中
+                this_.$post("post","Ckt/templateDownload",{token:this_.$store.state.token,designId:this_.design_id}).then((res)=>{
+                    if(res.code == 1){
+                        this_.closeFullScreen(this_.openFullScreen()); //关闭加载框
+                        window.open(res.data.url)
+                    }
+                })
             //  "219393"  x.designTemplateId
-              this_.$post("post","Goods/page",{token:this_.$store.state.token,template_id:x.designTemplateId}).then((res)=>{
-               if(res.code == 1){
-                   if(res.data.total == 0){
-                       return this_.$message({
-                           type: 'warning',
-                           message: '无效模板'
-                       });
-                   }else if(res.data.total == 1){
-                       this_.$router.push({
-                           //核心语句
-                           path:'/print/detial',   //跳转的路径
-                           query:{           //路由传参时push和query搭配使用 ，作用时传递参数
-                               page_id:res.data.list[0].page_id,
-                               design_id:ckt["design-id"]
-                           }
-                       })
-                   }else{
-                       this_.rukouList = res.data.list;
+        //       this_.$post("post","Goods/page",{token:this_.$store.state.token,template_id:x.designTemplateId}).then((res)=>{
+        //        if(res.code == 1){
+        //            if(res.data.total == 0){
+        //                return this_.$message({
+        //                    type: 'warning',
+        //                    message: '无效模板'
+        //                });
+        //            }else if(res.data.total == 1){
+        //                this_.$router.push({
+        //                    //核心语句
+        //                    path:'/print/detial',   //跳转的路径
+        //                    query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+        //                        page_id:res.data.list[0].page_id,
+        //                        design_id:ckt["design-id"]
+        //                    }
+        //                })
+        //            }else{
+        //                this_.rukouList = res.data.list;
                        
-                        this_.$refs.rukou_pop.open((cancel) => {
+        //                 this_.$refs.rukou_pop.open((cancel) => {
 
-                           }).then(() => {
+        //                    }).then(() => {
    
-                           }) 
-                   }
-               }
-           });
+        //                    }) 
+        //            }
+        //        }
+        //    });
           }
   
       });

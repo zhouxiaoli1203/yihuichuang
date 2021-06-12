@@ -82,7 +82,7 @@ function Ckt(){
     this.useCkt = function(options,complateFun){
         fn = complateFun;
         let _options = {
-            token:store.state.token          
+            token:store.state.token ,
         };
         console.log(store);
        setInit(options);
@@ -109,7 +109,6 @@ function Ckt(){
             console.log(options,"options");
             yhcReq("post","Ckt/sign",options).then((res)=>{
                 if(res.code == 1){
-                    console.log(res)
                     let cktDesign = new CktDesign(res.data);
                     cktDesign.open();
                     document.getElementById("chuangkit-design-close-btn").previousSibling.innerText=""; 
