@@ -102,7 +102,7 @@
               <div class="assess-pop"
                    v-show="checkpop">
                 <div class="title">订单详情</div>
-                <div class="title-detial">铝合金底座易拉宝 / 100张 / 尺寸：300m*200m</div>
+                <!-- <div class="title-detial">铝合金底座易拉宝 / 100张 / 尺寸：300m*200m</div> -->
                 <el-form width="100%" :rules="addRules" :model="payAddr"  ref="addrForm">
                   <div class="tabs-box">
                     <div v-for="x in tabs"
@@ -467,7 +467,7 @@ export default {
           value: '1',
         },
       ],
-      curntIndx:null,
+      curntIndx:0,
     }
   },
   components: {
