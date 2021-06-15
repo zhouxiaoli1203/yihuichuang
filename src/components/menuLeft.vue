@@ -2,26 +2,40 @@
   <div class="menuLeft">
        <div class="newNav commontMenuItem">
             <el-row class="tac">
-            <el-col>
-                <el-menu
-                :default-active="activeIndexs"
-                @select="handleSelect"
-                class="el-menu-vertical-demo"
-                background-color="#fff"
-                text-color="#333"
-                active-text-color="#fff" router>
-                    <template v-for="(item, index) in commonList">
-                        <el-menu-item :index="item.url" v-if="item.tit!='退出登录'">
-                        <span slot="title">{{item.tit}}</span>
-                        </el-menu-item>
+              
+                <el-col>
 
-                        <el-menu-item v-else @click="logout">
+                    <!-- <ul class="menuLeftnavUl">
+                        <template v-for="(item, index) in commonList">
+                            <li v-if="item.tit!='退出登录'" @click="handleSelect(item.url)" :class="activeIndexs == item.url?'activeClass':''">
+                                <a :href="item.url"><span>{{item.tit}}</span></a>
+                            </li>
+                            <li v-else @click="logout">
+                                <a href="javascript:;"><span>{{item.tit}}</span></a>
+                            </li>
+                        </template>
+                    </ul> -->
+
+
+                    <el-menu
+                    :default-active="activeIndexs"
+                    @select="handleSelect"
+                    class="el-menu-vertical-demo menuLeftnavUl"
+                    background-color="#fff"
+                    text-color="#333"
+                    active-text-color="#fff" router>
+                        <template v-for="(item, index) in commonList">
+                            <el-menu-item :index="item.url" v-if="item.tit!='退出登录'">
                             <span slot="title">{{item.tit}}</span>
-                        </el-menu-item>
-                            
-                    </template>
-                </el-menu>
-            </el-col>
+                            </el-menu-item>
+
+                            <el-menu-item v-else @click="logout">
+                                <span slot="title">{{item.tit}}</span>
+                            </el-menu-item>
+                                
+                        </template>
+                    </el-menu>
+                </el-col>
             </el-row>
         </div>
     </div>
@@ -114,8 +128,8 @@ export default {
             this.leftNav(navName,name)
             
         }
-        
 
+        
         
     },
     mounted(){
@@ -172,6 +186,10 @@ export default {
 
         // 给导航赋值
         leftNav(navName,name){
+        //     this.name = name
+        // this.navName = navName
+
+        console.log(11144);
             console.log(navName,name + '---------176');
             // this.$store.state.currentIndex = navName; //导航高亮
             if(navName=='/news'){
@@ -293,6 +311,35 @@ export default {
     width: 200px;
     height: 923px;
     background: #FFFFFF;
+  }
+
+  .menuLeftnavUl{
+      li:hover{
+        background-color: rgba(78, 159, 91, 0.1) !important;
+      }
+    // li{
+    //     height: 56px;
+    //     line-height: 56px;
+    //     text-align: center;
+
+    //     a{
+    //         display: block;
+    //         width: 100%;
+    //         height: 100%;
+    //         span{
+    //             color: #333;
+    //         }
+    //     }
+    // }
+
+    // .activeClass{
+    //     background: #4E9F5B;
+    //     a{
+    //         span{
+    //             color: #fff;
+    //         }
+    //     }
+    // }
   }
 
 </style>

@@ -92,7 +92,7 @@
                       >
                         <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入文件名称" maxlength="9" show-word-limit></el-input>
                       </el-form-item>
-                      <el-form-item class="btns buttonBox">
+                      <el-form-item class="btns buttonBox" style="height:auto">
                           <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>
                           <el-button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</el-button>                           
                       </el-form-item>
@@ -796,7 +796,7 @@
       }
       .spanBtn:first-child{
           background: #DBDBDB;
-          margin-right: 48px;
+          margin-right: 16px;
       }
 
       .spanBtn:last-child{

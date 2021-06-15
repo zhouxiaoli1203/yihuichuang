@@ -15,7 +15,7 @@
       </section>
       <!-- 服务特点 -->
       <section class="serviceBox">
-        <h1 class="titH1">服务特点</h1>
+        <h1 class="titH1">易绘创服务特点</h1>
         <ul >
           <li>
             <img :src="service1" alt="">
@@ -42,7 +42,7 @@
 
       <!-- 购买流程 -->
       <section class="purchaseBox">
-        <h1 class="titH1">购买流程</h1>
+        <h1 class="titH1">易绘创购买流程</h1>
         <ul>
           <li class="cont">
             <div class="infoBox">
@@ -82,16 +82,14 @@
 
       <!-- 活动banner跳转 -->
       <section class="activityBox">
-        <div class="activity">
-          <h2>盖帽了老baby</h2>
-          <p>有勇气去改变可以改变的事，有胸怀去接受不可改变的事，用智绘去分辨两者的不同</p>
-        </div>
-        <i class="el-icon-right"></i>
+        <a href="">
+          <img src="@/assets/img/index/indexBanner.png" alt="">
+        </a>
       </section>
 
       <!-- 服务领域 -->
       <section class="serviceArea">
-        <h1 class="titH1">服务领域</h1>
+        <h1 class="titH1">易绘创服务领域</h1>
         <ul class="hangye">
           <li>
             <img src="@/assets/img/index/sever1.png" alt="">
@@ -441,7 +439,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     height: 160px;
-    border-radius: 10px;
+    border-radius: 12px;
     background: #666;
     .activity{
       margin-left: 88px;
@@ -588,6 +586,10 @@ export default {
         flex: 1;
         margin: 0 32px;
         cursor: pointer;
+
+        p:hover{
+          color: rgba(78, 159, 91);
+        }
       }
     }
 
@@ -616,6 +618,11 @@ export default {
           display: block; 
           color: #999;
           margin-bottom: 11px;
+        }
+      }
+      li:hover{
+        p{
+          color: rgba(78, 159, 91);
         }
       }
       li:last-child{

@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     <div class="btns">
-                        <button  class="spanBtn" type="primary" @click.prevent="modifyFace" v-button>确定</button>    
+                        <button  class="spa nBtn" type="primary" @click.prevent="modifyFace" v-button>确定</button>    
                         <button  @click.prevent="userClose" class="spanBtn">取消</button>
                     </div>
                 </el-tab-pane>
@@ -622,11 +622,11 @@ export default {
 
     .btns{
         position: absolute;
-        bottom: 43px;
+        bottom: 10px;
         left: 0;
         right: 0;
         text-align: center;
-
+        margin-bottom: 0 !important;
         .spanBtn{
             width: 84px;
             height: 34px;
@@ -639,7 +639,7 @@ export default {
         }
         .spanBtn:first-child{
             background: #4E9F5B;
-            margin-right: 48px;
+            margin-right: 16px;
         }
 
         .spanBtn:last-child{

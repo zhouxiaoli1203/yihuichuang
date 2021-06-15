@@ -36,6 +36,12 @@ time, mark, audio, video, input, button, textarea,select{
     box-sizing: border-box;
 }
 
+
+/* @font-face {
+    font-family: 'Ni7seg';
+    src: url('fonts/Ni7seg.ttf') format('truetype');
+} */
+
 strong, strong span{
     font-weight: bold;
 }

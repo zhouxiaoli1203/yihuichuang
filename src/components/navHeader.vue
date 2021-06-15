@@ -851,6 +851,8 @@ export default {
         .hraderInfo{
             display: flex;
             align-items: center;
+            width: 240px;
+            justify-content: flex-end;
 
             .cart{
               position: relative;

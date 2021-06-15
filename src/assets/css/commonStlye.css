@@ -461,6 +461,7 @@
 }
 .modifyBox .el-tab-pane {
   height: 100%;
+  position: relative;
 }
 .modifyBox .el-tabs--border-card {
   border: none !important;

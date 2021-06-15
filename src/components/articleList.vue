@@ -212,6 +212,7 @@
       margin: 24px;
       border-bottom: 1px solid #D6DAEC;
       padding-bottom: 28px;
+      cursor: pointer;
       .tit{
         display: flex;
         align-items: center;
@@ -235,6 +236,11 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
         overflow: hidden;
+      }
+    }
+    li:hover{
+      p{
+        color: rgba(78, 159, 91);
       }
     }
   }
