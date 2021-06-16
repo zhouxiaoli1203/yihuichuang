@@ -251,7 +251,7 @@
         <div class="fl relation">
           <div class="rel-title">相关产品</div>
           <ul class="card-style rel-products">
-            <li v-for="x in infos.xgcp">
+            <li v-for="x in infos.xgcp" @click="goDetail(x)">
               <div class="image" >
                 <img :src="x.icon" width="100%" height="100%"
                      alt="">
@@ -490,7 +490,13 @@ export default {
     Dialog,
   },
   created() {
-      this.token = this.$store.getters.getToken;
+     this.initFun();
+  },
+  mounted() {},
+  computed: {},
+  methods: {
+      initFun(){
+ this.token = this.$store.getters.getToken;
     this.page_id = this.$route.query.page_id
     this.attrId = this.$route.query.attrId;
     this.design_id = this.$route.query.design_id
@@ -508,10 +514,7 @@ export default {
     if (arr.length > 0) {
       this.attrViews = arr[0].cmpt
     }
-  },
-  mounted() {},
-  computed: {},
-  methods: {
+      },
     getDetails(page, temp) {
       let this_ = this
       if (!this_.$store.state.token) {
@@ -573,6 +576,22 @@ export default {
           //路由传参时push和query搭配使用 ，作用时传递参数
         },
       })
+    },
+    goDetail:function(x){
+        console.log(x,1111);
+        if(this.$store.state.token){
+            this.$router.push({  //核心语句
+              path:'/print/detial',   //跳转的路径
+              query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                  page_id:"1003"
+              }
+            })
+        }else{
+            this.$message({
+                type:"warning",
+                message: '请先登录!'
+            });
+        }
     },
     // onRemove(file, fileList) {
     //   this.params.files = this.params.files.filter((i) => {
@@ -894,6 +913,13 @@ export default {
       
     },
   },
+  watch:{
+       $route: {
+            handler: function(val, oldVal){
+                this.initFun();
+            }
+       }
+  }
 }
 </script>
 <style lang='less' scoped>
@@ -959,6 +985,7 @@ export default {
         border-radius: 0px;
         margin-bottom: 0px;
         background: #fff;
+        cursor: pointer;
         &:not(:last-child){
             border-bottom: 1px solid #ccc;
         }

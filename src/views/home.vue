@@ -10,6 +10,7 @@
 import NavHeader from './../components/navHeader'
 import NavFooter from './../components/navFooter'
 import CommonIcon from './../components/commonIcon'
+import Vue from 'vue'
 export default {
   name: 'home',
   components: {
@@ -23,7 +24,10 @@ export default {
      
     }
   },
+  created(){
+  },
   mounted() {
+  
   },
   methods: {
 
