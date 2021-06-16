@@ -41,7 +41,7 @@
       </section>
 
       <!-- 购买流程 -->
-      <section class="purchaseBox">
+      <!-- <section class="purchaseBox">
         <h1 class="titH1">易绘创购买流程</h1>
         <ul>
           <li class="cont">
@@ -78,11 +78,33 @@
             </div>
           </li>
         </ul>
+      </section> -->
+
+      <!-- 购买流程 -->
+      <section class="buyBox">
+          <h1 class="titH1">易绘创购买流程</h1>
+          <ul>
+            <li>
+              <img src="@/assets/img/index/buy1.png" alt="">
+              <h3>1.选择需求类型</h3>
+              <p>无论是广告物料还是公司定制，我们一应俱全</p>
+            </li>
+            <li>
+              <img src="@/assets/img/index/buy2.png" alt="">
+              <h3>2.在线印刷</h3>
+              <p>根据自身条件选择上传素材或者模板编辑</p>
+            </li>
+            <li>
+              <img src="@/assets/img/index/buy3.png" alt="">
+              <h3>3.线上下单</h3>
+              <p>填写信息线上下单，配送或自提任您选择</p>
+            </li>
+          </ul>
       </section>
 
       <!-- 活动banner跳转 -->
       <section class="activityBox">
-        <a href="">
+        <a href="https://tb.53kf.com/code/client/898b9e862e6720796084c76240029f7b5/1" target="_blank">
           <img src="@/assets/img/index/indexBanner.png" alt="">
         </a>
       </section>
@@ -383,6 +405,45 @@ export default {
   }
 
   // 购买流程
+  .buyBox{
+    .titH1{
+      margin-bottom: 78px;
+    }
+    ul{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      li{
+        width: 404px;
+        height: 302px;
+        background: url(../../assets/img/index/buyBg.png);
+        text-align: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+
+        img{
+          width: 204px;
+          height: 130px;
+          display: inline-block;
+          margin: -22px -72px 16px 0;
+        }
+
+        h3{
+          font-size: 18px;
+          margin: 22px 0;
+        }
+        p{
+          width: 230px;
+          display: inline-block;
+          font-size: 14px;
+          color: #999;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+
+  // 购买流程
   .purchaseBox {
 
     ul{
@@ -434,7 +495,7 @@ export default {
 
   // 活动banner
   .activityBox{
-    margin-top: 88px;
+    margin-top: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;

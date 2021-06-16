@@ -417,11 +417,10 @@ export default {
       this.$store.state.publicHome = '/'
       this.$store.state.menuLeft = ''
     }
-
-
     // 购物车数量
     this.gouwucheNum();
 
+    console.log(this.$store.state.loginPorp);
 
   },
   beforeDestroy() {
@@ -430,12 +429,10 @@ export default {
     this.sms_token=''
   },
   methods: {
-    dddff(url){
-      console.log(url);
-    },
     // 点击用户协议
     userArge(){
       this.dialogTableVisible = false
+      this.$store.state.loginPorp = false; //登录框
       this.$router.push("/about/aboutUser");
     },
     // 获取个人信息
@@ -447,8 +444,6 @@ export default {
 
     // 获取购物车数量
     gouwucheNum(){
-      console.log(111);
-      console.log(this.$store.getters.getCartNum);
       this.cartNum = this.$store.getters.getCartNum
     },
 
@@ -541,7 +536,6 @@ export default {
 
     // 登录
     userLoginsub(userLoginForm){
-      console.log(111)
       this.$refs[userLoginForm].validate((valid) => {
         if (valid) {
           let type = this.modeNum
@@ -564,6 +558,7 @@ export default {
               this.$store.commit('setToken',res.data.token)
               this.$store.commit('setUserId',res.data.id)
               this.dialogTableVisible=false
+              this.$store.state.loginPorp = false; //登录框
               this.userInfoGet(res.data.token) //登录成功获取个人信息
               this.GoodsCartNum(res.data.token) //获取购物车的数量
               this.$refs[userLoginForm].resetFields();
@@ -575,9 +570,6 @@ export default {
               });
             }
           })
-        } else {
-          console.log('error submit!!');
-          return false;
         }
       });
     },
@@ -600,9 +592,6 @@ export default {
               });
             }
           })
-        } else {
-          console.log('error submit!!');
-          return false;
         }
       });
 
@@ -632,9 +621,6 @@ export default {
               });
             }
           })
-        } else {
-          console.log('error submit!!');
-          return false;
         }
       });
 
@@ -672,9 +658,6 @@ export default {
               });
             }
           })
-        } else {
-          console.log('error submit!!');
-          return false;
         }
       });
     },
@@ -687,6 +670,7 @@ export default {
           clearInterval(this.timer)
           this.loginType = 1
           this.dialogTableVisible=false
+          this.$store.state.loginPorp = false; //登录框
           this.userInfoGet(this.$store.getters.getToken) //倒计时结束后获取个人信息
           this.GoodsCartNum(this.$store.getters.getToken) //获取购物车的数量
         }
@@ -694,10 +678,6 @@ export default {
     },
 
     handleSelect(index) {
-      console.log(index);
-      // if(index=='/news-1.html' || index=='/help.html' || index=='/about.html'){
-      //   return  window.location.href=index
-      // }
       this.activeIndex = index;
       this.$store.state.currentIndex = index; //导航高亮
       this.$store.state.publicHome = index; //记录跳转路径
@@ -710,6 +690,7 @@ export default {
       this.resetClick = 0
       this.clearAllForm();
       this.sms_token=''
+      this.$store.state.loginPorp = false; //登录框
     },
 
     // 密码登录/手机号登录
@@ -754,8 +735,6 @@ export default {
     },
     getPath () {  //解决浏览器后退导航高亮问题
       let href = this.$route.path
-      console.log(this.$route);
-      console.log(href +'-----------934');
       let hrefUrl =  href.split('/')[1]
       if(hrefUrl!='detail'){
           this.activeIndex = '/'+ hrefUrl
@@ -791,6 +770,10 @@ export default {
     changGetgouwucheNum: function () {
       return this.$store.getters.getCartNum
     },
+
+    loginState:function(){
+      return this.$store.state.loginPorp
+    },
     // publicHome: function () {
     //     return this.$store.state.publicHome //监听左侧导航
     // }
@@ -806,8 +789,11 @@ export default {
       this.userinfoFn()
     },
     'changGetgouwucheNum':function(val){
-      console.log(val);
       this.gouwucheNum()
+    },
+    'loginState':function(val){  //监听登录框
+    console.log(val +'===============819');
+      this.dialogTableVisible = val
     },
     '$route': 'getPath'  //监听浏览器后退导航高亮问题
   }

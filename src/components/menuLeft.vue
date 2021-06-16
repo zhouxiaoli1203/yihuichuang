@@ -173,7 +173,9 @@ export default {
                     localStorage.removeItem('userId');
                     this.$store.state.userId = '';
                     localStorage.removeItem('userInfo');
-                    this.$store.state.userInfo = '';       
+                    this.$store.state.userInfo = '';    
+                    localStorage.removeItem('cartNum');
+                    this.$store.state.cartNum = 0;       
                     this.$store.state.currentIndex="/",
                     this.$router.replace('/');
                     this.$message({

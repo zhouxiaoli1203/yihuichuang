@@ -32,9 +32,8 @@
                         </el-dropdown>
                       </div>
                     </div>
-                    <!-- <h3>{{item.call + item.ext}}</h3> -->
                     <div class="nameH3">
-                      <h3>{{item.call}}</h3>
+                      <h3 :title="item.call">{{item.call}}</h3>
                       <p>{{item.ext}}</p>
                     </div>
                     <span>{{item.upload_time  | formatDate_('yyyy-MM-dd hh:mm:ss') }}</span>

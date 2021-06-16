@@ -69,29 +69,35 @@
       </div>
       <div class="part-line"></div>
       <div class="design-content">
-        <ul class="clearfix">
-          <li v-for="(x,index) in searchBtns"
+        <div v-if="templates.length!=0">
+          <ul class="clearfix">
+            <li v-for="(x,index) in searchBtns"
               class="fl cursor_p"
               @click="changeSort(x)"
               :style='{color:x.id==""?"#666666":x.id=="hot"?"#FF3333":"#4E9F5B"}'>{{x.name}}<i><img :src='"@/assets/img/design/search_icon"+(index+1)+".png"'
-                   alt=""></i></li>
-        </ul>
-        <ul class="displayFl design-content-item">
-          <li v-for="x in templates"
-              @click="openCkt(x)">
-            <img :src="`http:${x.designTemplateImageUrl}`"
-                 alt="">
-            <h5 class="mt15 t_a_c">{{x.templateTitle}}</h5>
-          </li>
-        </ul>
-        <el-pagination background
-                       layout="prev, pager, next"
-                        :page-size="12"
-                       :current-page="current"
-                       @size-change="handleSizeChange"
-                       @current-change="handleCurrentChange"
-                       :total="total">
-        </el-pagination>
+                    alt=""></i></li>
+          </ul>
+          <ul class="displayFl design-content-item">
+            <li v-for="x in templates"
+                @click="openCkt(x)">
+              <img :src="`http:${x.designTemplateImageUrl}`"
+                  alt="">
+              <h5 class="mt15 t_a_c">{{x.templateTitle}}</h5>
+            </li>
+          </ul>
+          <el-pagination background
+            layout="prev, pager, next"
+            :page-size="12"
+            :current-page="current"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :total="total">
+          </el-pagination>
+        </div>
+        <div v-if="noCont==true" class="NoCont" style="margin-top:83px;margin-bottom:109px">
+          <img src="@/assets/img/common/noCont.png" alt="">
+          <span>暂无数据</span>
+        </div>
       </div>
     </div>
     <!-- 详情页面的入口选择弹框 -->
@@ -125,8 +131,8 @@ export default {
   },
   data() {
     return {
-        checkpop1:false,
-        checkpop2:false,
+      checkpop1:false,
+      checkpop2:false,
       levelist:[],
       leve2list:[],
       templates:[],
@@ -146,13 +152,14 @@ export default {
         { name: '最新上传', id: 'new' },
       ],
       rkconfig:{
-          width: '600px',
+        width: '600px',
         title: '',
         center: false,
         btnTxt: [],
       },
       design_id:"",
-      rukouList:[]
+      rukouList:[],
+      noCont:false
     }
   },
   components: {Dialog},
@@ -296,6 +303,12 @@ export default {
             this_.templates = res.data.list;
             this_.current = res.data.page;
             this_.total = res.data.count;
+
+            if(res.data.list.length==0){
+              this.noCont = true
+            }else{
+              this.noCont = false
+            }
           }
         })
     },

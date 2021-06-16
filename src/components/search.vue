@@ -2,10 +2,18 @@
     <div class="searchBox">
         <div class="input">
             <div class="inputInner">
-                <input type="text" v-model="input"   placeholder="设计模板/在线印刷" @focus="searchFocus"  @blur="searchBlur" @keyup.enter="searchBtn($event)">
+                <el-input
+                  placeholder="设计模板/在线印刷"
+                  v-model="input"
+                  @focus="searchFocus"  
+                  @blur="searchBlur" 
+                  @keyup.enter="searchBtn($event)"
+                  @clear="inputClick"
+                  clearable>
+                </el-input>
+
                 <i class="el-icon-search"  @click="searchBtn"></i>
             </div>
-            <!-- <el-button type="primary" @click="searchBtn">搜索</el-button> -->
         </div>
         <div class="search" v-if="searchList==true">
             <div class="link" v-if="historyList!=''">
@@ -13,9 +21,9 @@
             </div>
             <ul class="list">
             <template v-for="item in hotList">
-                <li>
-                <span :class="item.sty">{{item.val}}</span>
-                <p>{{item.tit}}</p>
+                <li @click="searchKey(item.tit)" @mousedown="preventBlur($event)">
+                  <span :class="item.sty">{{item.val}}</span>
+                  <p>{{item.tit}}</p>
                 </li>
             </template>
             </ul>
@@ -26,6 +34,7 @@
 <script>
 export default {
   name: 'orderInfo',
+  components: {},
   data() {
     return {
         input: '',
@@ -65,46 +74,58 @@ export default {
         historyList:[], //历史搜索记录
     }
   },
-  components: {},
-  created() {},
+  created() {
+    let keyword = this.$route.query.keyword
+    this.input = keyword
+  },
   mounted() {},
   methods: {
     searchFocus(){ //搜索获取焦点
-        this.searchList=true
-        this.getSearchArr() 
+      this.searchList=true
+      this.getSearchArr() 
     },
     searchBlur(){  //搜索失去焦点
-        this.searchList=false
+      this.searchList=false
     },
     // 点击搜索
     searchBtn(e){
-        let val = this.input
-        if(val=='') return
-        this.setHistoryItems(val)
+      let val = this.input
+      if(val=='') return
+      this.setHistoryItems(val)
+      let url = this.$route.path
+      if(url=='/'){
         this.$router.push({  
-            path: '/index/indexSearch',   
-            name: 'indexSearch',  
-            query: {  
-              keyword:val,
-            }
-        })  
+          path: '/index/indexSearch',   
+          name: 'indexSearch',  
+          query: {  
+            keyword:val,
+          }
+        }) 
+      }else{
+        this.$emit('func',val)
+      }
+      this.input = val
     },
     // 点击搜索记录
     searchKey(val){
-        console.log(111)
+      let url = this.$route.path
+      if(url=='/'){
         this.$router.push({  
-            path: '/index/indexSearch',   
-            name: 'indexSearch',  
-            query: {  
-              keyword:val,
-            }
+          path: '/index/indexSearch',   
+          name: 'indexSearch',  
+          query: {  
+            keyword:val,
+          }
         })
-        this.searchList=false  
+      }else{
+        this.$emit('func',val)
+      }
+      this.input = val
+      this.searchList=false  
     },
-
     preventBlur(event){
-        console.log(event)
-        event.preventDefault();
+      console.log(event)
+      event.preventDefault();
     },
 
     // 存入历史搜索记录
@@ -157,9 +178,14 @@ export default {
 
     // 循环搜索历史
     getSearchArr(){
-        let list= JSON.parse(localStorage.getItem('historyItems'));//取
-        this.historyList = list?list:[]
-    }
+      let list= JSON.parse(localStorage.getItem('historyItems'));//取
+      this.historyList = list?list:[]
+    },
+
+    inputClick(val){
+      this.$emit('func',val)
+      this.searchList=true  
+    },
   },
 }
 </script>

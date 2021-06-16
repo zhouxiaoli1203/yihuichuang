@@ -63,7 +63,7 @@
                         background
                         @current-change="handleCurrentChange"
                         layout="prev, pager, next"
-                        :page-size="13"
+                        :page-size="limit"
                         :total="count">
                     </el-pagination>
                 </div>
@@ -263,8 +263,7 @@
             }else{
               url = "Addr/update"
             }
-            this.$post("post",url,data)
-            .then((res)=>{
+            this.$post("post",url,data).then((res)=>{
               if(res.code==1){
                 this.$message({
                   message:res.info,
@@ -282,9 +281,6 @@
                 });
               }
             })
-          } else {
-            console.log('error submit!!');
-            return false;
           }
         });
       },
@@ -324,12 +320,6 @@
             }else{
               this.noCont = false
             }
-
-          }else{
-            this.$message({
-              message:res.info,
-              type: 'warning'
-            });
           }
         })
       },

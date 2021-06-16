@@ -13,6 +13,7 @@ export default new Vuex.Store({
       userId:'',
       userInfo:'',
       cartNum:0,
+      loginPorp:false,
     },
 
     //操作数据，唯一的通道是mutations/*配置全局函数*/
@@ -64,9 +65,10 @@ export default new Vuex.Store({
       },
 
       getCartNum(state) { 
+        console.log(state);
         if (!state.cartNum) {
           let cartNum = localStorage.getItem('cartNum')
-          state.cartNum = cartNum?cartNum:''
+          state.cartNum = cartNum?cartNum:0
         }
         return state.cartNum
       },

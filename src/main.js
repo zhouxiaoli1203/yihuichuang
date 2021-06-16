@@ -18,7 +18,7 @@ import './assets/css/commonStlye.less';
 //全局公用函数
 import Fns from './utils/common'
 Object.keys(Fns).forEach(key => {
-    Vue.prototype[key] = Fns[key]
+  Vue.prototype[key] = Fns[key]
 })
 import Directives from './utils/directives'
 import {CONSTANT} from './utils/constant'

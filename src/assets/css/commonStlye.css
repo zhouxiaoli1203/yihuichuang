@@ -815,3 +815,7 @@
   max-height: 450px;
   overflow-y: scroll;
 }
+.searchBox .el-input__inner {
+  padding: 0;
+  border: none;
+}

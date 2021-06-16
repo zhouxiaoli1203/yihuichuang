@@ -14,7 +14,6 @@
                 <span>编辑</span>
                 <i class="el-icon-arrow-down el-icon-caret-bottom"></i>
                 <el-dropdown-menu slot="dropdown"  class="editBox wenjianEdit">
-                  <el-dropdown-item command="重命名">重命名</el-dropdown-item>
                   <el-dropdown-item command="删除">删除</el-dropdown-item>
                   <el-dropdown-item command="打印">打印</el-dropdown-item>
                   <!-- <el-dropdown-item command="下载">下载</el-dropdown-item> -->
@@ -46,8 +45,8 @@
                         <div class="info">
                           <img :src="file1" alt="">
                           <div class="fileName">
-                            <el-input v-model="item.call" placeholder="请输入内容" v-if="nameIndex==index" @change="namechange($even,index)"></el-input>
-                            <p v-else>{{item.call}}</p>
+                            <el-input v-model="item.call" placeholder="请输入内容" v-if="nameIndex==index" @change="nameChange($event,item.id)" v-clickoutside="handleClose_1"></el-input>
+                            <p v-else :title="item.call">{{item.call}}</p>
                             <span>{{item.ext}}</span>
                           </div>
                         </div>
@@ -55,8 +54,8 @@
                         <span class="kb" v-else>{{Number(item.size / 1024 / 1024).toFixed(1)}}MB</span>
                         <p class="time">{{item.upload_time | formatDate_('yyyy-MM-dd hh:mm:ss') }}</p>
                       </el-checkbox>
-                      <button class="spanBtn" type="primary" @click.prevent="nameClick(index)">重命名</button> 
-                      <button class="spanBtn" type="primary" @click.prevent="downImgClick(item.url)">下载</button> 
+                      <button id="chongmingming" class="spanBtn Btn1" type="primary" @click.prevent="nameClick(index)">重命名</button> 
+                      <button class="spanBtn Btn1" type="primary" @click.prevent="downImgClick(item.url)">下载</button> 
                     </div>
                   </el-checkbox-group>
                 </div>
@@ -84,139 +83,120 @@
       <i class="el-icon-close" @click="userClose"></i>
       <div class="tabNav">
           <el-tabs tab-position="left" type="border-card" style="height: 100%;" v-model="activeName">
-              <el-tab-pane label="重命名" name="重命名">
-                  <div class="editInput">
-                      <h4>编辑文件信息</h4>
-                  </div> 
-                  <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
-                      <el-form-item
-                        prop="nickname"
-                        :rules="[
-                            { required: true, message: '文件名称不能为空'},
-                        ]"
-                      >
-                        <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入文件名称" maxlength="9" show-word-limit></el-input>
-                      </el-form-item>
-                      <el-form-item class="btns buttonBox" style="height:auto">
-                          <el-button  @click.prevent="userClose" class="spanBtn">取消</el-button>
-                          <el-button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</el-button>                           
-                      </el-form-item>
-                  </el-form>
-              </el-tab-pane>
-              <el-tab-pane label="打印" name="打印">
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
-                  <el-form-item>
-                    <el-cascader class="width100"
-                      size="large"
-                      :options="options"
-                      placeholder="请选择省市区"
-                      @change="cityChange">
-                    </el-cascader>
-                  </el-form-item>
-                  <el-form-item label="取件地址" prop="region">
-                    <el-select v-model="ruleForm.region" placeholder="请选择店铺名称" class="width100">
-                      <el-option label="区域一" value="shanghai"></el-option>
-                      <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                  </el-form-item>
-                  <el-form-item class="btns">
-                      <button  @click.prevent="userClose" class="spanBtn">取消</button>
-                      <button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</button>                           
-                  </el-form-item>
-                </el-form>
-                <div class="wenjianDayin xiazaiSection">
-                  <div class="editInput">
-                      <h3>文件详情</h3>
-                      <p>(共打印{{checkedCities.length}})</p>
-                  </div> 
-                  <section class="sectionUL">
-                    <ul class="wenjianLIst">
-                      <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>
-                      <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>
-                          <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>
-                      <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>    <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>
-                      <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>    <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>
-                      <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>    <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>
-                      <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>    <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>
-                      <li>
-                        <div class="name">
-                          <img :src="file1" alt="">
-                          <p>梦里花落知多少</p>
-                        </div>
-                        <span>2020-02-02 22:22:22</span>
-                      </li>
-                    </ul>
-                  </section>
-                </div>
-  
-              </el-tab-pane>
-              <!-- <el-tab-pane label="下载" name="下载">
+            <el-tab-pane label="打印" name="打印">
+              <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+                <el-form-item>
+                  <el-cascader class="width100"
+                    size="large"
+                    :options="options"
+                    placeholder="请选择省市区"
+                    @change="cityChange">
+                  </el-cascader>
+                </el-form-item>
+                <el-form-item label="取件地址" prop="region">
+                  <el-select v-model="ruleForm.region" placeholder="请选择店铺名称" class="width100">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item class="btns">
+                    <button  @click.prevent="userClose" class="spanBtn">取消</button>
+                    <button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</button>                           
+                </el-form-item>
+              </el-form>
+              <div class="wenjianDayin xiazaiSection">
+                <div class="editInput">
+                    <h3>文件详情</h3>
+                    <p>(共打印{{checkedCities.length}})</p>
+                </div> 
+                <section class="sectionUL">
+                  <ul class="wenjianLIst">
+                    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>
+                    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>
+                        <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>
+                    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>
+                    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>
+                    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>
+                    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>
+                    <li>
+                      <div class="name">
+                        <img :src="file1" alt="">
+                        <p>梦里花落知多少</p>
+                      </div>
+                      <span>2020-02-02 22:22:22</span>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+
+            </el-tab-pane>
+            <!-- <el-tab-pane label="下载" name="下载">
                 <div class="wenjianDayin  xiazaiWenjianDayin">
                   <section class="sectionUL">
                     <ul class="wenjianLIst">
@@ -333,9 +313,6 @@
         checkedCities:[], //绑定默认选中
         userPublic: false, 
         options: regionData,
-        nicknameForm: {
-          nickname: ''
-        },
         activeName:'重命名',
         ruleForm: {
           region: '',
@@ -351,7 +328,7 @@
         limit:20,
         total:0,
         noCont:false,
-        nameIndex:0,
+        nameIndex:-1,
       }
     },
     created(){
@@ -490,43 +467,19 @@
         console.log(val)
       },
 
+      
+      handleClose_1(e){
+        let mingchen = e.path[0].innerHTML
+        if(mingchen!='重命名'){
+          this.nameIndex = -1        
+        }    
+      },
+
 
       // 点击重命名
       nameClick(index){
-        console.log(index);
+        console.log(2);
         this.nameIndex = index
-      },
-      // 修改文件名
-      nicknameSubmit(formName) {
-        this.$refs[formName].validate((valid) => {
-            if (valid) {
-                this.$post("post","user/infoModify",{
-                    token:this.token,
-                    face:this.face,
-                    nickname:this.nicknameForm.nickname
-                })
-                .then((res)=>{
-                    let data = res.data
-                    if(data.code==1){
-                        this.nickname = data.data.nickname
-                        this.face = data.data.face
-                        this.$message({
-                            message:data.info,
-                            type: 'success'
-                        });
-                        this.$refs[formName].resetFields();
-                    }else{
-                        this.$message({
-                            message:data.info,
-                            type: 'warning'
-                        });
-                    }
-                })
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
-        });
       },
 
       // 获取文件列表
@@ -620,7 +573,32 @@
       // 下载文件
       downImgClick(url){
         window.open(url,'download');
-      }
+      },
+
+      // 修改文件
+      nameChange(val,id){
+        if(val==''){
+          this.$message({
+            message:'名称不能为空',
+            type: 'warning'
+          });
+          return
+        }
+        this.$post("post","Prints/update",{
+            token:this.token,
+            id,
+            call:val
+          }).then((res)=>{
+            if(res.code==1){
+              // this.PrintsSelect(this.page,this.limit)
+              this.$message({
+                message:'修改成功',
+                type: 'success'
+              });
+              this.nameIndex = -1
+            }
+          })
+      },
 
     }
   }
@@ -685,14 +663,15 @@
   border-bottom: 1px solid #F5F6FA;
   padding-right: 148px;
   span:first-child{
-    width: 60%;
+    width: 55%;
+    text-align: left;
   }
-  span:nth-child(2){
-    width: 20%;
-  }
-  span:last-child{
-    width: 20%;
-    text-align: right;
+  // span:nth-child(2){
+  //   width: 28%;
+  // }
+  span{
+    width: 28%;
+    text-align: center;
   }
 }
 .checkboxBox{
@@ -711,7 +690,7 @@
   .info{
     display: flex;
     align-items: center;
-    width: 52%;
+    width: 344px;
     img{
       width: 28px;
       height: 28px;
@@ -722,24 +701,32 @@
   .fileName{
     display: flex;
     align-items: center;
+    flex: 1;
+    overflow: hidden;
+
+    p{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
   .kb{
-    width: 20%;
+    // width: 20%;
   }
   .time{
-    width: 20%;
+    // width: 20%;
     text-align: right;
   }
   .kb, .time{
     color: #666;
     font-size: 12px;
   }
-  button{
+  .Btn1{
     cursor: pointer;
     margin: 0 24px;
     color: #4E9F5B;
   }
-  button:hover{
+  .Btn1:hover{
     text-decoration: underline;
   }
 }

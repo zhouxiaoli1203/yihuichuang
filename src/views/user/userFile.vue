@@ -16,24 +16,30 @@
                 <li>
                    <router-link :to="{path:'/user/userPicture'}"  class="link">
                     <img :src="img" alt="">
-                    <span>新增22</span>
+                    <span v-if="info.imgNewCount!=0">新增{{info.imgNewCount}}</span>
                   </router-link>
                   <p>图片</p>
                 </li>
                 <li>
                   <router-link :to="{path:'/user/userFiledown'}"  class="link">
                     <img :src="file" alt="">
-                    <span>新增22</span>
+                    <span v-if="info.docNewCount!=0">新增{{info.docNewCount}}</span>
                   </router-link>
                   <p>文件</p>
                 </li>
               </ul>
 
+              <!-- 1024m = 1G   1M = 1024KB -->
               <!-- 储存空间 -->
               <div class="Storage">
-                <p>32G/100G</p>
+                <p>
+                  <span v-if="info.size/1024>=1024">{{Number(info.size/1024/1024).toFixed(2)}}M</span>  
+                  <span v-else-if="info.size/1024/1024>=1024">{{Number(info.size/1024/1024/1024).toFixed(2)}}G</span>
+                  <span v-else>{{Number(info.size/1024).toFixed(1)}}KB</span> /
+                  <span >{{info.space/1024/1024/1024}}G</span>
+                </p>
                 <div class="pro">
-                  <el-progress :percentage="32" :show-text="false"></el-progress>
+                  <el-progress :percentage="percentage" :show-text="false"></el-progress>
                 </div>
               </div>
             </div>
@@ -53,12 +59,31 @@
       return {     
         img: require('../../assets/img/user/img.png'), 
         file: require('../../assets/img/user/file.png'), 
+        info:'',
+        percentage:0,
       }
+    },
+    created(){
+      this.PrintsInfo();
     },
     methods: {
       format(percentage) {
         return percentage === 100 ? '满' : `${percentage}%`;
+      },
+
+      // 获取文档名称
+      PrintsInfo(){
+        this.$post("post",'Prints/info',{
+          token:this.$store.getters.getToken,
+        }).then((res)=>{
+          if(res.code==1){
+            this.info = res.data
+            this.percentage = res.data.size/res.data.space*100
+            console.log(res.data.size/res.data.space*100);
+          }
+        })
       }
+
     }
   }
 </script>

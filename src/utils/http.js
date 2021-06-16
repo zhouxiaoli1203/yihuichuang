@@ -6,6 +6,10 @@ import axios from 'axios';
 import qs from 'qs';
 import {Message} from 'element-ui';
 import Vue from 'vue';
+
+import Fns from './common'
+
+
 let url = window.location.href
 let isApp, isWechat, yhcmessage;
 // 错误拦截并上报，但是ajax请求promise异步异常无法捕获
@@ -69,12 +73,20 @@ axios.interceptors.response.use(
             // token_invalid = false;
             return Promise.resolve(response);
         } else {
+            console.log(response.data.code +'-------------------68');
+            // 登录账号过期
+            let code = response.data.code
+            if(code==-100){
+                Fns.tokenInvalid();
+            }
+
             yhcmessage(response.data.info);
             // if (response.data.code == '20001') {
             //     if (!token_invalid) {
             //         localStorage.removeItem('yhc_token');
             //     }
             //     token_invalid = true;
+            
             // }
             return Promise.reject(response);
         }
@@ -121,20 +133,6 @@ export function yhcReq(methods, url, params,file,yhc_f_a, needCatch) {/*  */
             resolve(res.data);
         }).catch(err => {
             console.log(err)
-            // 登录账号过期
-            let code = err.data.code
-            console.log(code)
-            if(code==-100){
-                // 清空token，userId
-                localStorage.removeItem('token');
-                this.$store.state.token = '';
-                localStorage.removeItem('userId');
-                this.$store.state.userId = '';
-                localStorage.removeItem('userInfo');
-                this.$store.state.userInfo = '';       
-                this.$store.state.currentIndex="/"
-                this.$router.replace('/');
-            }
 
             console.log(this.openFullScreen());
 

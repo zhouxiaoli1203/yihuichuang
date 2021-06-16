@@ -2,6 +2,10 @@ var qiniu = require('qiniu-js');
 
 import { uploadChunk } from 'qiniu-js/esm/api';
 import Vue from 'vue'
+
+import store from '@/store/store'
+import router from '@/router/index'
+
 const Fns = {
     formatDate(date, fmt) {
         if (/(y+)/.test(fmt)) {
@@ -44,6 +48,24 @@ const Fns = {
               })
         })
     },
+
+
+    // 登录过期时
+    tokenInvalid(){
+        console.log('过期了');
+        localStorage.removeItem('token');
+        store.state.token = '';
+        localStorage.removeItem('userId');
+        store.state.userId = '';
+        localStorage.removeItem('userInfo');
+        store.state.userInfo = '';  
+        localStorage.removeItem('cartNum');
+        store.state.cartNum = 0;      
+        store.state.currentIndex="/" 
+        router.replace('/');
+        store.state.loginPorp=true
+    },
+
     /* 七牛插件公用的函数：
  * 图片上传前的钩子,对图片进行限制
  */
