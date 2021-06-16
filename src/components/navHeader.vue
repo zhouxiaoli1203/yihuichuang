@@ -36,7 +36,7 @@
             <div class="hraderInfo">
                 <div class="cart cursor_p" @click="goCart">
                   <img :src="cart" alt="">
-                  <span>99</span>
+                  <span v-if="cartNum!=0">{{cartNum}}</span>
                 </div>
                 <div class="head cursor_p" @click="userLnk" v-if="token!=''">
                   <div class="imgp">
@@ -388,6 +388,7 @@ export default {
       timeSend:'60', //验证码倒计时
       timeShow:1, //0显示倒计时，1不显示倒计时
       timer: null, //首先我在data函数里面进行定义定时器名称：
+      cartNum:0, //购物车的数量
     }
   },
   created(){
@@ -416,6 +417,12 @@ export default {
       this.$store.state.publicHome = '/'
       this.$store.state.menuLeft = ''
     }
+
+
+    // 购物车数量
+    this.gouwucheNum();
+
+
   },
   beforeDestroy() {
     clearInterval(this.timer);        
@@ -438,6 +445,16 @@ export default {
       this.nickname = userInfo.nickname
     },
 
+    // 获取购物车数量
+    gouwucheNum(){
+      console.log(111);
+      console.log(this.$store.getters.getCartNum);
+      this.cartNum = this.$store.getters.getCartNum
+    },
+
+
+ 
+
     // 获取验证码倒计时
     timeSendNumber() {
       this.timer = setInterval(()=>{
@@ -459,11 +476,19 @@ export default {
           this.face = res.data.face,
           this.nickname = res.data.nickname
           this.$store.commit('setUserInfo',res.data)
-        }else{
-          this.$message({
-            message:res.info,
-            type: 'warning'
-          });
+        }
+      })
+    },
+
+
+    // 获取购物车的数量
+    GoodsCartNum(token){
+        this.$post("post",'Goods/cartNum',{
+        token,
+      }).then((res)=>{
+        if(res.code==1){
+          this.cartNum = res.data.count;
+          this.$store.commit('setCartNum',res.data.count)
         }
       })
     },
@@ -540,6 +565,7 @@ export default {
               this.$store.commit('setUserId',res.data.id)
               this.dialogTableVisible=false
               this.userInfoGet(res.data.token) //登录成功获取个人信息
+              this.GoodsCartNum(res.data.token) //获取购物车的数量
               this.$refs[userLoginForm].resetFields();
               this.sms_token=''
             }else{
@@ -662,6 +688,7 @@ export default {
           this.loginType = 1
           this.dialogTableVisible=false
           this.userInfoGet(this.$store.getters.getToken) //倒计时结束后获取个人信息
+          this.GoodsCartNum(this.$store.getters.getToken) //获取购物车的数量
         }
       },1000)
     },
@@ -760,6 +787,10 @@ export default {
     changGetUserInfo: function () {
       return this.$store.getters.getUserInfo
     },
+
+    changGetgouwucheNum: function () {
+      return this.$store.getters.getCartNum
+    },
     // publicHome: function () {
     //     return this.$store.state.publicHome //监听左侧导航
     // }
@@ -773,6 +804,10 @@ export default {
     },
     'changGetUserInfo':function(val){
       this.userinfoFn()
+    },
+    'changGetgouwucheNum':function(val){
+      console.log(val);
+      this.gouwucheNum()
     },
     '$route': 'getPath'  //监听浏览器后退导航高亮问题
   }

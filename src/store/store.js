@@ -11,7 +11,8 @@ export default new Vuex.Store({
       menuLeft:'',
       token:'',
       userId:'',
-      userInfo:''
+      userInfo:'',
+      cartNum:0,
     },
 
     //操作数据，唯一的通道是mutations/*配置全局函数*/
@@ -28,6 +29,13 @@ export default new Vuex.Store({
         state.userId = userId 
         localStorage.setItem('userId',userId) //同步存储token至localStorage
       },
+
+      // 购物车的数量
+      setCartNum(state, cartNum) {
+        state.cartNum = cartNum
+        localStorage.setItem('cartNum',cartNum)
+      },
+
     },
     getters : {
       //获取token方法
@@ -53,6 +61,14 @@ export default new Vuex.Store({
           state.userInfo = info?info:''
         }
         return state.userInfo
+      },
+
+      getCartNum(state) { 
+        if (!state.cartNum) {
+          let cartNum = localStorage.getItem('cartNum')
+          state.cartNum = cartNum?cartNum:''
+        }
+        return state.cartNum
       },
     },
 

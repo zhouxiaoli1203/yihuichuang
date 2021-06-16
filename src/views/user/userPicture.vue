@@ -32,7 +32,11 @@
                         </el-dropdown>
                       </div>
                     </div>
-                    <h3>{{item.name}}</h3>
+                    <!-- <h3>{{item.call + item.ext}}</h3> -->
+                    <div class="nameH3">
+                      <h3>{{item.call}}</h3>
+                      <p>{{item.ext}}</p>
+                    </div>
                     <span>{{item.upload_time  | formatDate_('yyyy-MM-dd hh:mm:ss') }}</span>
                   </li>
                 </ul>
@@ -67,12 +71,12 @@
                   </div> 
                   <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
                       <el-form-item
-                        prop="nickname"
+                        prop="callName"
                         :rules="[
                             { required: true, message: '照片名称不能为空'},
                         ]"
                       >
-                        <el-input type="text" v-model="nicknameForm.nickname" autocomplete="off" placeholder="请输入照片名称" maxlength="9" show-word-limit></el-input>
+                        <el-input type="text" v-model="nicknameForm.callName" autocomplete="off" placeholder="请输入照片名称" maxlength="9" show-word-limit></el-input>
                       </el-form-item>
                       <el-form-item class="btns buttonBox" style="margin-bottom:0;height:auto">
                         <el-button  @click="userClose" class="spanBtn">取消</el-button>
@@ -104,13 +108,6 @@
                 </el-form>
                 <img :src="downImg" alt="" class="phoneLook">
               </el-tab-pane>
-              <el-tab-pane label="下载" name="下载">
-                  <img :src="downImg" alt="" class="phoneLook xiazai"> 
-                  <div class="btns">
-                    <button  @click.prevent="userClose" class="spanBtn">取消</button>
-                    <button  class="spanBtn" type="primary" @click.prevent="downImgClick(downImg)">确定</button> 
-                  </div>
-              </el-tab-pane>
           </el-tabs>
       </div>
     </section>
@@ -132,7 +129,7 @@
         userPublic: false, 
         options: regionData,
         nicknameForm: {
-          nickname: ''
+          callName: ''
         },
         activeName:'编辑',
          ruleForm: {
@@ -151,6 +148,7 @@
         wenjianList:[],
         downImg:'',  //下载路径
         noCont:false,
+        fileId:0,
       }
     },
     created(){
@@ -243,14 +241,21 @@
         this.PrintsSelect(val,this.limit);
       },
       handleCommand(command,id,url) {
+        if(command=='下载'){
+          window.open(url,'download');
+        }
+
         if(command=='删除'){
           this.confirm_pop("此操作将永久删除该文件, 是否继续?").then(res=>{
             this.PrintsDelete(id);
           })
-        }else{
+        }
+
+        if(command=='编辑' || command=='打印'){
           this.downImg = url
           this.userPublic = true
           this.activeName = command
+          this.fileId = id
         }
       },
 
@@ -286,38 +291,24 @@
       nicknameSubmit(formName) {
         this.$refs[formName].validate((valid) => {
             if (valid) {
-                this.$post("post","user/infoModify",{
+              console.log(this.callName);
+                this.$post("post","Prints/update",{
                     token:this.token,
-                    face:this.face,
-                    nickname:this.nicknameForm.nickname
+                    id:this.fileId,
+                    call:this.nicknameForm.callName
+                }).then((res)=>{
+                  if(res.code==1){
+                    this.PrintsSelect(this.page,this.limit)
+                    this.$message({
+                      message:'修改成功',
+                      type: 'success'
+                    });
+                    this.userPublic = false
+                  }
                 })
-                .then((res)=>{
-                    let data = res.data
-                    if(data.code==1){
-                        this.nickname = data.data.nickname
-                        this.face = data.data.face
-                        this.$message({
-                            message:data.info,
-                            type: 'success'
-                        });
-                        this.$refs[formName].resetFields();
-                    }else{
-                        this.$message({
-                            message:data.info,
-                            type: 'warning'
-                        });
-                    }
-                })
-            } else {
-                console.log('error submit!!');
-                return false;
             }
         });
       },
-      // 下载图片
-      downImgClick(url){
-        window.open(url,'download');
-      }
     }
   }
 </script>
@@ -391,13 +382,23 @@
         }
       }
 
+      .nameH3{
+        margin-bottom: 4px;
+        line-height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
       h3{
         font-weight: bold;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 1;
         overflow: hidden;
-        margin-bottom: 4px;
+        text-overflow: ellipsis;
+        white-space:nowrap;
+      }
+
+      p{
+        font-weight: bold;
       }
 
       span{

@@ -172,11 +172,27 @@ export default {
                 type: 'success',
                 message: '删除成功',
               })
+
+              this.GoodsCartNum();
             }
           })
         })
         .catch(() => {})
     },
+
+    // 获取购物车的数量
+    GoodsCartNum(){
+      this.$post("post",'Goods/cartNum',{
+        token:this.$store.getters.getToken,
+      }).then((res)=>{
+        if(res.code==1){
+          this.cartNum = res.data.count;
+          this.$store.commit('setCartNum',res.data.count)
+        }
+      })
+    },
+
+
     getIds() {
       let str = ''
       this.checkedCities.map((t) => {

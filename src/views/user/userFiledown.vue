@@ -41,16 +41,21 @@
                 </div>
                 <div class="checkboxBox">
                   <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-                    <div v-for="(item,i) in list" :key="i" class="li">
+                    <div v-for="(item,index) in list" :key="index" class="li">
                       <el-checkbox :label="item.id" >
                         <div class="info">
                           <img :src="file1" alt="">
-                          <p>{{item.name}}</p>
+                          <div class="fileName">
+                            <el-input v-model="item.call" placeholder="请输入内容" v-if="nameIndex==index" @change="namechange($even,index)"></el-input>
+                            <p v-else>{{item.call}}</p>
+                            <span>{{item.ext}}</span>
+                          </div>
                         </div>
                         <span class="kb" v-if="item.size / 1024 / 1024 < 1">{{Number(item.size/1024).toFixed(1)}}KB</span>
                         <span class="kb" v-else>{{Number(item.size / 1024 / 1024).toFixed(1)}}MB</span>
                         <p class="time">{{item.upload_time | formatDate_('yyyy-MM-dd hh:mm:ss') }}</p>
                       </el-checkbox>
+                      <button class="spanBtn" type="primary" @click.prevent="nameClick(index)">重命名</button> 
                       <button class="spanBtn" type="primary" @click.prevent="downImgClick(item.url)">下载</button> 
                     </div>
                   </el-checkbox-group>
@@ -346,6 +351,7 @@
         limit:20,
         total:0,
         noCont:false,
+        nameIndex:0,
       }
     },
     created(){
@@ -482,6 +488,13 @@
       },
       cityChange(val){ //选择收货地址
         console.log(val)
+      },
+
+
+      // 点击重命名
+      nameClick(index){
+        console.log(index);
+        this.nameIndex = index
       },
       // 修改文件名
       nicknameSubmit(formName) {
@@ -705,6 +718,11 @@
       margin-right: 24px;
     }
   }
+
+  .fileName{
+    display: flex;
+    align-items: center;
+  }
   .kb{
     width: 20%;
   }
@@ -854,6 +872,8 @@
       border: 1px solid rgba(151, 151, 151, 0.52);
       padding: 10px 8px;
       margin-bottom: 8px;
+
+
 
       .name{
         display: flex;

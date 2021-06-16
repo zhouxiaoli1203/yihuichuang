@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     <div class="btns">
-                        <button  class="spa nBtn" type="primary" @click.prevent="modifyFace" v-button>确定</button>    
+                        <button  class="spanBtn" type="primary" @click.prevent="modifyFace" v-button>确定</button>    
                         <button  @click.prevent="userClose" class="spanBtn">取消</button>
                     </div>
                 </el-tab-pane>
