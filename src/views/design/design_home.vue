@@ -192,13 +192,16 @@ export default {
          console.log(ckt);
           if(ckt.kind == 2){
                 this_.design_id = ckt["design-id"];
+                if(!this_.$store.state.token){
+                    return this_.$message.error("请重新登录");
+                }
                 this_.openFullScreen(); //调用加载中
                 this_.$post("post","Ckt/templateDownload",{token:this_.$store.state.token,designId:this_.design_id}).then((res)=>{
                     if(res.code == 1){
                         this_.closeFullScreen(this_.openFullScreen()); //关闭加载框
                         window.open(res.data.url)
                     }
-                })
+                });
             //  "219393"  x.designTemplateId
         //       this_.$post("post","Goods/page",{token:this_.$store.state.token,template_id:x.designTemplateId}).then((res)=>{
         //        if(res.code == 1){
