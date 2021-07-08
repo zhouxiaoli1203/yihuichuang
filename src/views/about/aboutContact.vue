@@ -14,6 +14,27 @@
             <MenuLeft></MenuLeft>
             <div class="contList wenzhnagContList">
               <ArticleDetail :title='titleInfo'></ArticleDetail>
+
+                <div class="amap-page-container" style="width:100%;height:600px">
+                     <el-amap class="amap-box" :zoom="zoom" :center="center" >
+                        <el-amap-marker
+                                v-for="marker in markers"
+                                :position="marker.position"
+                                :key="marker.id"
+                                :events="marker.events"
+                                :icon="marker.icon"
+                        ></el-amap-marker>
+                        <el-amap-info-window
+                                v-if="window"
+                                :position="window.position"
+                                :visible="window.visible"
+                                :content="window.content"
+                                :offset="window.offset"
+                        ></el-amap-info-window>
+                    </el-amap>   
+                    </div>
+
+
             </div>
             
         </div>
@@ -44,12 +65,53 @@
         titleInfo:{
           title:'aboutContact',
           types:'about'
-        }
+        },
+        center:[116.797853,33.976148],
+        zoom:12,
+        markers: [],
+        windows:[],
+        window:'',
+        city:[],
       }
     },
     created(){
     },
+    mounted() {
+      this.point();
+    },
     methods: {
+      point(){
+        let markers = [];
+        let windows=[];
+        let that=this;
+        markers.push({
+            position: [116.797853,33.976148],
+            events: {
+                click() {
+                    that.windows.forEach(window => {
+                        window.visible = false; //关闭窗体
+                    });
+                    that.window = that.windows[0];
+                    that.$nextTick(() => {
+                        that.window.visible = true;//点击点坐标，出现信息窗体
+                    });
+                }
+            }
+        })
+        windows.push({
+            position: [116.797853,33.976148],
+            content:"" +
+                "<div>"+"地 址：安徽省淮北市相山区古城路与洪山路交叉口红绿灯路口68-5号</div>" 
+            ,
+            offset:[5,-15],//窗体偏移
+            visible: true//初始是否显示
+        })
+       
+        //添加点标注
+        this.markers = markers;
+        //生成弹窗
+        this.windows=windows
+    },
     }
   }
 </script>

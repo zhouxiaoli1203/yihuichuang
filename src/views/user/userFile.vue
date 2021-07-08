@@ -12,7 +12,7 @@
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
-              <ul>
+              <ul v-if="info">
                 <li>
                    <router-link :to="{path:'/user/userPicture'}"  class="link">
                     <img :src="img" alt="">
@@ -79,7 +79,6 @@
           if(res.code==1){
             this.info = res.data
             this.percentage = res.data.size/res.data.space*100
-            console.log(res.data.size/res.data.space*100);
           }
         })
       }

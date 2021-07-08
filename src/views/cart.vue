@@ -167,30 +167,20 @@ export default {
         //   }
           this_.$post('post', 'Goods/cartDelete', param).then((res) => {
             if (res.code == 1) {
-                this_.getCartList();
+              this_.getCartList();
               this_.$message({
                 type: 'success',
                 message: '删除成功',
               })
 
-              this.GoodsCartNum();
+              this.GoodsCartNum();  //购物车的数量
             }
           })
         })
         .catch(() => {})
     },
 
-    // 获取购物车的数量
-    GoodsCartNum(){
-      this.$post("post",'Goods/cartNum',{
-        token:this.$store.getters.getToken,
-      }).then((res)=>{
-        if(res.code==1){
-          this.cartNum = res.data.count;
-          this.$store.commit('setCartNum',res.data.count)
-        }
-      })
-    },
+
 
 
     getIds() {

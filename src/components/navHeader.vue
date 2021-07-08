@@ -420,8 +420,6 @@ export default {
     // 购物车数量
     this.gouwucheNum();
 
-    console.log(this.$store.state.loginPorp);
-
   },
   beforeDestroy() {
     clearInterval(this.timer);        
@@ -475,18 +473,6 @@ export default {
       })
     },
 
-
-    // 获取购物车的数量
-    GoodsCartNum(token){
-        this.$post("post",'Goods/cartNum',{
-        token,
-      }).then((res)=>{
-        if(res.code==1){
-          this.cartNum = res.data.count;
-          this.$store.commit('setCartNum',res.data.count)
-        }
-      })
-    },
 
 
     // 获取验证码
@@ -560,14 +546,11 @@ export default {
               this.dialogTableVisible=false
               this.$store.state.loginPorp = false; //登录框
               this.userInfoGet(res.data.token) //登录成功获取个人信息
-              this.GoodsCartNum(res.data.token) //获取购物车的数量
+
+              this.GoodsCartNum() //获取购物车的数量
+
               this.$refs[userLoginForm].resetFields();
               this.sms_token=''
-            }else{
-              this.$message({
-                message:res.info,
-                type: 'warning'
-              });
             }
           })
         }
@@ -672,7 +655,8 @@ export default {
           this.dialogTableVisible=false
           this.$store.state.loginPorp = false; //登录框
           this.userInfoGet(this.$store.getters.getToken) //倒计时结束后获取个人信息
-          this.GoodsCartNum(this.$store.getters.getToken) //获取购物车的数量
+
+          this.GoodsCartNum() //获取购物车的数量
         }
       },1000)
     },
@@ -774,9 +758,6 @@ export default {
     loginState:function(){
       return this.$store.state.loginPorp
     },
-    // publicHome: function () {
-    //     return this.$store.state.publicHome //监听左侧导航
-    // }
   },
   watch: {
     'aState': function (newVal) { //监听token
@@ -789,6 +770,7 @@ export default {
       this.userinfoFn()
     },
     'changGetgouwucheNum':function(val){
+      console.log(val+'=================789');
       this.gouwucheNum()
     },
     'loginState':function(val){  //监听登录框

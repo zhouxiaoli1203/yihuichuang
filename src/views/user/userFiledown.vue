@@ -10,16 +10,19 @@
           <div class="operateBox">
             <!-- <p @click="handleBatchDownload">下载</p> -->
             <div class="downBox">
-              <el-dropdown trigger="click" @command="handleCommand" style="width:100%;padding:9px 0">
-                <span>编辑</span>
-                <i class="el-icon-arrow-down el-icon-caret-bottom"></i>
-                <el-dropdown-menu slot="dropdown"  class="editBox wenjianEdit">
-                  <el-dropdown-item command="删除">删除</el-dropdown-item>
-                  <el-dropdown-item command="打印">打印</el-dropdown-item>
-                  <!-- <el-dropdown-item command="下载">下载</el-dropdown-item> -->
-                </el-dropdown-menu>
+              <el-dropdown trigger="click" @command="handleCommand" style="width:100%;height:100%;">
+                <div class="downDiv">
+                    <span>编辑</span>
+                    <i class="el-icon-arrow-down el-icon-caret-bottom"></i>
+                    <el-dropdown-menu slot="dropdown"  class="editBox wenjianEdit">
+                      <el-dropdown-item command="删除">删除</el-dropdown-item>
+                      <el-dropdown-item command="打印">打印</el-dropdown-item>
+                      <!-- <el-dropdown-item command="下载">下载</el-dropdown-item> -->
+                    </el-dropdown-menu>
+                  </div>
               </el-dropdown>
             </div>
+              
             <span class="add" @click="selectAll" v-if="checkAll==false">全选</span>
             <span class="add" @click="notatAll" v-if="checkAll==true">全不选</span>
             <div class="shangChuan">
@@ -41,7 +44,7 @@
                 <div class="checkboxBox">
                   <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
                     <div v-for="(item,index) in list" :key="index" class="li">
-                      <el-checkbox :label="item.id" >
+                      <el-checkbox :label="item.id">
                         <div class="info">
                           <img :src="file1" alt="">
                           <div class="fileName">
@@ -84,24 +87,30 @@
       <div class="tabNav">
           <el-tabs tab-position="left" type="border-card" style="height: 100%;" v-model="activeName">
             <el-tab-pane label="打印" name="打印">
-              <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
+              <el-form class="demo-ruleForm">
                 <el-form-item>
                   <el-cascader class="width100"
+                    v-model="ruleForm.city"
+                    ref="cascaderAddr"
                     size="large"
                     :options="options"
                     placeholder="请选择省市区"
                     @change="cityChange">
                   </el-cascader>
                 </el-form-item>
-                <el-form-item label="取件地址" prop="region">
-                  <el-select v-model="ruleForm.region" placeholder="请选择店铺名称" class="width100">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
+                <el-form-item label="取件地址" >
+                  <el-select v-model="ruleForm.region" placeholder="请选择打印门店" class="width100">
+                    <el-option
+                      v-for="x in storeList"
+                      :key="x.name"
+                      :label="x.name"
+                      :value="x.id">
+                    </el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item class="btns">
                     <button  @click.prevent="userClose" class="spanBtn">取消</button>
-                    <button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</button>                           
+                    <button  class="spanBtn" type="primary" @click.prevent="ruleFormSubmit">确定</button>                           
                 </el-form-item>
               </el-form>
               <div class="wenjianDayin xiazaiSection">
@@ -111,85 +120,12 @@
                 </div> 
                 <section class="sectionUL">
                   <ul class="wenjianLIst">
-                    <li>
+                    <li v-for="item in dayinShuzhu">
                       <div class="name">
                         <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
+                        <p>{{item.name}}</p>
                       </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                        <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
-                    </li>
-                    <li>
-                      <div class="name">
-                        <img :src="file1" alt="">
-                        <p>梦里花落知多少</p>
-                      </div>
-                      <span>2020-02-02 22:22:22</span>
+                      <span>{{item.upload_time | formatDate_('yyyy-MM-dd hh:mm:ss') }}</span>
                     </li>
                   </ul>
                 </section>
@@ -312,15 +248,11 @@
         checkAll: false,
         checkedCities:[], //绑定默认选中
         userPublic: false, 
-        options: regionData,
+        options:[],
         activeName:'重命名',
         ruleForm: {
           region: '',
-        },
-        rules: {
-          region: [
-            {message: '请选择活动区域', trigger: 'change' }
-          ],
+          city:'',
         },
         token:'',
         list: [], //数据源
@@ -329,11 +261,18 @@
         total:0,
         noCont:false,
         nameIndex:-1,
+        dayinShuzhu:[],
+        storeList:[],
       }
     },
     created(){
       this.token = this.$store.getters.getToken;
       this.PrintsSelect(this.page,this.limit)
+
+       // 获取门店地址
+      this.StoreaAddr((res) => {
+        this.options = res
+      })
 
 
     },
@@ -396,28 +335,46 @@
       //   });
 
       // },
+      
+      // 全选
       selectAll() {
         this.list.forEach(item=>{  //当全选被选中的时候，循环遍历源数据，把数据的每一项加入到默认选中的数组去
           this.checkedCities.push(item.id)
         })
         this.checkAll = true
+        this.dayinShuzhu = this.list
       },
+
+      // 全不选
       notatAll() {
         this.checkedCities = [];
+        this.dayinShuzhu = []
         this.checkAll = false
       },
-      // checkbox选中 --- 当绑定值变化时触发的事件
+
+
       handleCheckedCitiesChange(value) {
-        console.log(this.list);
-        console.log(value)
+        this.dayinShuzhu = []
         let checkedCount = value.length;   //选中值的长度
-        this.checkAll = checkedCount === this.list.length;  //如果选中值的长度和源数据的长度一样，返回true，就表示你已经选中了全部checkbox，那么就把true赋值给this.checkAll
+        this.checkAll = checkedCount === this.list.length;  //如果选中值的长度和源数据的长度一样，返回true，就表示你已经选中了全部checkbox，那么就
+        this.list.forEach((item)=>{//这里的userList就是上面遍历的数据源
+          value.forEach(i=>{ 
+            if(item.id === i){
+              this.dayinShuzhu.push(item)
+            }
+          })
+
+        });
       },
+
+      // 返回打印文件主页
       pathNews(){
         this.$router.replace("/user/userFile");
       },
+
+
+      // 删除、打印
       handleCommand(command) {
-        
         let { checkedCities } = this
         const newList = []
         if(checkedCities==''){
@@ -427,10 +384,10 @@
           });
         }
         
+
         checkedCities.forEach(i => {
         　　newList.push(i)
         })
-        console.log(command);
         let str = newList.join(",")   // 字符串一,字符串二,字符串三
         if(command=='删除'){
           this.confirm_pop("此操作将永久删除该文件, 是否继续?").then(res=>{
@@ -441,7 +398,6 @@
           this.userPublic = true
           this.activeName = command
         }
-
       },
 
       // 删除文件
@@ -460,21 +416,41 @@
           }
         })
       },
+
+      // 关闭弹框
       userClose(){
-          this.userPublic=false
-      },
-      cityChange(val){ //选择收货地址
-        console.log(val)
+        this.userPublic=false
       },
 
-      
+
+      //选择省市区
+      cityChange(val){
+        let thsAreaCode='' // 拼接 三级联动地址代码
+        thsAreaCode = val// 注意1：获取value值
+        thsAreaCode = this.$refs.cascaderAddr.getCheckedNodes()[0].pathLabels  //注意2： 获取label值
+
+        let prov = thsAreaCode[0]
+        let city = thsAreaCode[1]
+        let dist = thsAreaCode[2]
+
+
+        // 获取门店列表
+        this.ruleForm.region = ''
+        this.StoreSelect(prov,city,dist,undefined,(res) => {
+          console.log(res);
+          this.storeList = res
+        })
+
+      },
+
+      // 重命名
       handleClose_1(e){
+        console.log(e);
         let mingchen = e.path[0].innerHTML
         if(mingchen!='重命名'){
           this.nameIndex = -1        
         }    
       },
-
 
       // 点击重命名
       nameClick(index){
@@ -582,6 +558,7 @@
             message:'名称不能为空',
             type: 'warning'
           });
+          this.PrintsSelect(this.page,this.limit);
           return
         }
         this.$post("post","Prints/update",{
@@ -590,7 +567,7 @@
             call:val
           }).then((res)=>{
             if(res.code==1){
-              // this.PrintsSelect(this.page,this.limit)
+
               this.$message({
                 message:'修改成功',
                 type: 'success'
@@ -598,6 +575,24 @@
               this.nameIndex = -1
             }
           })
+      },
+
+      // 打印文件
+      ruleFormSubmit() {
+
+        let { checkedCities } = this
+        const newList = []
+        checkedCities.forEach(i => {
+        　　newList.push(i)
+        })
+        let str = newList.join(",")   // 字符串一,字符串二,字符串三
+        let ciyt = this.ruleForm.city
+        let region = this.ruleForm.region
+
+        this.PrintsSubmit(ciyt,region,str,(res) => {
+          this.userPublic = res  //打印提交成功，关闭弹框
+        })
+
       },
 
     }
@@ -628,11 +623,22 @@
     border-radius: 4px;
     border: 1px solid #CBCFE3;
     width: 86px;
-    // padding: 9px 0;
     background: #FFFFFF;
     text-align: center;
     margin-right: 54px;
     cursor: pointer;
+    height: 34px;
+
+    .downDiv{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span{
+        margin-right: 5px;
+      }
+    }
   }
   .shangChuan{
     width: 102px;
@@ -883,7 +889,7 @@
 .xiazaiSection{
   .sectionUL{
     height: 76%;
-    overflow: hidden;
+    // overflow: hidden;
     position: relative;
   }
 

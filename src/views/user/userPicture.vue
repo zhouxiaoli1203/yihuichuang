@@ -68,41 +68,41 @@
                   <div class="editInput">
                       <h4>编辑照片信息</h4>
                   </div> 
-                  <el-form :model="nicknameForm" ref="nicknameForm" class="demo-ruleForm" @submit.native.prevent>
-                      <el-form-item
-                        prop="callName"
-                        :rules="[
-                            { required: true, message: '照片名称不能为空'},
-                        ]"
-                      >
-                        <el-input type="text" v-model="nicknameForm.callName" autocomplete="off" placeholder="请输入照片名称" maxlength="9" show-word-limit></el-input>
+                  <el-form @submit.native.prevent>
+                      <el-form-item>
+                        <el-input type="text" v-model="callName" autocomplete="off" placeholder="请输入照片名称" maxlength="9" show-word-limit></el-input>
                       </el-form-item>
                       <el-form-item class="btns buttonBox" style="margin-bottom:0;height:auto">
                         <el-button  @click="userClose" class="spanBtn">取消</el-button>
-                        <el-button  class="spanBtn" type="primary" @click="nicknameSubmit('nicknameForm')">确定</el-button>                           
+                        <el-button  class="spanBtn" type="primary" @click="nicknameSubmit">确定</el-button>                           
                       </el-form-item>
                   </el-form>
               </el-tab-pane>
-              <el-tab-pane label="打印" name="打印">
-                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="demo-ruleForm">
-                  <el-form-item>
+              <el-tab-pane label="打印" name="打印">                
+                <el-form  class="demo-ruleForm">
+                  <el-form-item >
                     <el-cascader class="width100"
-                                size="large"
-                                :options="options"
-                                placeholder="请选择省市区"
-                                @change="cityChange">
+                      v-model="ruleForm.city"
+                      ref="cascaderAddr"
+                      size="large"
+                      :options="options"
+                      placeholder="请选择省市区"
+                      @change="cityChange">
                     </el-cascader>
                   </el-form-item>
-
-                  <el-form-item label="取件地址" prop="region">
-                    <el-select v-model="ruleForm.region" placeholder="请选择店铺名称" class="width100">
-                      <el-option label="区域一" value="shanghai"></el-option>
-                      <el-option label="区域二" value="beijing"></el-option>
+                  <el-form-item label="取件地址" >
+                    <el-select v-model="ruleForm.region" placeholder="请选择打印门店" class="width100">
+                      <el-option
+                        v-for="x in storeList"
+                        :key="x.name"
+                        :label="x.name"
+                        :value="x.id">
+                      </el-option>
                     </el-select>
                   </el-form-item>
                   <el-form-item class="btns">
                       <button  @click.prevent="userClose" class="spanBtn">取消</button>
-                      <button  class="spanBtn" type="primary" @click.prevent="nicknameSubmit('nicknameForm')">确定</button>                           
+                      <button  class="spanBtn" type="primary" @click.prevent="ruleFormSubmit">确定</button>                           
                   </el-form-item>
                 </el-form>
                 <img :src="downImg" alt="" class="phoneLook">
@@ -117,7 +117,7 @@
 
 <script>
   import MenuLeft from '../../components/menuLeft'
-  import { regionData } from 'element-china-area-data'
+  // import { regionData } from 'element-china-area-data'
   export default {
     name: 'userPicture',
     components: {
@@ -126,18 +126,12 @@
     data () {
       return {   
         userPublic: false, 
-        options: regionData,
-        nicknameForm: {
-          callName: ''
-        },
+        options:[],
+        callName: '',
         activeName:'编辑',
-         ruleForm: {
+        ruleForm: {
           region: '',
-        },
-        rules: {
-          region: [
-            {message: '请选择活动区域', trigger: 'change' }
-          ],
+          city:'',
         },
         token:'',
         page:1,
@@ -148,13 +142,21 @@
         downImg:'',  //下载路径
         noCont:false,
         fileId:0,
+        storeList:[],
       }
     },
     created(){
       this.token = this.$store.getters.getToken;
       this.PrintsSelect(this.page,this.limit)
+
+      // 获取门店地址
+      this.StoreaAddr((res) => {
+        this.options = res
+      })
     },
     methods: {
+  
+      // 上传文件
       getFile(event){
         console.log(event);
         var file = event.target.files;
@@ -175,6 +177,7 @@
           this.FileUpload(file)
         }        
       },
+
       // 上传图片
       FileUpload(file){
         let param = new FormData(); // 创建form对象
@@ -239,6 +242,8 @@
         this.page = val
         this.PrintsSelect(val,this.limit);
       },
+
+      // 点击打印、删除、下载
       handleCommand(command,id,url) {
         if(command=='下载'){
           window.open(url,'download');
@@ -275,38 +280,73 @@
         })
       },
 
+      // 返回文件打印主页
       pathNews(){
         this.$router.replace("/user/userFile");
       },
-
       
+      // 取消弹框
       userClose(){
         this.userPublic=false
+        this.callName = ''
       },
-      cityChange(val){ //选择收货地址
-        console.log(val)
+
+      //选择省市区
+      cityChange(val){
+        let thsAreaCode='' // 拼接 三级联动地址代码
+        thsAreaCode = val// 注意1：获取value值
+        thsAreaCode = this.$refs.cascaderAddr.getCheckedNodes()[0].pathLabels  //注意2： 获取label值
+
+        let prov = thsAreaCode[0]
+        let city = thsAreaCode[1]
+        let dist = thsAreaCode[2]
+
+
+        // 获取门店列表
+        this.ruleForm.region = ''
+        this.StoreSelect(prov,city,dist,undefined,(res) => {
+          console.log(res);
+          this.storeList = res
+        })
+
       },
+      
+    
+      // 打印文件
+      ruleFormSubmit() {
+        let ciyt = this.ruleForm.city
+        let region = this.ruleForm.region
+        let fileId = this.fileId
+        this.PrintsSubmit(ciyt,region,fileId,(res) => {
+          this.userPublic = res  //打印提交成功，关闭弹框
+        })
+
+      },
+
       // 修改文件名
       nicknameSubmit(formName) {
-        this.$refs[formName].validate((valid) => {
-            if (valid) {
-              console.log(this.callName);
-                this.$post("post","Prints/update",{
-                    token:this.token,
-                    id:this.fileId,
-                    call:this.nicknameForm.callName
-                }).then((res)=>{
-                  if(res.code==1){
-                    this.PrintsSelect(this.page,this.limit)
-                    this.$message({
-                      message:'修改成功',
-                      type: 'success'
-                    });
-                    this.userPublic = false
-                  }
-                })
-            }
-        });
+        if(this.callName==''){
+          this.$message({
+            message:'请输入文件名称',
+            type: 'warning'
+          });
+          return
+        }
+        this.$post("post","Prints/update",{
+            token:this.token,
+            id:this.fileId,
+            call:this.callName
+        }).then((res)=>{
+          if(res.code==1){
+            this.PrintsSelect(this.page,this.limit)
+            this.$message({
+              message:'修改成功',
+              type: 'success'
+            });
+            this.callName = ''
+            this.userPublic = false
+          }
+        })
       },
     }
   }

@@ -4,7 +4,7 @@
         <div class="crumbsHeader">
           <div class="crumbs">
               <router-link to="/"><span>首页 / </span></router-link>
-              <span>证件照</span>
+              <span>一键抠图</span>
           </div>
         </div>
 
@@ -13,7 +13,7 @@
             <div class="contList">
               <section class="photoBox">
                 <div class="photolf">
-                  <h3>在线制作证件照</h3>
+                  <h3>原图</h3>
                   <div class="img">
                     <el-upload
                         v-if="!imgResult"
@@ -29,7 +29,7 @@
                           <p>点击上传照片</p>
                         </div>
                       </el-upload>
-                      <div  v-else :class="bgColor">
+                      <div  v-else>
                         <el-image 
                           :src="imgResult" 
                           class="avatar"
@@ -39,44 +39,32 @@
                   </div>
                 </div>
                 
-                <div class="photorg">
-                  <h3>尺寸选择</h3>
-                  <div class="radioBox">
-                    <div class="title">
-                      <span>尺寸</span>
-                      <span>长*宽</span>
-                      <span>大小</span>
-                      <span>选择</span>
-                    </div>
-                    <ul>
-                      <li v-for="(item,index) in sizeList" :key="index">
-                        <p>{{item.name}}</p>
-                        <p>{{item.size}}mm&nbsp&nbsp&nbsp&nbsp{{item.widths}}</p>
-                        <p>{{item.kb}}</p>
-                        <p>
-                          <el-radio v-model="radio" :label="item.id" @change="sizeChange(item.id,item.size)" class="radioPublic"><br></el-radio>
-                        </p>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="btnBox">
-                    <ul class="btns">
-                      <template v-for="item in colorList">
-                        <li :class="item.name" @click="colorClick(item.index,item.name)">
-                          <p v-if="colorIndex==item.index">
-                            <i></i>
-                          </p>
-                        </li>
-                      </template>
-          
-                    </ul>
+                <div class="photolf">
+                  <h3>效果图</h3>
+                  <div class="img">
+                      <div v-if="imgURl">
+                        <el-image 
+                          :src="imgURl" 
+                          class="avatar"
+                          >
+                        </el-image>
+                      </div>
                   </div>
                 </div>
               </section>
 
               <div class="operationBtn">
-                <span @click="downText('pdf')">文件打印或下载</span>
-                <span @click="downText('img')">下载png图片</span>
+                <el-upload
+                  class="avatar-uploader btns"
+                  action=""
+                  name='cert' 
+                  :show-file-list="false"
+                  :before-upload="beforeAvatarUpload"
+                    accept=".jpg,.jpeg,.png,.JPG,.JPEG"
+                  >
+                  <span>{{imgResult?'重新上传':'点击上传'}}</span>
+                </el-upload>
+                <span @click="downImgClick">一键下载</span>
               </div>
             </div>
         </div>
@@ -87,7 +75,7 @@
 <script>
   import MenuLeft from '../../components/menuLeft'
   export default {
-    name: 'userPhoto',
+    name: 'matting',
     components: {
       MenuLeft,
     },
@@ -95,66 +83,11 @@
       return {     
         img: require('../../assets/img/user/img.png'), 
         file: require('../../assets/img/user/file.png'), 
-        imageUrl: '',
-        sizeList:[
-          {
-            name:'一寸',
-            size:'25x35',
-            widths:'295×413px ',
-            kb:'432.26KB',
-            id:1
-          },
-          {
-            name:'大一寸',
-            size:'33x48',
-            widths:'389×566px ',
-            kb:'500.26KB',
-            id:2
-          }, 
-          {
-            name:'小二寸',
-            size:'35x45',
-            widths:'413×531px ',
-            kb:'500.26KB',
-            id:3
-          },
-          {
-            name:'二寸',
-            size:'35x49',
-            widths:'413×579px ',
-            kb:'500.26KB',
-            id:4
-          },
-          {
-            name:'大二寸',
-
-            size:'35x53',
-            widths:'413×626px ',
-            kb:'600.26KB',
-            id:5
-          }
-        ],
-        radio:'',
-        colorList:[
-          {
-            name:'white',
-            index:1
-          },
-          {
-            name:'red',
-            index:2
-          },
-          {
-            name:'blue',
-            index:3
-          }
-        ],
-        colorIndex:2,
         token:'',
         imgResult:'',
         imgList:[],
-        bgColor:'red',
-        size:''
+        imgURl:'',
+        downHd:'',
       }
     },
     created(){
@@ -209,79 +142,18 @@
         .then((res)=>{
             this.closeFullScreen(this.openFullScreen()); //关闭加载框
             if(res.code==1){
-              this.imgResult = res.data.png
-              this.name = res.data.name
-            }else{
-                this.$message({
-                    message:res.info,
-                    type: 'warning'
-                });
+              this.imgURl = res.data.png
+              this.downHd = res.data.hd
             }
         })
       },
-      sizeChange(id,size){
-        console.log(id)
-        this.size = size
-      },
-      // 选择颜色
-      colorClick(index,col){
-        console.log(col)
-        this.colorIndex = index
-        this.bgColor =col
-      },
+
+
 
       // 下载文件
-      downText(type){
-        let {size,imgResult} = this
-        if(imgResult==''){
-          this.$message({
-              message:'您还没有上传图片哦!',
-              type: 'warning'
-          });
-          return false
-        }
-        if(size==''){
-          this.$message({
-              message:'请选择尺寸',
-              type: 'warning'
-          });
-          return false
-        }
-
-        this.CertPrint(type)
+      downImgClick(){
+        window.open(this.downHd,'download');
       },
-
-      // 照片打印
-      CertPrint(type){
-        let {token,name,bgColor,size} = this
-        this.openFullScreen(); //调用加载中
-        this.$post("post",'Cert/download',{
-          token,
-          name,
-          color:bgColor,
-          size
-        }).then((res)=>{
-          this.closeFullScreen(this.openFullScreen()); //关闭加载框
-          if(res.code==1){
-            console.log(type);
-            if(type=='pdf'){
-              let page = window.open(res.data.pdf);
-              setTimeout(()=>{
-                page.print(); //这一步就是在新窗口调出打印机
-              },500)
-            }else{
-              window.open(res.data.pic,'download');
-            }
-          }else{
-            this.$message({
-                message:res.info,
-                type: 'warning'
-            });
-          }
-        })
-
-      }
-
     }
   }
 </script>
@@ -304,9 +176,11 @@
   }
 
   .photolf{
-    width: 335px;
+    width: 443px;
+    
 
     .img{
+      border: 1px dashed #ACC1FF;
       width: 100%;
       height: 462px;
       background: #F5F6FA;
@@ -327,8 +201,7 @@
       }
       .avatar{
         display: block;
-        width: 150px;
-        height: 200px;
+        width: 180px;
       }
 
       .unClass{
@@ -338,7 +211,6 @@
         flex-flow: column;
         align-items: center;
         justify-content: center;
-        border: 1px dashed #ACC1FF;
         width: 220px;
         i{
           color: #ACC1FF;
@@ -517,19 +389,27 @@
     justify-content: center;
     margin-top: 100px;
 
-    span{
-      width: 140px;
-      height: 34px;
+    .btns{
+      width: 88px;
+      height: 36px;
       background: #4E9F5B;
       border-radius: 4px;
       color: #fff;
       text-align: center;
-      line-height: 34px;
+      line-height: 36px;
       cursor: pointer;
+      margin-right: 16px;
     }
 
-    span:first-child{
-      margin-right: 50px;
+    span{
+      width: 88px;
+      height: 36px;
+      background: #4E9F5B;
+      border-radius: 4px;
+      color: #fff;
+      text-align: center;
+      line-height: 36px;
+      cursor: pointer;
     }
   }
 

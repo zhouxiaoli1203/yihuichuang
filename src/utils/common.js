@@ -66,42 +66,130 @@ const Fns = {
         store.state.loginPorp=true
     },
 
+
+    // 获取购物车的数量
+    GoodsCartNum(){
+        this.$post("post",'Goods/cartNum',{
+        token:store.getters.getToken,
+        }).then((res)=>{
+            if(res.code==1){
+                this.$store.commit('setCartNum',res.data.count)
+            }
+        })
+    },
+
+    // 获取门店地址表
+    StoreaAddr(fn){
+        this.$post("post",'Store/addr').then((res)=>{
+            if(res.code==1){
+            //   this.options = res.data
+              fn(res.data)
+            }
+        })
+    },
+
+    // 获取门店列表
+    StoreSelect(prov,city,dist,keyword,fn){
+        this.$post("post","Store/select",{
+            prov,
+            city,
+            dist,
+            keyword
+        }).then((res)=>{
+            if(res.code==1){
+                // this.storeList = res.data
+
+                fn(res.data)
+            }
+        })
+    },
+
+          
+
+    // 打印文件请求
+    PrintsSubmit(ciyt,store_id,file_ids,fn){
+        if(ciyt==''){
+            this.$message({
+              message:'请选择省市区',
+              type: 'warning'
+            });
+            return
+        }
+  
+        if(store_id==''){
+            this.$message({
+              message:'请选择打印门店',
+              type: 'warning'
+            });
+            return
+        }
+
+        this.$post("post","Prints/submit",{
+            token:store.getters.getToken,
+            file_ids,
+            store_id,
+        }).then((res)=>{
+            if(res.code==1){
+                this.$message({
+                    message:'文件已同步该门店，请及时到门店自提打印件',
+                    type: 'success'
+                });
+
+                fn(false)
+            }
+        })
+            
+
+        
+       
+    },
+
+    // // 获取门店地址表
+    // StoreaAddr(){
+    //     this.$post("post",'Store/addr').then((res)=>{
+    //         if(res.code==1){
+    //             // this.$store.commit('setCartNum',res.data.count)
+    //         }
+    //     })
+    // },
+
+
     /* 七牛插件公用的函数：
- * 图片上传前的钩子,对图片进行限制
- */
-beforeUpload(file){
-    //console.log(file);
- 
-     //const isJPG = file.type === 'image/jpeg' || 'image/jpg' || 'image/png';
-     var isJPG;
-     if(file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png'){
-        isJPG=true;
-     }else{
-        isJPG=false;
-     }
- 
-     const isLt2M = file.size / 1024 / 1024 < 3;
- 
-     if (!isJPG) {
-        //this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
-        this.$message({
-            message: '上传头像图片只能是 jpeg/jpg/png 格式!',
-            type: 'error',
-            duration:1500,
-            showClose: true,
-         });
-      }
-      if (!isLt2M) {
-         //this.$message.error('上传头像图片大小不能超过 3MB!');
-         this.$message({
-             message: '上传头像图片大小不能超过 3MB!',
-             type: 'error',
-             duration:1500,
-             showClose: true,
-          });
-       }
-       return isJPG && isLt2M;
-},
+    * 图片上传前的钩子,对图片进行限制
+    */
+    beforeUpload(file){
+        //console.log(file);
+    
+        //const isJPG = file.type === 'image/jpeg' || 'image/jpg' || 'image/png';
+        var isJPG;
+        if(file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png'){
+            isJPG=true;
+        }else{
+            isJPG=false;
+        }
+    
+        const isLt2M = file.size / 1024 / 1024 < 3;
+    
+        if (!isJPG) {
+            //this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
+            this.$message({
+                message: '上传头像图片只能是 jpeg/jpg/png 格式!',
+                type: 'error',
+                duration:1500,
+                showClose: true,
+            });
+        }
+        if (!isLt2M) {
+            //this.$message.error('上传头像图片大小不能超过 3MB!');
+            this.$message({
+                message: '上传头像图片大小不能超过 3MB!',
+                type: 'error',
+                duration:1500,
+                showClose: true,
+            });
+        }
+        return isJPG && isLt2M;
+    },
  
     /* 得到图片中间的key
      * 新增和编辑时上传图片到七牛都调用 _this.getImagekey(_this.oldPicUrl) 方法，参数要求：

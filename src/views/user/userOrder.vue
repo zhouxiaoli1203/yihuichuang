@@ -41,89 +41,98 @@
         <div class="publicCenter">
             <MenuLeft></MenuLeft> 
             <div class="contList">
-              <div class="tabBox">
-                <table border = "1" class="tableBox"  width="100%">
-                  <tbody>
-                    <tr>
-                      <th>订单号</th>
-                      <th>订单状态</th>
-                      <th>商品信息</th>
-                      <th>材质</th>
-                      <th>类型</th>
-                      <th>尺寸</th>
-                      <th>数量</th>
-                      <th>印刷价格</th>
-                      <th>支付时间</th>
-                      <th>支付方式</th>
-                      <th>支付金额</th>
-                      <th>配方方式</th>
-                      <th>快递单号</th>
-                      <th>操作</th>
-                    </tr>
-                    <tr>
-                      <td>12245678945522</td>
-                      <td>已支付</td>
-                      <td>
-                        <div class="goodImg">
-                          <div class="img">
-                            <img src="" alt="">
-                            <i class="el-icon-zoom-in"></i>
+              <div  style="display:none">
+                <div class="tabBox">
+                  <table border = "1" class="tableBox"  width="100%">
+                    <tbody>
+                      <tr>
+                        <th>订单号</th>
+                        <th>订单状态</th>
+                        <th>商品信息</th>
+                        <th>材质</th>
+                        <th>类型</th>
+                        <th>尺寸</th>
+                        <th>数量</th>
+                        <th>印刷价格</th>
+                        <th>支付时间</th>
+                        <th>支付方式</th>
+                        <th>支付金额</th>
+                        <th>配方方式</th>
+                        <th>快递单号</th>
+                        <th>操作</th>
+                      </tr>
+                      <tr>
+                        <td>12245678945522</td>
+                        <td>已支付</td>
+                        <td>
+                          <div class="goodImg">
+                            <div class="img">
+                              <img src="" alt="">
+                              <i class="el-icon-zoom-in"></i>
+                            </div>
+                            <span>商业海报信息</span>
                           </div>
-                          <span>商业海报信息</span>
-                        </div>
-                      </td>
-                      <td>pvc/kT板</td>
-                      <td>展板/海报</td>
-                      <td>201米*300米</td>
-                      <td>1001</td>
-                      <td>100/张</td>
-                      <td>2021.02.10</td>
-                      <td>微信</td>
-                      <td>1000.00</td>
-                      <td>快递</td>
-                      <td>15285422552112521</td>
-                      <td class="btns">
-                        <span>取消订单</span>
-                        <span>再来一单</span>
-                      </td>
-                    </tr>
-                     <tr>
-                      <td>12245678945522</td>
-                      <td>已支付</td>
-                      <td>
-                        <div class="goodImg">
-                          <div class="img">
-                            <img src="" alt="">
-                            <i class="el-icon-zoom-in"></i>
+                        </td>
+                        <td>pvc/kT板</td>
+                        <td>展板/海报</td>
+                        <td>201米*300米</td>
+                        <td>1001</td>
+                        <td>100/张</td>
+                        <td>2021.02.10</td>
+                        <td>微信</td>
+                        <td>1000.00</td>
+                        <td>快递</td>
+                        <td>15285422552112521</td>
+                        <td class="btns">
+                          <span>取消订单</span>
+                          <span>再来一单</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>12245678945522</td>
+                        <td>已支付</td>
+                        <td>
+                          <div class="goodImg">
+                            <div class="img">
+                              <img src="" alt="">
+                              <i class="el-icon-zoom-in"></i>
+                            </div>
+                            <span>商业海报信息</span>
                           </div>
-                          <span>商业海报信息</span>
-                        </div>
-                      </td>
-                      <td>pvc/kT板</td>
-                      <td>展板/海报/ss/ld/dhd/dd/dddd</td>
-                      <td>201米*300米</td>
-                      <td>1001</td>
-                      <td>100/张</td>
-                      <td>2021.02.10</td>
-                      <td>微信</td>
-                      <td>1000.00</td>
-                      <td>快递</td>
-                      <td>15285422552112521</td>
-                      <td class="btns">
-                        <span>取消订单</span>
-                        <span>再来一单</span>
-                      </td>
-                    </tr>
-                  </tbody>   
-                </table>
-              </div>
-              <div class="paging">
-                  <el-pagination
-                      background
-                      layout="prev, pager, next"
-                      :total="1000">
-                  </el-pagination>
+                        </td>
+                        <td>pvc/kT板</td>
+                        <td>展板/海报/ss/ld/dhd/dd/dddd</td>
+                        <td>201米*300米</td>
+                        <td>1001</td>
+                        <td>100/张</td>
+                        <td>2021.02.10</td>
+                        <td>微信</td>
+                        <td>1000.00</td>
+                        <td>快递</td>
+                        <td>15285422552112521</td>
+                        <td class="btns">
+                          <span>取消订单</span>
+                          <span>再来一单</span>
+                        </td>
+                      </tr>
+                    </tbody>   
+                  </table>
                 </div>
+                <div class="paging">
+                    <el-pagination
+                        background
+                        layout="prev, pager, next"
+                        :total="1000">
+                    </el-pagination>
+                </div>
+              </div>
+
+               <div v-if="noCont==true" class="NoCont">
+                <img src="@/assets/img/common/noCont.png" alt="">
+                <span>暂无数据</span>
+              </div>
+
+
             </div>
         </div>
     </section>
@@ -159,7 +168,8 @@
         ],
         searchValue: '' ,
         dataTime:'',
-        value:''
+        value:'',
+        noCont:true
       }
     },
     methods: {

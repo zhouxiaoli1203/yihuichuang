@@ -756,15 +756,13 @@ export default {
             }
             console.log(param)
             this_.$post('post', 'Goods/cartCreate', param).then((res) => {
-                if (res.code == 1) {
-                    this_.$message({
-                        type:"success",
-                        message:res.info
-                    });
-
-
-                    this.GoodsCartNum();
-                }
+              if (res.code == 1) {
+                this_.$message({
+                    type:"success",
+                    message:res.info
+                });
+                this.GoodsCartNum();  //购物车的数量
+              }
             })
         } else {
           console.log('error submit!!')
@@ -772,21 +770,6 @@ export default {
         }
       })
     },
-
-
-    // 获取购物车的数量
-    GoodsCartNum(){
-      this.$post("post",'Goods/cartNum',{
-        token:this.$store.getters.getToken,
-      }).then((res)=>{
-        if(res.code==1){
-          this.cartNum = res.data.count;
-          this.$store.commit('setCartNum',res.data.count)
-        }
-      })
-    },
-
-
 
 
 

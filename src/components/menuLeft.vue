@@ -288,13 +288,18 @@ export default {
                         url:'/user/userPhoto'
                     },
                     {
-                        tit:'余额管理',
+                        tit:'一键抠图',
                         index:6,
+                        url:'/user/matting'
+                    },
+                    {
+                        tit:'余额管理',
+                        index:7,
                         url:'/user/userBalance'
                     },
                     {
                         tit:'退出登录',
-                        index:7,
+                        index:8,
                         url:'logout'
                     }
                 ]

@@ -167,6 +167,11 @@ export default new Router({
           component: () => import('@/views/user/userPhoto.vue'),
         },
         {
+          path: '/user/matting',
+          name: 'matting',
+          component: () => import('@/views/user/matting.vue'),
+        },
+        {
           path: '/user/userBalance',
           name: 'userBalance',
           component: () => import('@/views/user/userBalance.vue'),

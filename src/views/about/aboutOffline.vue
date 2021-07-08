@@ -17,22 +17,23 @@
                 <el-row class="demo-autocomplete" type="flex" justify="space-between">
                     <el-col :span="10">
                       <el-cascader class="width100"
-                                  size="large"
-                                  :options="options"
-                                  placeholder="请选择省市区"
-                                  @change="cityChange">
+                        ref="cascaderAddr"
+                        size="large"
+
+                        v-model="city"
+                        :options="options"
+                        placeholder="请选择省市区"
+                        @change="cityChange">
                       </el-cascader>
+
                     </el-col>
                     <el-col :span="6">
-                      <el-autocomplete
-                        class="inline-input"
-                        v-model="state2"
-                        :fetch-suggestions="querySearch"
-                        placeholder="请输入内容"
-                        :trigger-on-focus="false"
-                        @select="handleSelect"
-                        suffix-icon="el-icon-search"
-                      ></el-autocomplete>
+                        <el-input
+                          @change="inputChange"
+                          placeholder="请输入内容"
+                          v-model="keyword">
+                          <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                        </el-input>
                     </el-col>
                 </el-row>
 
@@ -40,20 +41,20 @@
               <div class="offlineBOX">
                 <section class="ulSE">
                   <ul >
-                    <template  v-for="item in list">
-                      <li :class="listIndex == item.val?'active':''" @click="selectAddress(item.val)">
+                    <template  v-for="(item,index) in storeList">
+                      <li :class="listIndex == index?'active':''" @click="selectAddress(index,item)">
                         <div>
                           <p>
                             <img :src="shopIcon" alt="">
-                            <span>{{item.name}}</span>
+                            <span :title="item.name">{{item.name}}</span>
                           </p>
                           <p>
                             <img :src="addressIcon" alt="">
-                            <span>{{item.address}}</span>
+                            <span :title="item.prov + item.city + item.dist + item.addr">{{item.prov + item.city + item.dist + item.addr}}</span>
                           </p>
                           <p>
                             <img :src="telIcon" alt="">
-                            <span>{{item.tel}}</span>
+                            <span>{{item.phone}}</span>
                           </p>
                         </div>
                       </li>
@@ -62,7 +63,26 @@
                   </ul>
                   
                 </section>
-                <div class="mapBox"></div>
+                <div class="mapBox">
+                   <div class="amap-page-container" style="width:100%;height:100%">
+                     <el-amap class="amap-box" :zoom="zoom" :center="center" >
+                        <el-amap-marker
+                                v-for="marker in markers"
+                                :position="marker.position"
+                                :key="marker.id"
+                                :events="marker.events"
+                                :icon="marker.icon"
+                        ></el-amap-marker>
+                        <el-amap-info-window
+                                v-if="window"
+                                :position="window.position"
+                                :visible="window.visible"
+                                :content="window.content"
+                                :offset="window.offset"
+                        ></el-amap-info-window>
+                    </el-amap>   
+                    </div>
+                </div>
               </div>
             </div>
         </div>
@@ -72,7 +92,6 @@
 
 <script>
   import MenuLeft from '../../components/menuLeft'
-  import { regionData } from 'element-china-area-data'
   export default {
     name: 'aboutOffline',
     components: {
@@ -87,135 +106,137 @@
       ]
     },
     data () {
+      let self = this;
       return {
-        options: regionData,
+        options: [],
         banner1: require('../../assets/img/about/banner.jpg'),
         shopIcon: require('../../assets/img/about/shop.png'),
         addressIcon: require('../../assets/img/about/address.png'),
         telIcon: require('../../assets/img/about/tel.png'),
-        restaurants: [],
-        state2: '',
-        list:[
-          {
-            name:'店铺名称',
-            address:'山西省晋中市榆次区幸福胡同928号',
-            tel:'1258225822',
-            val:0
-          },
-          {
-            name:'店铺名称111111',
-            address:'山西省晋中市榆次区幸福胡同928号',
-            tel:'1258225822',
-            val:1
-          },
-          {
-            name:'店铺名称111111',
-            address:'山西省晋中市榆次区幸福胡同928号',
-            tel:'1258225822',
-            val:2
-          },
-          {
-            name:'店铺名称111111',
-            address:'山西省晋中市榆次区幸福胡同928号',
-            tel:'1258225822',
-            val:3
-          },
-          {
-            name:'店铺名称111111',
-            address:'山西省晋中市榆次区幸福胡同928号',
-            tel:'1258225822',
-            val:4
-          },
-            {
-            name:'店铺名称111111',
-            address:'山西省晋中市榆次区幸福胡同928号',
-            tel:'1258225822',
-            val:5
-          },
-          
-        ],
+        keyword: '',
         listIndex:0,
-        LITOP:'16px'
+        LITOP:'16px',
+        storeList:[],
+        center:  [121.126757,31.140653],
+        zoom:12,
+        markers: [],
+        windows:[],
+        window:'',
+        city:[],
+
       }
     },
-    methods: {
-      gotoMore(){
-        this.$router.push("/news/detail");
-      },
-      querySearch(queryString, cb) {
-        var restaurants = this.restaurants;
-        var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-        // 调用 callback 返回建议列表的数据
-        cb(results);
-      },
-      createFilter(queryString) {
-        return (restaurant) => {
-          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      loadAll() {
-        return [
-          { "value": "三全鲜食（北新泾店）", "address": "长宁区新渔路144号" },
-          { "value": "Hot honey 首尔炸鸡（仙霞路）", "address": "上海市长宁区淞虹路661号" },
-          { "value": "新旺角茶餐厅", "address": "上海市普陀区真北路988号创邑金沙谷6号楼113" },
-          { "value": "泷千家(天山西路店)", "address": "天山西路438号" },
-          { "value": "胖仙女纸杯蛋糕（上海凌空店）", "address": "上海市长宁区金钟路968号1幢18号楼一层商铺18-101" },
-          { "value": "贡茶", "address": "上海市长宁区金钟路633号" },
-          { "value": "豪大大香鸡排超级奶爸", "address": "上海市嘉定区曹安公路曹安路1685号" },
-          { "value": "茶芝兰（奶茶，手抓饼）", "address": "上海市普陀区同普路1435号" },
-          { "value": "十二泷町", "address": "上海市北翟路1444弄81号B幢-107" },
-          { "value": "星移浓缩咖啡", "address": "上海市嘉定区新郁路817号" },
-          { "value": "阿姨奶茶/豪大大", "address": "嘉定区曹安路1611号" },
-          { "value": "新麦甜四季甜品炸鸡", "address": "嘉定区曹安公路2383弄55号" },
-          { "value": "Monica摩托主题咖啡店", "address": "嘉定区江桥镇曹安公路2409号1F，2383弄62号1F" },
-          { "value": "浮生若茶（凌空soho店）", "address": "上海长宁区金钟路968号9号楼地下一层" },
-          { "value": "NONO JUICE  鲜榨果汁", "address": "上海市长宁区天山西路119号" },
-          { "value": "CoCo都可(北新泾店）", "address": "上海市长宁区仙霞西路" },
-          { "value": "快乐柠檬（神州智绘店）", "address": "上海市长宁区天山西路567号1层R117号店铺" },
-          { "value": "Merci Paul cafe", "address": "上海市普陀区光复西路丹巴路28弄6号楼819" },
-          { "value": "猫山王（西郊百联店）", "address": "上海市长宁区仙霞西路88号第一层G05-F01-1-306" },
-          { "value": "枪会山", "address": "上海市普陀区棕榈路" },
-          { "value": "纵食", "address": "元丰天山花园(东门) 双流路267号" },
-          { "value": "钱记", "address": "上海市长宁区天山西路" },
-          { "value": "壹杯加", "address": "上海市长宁区通协路" },
-          { "value": "唦哇嘀咖", "address": "上海市长宁区新泾镇金钟路999号2幢（B幢）第01层第1-02A单元" },
-          { "value": "爱茜茜里(西郊百联)", "address": "长宁区仙霞西路88号1305室" },
-          { "value": "爱茜茜里(近铁广场)", "address": "上海市普陀区真北路818号近铁城市广场北区地下二楼N-B2-O2-C商铺" },
-          { "value": "鲜果榨汁（金沙江路和美广店）", "address": "普陀区金沙江路2239号金沙和美广场B1-10-6" },
-          { "value": "开心丽果（缤谷店）", "address": "上海市长宁区威宁路天山路341号" },
-          { "value": "超级鸡车（丰庄路店）", "address": "上海市嘉定区丰庄路240号" },
-          { "value": "妙生活果园（北新泾店）", "address": "长宁区新渔路144号" },
-          { "value": "香宜度麻辣香锅", "address": "长宁区淞虹路148号" },
-          { "value": "凡仔汉堡（老真北路店）", "address": "上海市普陀区老真北路160号" },
-          { "value": "港式小铺", "address": "上海市长宁区金钟路968号15楼15-105室" },
-          { "value": "蜀香源麻辣香锅（剑河路店）", "address": "剑河路443-1" },
-          { "value": "北京饺子馆", "address": "长宁区北新泾街道天山西路490-1号" },
-          { "value": "饭典*新简餐（凌空SOHO店）", "address": "上海市长宁区金钟路968号9号楼地下一层9-83室" },
-          { "value": "焦耳·川式快餐（金钟路店）", "address": "上海市金钟路633号地下一层甲部" },
-          { "value": "动力鸡车", "address": "长宁区仙霞西路299弄3号101B" },
-          { "value": "浏阳蒸菜", "address": "天山西路430号" },
-          { "value": "四海游龙（天山西路店）", "address": "上海市长宁区天山西路" },
-          { "value": "樱花食堂（凌空店）", "address": "上海市长宁区金钟路968号15楼15-105室" },
-          { "value": "壹分米客家传统调制米粉(天山店)", "address": "天山西路428号" },
-          { "value": "福荣祥烧腊（平溪路店）", "address": "上海市长宁区协和路福泉路255弄57-73号" },
-          { "value": "速记黄焖鸡米饭", "address": "上海市长宁区北新泾街道金钟路180号1层01号摊位" },
-          { "value": "红辣椒麻辣烫", "address": "上海市长宁区天山西路492号" },
-          { "value": "(小杨生煎)西郊百联餐厅", "address": "长宁区仙霞西路88号百联2楼" },
-          { "value": "阳阳麻辣烫", "address": "天山西路389号" },
-          { "value": "南拳妈妈龙虾盖浇饭", "address": "普陀区金沙江路1699号鑫乐惠美食广场A13" }
-        ];
-      },
-      handleSelect(item) {
-        console.log(item);
-      },
-      selectAddress(val){
-        this.listIndex = val
-        this.LITOP = (val*150+16)+'px'
-      },
+    created(){
+      // 获取门店地址
+      this.StoreaAddr((res) => {
+        this.options = res
+      })
+
+      //获取所有的店铺
+      this.StoreSelect(undefined,undefined,undefined,undefined,(res) => {
+        this.storeList = res
+        this.center = [res[0].lon,res[0].lat];
+        this.point(res[0])
+      })
+
+     
+
+      // 
     },
     mounted() {
-      this.restaurants = this.loadAll();
-    }
+    },
+    methods: {
+      point(pointMarker){
+        //自定义map点坐标图标
+        // let icon = new AMap.Icon({
+        //     image: location,
+        //     size: new AMap.Size(2, 2),
+        //     imageSize: new AMap.Size(2, 2)
+        // });
+
+        let markers = [];
+        let windows=[];
+        let that=this;
+        markers.push({
+            position: [pointMarker.lon,pointMarker.lat],
+            events: {
+              click() {
+                
+                that.windows.forEach(window => {
+                    window.visible = false; //关闭窗体
+                });
+                that.window = that.windows[0];
+                that.$nextTick(() => {
+                    that.window.visible = true;//点击点坐标，出现信息窗体
+                });
+              }
+            }
+        })
+        windows.push({
+          position: [pointMarker.lon,pointMarker.lat],
+          content:"" +
+            "<div>"+"店名："+pointMarker.name+"</div>" +
+            "<div>"+"地 址："+pointMarker.addr+"</div>" +
+            "<div>"+"手机号："+pointMarker.phone+"</div>" 
+          ,
+          offset:[5,-15],//窗体偏移
+          visible: true,//初始是否显示
+        })
+      
+        //添加点标注
+        this.markers = markers;
+        //生成弹窗
+        this.windows=windows
+      },
+
+      // 点击某个列表
+      selectAddress(val,item){
+        this.listIndex = val
+        this.LITOP = (val*150+16)+'px'
+        this.center = [item.lon,item.lat];
+        this.point(item)
+      },
+      //选择省市区
+      cityChange(val){
+
+        this.listIndex = 0
+        let thsAreaCode='' // 拼接 三级联动地址代码
+        thsAreaCode = val// 注意1：获取value值
+        thsAreaCode = this.$refs.cascaderAddr.getCheckedNodes()[0].pathLabels  //注意2： 获取label值
+
+        let prov = thsAreaCode[0]
+        let city = thsAreaCode[1]
+        let dist = thsAreaCode[2]
+
+
+        this.keyword = ''
+
+        // 获取门店列表
+        this.StoreSelect(prov,city,dist,undefined,(res) => {
+          this.storeList = res
+          this.center = [res[0].lon,res[0].lat];  //获取经纬度
+          this.point(res[0])
+        })
+
+      },
+
+      // 搜索门店
+      inputChange(val){
+        this.StoreSelect(undefined,undefined,undefined,val,(res) => {
+          if(res.length==0){
+            this.$message({
+              message:'您输入的信息无法查询到具体门店，请核实搜索内容是否为：城市、区/县等地区关键词',
+              type: 'warning'
+            });
+            return
+          }
+          this.city= [];
+          this.storeList = res
+          this.center = [res[0].lon,res[0].lat];  //获取经纬度
+          this.point(res[0])
+        })
+      },
+    },
   }
 </script>
 
@@ -269,15 +290,20 @@
           p{
             display: flex;
             align-items: center;
-            margin-bottom: 24px;
-              display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 1;
-            overflow: hidden;
+            margin-bottom: 20px;
             img{
               width: 22px;
               height: 22px;
               margin-right: 10px;
+            }
+
+            span{
+              flex: 1;
+                
+              display: -webkit-box;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 1;
+              overflow: hidden;
             }
           }
           p:last-child{

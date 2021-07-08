@@ -59,35 +59,35 @@
         <section class="pathBox">
             <h1 class="titH1">加盟易绘创的流程</h1>
             <ul class="path1">
-                <li>
+                <li style="margin-bottom:48rpx">
                     <div class="info">
                         <img :src="joinIcon1" alt="">
                         <p>投资咨询</p>
                     </div>
                     <img :src="joinLink1" alt="" class="joinLink1">
                 </li>
-                <li>
+                <li style="margin-bottom:48rpx">
                     <div class="info">
                         <img :src="joinIcon2" alt="">
                         <p>参观总部/体验店</p>
                     </div>
                     <img :src="joinLink1" alt="" class="joinLink1">
                 </li>
-                <li>
+                <li style="margin-bottom:48rpx">
                     <div class="info">
                         <img :src="joinIcon3" alt="">
                         <p>确定加盟意向</p>
                     </div>
                     <img :src="joinLink1" alt="" class="joinLink1">
                 </li>
-                <li>
+                <li style="margin-bottom:48rpx">
                     <div class="info">
                         <img :src="joinIcon4" alt="">
-                        <p>投资咨询</p>
+                        <p>签订加盟合同</p>
                     </div>
                     <img :src="joinLink1" alt="" class="joinLink1">
                 </li>
-                <li>
+                <li style="margin-bottom:48rpx">
                     <div class="info">
                         <img :src="joinIcon5" alt="">
                         <p>选择装修</p>
