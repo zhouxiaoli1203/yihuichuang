@@ -583,7 +583,7 @@ export default {
             this.$router.push({  //核心语句
               path:'/print/detial',   //跳转的路径
               query:{           //路由传参时push和query搭配使用 ，作用时传递参数
-                  page_id:"1003"
+                  page_id:x.page_id
               }
             })
         }else{
